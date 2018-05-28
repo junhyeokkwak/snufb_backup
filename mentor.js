@@ -44,7 +44,7 @@ function major_mentor(event){
       connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields){
         callback(null, result);
       });
-    }
+    },
     function(result, callback){
       connection.query('INSERT INTO Mentor_Questions (user_id, college_major) VALUES ("' + event.sender.id + '","'+ result[0].college_major+ '")');
       connection.query('UPDATE Users SET conv_context="ask_mentor" WHERE user_id=' + event.sender.id);
