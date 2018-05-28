@@ -17,5 +17,13 @@
   },
   "author": "Trevor Shim",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sonoftherock/ewha-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sonoftherock/ewha-bot/issues"
+  },
+  "homepage": "https://github.com/sonoftherock/ewha-bot#readme",
   "description": ""
 }
