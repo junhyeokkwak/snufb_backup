@@ -73,7 +73,7 @@ function ask_mentor(event){
     },
     function (major, callback){
       console.log(major);
-      connection.query('SELECT * FROM Users WHERE college_major=' + major, function (err, result, fields) {
+      connection.query('SELECT * FROM Users WHERE college_major="' + major +'"', function (err, result, fields) {
         api.sendMessage(result[0].user_id, event.message.text);
         callback(null);
       });
