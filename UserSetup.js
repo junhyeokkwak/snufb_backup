@@ -53,8 +53,8 @@ function register1(event) {
         callback(null, 'done');
       },
       function(err, callback){
-        api.sendResponse(event, {"text":"그럼 먼저 등록부터 해줘!"});
-        api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
+        api.sendResponse(event, {"text":"무슨 과?"});
+        // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
         callback(null);
       }
     ]

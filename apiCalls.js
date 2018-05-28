@@ -16,12 +16,11 @@ function sendResponse(event, messageToSend) {
   callSendAPI(messageData);
 }
 
-function sendMessage(event, messageToSend) {
-  var senderID = event.sender.id;
+function sendMessage(recipientID, messageToSend) {
   var messageData = {
     messaging_type : "UPDATE",
     recipient: {
-      id: senderID
+      id: recipientID
     },
     message: messageToSend
   };
