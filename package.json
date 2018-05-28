@@ -1,0 +1,21 @@
+{
+  "name": "ewha-bot",
+  "version": "1.0.0",
+  "main": "app.js",
+  "dependencies": {
+    "apiai": "^4.0.3",
+    "async": "^2.5.0",
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "mysql": "^2.15.0",
+    "path": "^0.12.7",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Trevor Shim",
+  "license": "ISC",
+  "description": ""
+}
