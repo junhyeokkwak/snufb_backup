@@ -46,31 +46,38 @@ function registerUser(event) {
 }
 
 function register1(event) {
-  if (event.message.text == "응"){
-    var task = [
-      function(callback){
-        connection.query('UPDATE Users SET conv_context="register2" WHERE user_id=' + event.sender.id);
-        callback(null, 'done');
-      },
-      function(err, callback){
-        api.sendResponse(event, {"text":"무슨 과?"});
-        // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
-        callback(null);
+    if (event.message) {
+      if (event.message.text == "응"){
+        var task = [
+          function(callback){
+            connection.query('UPDATE Users SET conv_context="register2" WHERE user_id=' + event.sender.id);
+            callback(null, 'done');
+          },
+          function(err, callback){
+            api.sendResponse(event, {"text":"무슨 과?"});
+            // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
+            callback(null);
+          }
+        ];
+        async.waterfall(task);
+      } else {
+        console.log("ERR: func_register1 - not EUNG");
+        var task = [
+          function(callback){
+            connection.query('UPDATE Users SET conv_context="notStudent" WHERE user_id=' + event.sender.id);
+            callback(null, 'done');
+          },
+          function(err, callback){
+            if (err) {console.log("ERR: register1");}
+            api.sendResponse(event, {"text":"그럼 너희 학교 담당 봇한테 가!"});
+            callback(null);
+          }
+        ];
+        async.waterfall(task);
       }
-    ]
   } else {
-    var task = [
-      function(callback){
-        connection.query('UPDATE Users SET conv_context="notStudent" WHERE user_id=' + event.sender.id);
-        callback(null, 'done');
-      },
-      function(err, callback){
-        api.sendResponse(event, {"text":"그럼 너희 학교 담당 봇한테 가!"});
-        callback(null);
-      }
-    ]
+    console.log("ERR: func_register1 - not message");
   }
-  async.waterfall(task);
 }
 
 function register2(event) {
@@ -95,12 +102,12 @@ function notStudent(event) {
 }
 
 function test(event) {
-	console.log("RUNNING func_test");
+    console.log("RUNNING func_test");
 }
 
 module.exports = {
   functionMatch: {
-  	"test" : test,
+    "test" : test,
     "registerUser": registerUser,
     "register1": register1,
     "register2": register2,

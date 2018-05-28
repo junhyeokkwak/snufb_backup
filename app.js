@@ -71,7 +71,7 @@ app.post('/webhook', function (req, res) {
                 callback(null, functionSheet[result[0].conv_context]);
               } else if(result[0].conv_context == "notStudent"){
                 console.log("HANDLE REQ: noStudent");
-                callback(null, functionSheet[result[0].conv_context]);
+                callback(null, functionSheet[result[0]."test"]);
               } else {
                 var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
                   sessionId: event.sender.id
