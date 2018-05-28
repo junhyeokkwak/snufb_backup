@@ -61,13 +61,10 @@ function major_mentor(event){
 function ask_mentor(event){
   var task = [{
     function(callback){
-      // connection.query('INSERT INTO Mentor_Questions (question) VALUES ("'+ event.message.text +'")');
-      callback(null, 'done');
-    },
-    function (err, callback){
+      connection.query('INSERT INTO Mentor_Questions (question) VALUES ("'+ event.message.text +'")');
       var messageData = {"text": "물어보고 알려줄겡"}
       api.sendResponse(event, messageData)
-      callback(null, 'ask');
+      callback(null, err);
     },
     function (err, callback){
       connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields){
