@@ -61,7 +61,7 @@ function major_mentor(event){
 function ask_mentor(event){
   var task = [{
     function(callback){
-      connection.query('INSERT INTO Mentor_Questions (question) VALUES ("'+ event.message.text +'")');
+      // connection.query('INSERT INTO Mentor_Questions (question) VALUES ("'+ event.message.text +'")');
       callback(null, 'done');
     },
     function (err, callback){
