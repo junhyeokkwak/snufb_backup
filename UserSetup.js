@@ -91,11 +91,16 @@ function register2(event) {
 
 function notStudent(event) {
   api.sendResponse(event, {"text": "나는 서울대 담당이니까 너희 학교 봇한테 말 걸어줘"})
-  console.log("RUNNING not Student");
+  console.log("RUNNING func_notStudent");
+}
+
+function test(event) {
+	console.log("RUNNING func_test");
 }
 
 module.exports = {
   functionMatch: {
+  	"test" : test,
     "registerUser": registerUser,
     "register1": register1,
     "register2": register2,
