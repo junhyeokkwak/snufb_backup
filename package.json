@@ -1,29 +1,31 @@
 {
-  "name": "ewha-bot",
+  "name": "ewha_bot",
   "version": "1.0.0",
+  "description": "",
   "main": "app.js",
-  "dependencies": {
-    "apiai": "^4.0.3",
-    "async": "^2.5.0",
-    "body-parser": "^1.18.1",
-    "express": "^4.15.4",
-    "mysql": "^2.15.0",
-    "path": "^0.12.7",
-    "request": "^2.81.0"
-  },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Trevor Shim",
-  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sonoftherock/ewha-bot.git"
   },
+  "keywords": [
+    "Ewha",
+    "Chatbot"
+  ],
+  "author": "Campus_Buddies",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/sonoftherock/ewha-bot/issues"
   },
   "homepage": "https://github.com/sonoftherock/ewha-bot#readme",
-  "description": ""
+  "dependencies": {
+    "async": "^2.6.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mysql": "^2.15.0",
+    "path": "^0.12.7",
+    "request": "^2.87.0"
+  }
 }
