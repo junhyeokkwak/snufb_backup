@@ -89,9 +89,9 @@ function register2(event) {
   async.waterfall(task);
 }
 
-function notStudent(event) {
-  api.sendResponse(event, {"text": "나는 서울대 담당이니까 너희 학교 봇한테 말 걸어줘"})
-}
+// function notStudent(event) {
+//   api.sendResponse(event, {"text": "나는 서울대 담당이니까 너희 학교 봇한테 말 걸어줘"})
+// }
 
 module.exports = {
   functionMatch: {
