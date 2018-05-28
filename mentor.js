@@ -64,7 +64,7 @@ function ask_mentor(event){
       connection.query('INSERT INTO Mentor_Questions (question) VALUES ("'+ event.message.text +'")');
       var messageData = {"text": "물어보고 알려줄겡"}
       api.sendResponse(event, messageData)
-      callback(null, err);
+      callback(null, 'done');
     },
     function (err, callback){
       connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields){
