@@ -14,7 +14,7 @@ function registerUser(event) {
       url: "https://graph.facebook.com/v2.6/" + senderID,
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN,
-        locale: "ko_KR",
+        locale: "en_US",
         fields: "first_name,last_name,gender"
       },
       method: "GET"
