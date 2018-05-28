@@ -73,7 +73,7 @@ function ask_mentor(event){
     },
     function (major, callback){
       connection.query('SELECT * FROM Users WHERE college_major="' + major +'"', function (err, result, fields) {
-        var messageData = {"text": event.message.text};
+        var messageData = {"text": "후배가 물어보는데 대답 좀 해줘:\n" + event.message.text};
         api.sendMessage(result[0].user_id, messageData);
         callback(null);
       });
