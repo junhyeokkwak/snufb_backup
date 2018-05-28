@@ -61,7 +61,7 @@ function major_mentor(event){
 function ask_mentor(event){
   var task = [
     function(callback){
-      connection.query('INSERT INTO Mentor_Questions (question) VALUES ("'+ event.message.text +'")');
+      connection.query('UPDATE Mentor_Questions SET question="' + event.message.text + '" WHERE user_id=' + event.sender.id +')');
       var messageData = {"text": "물어보고 알려줄겡"}
       api.sendResponse(event, messageData)
       callback(null, 'done');
