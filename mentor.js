@@ -61,7 +61,7 @@ function major_mentor(event){
 function ask_mentor(event){
   var task = [
     function(callback){
-      connection.query('UPDATE Mentor_Questions SET question="' + event.message.text + '" WHERE user_id=' + event.sender.id +')');
+      connection.query('UPDATE Mentor_Questions SET question="' + event.message.text + '" WHERE user_id=' + event.sender.id);
       var messageData = {"text": "물어보고 알려줄겡"}
       api.sendResponse(event, messageData)
       callback(null, 'done');
@@ -72,8 +72,9 @@ function ask_mentor(event){
       });
     },
     function (major, callback){
-      connection.query('SELECT * FROM Users WHERE college_major=' + major, function (err, result, fields) {
-        api.sendMessage(result[0].user_id, event.message.text);
+      connection.query('SELECT * FROM Users WHERE college_major="' + major +'"', function (err, result, fields) {
+        var messageData = {"text": "후배가 물어보는데 대답 좀 해줘:\n" + event.message.text};
+        api.sendMessage(result[1].user_id, messageData);
         callback(null);
       });
     }
