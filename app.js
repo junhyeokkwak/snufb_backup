@@ -112,7 +112,8 @@ app.post('/webhook', function (req, res) {
   }
 });
 
-//css
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'webviews')));
 
 // webview URLs
