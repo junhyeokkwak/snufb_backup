@@ -6,7 +6,9 @@ var mysql = require("mysql");
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
-function registerUser(event) {
+// checks one more time whether the user is new, and then register into database
+// then asks whether he/she goes to SNU
+function registerUser(event) {        
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfPostback = event.timestamp;
@@ -36,6 +38,7 @@ function registerUser(event) {
             callback(null, first_name);
           },
           function (first_name, callback) {
+            api.sendResponse(event, {"text": "에이 요 와썹"});
             api.sendResponse(event, {"text":"안녕 " + first_name + "!\n난 설대봇이야. 서울대 다니니?", "quick_replies": qr.reply_arrays["YesOrNo"]});
             callback(null);
           }
