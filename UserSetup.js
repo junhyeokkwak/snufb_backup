@@ -97,7 +97,9 @@ function register1(event) {
       },
       function(err, callback){
         api.sendResponse(event, {"text":"무슨 과?"});
-        api.handleWebview(event, "등록","https://cb-practice.herokuapp.com/register")
+        var title = "등록";
+        var url = process.env.HEROKU_URL + "/register";
+        api.handleWebview(event, titile, url);
         callback(null);
       }
     ]
