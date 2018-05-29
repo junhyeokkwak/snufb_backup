@@ -112,6 +112,9 @@ app.post('/webhook', function (req, res) {
   }
 });
 
+//css
+app.use(express.static(path.join(__dirname, 'webviews')));
+
 // webview URLs
 app.get('/register', function(req, res){
   res.sendFile(path.join(__dirname + '/webviews/registration.html'));
