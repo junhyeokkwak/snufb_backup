@@ -39,7 +39,7 @@ function registerUser(event) {
           },
           function (first_name, callback) {
           //  api.sendResponse(event, {"text": "에이 요 와썹"});
-            api.sendResponse(event, {"text": "에이 요 와썹", "text":"안녕 " + first_name + "!\n난 설대봇이야. 서울대 다니니?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+            api.sendResponse(event, {"text":"안녕! 난 설대봇이야. 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
             callback(null);
           }
         ];
