@@ -97,7 +97,7 @@ function register1(event) {
       },
       function(err, callback){
         api.sendResponse(event, {"text":"무슨 과?"});
-        var title = "등록";
+        var title = "등록하기!";
         var url = process.env.HEROKU_URL + "/register";
         api.handleWebview(event, title, url);
         callback(null);

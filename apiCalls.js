@@ -49,36 +49,6 @@ var handlePostback = function handlePostback(event) {
     }
 }
 
-// function handleWebviewWithNoEvent(senderID, title, url) {
-//     let messageData = {
-//       recipient: {
-//         id: senderID
-//       },
-//       message: {
-//         "attachment":{
-//           "payload":{
-//             "elements":[{
-//               "buttons": [
-//                 {
-//                   "title":title,
-//                   "type":"web_url",
-//                   "url":url,
-//                   "webview_height_ratio":"compact"
-//                 },
-//               ],
-//               "image_url": "http://www.example.com/image.png",
-//               "item_url": "http://www.example.com",
-//               "subtitle":"let's go!",
-//               "title":"Some URL"
-//             }],
-//             "template_type":"generic"
-//           },
-//           "type":"template"
-//         }
-//       }
-//     };
-//     callSendAPI(messageData);
-// }
 
 
 function handleWebview(event, title, url) {
@@ -100,9 +70,9 @@ function handleWebview(event, title, url) {
                 },
               ],
               "image_url": "http://www.example.com/image.png",
-              "item_url": "http://www.example.com",
-              "subtitle":"let's go!",
-              "title":"Some URL"
+              //"item_url": "http://www.example.com",
+              //"subtitle":"let's go!",
+              //"title":"Some URL"
             }],
             "template_type":"generic"
           },
@@ -161,7 +131,6 @@ function callSendAPI(messageData) {
 }
 
 module.exports.handlePostback = handlePostback;
-// module.exports.handleWebviewWithNoEvent = handleWebviewWithNoEvent;
 module.exports.sendResponse = sendResponse;
 module.exports.handleWebview = handleWebview;
 module.exports.sendMessage = sendMessage;

@@ -112,6 +112,7 @@ app.post('/webhook', function (req, res) {
   }
 });
 
+//css / json data from the html file
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'webviews')));
