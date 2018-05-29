@@ -26,6 +26,7 @@
   var connection = mysql.createConnection(process.env.DATABASE_URL);
   function approve(){
     connection.query('INSERT INTO Mentor_Questions (user_id) VALUES ("hello")');
+    console.log('hi');
   };
   function decline(){
 
