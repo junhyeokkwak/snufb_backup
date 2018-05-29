@@ -6,6 +6,7 @@ var api = require('./apiCalls')
 var async = require('async');
 var mysql = require('mysql');
 var path = require('path')
+const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 var apiai = require('apiai');

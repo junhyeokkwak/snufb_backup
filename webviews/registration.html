@@ -1,13 +1,111 @@
 <!DOCTYPE html>
+<html>
 <head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <title>hoomba</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <form>
-  전공 학과:<br>
-  <input type="text" name="college_major"><br>
-  학번:<br>
-  <input type="text" name="college_class">
-  <button> 등록 </button>
-</form>
+<!--   <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '190425794950879',
+        //cookie     : true,
+        xfbml      : true,
+        version    : 'v2.11'
+      });
+        
+      //FB.AppEvents.logPageView();
+
+      FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+          getElementById('status').innerHTML = "we are connected";
+        } else if (response.status === 'no_authorized') {
+          getElementById('status').innerHTML = "we are not connected";
+        }
+      });
+        
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+
+    function statusChangeCallback(response){
+      if (response.status === 'connected'){
+        console.log('logged in authenticated');
+        document.getElementById('status').innerHTML = "LOGGED IN";
+      } else {
+        console.log('logged in not authenticated');
+        document.getElementById('status').innerHTML = "NOT LOGGED IN";
+      }
+    }
+
+    function checkLoginState() {
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+    }
+  </script>
+ -->
+  <div class = "login-page">
+    <div class = "form">
+      <form class = "register-form" id = "register-form" method = "post" action="/register/new_user">
+      <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
+      <input name = "newRegiClass" type="text" placeholder="학번"/>
+      <input class = "submit" type = "submit" value="새로 등록">
+<!--       <input type="text" placeholder="기타?"/> -->
+<!--       <button onclick="newRegi()">등록</button> -->
+      <p class = "message">이미 등록되어 있어? 
+        <a href="#"> 새 정보로 다시 등록 </a>
+      </p>
+      </form>
+
+      <form class="login-form" id="login-form" method = "post" action="/register/re_user">
+      <input name = "reRegiMajor" type="text" placeholder="전공학과"/>
+      <input name = "reRegiClass" type="text" placeholder="학번"/>
+<!--       <input type="text" placeholder="기타?"/> -->
+      <input class = "submit" type = "submit" value="새정보로 다시 등록">
+<!--       <button onclick="reRegi()">새정보로 다시 등록</button> -->
+      <p class = "message">아직 등록 안 되어있어? 
+        <a href="#"> 신규 등록 </a>
+      </p>
+      </form>
+
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $('.message a').click(function(){
+    $('form').animate({height: "toggle", opacity: "toggle"}, "slow")  
+    });
+
+    function newRegi(){
+      var x = document.getElementById("register-form");
+      var newRegiMajor = x.elements["newRegiMajor"].value;
+      var newRegiClass = x.elements["newRegiClass"].value;
+      //document.write(newRegiMajor +"/"+  newRegiClass);
+      console.log("newRegiMajor: " + newRegiMajor + " / " 
+        + "newRegiClass: " + newRegiClass);
+    }
+
+    function reRegi(){
+      var x = document.getElementById("login-form");
+      var reRegiMajor = x.elements["reRegiMajor"].value;
+      var reRegiClass = x.elements["reRegiClass"].value;
+      //document.write(reRegiMajor +"/"+  reRegiClass);
+      console.log("reRegiMajor: " + reRegiMajor + " / " 
+        + "reRegiClass: " + reRegiClass);
+    }
+
+  </script>
+
+
 </body>
 </html>
