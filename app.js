@@ -57,45 +57,42 @@ app.post('/webhook', function (req, res) {
     data.entry.forEach(function(entry) {
       var pageID = entry.id;
       var timeOfEvent = entry.time;
-      entry.messaging.forEach(function(event) {
-        var task = [
-          function(callback){
-            connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
-              callback(null, err, result);
-            })
-          },
-          function(err, result, callback){
-            if (err) throw err;
-            if (result.length > 0){
-              if (result[0].conv_context != "none") {
-                callback(null, functionSheet[result[0].conv_context]);
-              } else {
-                var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
-                  sessionId: event.sender.id
-                });
-
-                apiaiSession.on('response', function(response) {
-                  console.log(functionSheet[event.message.text])
-                  callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
-                });
-
-                apiaiSession.on('error', function(error) {
-                  //handle errors
-                })
-
-                apiaiSession.end();
-              }
+      var event = entry.messaging[0];
+      var task = [
+        function(callback){
+          connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
+            callback(null, err, result);
+          })
+        },
+        function(err, result, callback){
+          if (err) throw err;
+          if (result.length > 0){
+            if (result[0].conv_context != "none") {
+              callback(null, functionSheet[result[0].conv_context]);
             } else {
-              callback(null, functionSheet["registerUser"]);
+              var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
+                sessionId: event.sender.id
+              });
+              apiaiSession.on('response', function(response) {
+                console.log(functionSheet[event.message.text])
+                callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
+              });
+              apiaiSession.on('error', function(error) {
+                //handle errors
+              })
+
+              apiaiSession.end();
             }
-          },
-          function(execute, callback){
-            execute(event);
-            callback(null);
+          } else {
+            callback(null, functionSheet["registerUser"]);
           }
-        ]
-        async.waterfall(task);
-      });
+        },
+        function(execute, callback){
+          execute(event);
+          callback(null);
+        }
+      ]
+      async.waterfall(task);
     });
     res.sendStatus(200);
   } else {
