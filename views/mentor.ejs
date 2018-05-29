@@ -5,19 +5,19 @@
   </head>
   <body>
     <h1>Questions Asked</h1>
-    <ul>
+    <table style="width:100%">
+      <tr>
+        <th>user_id</th>
+        <th>Question</th>
+        <th>College Major</th>
+      </tr>
       <% for (var i = 0; i < length; i++){ %>
-        <li>
-            <%= recordSet[i].user_id %>
-        </li>
-        <li>
-          <%= recordSet[i].question %>
-        </li>
-        <li>
-          <%= recordSet[i].college_major %>
-        </li>
+        <tr>
+          <td> <%= recordSet[i].user_id %> </td>
+          <td> <%= recordSet[i].question %> </td>
+          <td> <%= recordSet[i].college_major %> </td>
+        </tr>
       <% } %>
-
-    </ul>
+  </table>
   </body>
 </html>
