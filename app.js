@@ -108,7 +108,7 @@ app.post('/webhook', function (req, res) {
 
 app.get('/mentor-admin', function(req, res) {
   GetData(function (recordSet) {
-        res.render('mentor', {title: "title", recordSet: recordset });
+        res.render('mentor', {title: "title", recordSet: recordSet });
         console.log(recordSet);
     });
 });
