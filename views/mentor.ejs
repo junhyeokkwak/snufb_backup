@@ -6,9 +6,18 @@
   <body>
     <h1>Questions Asked</h1>
     <ul>
-            <li>
-                <%= user_id %>
-            </li>
+      <% for (var i = 0; i < length; i++){ %>
+        <li>
+            <%= recordSet[i].user_id %>
+        </li>
+        <li>
+          <%= recordSet[i].question %>
+        </li>
+        <li>
+          <%= recordSet[i].college_major %>
+        </li>
+      <% } %>
+
     </ul>
   </body>
 </html>
