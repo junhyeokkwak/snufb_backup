@@ -97,7 +97,7 @@ function register1(event) {
       },
       function(err, callback){
         api.sendResponse(event, {"text":"무슨 과?"});
-        api.handleWebview(event, "등록","https://ewha-bot.herokuapp.com/register")
+        api.handleWebview(event, "등록","https://cb-practice.herokuapp.com/register")
         callback(null);
       }
     ]
