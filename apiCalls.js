@@ -70,9 +70,9 @@ function handleWebview(event, title, url) {
                 },
               ],
               "image_url": "http://www.example.com/image.png",
-              //"item_url": "http://www.example.com",
-              //"subtitle":"let's go!",
-              //"title":"Some URL"
+              "item_url": "http://www.example.com",
+              "subtitle":"let's go!",
+              "title":"Some URL"
             }],
             "template_type":"generic"
           },
