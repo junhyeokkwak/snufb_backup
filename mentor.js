@@ -11,7 +11,7 @@ function query_demand1(event){
       callback(null, 'done');
     },
     function(err, callback){
-      var messageData = {"text": "어떻게 도와줄까? 찾고있는 사람 있어?"};
+      var messageData = {"text": "어떻게 도와줄까? 물어보고 싶은게 뭐야?"};
       api.sendResponse(event, messageData);
       callback(null);
     }]

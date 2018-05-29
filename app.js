@@ -103,6 +103,10 @@ app.post('/webhook', function (req, res) {
   }
 });
 
+app.get('/mentor-admin', function(req, res) {
+  res.sendFile(path.join(__dirname + '/webviews/mentor.html'))
+});
+
 // webview URLs
 app.get('/register', function(req, res){
   res.sendFile(path.join(__dirname + '/webviews/registration.html'));
