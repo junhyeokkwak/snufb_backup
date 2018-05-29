@@ -60,42 +60,50 @@ app.post('/webhook', function (req, res) {
       var event = entry.messaging[0];
       console.log(event);
       console.log('Sender PSID: ' + event.sender.id);
-      var task = [
-        function(callback){
-          connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
-            callback(null, err, result);
-          })
-        },
-        function(err, result, callback){
-          if (err) throw err;
-          if (result.length > 0){
-            console.log('Conv Context: ' + result[0].conv_context);
-            if (result[0].conv_context != "none") {
-              callback(null, functionSheet[result[0].conv_context]);
+      if (event.postback) {
+        console.log('HANDLING POSTBACK');
+        handlePostback(event);
+      } else if (event.message) {
+        console.log('HANDLING MESSAGE');
+        var task = [
+          function(callback){
+            connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
+              callback(null, err, result);
+            })
+          },
+          function(err, result, callback){
+            if (err) throw err;
+            if (result.length > 0){
+              console.log('Conv Context: ' + result[0].conv_context);
+              if (result[0].conv_context != "none") {
+                callback(null, functionSheet[result[0].conv_context]);
+              } else {
+                var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
+                  sessionId: event.sender.id
+                });
+                apiaiSession.on('response', function(response) {
+                  //console.log(functionSheet[event.message.text])
+                  callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
+                });
+                apiaiSession.on('error', function(error) {
+                  //handle errors
+                })
+                apiaiSession.end();
+              }
             } else {
-              var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
-                sessionId: event.sender.id
-              });
-              apiaiSession.on('response', function(response) {
-                //console.log(functionSheet[event.message.text])
-                callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
-              });
-              apiaiSession.on('error', function(error) {
-                //handle errors
-              })
-              apiaiSession.end();
+              console.log('TO registerUser');
+              callback(null, functionSheet["registerUser"]);
             }
-          } else {
-            console.log('TO registerUser');
-            callback(null, functionSheet["registerUser"]);
+          },
+          function(execute, callback){
+            execute(event);
+            callback(null);
           }
-        },
-        function(execute, callback){
-          execute(event);
-          callback(null);
-        }
-      ]
-      async.waterfall(task);
+        ]
+        async.waterfall(task);
+      } else {
+        console.log('UNVERIFIED EVENTTYPE');
+      }
     });
     res.sendStatus(200);
   } else {

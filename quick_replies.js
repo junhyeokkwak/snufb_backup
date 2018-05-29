@@ -11,6 +11,10 @@ var YesOrNo = [{
 
 var Menu = [{
   "content_type": "text",
+  "title": "과를 잘못등록했어ㅠ",
+  "payload": "등록"
+},{
+  "content_type": "text",
   "title": "선배한테 조언",
   "payload": "멘토"
 },{
