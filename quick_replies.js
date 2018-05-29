@@ -10,7 +10,7 @@ var YesOrNo = [{
 }]
 
 var Menu = [{
-  "content_type": "postback",
+  //"content_type": "text",
   "title": "과를 잘못등록했어ㅠ",
   "payload": "등록"
 },{
