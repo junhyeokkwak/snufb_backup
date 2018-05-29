@@ -69,6 +69,7 @@ function ask_mentor(event){
       callback(null, 'done');
     },
     function(err, callback){
+      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
       var messageData = {"text": "물어보고 알려줄겡"}
       api.sendResponse(event, messageData)
       callback(null);
