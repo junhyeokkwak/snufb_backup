@@ -31,14 +31,12 @@ function registerUser(event) {
             var first_name = bodyObj.first_name;
             var last_name = bodyObj.last_name;
             var gender = bodyObj.gender;
-            if (senderID
-
             // connection.query('SELECT * FROM Users WHERE user_id=' + senderID, function(err, result, fields) {
             //   if (result.length == 0){
             //     connection.query('INSERT INTO Users (user_id, first_name, last_name, sex, conv_context) VALUES ('+ event.sender.id + ', "' + first_name + '","' + last_name + '","' + gender + '",' + '"register1"' + ')');
             //   }
             // } );
-            // callback(null, first_name);
+            callback(null, first_name);
           },
           function (first_name, callback) {
             api.sendResponse(event, {"text":"안녕 " + first_name + "!\n난 설대봇이야. 서울대 다니니?", "quick_replies": qr.reply_arrays["YesOrNo"]});
