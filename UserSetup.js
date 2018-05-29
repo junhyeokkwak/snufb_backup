@@ -47,7 +47,7 @@ function registerUser(event) {
       }
     });
     ////////////////////TEST///////////////////     
-  } else if (process.env.DATABASE_URL.indxOf('temporary123!')>-1){
+  } else if (process.env.DATABASE_URL.indexOf('temporary123!')>-1){
     ////////////////////SQL/////////////////// 
     request({
       url: "https://graph.facebook.com/v2.6/" + senderID,
