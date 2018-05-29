@@ -54,62 +54,51 @@ app.post('/webhook', function (req, res) {
   var data = req.body;
   // Make sure this is a page subscription
   if (data.object === 'page') {
-    var pageID = entry.id;
-    var timeOfEvent = entry.time;
-    try {
-      let webhook_event = entry.messaging[0];
-      console.log(event);
-      let senderID = event.sender.id;
-      console.log('Sender PSID: ' + senderID);
-      console.log("app.Post - toOther: " + toOther);
-      var task = [
-        function(callback){
-          connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
-            callback(null, err, result);
-          })
-        },
-        function(err, result, callback){
-          if (err) throw err;
-          if (result.length > 0){
-            if (result[0].conv_context != "none") {
-              callback(null, functionSheet[result[0].conv_context]);
+    data.entry.forEach(function(entry) {
+      var pageID = entry.id;
+      var timeOfEvent = entry.time;
+      entry.messaging.forEach(function(event) {
+        var task = [
+          function(callback){
+            connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
+              callback(null, err, result);
+            })
+          },
+          function(err, result, callback){
+            if (err) throw err;
+            if (result.length > 0){
+              if (result[0].conv_context != "none") {
+                callback(null, functionSheet[result[0].conv_context]);
+              } else {
+                var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
+                  sessionId: event.sender.id
+                });
+
+                apiaiSession.on('response', function(response) {
+                  console.log(functionSheet[event.message.text])
+                  callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
+                });
+
+                apiaiSession.on('error', function(error) {
+                  //handle errors
+                })
+
+                apiaiSession.end();
+              }
             } else {
-              var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
-                sessionId: event.sender.id
-              });
-              apiaiSession.on('response', function(response) {
-                console.log(functionSheet[event.message.text])
-                callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
-              });
-              apiaiSession.on('error', function(error) {
-                //handle errors
-              })
-              apiaiSession.end();
+              callback(null, functionSheet["registerUser"]);
             }
-          } else {
-            callback(null, functionSheet["registerUser"]);
+          },
+          function(execute, callback){
+            execute(event);
+            callback(null);
           }
-        },
-        function(execute, callback){
-          execute(event);
-          callback(null);
-        }
-      ];
-      async.waterfall(task);
-    } catch (error) {       
-      let webhook_event = entry.messaging[0];
-      console.log(event);
-      let senderID = event.sender.id;
-      console.log('Sender PSID: ' + senderID);
-      console.log("app.Post - toOther: " + toOther);
-      // if (event.message) {
-      //   console.log("MESSAGE RECEIVED");
-      // } else if (event.postback) {
-      //   console.log("POSTBACK RECEIVED");
-      // }
-    } // catch
+        ]
+        async.waterfall(task);
+      });
+    });
     res.sendStatus(200);
-  } else { //if
+  } else {
     res.sendStatus(404);
   }
 });
