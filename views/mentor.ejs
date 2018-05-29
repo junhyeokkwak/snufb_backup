@@ -16,9 +16,20 @@
           <td> <%= recordSet[i].user_id %> </td>
           <td> <%= recordSet[i].question %> </td>
           <td> <%= recordSet[i].college_major %> </td>
-          <td> <button> 승인 </button> <button> 거부 </button> </td>
+          <td> <button onclick="approve()"> 승인 </button> <button onclick="decline()"> 거부 </button> </td>
         </tr>
       <% } %>
   </table>
+
+  <script>
+  var mysql = require('mysql');
+  var connection = mysql.createConnection(process.env.DATABASE_URL);
+  function approve(){
+    connection.query('INSERT INTO Mentor_Questions (user_id) VALUES ("hello")');
+  };
+  function decline(){
+
+  }
+  </script>
   </body>
 </html>
