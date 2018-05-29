@@ -62,22 +62,25 @@ function ask_mentor(event){
   var task = [
     function(callback){
       connection.query('UPDATE Mentor_Questions SET question="' + event.message.text + '" WHERE user_id=' + event.sender.id);
-      var messageData = {"text": "물어보고 알려줄겡"}
-      api.sendResponse(event, messageData)
       callback(null, 'done');
     },
-    function (err, callback){
-      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields){
-        callback(null, result[0].college_major);
-      });
-    },
-    function (major, callback){
-      connection.query('SELECT * FROM Users WHERE college_major="' + major +'"', function (err, result, fields) {
-        var messageData = {"text": "후배가 물어보는데 대답 좀 해줘:\n" + event.message.text};
-        api.sendMessage(result[1].user_id, messageData);
-        callback(null);
-      });
+    function(err, callback){
+      var messageData = {"text": "물어보고 알려줄겡"}
+      api.sendResponse(event, messageData)
+      callback(null);
     }
+    // function (err, callback){
+    //   connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields){
+    //     callback(null, result[0].college_major);
+    //   });
+    // },
+    // function (major, callback){
+    //   connection.query('SELECT * FROM Users WHERE college_major="' + major +'"', function (err, result, fields) {
+    //     var messageData = {"text": "후배가 물어보는데 대답 좀 해줘:\n" + event.message.text};
+    //     api.sendMessage(result[1].user_id, messageData);
+    //     callback(null);
+    //   });
+    // }
   ];
   async.waterfall(task);
 }

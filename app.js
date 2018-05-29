@@ -104,8 +104,17 @@ app.post('/webhook', function (req, res) {
 });
 
 app.get('/mentor-admin', function(req, res) {
-  res.sendFile(path.join(__dirname + '/webviews/mentor.html'))
+  GetData(function (recordSet) {
+        res.render('index', {product: recordSet})
+        console.log(recordSet);
+    });
 });
+
+function GetData(callBack){
+ connection.query('SELECT * from Mentor_Questions', function(err, result){
+   callBack(result);
+ });
+}
 
 // webview URLs
 app.get('/register', function(req, res){
