@@ -82,7 +82,7 @@ function changeName1(event) {
   var task = [
     function(callback) {
       connection.query('UPDATE Users SET conv_context="register1" WHERE user_id=' + event.sender.id);
-      connection.query('UPDATE Users SET first_name=' + event.message.text + ' WHERE user_id=' + event.sender.id);
+      connection.query('UPDATE Users SET first_name=' + '"' + event.message.text + '"' + ' WHERE user_id=' + event.sender.id);
       callback(null, 'done');
     },
     function(err, callback) {
