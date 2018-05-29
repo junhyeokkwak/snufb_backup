@@ -46,7 +46,6 @@ function major_mentor(event){
       });
     },
     function(result, callback){
-      connection.query('INSERT INTO Mentor_Questions (user_id, college_major) VALUES ("' + event.sender.id + '","'+ result[0].college_major+ '")');
       connection.query('UPDATE Users SET conv_context="ask_mentor" WHERE user_id=' + event.sender.id);
       callback(null, result);
     },
@@ -61,7 +60,12 @@ function major_mentor(event){
 function ask_mentor(event){
   var task = [
     function(callback){
-      connection.query('UPDATE Mentor_Questions SET question="' + event.message.text + '" WHERE user_id=' + event.sender.id);
+      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields){
+        callback(null, result);
+      });
+    },
+    function(result, callback){
+      connection.query('INSERT INTO Mentor_Questions (user_id, question, college_major) VALUES ("' + event.sender.id + '","'+ event.message.text + '","' + result[0].college_major+ '")');
       callback(null, 'done');
     },
     function(err, callback){
