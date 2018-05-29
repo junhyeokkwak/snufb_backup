@@ -53,11 +53,11 @@ function register1(event) {
   if (event.message.text == "응"){
     var task = [
       function(callback){
-        connection.query('UPDATE Users SET conv_context="register2" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="checkSchool" WHERE user_id=' + event.sender.id);
         callback(null, 'done');
       },
       function(err, callback){
-        api.sendResponse(event, {"text":"오키! 학과는 무슨 과야?"});
+        api.sendResponse(event, {"text":"오키! 학교는 서울대 다니는거구?", "quick_replies": qr.reply_arrays["YesOrNo"]});
         // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
         callback(null);
       }
@@ -93,7 +93,34 @@ function changeName1(event) {
   async.waterfall(task);
 }
 
-
+// 기존 register1 (학교 서울대 맞아? 에 대한 대답.)
+function checkSchool(event) { 
+  if (event.message.text == "응"){
+    var task = [
+      function(callback){
+        connection.query('UPDATE Users SET conv_context="register2" WHERE user_id=' + event.sender.id);
+        callback(null, 'done');
+      },
+      function(err, callback){
+        api.sendResponse(event, {"text":"무슨 과?"});
+        // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
+        callback(null);
+      }
+    ]
+  } else {
+    var task = [
+      function(callback){
+        connection.query('UPDATE Users SET conv_context="notStudent" WHERE user_id=' + event.sender.id);
+        callback(null, 'done');
+      },
+      function(err, callback){
+        api.sendResponse(event, {"text":"앗 그렇구나! 내가 너네 학교 봇이 있는지 알아보고 소개해줄게!"});
+        callback(null);
+      }
+    ]
+  }
+  async.waterfall(task);
+}
 
 function register2(event) {
   var task = [
@@ -122,6 +149,7 @@ module.exports = {
     "register2": register2,
     "notStudent": notStudent,
     "changeName1": changeName1,
+    "checkSchool": checkSchool,
     //temporary additions
     "메뉴": register2
   }
