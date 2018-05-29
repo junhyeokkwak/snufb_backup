@@ -12,6 +12,9 @@ var apiai = require('apiai');
 var nlpapp = apiai("542cfeef5714428193dc4478760de396");
 
 var app = express();
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.json());
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 app.set('port', (process.env.PORT || 5000));
@@ -105,7 +108,7 @@ app.post('/webhook', function (req, res) {
 
 app.get('/mentor-admin', function(req, res) {
   GetData(function (recordSet) {
-        res.render('index', {product: recordSet})
+        res.render('mentor', {title: "title", length: 5 });
         console.log(recordSet);
     });
 });
@@ -118,7 +121,7 @@ function GetData(callBack){
 
 // webview URLs
 app.get('/register', function(req, res){
-  res.sendFile(path.join(__dirname + '/webviews/registration.html'));
+  res.sendFile(path.join(__dirname + '/views/registration.html'));
 });
 
 
