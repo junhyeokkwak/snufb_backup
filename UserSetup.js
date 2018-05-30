@@ -10,7 +10,46 @@ function registerUser(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfPostback = event.timestamp;
-  request({
+
+  if (process.env.DATABASE_URL==null) {
+    ////////////////////TEST/////////////////// 
+    request({
+      url: "https://graph.facebook.com/v2.6/" + senderID,
+      qs: {
+        access_token: process.env.PAGE_ACCESS_TOKEN,
+        locale: "ko_KR",
+        fields: "first_name,last_name,gender"
+      },
+      method: "GET"
+    }, function(error, response, body) {
+      if (error) {
+        console.log("Error getting user's name: " +  error);
+      } else {
+        var task = [
+          function (callback) {
+            var bodyObj = JSON.parse(body);
+            var first_name = bodyObj.first_name;
+            var last_name = bodyObj.last_name;
+            var gender = bodyObj.gender;
+            // connection.query('SELECT * FROM Users WHERE user_id=' + senderID, function(err, result, fields) {
+            //   if (result.length == 0){
+            //     connection.query('INSERT INTO Users (user_id, first_name, last_name, sex, conv_context) VALUES ('+ event.sender.id + ', "' + first_name + '","' + last_name + '","' + gender + '",' + '"register1"' + ')');
+            //   }
+            // } );
+            callback(null, first_name);
+          },
+          function (first_name, callback) {
+            api.sendResponse(event, {"text":"안녕 " + first_name + "!\n난 설대봇이야. 서울대 다니니?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+            callback(null);
+          }
+        ];
+        async.waterfall(task);
+      }
+    });
+    ////////////////////TEST///////////////////     
+  } else if (process.env.DATABASE_URL.indexOf('temporary123!')>-1){
+    ////////////////////SQL/////////////////// 
+    request({
       url: "https://graph.facebook.com/v2.6/" + senderID,
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN,
@@ -43,6 +82,10 @@ function registerUser(event) {
         async.waterfall(task);
       }
     });
+    ////////////////////SQL///////////////////
+  } else {
+    console.log('ERR: func_registerUser - no DB');
+  }
 }
 
 function register1(event) {
@@ -54,7 +97,9 @@ function register1(event) {
       },
       function(err, callback){
         api.sendResponse(event, {"text":"무슨 과?"});
-        // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
+        var title = "등록하기!";
+        var url = process.env.HEROKU_URL + "/register";
+        api.handleWebview(event, title, url);
         callback(null);
       }
     ]

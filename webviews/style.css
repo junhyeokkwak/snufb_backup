@@ -1,0 +1,92 @@
+body {
+/*	background-image: url();*/
+	background-color: #f1f1f1;
+	height: 100vh;
+	background-size: cover;
+	background-position: center;
+}
+
+.login-page{
+/*	width: 360px;*/
+	width: 1080px;
+	height: 800px;
+	padding: : 10% 0 0;
+	margin: auto;
+}
+
+.form{
+	position: relative;
+	z-index:1;
+	background-color: #ffffff;
+/*	max-width: 360px;*/
+	max-width: 1080px;
+	max-height: 800px;
+	margin: 0 auto 100px;
+	padding: 45px;
+	text-align: center;
+}
+
+.form input{
+	font-family: "Roboto", sans-serif;
+	/*text-transform: uppercase;*/
+	outline: 0;
+	background: #F2F2F2;
+	width: 100%;
+	border: 0;
+	margin: 0 0 50px;
+	padding: 45px;
+	box-sizing: border-box;
+	color: black;
+/*	font-size: 14px;*/
+	text-align: center; 
+	font-size: 40px;
+}
+
+.form .submit {
+	874font-family: "Roboto", sans-serif;
+	/*text-transform: uppercase;*/
+	outline: 0;
+	background: #636363;
+	width: 100%;
+	border: 0;
+	padding: 30px;
+	color: #FFFFFF;
+/*	font-size: 14px;*/
+	font-size: 40px;	
+}
+
+.form button {
+	font-family: "Roboto", sans-serif;
+	/*text-transform: uppercase;*/
+	outline: 0;
+	background: #4CAF50;
+	width: 100%;
+	border: 0;
+	padding: 30px;
+	color: #FFFFFF;
+	font-size: 40px;
+}
+
+.form button:hover,.form button:active{
+	background: #43A047;
+}
+
+.form .message{
+	margin: 15px 0 0;
+	color: black;
+/*	font-size: 12px;*/
+	text-align: center;
+	font-size: 40px;
+}
+
+.form .message a{
+	margin: 15px 0 0;
+	/*color: black;*/
+/*	font-size: 12px;*/
+	text-align: center;
+	font-size: 40px;
+}
+
+.form .login-form{
+	display: none;
+}

@@ -27,6 +27,30 @@ function sendMessage(recipientID, messageToSend) {
   callSendAPI(messageData);
 }
 
+var handlePostback = function handlePostback(event) {
+    console.log('GET_SOME_PAYLOAD');
+    var senderID = event.sender.id;
+    var received_postback = event.postback;
+    let response;
+    // Get the payload for the postback
+    let payload = received_postback.payload;
+    console.log('GET_SOME_PAYLOAD: ' + payload);
+    if (payload === 'GET_STARTED_PAYLOAD') {
+        console.log('GET_STARTED_PAYLOAD');
+    } else if (payload === '등록') {
+        //response = { "text": "Thanks!HoombaHoomba!" }
+        var url = "http://www.example.com";
+        var title = "register";
+        handleWebview(event, title, url);
+    }
+
+    if (response != null){
+      sendMessage(sender_psid, response);
+    }
+}
+
+
+
 function handleWebview(event, title, url) {
   var senderID = event.sender.id;
     let messageData = {
@@ -106,6 +130,7 @@ function callSendAPI(messageData) {
   });
 }
 
+module.exports.handlePostback = handlePostback;
 module.exports.sendResponse = sendResponse;
 module.exports.handleWebview = handleWebview;
 module.exports.sendMessage = sendMessage;
