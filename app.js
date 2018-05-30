@@ -115,6 +115,7 @@ app.post('/webhook', function (req, res) {
   }
 });
 
+//mentor admin page
 app.get('/mentor-admin', function(req, res) {
   GetData(function (recordSet) {
         res.render('mentor', {title: "title", recordSet: recordSet, length: recordSet.length });
@@ -127,6 +128,14 @@ function GetData(callBack){
    callBack(result);
  });
 }
+
+app.post('/query/approve', function(req, res) {
+  console.log("APPROVE");
+});
+
+app.post('/query/decline', function(req, res) {
+
+});
 
 //css / json data from the html file
 app.use(bodyParser.urlencoded({ extended: false }));
