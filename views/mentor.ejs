@@ -16,7 +16,12 @@
           <td> <%= recordSet[i].user_id %> </td>
           <td> <%= recordSet[i].question %> </td>
           <td> <%= recordSet[i].college_major %> </td>
-          <td> <button onclick="approve()"> 승인 </button> <button onclick="decline()"> 거부 </button> </td>
+          <td>
+            <form method="post" >
+              <button onclick="approve()"> 승인 </button>
+              <button onclick="decline()"> 거부 </button>
+            </form>
+          </td>
         </tr>
       <% } %>
   </table>
