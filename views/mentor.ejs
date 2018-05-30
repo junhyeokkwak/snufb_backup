@@ -17,9 +17,11 @@
           <td> <%= recordSet[i].question %> </td>
           <td> <%= recordSet[i].college_major %> </td>
           <td>
-            <form method="post" >
-              <button onclick="approve()" action="/query/approve"> 승인 </button>
-              <button onclick="decline()" action="/query/decline"> 거부 </button>
+            <form method="post" action="/query/approve">
+              <button> <input class = "submit" type = "submit" value="승인"> </button>
+            </form>
+            <form method="post" action="/query/decline">
+              <button> <input class = "submit" type = "submit" value="거부"> </button>
             </form>
           </td>
         </tr>

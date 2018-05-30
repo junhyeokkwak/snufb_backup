@@ -134,7 +134,7 @@ app.post('/query/approve', function(req, res) {
 });
 
 app.post('/query/decline', function(req, res) {
-
+  console.log("DECLINE");
 });
 
 //css / json data from the html file
