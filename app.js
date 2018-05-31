@@ -130,7 +130,7 @@ function GetData(callBack){
 }
 
 app.post('/query/approve', function(req, res) {
-  console.log("APPROVE");
+  console.log(req);
 });
 
 app.post('/query/decline', function(req, res) {
