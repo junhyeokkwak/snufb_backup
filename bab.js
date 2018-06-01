@@ -75,7 +75,6 @@ var sendBabMenu = function(event){
             }
             else{
               for (j = 0; j < 2; j++){
-                //async
                 babMenu.push({
                   "content_type": "text",
                   "title": JSON.parse(body).stores[i].menus[j].name,
@@ -85,7 +84,7 @@ var sendBabMenu = function(event){
             }
           }
         }
-        api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0] + ", " + babMenu[1] + "야.\n존맛이겠다 ㅎㅎ" });
+        api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + ", " + babMenu[1].title + "야.\n존맛이겠다 ㅎㅎ" });
       });
       callback(null);
     }
