@@ -67,8 +67,8 @@ var sendBabMenu = function(event){
            }
          }
        }
+       api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0] + ", " + babMenu[1] + "야.\n존맛이겠다 ㅎㅎ" });
      });
-     api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0] + ", " + babMenu[1] + "야.\n존맛이겠다 ㅎㅎ" });
     }
 
 module.exports = {
