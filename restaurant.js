@@ -14,10 +14,12 @@ function initRestaurantRecommendation(event) {
   console.log("RUN: initRestaurantRecommendation");
 }
 
+
+
 module.exports = {
   functionMatch: {
     "배고파": initRestaurantConv,
-    "배고파뒤질듯": initRestaurantConv,
+    "배고파뒤질듯" : initRestaurantConv,
     "initRestaurantRecommendation" : initRestaurantRecommendation,
   }
 }
