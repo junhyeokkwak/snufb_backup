@@ -61,6 +61,7 @@ var sendBabMenu = function(event){
          accesstoken: 'O1t5rnRk80LEErp1NIPgwSy1Inz0xOCtITLovskaYckJohmwsV' } };
   var task = [
     function(callback){
+      var err;
       connection.query('UPDATE Users SET conv_context="sendBabMenu" WHERE user_id=' + event.sender.id);
       callback(null, err);
     },
