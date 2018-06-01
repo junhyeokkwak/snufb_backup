@@ -82,6 +82,7 @@ app.post('/webhook', function (req, res) {
               if (result[0].conv_context != "none") {
                 if (event.message.text == 'RESET') {
                   callback(null, functionSheet["RESET"]);
+                  console.log('Conv Context: ' + result[0].conv_context);
                 } else {
                   callback(null, functionSheet[result[0].conv_context]);
                 }
