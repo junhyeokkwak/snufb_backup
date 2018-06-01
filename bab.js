@@ -50,6 +50,7 @@ var sendBabMenu = function(event){
   var utc = new Date().setUTCHours(28);
   var todayDate = new Date(utc).toISOString().slice(0,10);
   var key = "I5mnxs3t4W";
+  var babMenu = [];
   var options = { method: 'GET',
       url: 'https://bds.bablabs.com/openapi/v1/campuses/' + key + '/stores',
       qs: { date: todayDate },
