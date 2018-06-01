@@ -17,14 +17,14 @@ var whichSikdang = function(event){
          accesstoken: 'O1t5rnRk80LEErp1NIPgwSy1Inz0xOCtITLovskaYckJohmwsV' } };
 
     request(options, function (error, response, body) {
-      console.log(JSON.parse(body).stores[0].name);
-      // if (error) throw new Error(error);
-      // for (i = 0; i < JSON.parse(body).stores.length; i++){
-      //   sikdang.push({
-      //     "content_type": "text",
-      //     "title": JSON.parse(body).stores[i].name,
-      //     "payload": JSON.parse(body).stores[i].name });
-      // }
+      if (error) throw new Error(error);
+      for (i = 0; i < JSON.parse(body).stores.length; i++){
+        sikdang.push({
+          "content_type": "text",
+          "title": JSON.parse(body).stores[i].name,
+          "payload": JSON.parse(body).stores[i].name });
+      }
+      console.log(sikdang);
     });
 
     var messageData = {"text": "어디서 먹을건데?", "quick_replies": sikdang};
