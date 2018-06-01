@@ -89,7 +89,11 @@ function handleMessage(event) {
       if (result.length > 0){
         console.log('Conv Context: ' + result[0].conv_context);
         if (result[0].conv_context != "none") {
-          callback(null, functionSheet[result[0].conv_context]);
+          if (event.message.text.indexOf('배고파') > -1) {
+            callback(null, functionSheet['배고파']);
+          } else {
+            callback(null, functionSheet[result[0].conv_context]);
+          }
         } else {
           var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
             sessionId: event.sender.id
