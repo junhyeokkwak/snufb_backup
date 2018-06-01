@@ -15,11 +15,12 @@ function initRestaurantRecommendation(event) {
 }
 
 
-
+var initRestaurantConvTrigger = ["배고파", "굶어뒤지것다"];
 module.exports = {
   functionMatch: {
-    "배고파": initRestaurantConv,
-    "배고파뒤질듯" : initRestaurantConv,
+    // "배고파": initRestaurantConv,
+    // "배고파뒤질듯" : initRestaurantConv,
+    initRestaurantConvTrigger : initRestaurantConv,
     "initRestaurantRecommendation" : initRestaurantRecommendation,
   }
 }
