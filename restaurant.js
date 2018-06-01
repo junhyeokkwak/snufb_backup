@@ -85,25 +85,11 @@ var restaurantRecommendation_1 = function(event) {
     function(err, callback){
       request(options, function (error, response, body) {
         if (error) throw new Error(error);
-        // for (i = 0; i < JSON.parse(body).stores.length; i++){
-        //   if (JSON.parse(body).stores[i].name == event.message.text){
-        //     console.log(JSON.parse(body).stores[i].menus);
-        //     if(JSON.parse(body).stores[i].menus.length == 0){
-        //       api.sendResponse({"text": "오늘 여기는 밥이 안나와 다른데 가서 머거"});
-        //     }
-        //     else{
-        //       for (j = 0; j < 2; j++){
-        //         babMenu.push({
-        //           "content_type": "text",
-        //           "title": JSON.parse(body).stores[i].menus[j].description,
-        //           "payload": JSON.parse(body).stores[i].menus[j].name
-        //         });
-        //       }
-        //     }
-        //   }
-        // }
-        console.log(JSON.parse(body));
-        // api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
+        var data = JSON.parse(body);
+        console.log(data);
+        var url = data[0].link;
+        var title = "여기는 어때? " + data[0].title + "이래.\n존맛이겠다 ㅎㅎ";
+        api.handleWebview(event, title, url);
       });
       callback(null);
     },
