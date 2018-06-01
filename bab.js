@@ -23,10 +23,11 @@ var whichSikdang = function(event){
         sikdang.push({
           "content_type": "text",
           "title": JSON.parse(body).stores[i].name,
-          "payload": JSON.parse(body).stores[i].name });
+          "payload": JSON.parse(body).stores[i].name
+        });
       }
-      console.log(sikdang);
     });
+    console.log(sikdang);
 
     var messageData = {"text": "어디서 먹을건데?", "quick_replies": sikdang};
     api.sendResponse(event, messageData);
