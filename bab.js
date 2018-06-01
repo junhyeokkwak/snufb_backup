@@ -7,39 +7,31 @@ var whichSikdang = function(event){
   var utc = new Date().setUTCHours(28);
   var todayDate = new Date(utc).toISOString().slice(0,10);
   var key = "I5mnxs3t4W";
-  var task = [
-    function (callback){
-      var sikdang = [];
-      var options = { method: 'GET',
-          url: 'https://bds.bablabs.com/openapi/v1/campuses/' + key + '/stores',
-          qs: { date: todayDate },
-          headers:
-           { 'postman-token': '13d05bcc-6df0-81ab-df78-180ddeafbeee',
-             'cache-control': 'no-cache',
-             babsession: '123',
-             accesstoken: 'O1t5rnRk80LEErp1NIPgwSy1Inz0xOCtITLovskaYckJohmwsV' } };
+  var sikdang = [];
+  var options = { method: 'GET',
+      url: 'https://bds.bablabs.com/openapi/v1/campuses/' + key + '/stores',
+      qs: { date: todayDate },
+      headers:
+       { 'postman-token': '13d05bcc-6df0-81ab-df78-180ddeafbeee',
+         'cache-control': 'no-cache',
+         babsession: '123',
+         accesstoken: 'O1t5rnRk80LEErp1NIPgwSy1Inz0xOCtITLovskaYckJohmwsV' } };
 
-        request(options, function (error, response, body) {
-          if (error) throw new Error(error);
-          //JSON.parse(body).stores.length
-          for (i = 0; i < 3; i++){
-            sikdang.push({
-              "content_type": "text",
-              "title": JSON.parse(body).stores[i].name,
-              "payload": JSON.parse(body).stores[i].name
-            });
-          }
-        });
-      callback(null, sikdang);
-    },
-    function (sikdang, callback){
-      console.log(sikdang);
-      var messageData = {"text": "어디서 먹을건데?", "quick_replies": sikdang};
-      api.sendResponse(event, messageData);
-      callback(null);
+  request(options, function (error, response, body) {
+    if (error) throw new Error(error);
+    // Limited to only 4 dining halls as of now, will need to traverse the entire array
+    // eventually when we implement webviews.
+    // Length of the JSON sikdang array >> JSON.parse(body).stores.length
+    for (i = 0; i < 3; i++){
+      sikdang.push({
+        "content_type": "text",
+        "title": JSON.parse(body).stores[i].name,
+        "payload": JSON.parse(body).stores[i].name
+      });
     }
-  ]
-  async.waterfall(task);
+  var messageData = {"text": "어디서 먹을건데?", "quick_replies": sikdang};
+  api.sendResponse(event, messageData);
+  });
 }
 
 var sendBabMenu = function(event){
@@ -76,7 +68,7 @@ var sendBabMenu = function(event){
          }
        }
      });
-     api.sendResponse({"text": "오늘의 메뉴는 " + babMenu[0] + ", " + babMenu[1] + "야.\n존맛이겠다 ㅎㅎ" });
+     api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0] + ", " + babMenu[1] + "야.\n존맛이겠다 ㅎㅎ" });
     }
 
 module.exports = {
