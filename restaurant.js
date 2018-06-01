@@ -5,6 +5,10 @@ var api = require('./apiCalls');
 var async = require('async');
 var mysql = require("mysql");
 
+//XML to json
+var querystring = require('querystring');
+var parseString = require('xml2js').parseString;
+
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
 var initRestaurantConv = function(event) {
