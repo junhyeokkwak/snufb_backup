@@ -15,7 +15,7 @@ function initRestaurantConv(event) {
       callback(null, err);
     },
     function(err, callback){
-      var messageData = {"text": "왜 굶고다녀ㅠㅠ심심한데 메뉴 추천이 해 줄까?", "quick_replies": YesOrNo};
+      var messageData = {"text": "왜 굶고다녀ㅠㅠ심심한데 메뉴 추천이 해 줄까?", "quick_replies": qr.reply_arrays['YesOrNo']};
       api.sendResponse(event, messageData);
       callback(null);
     }
