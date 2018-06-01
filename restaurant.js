@@ -62,10 +62,14 @@ var restaurantRecommendation_1 = function(event) {
   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
   var naverClientSecrete = 'EjgVHFWgzo';
   var options = { method: 'GET',
-       url: 'https://openapi.naver.com/v1/search/local.json'+'?query='+search+'&display=10&start=1&sort=sim',
-      // host: 'openapi.naver.com',
-      // port: 433,
-      // path: '/v1/search/shop.json'+query,
+       // url: 'https://openapi.naver.com/v1/search/local.json'+'?query='+search+'&display=10&start=1&sort=sim',
+      url : 'https://openapi.naver.com/v1/search/local.json',
+      qs : {
+        query : search,
+        display : 1,
+        start : 1,
+        sort : "random"
+      },
       headers: {
         'X-Naver-Client-Id':naverClientID,
         'X-Naver-Client-Secret': naverClientSecrete,
