@@ -85,7 +85,7 @@ var restaurantRecommendation_1 = function(event) {
     function(err, callback){
       request(options, function (error, response, body) {
         if (error) throw new Error(error);
-        var data = JSON.parse(body).itmes[0];
+        var data = JSON.parse(body).itmes;
         console.log("DATA: "+data);
         var url = data[0].link;
         var title = "여기는 어때? " + data[0].title + "이래.\n존맛이겠다 ㅎㅎ";
