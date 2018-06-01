@@ -84,6 +84,7 @@ var sendBabMenu = function(event){
             }
           }
         }
+        console.log(babMenu);
         api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + ", " + babMenu[1].title + "야.\n존맛이겠다 ㅎㅎ" });
       });
       callback(null);
