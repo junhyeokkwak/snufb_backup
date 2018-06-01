@@ -15,9 +15,8 @@ function initRestaurantConv(event) {
       callback(null, err);
     },
     function(err, callback){
-        var messageData = {"text": "왜 굶고다녀ㅠㅠ심심한데 메뉴 추천이 해 줄까?", "quick_replies": YesOrNo};
-        api.sendResponse(event, messageData);
-      });
+      var messageData = {"text": "왜 굶고다녀ㅠㅠ심심한데 메뉴 추천이 해 줄까?", "quick_replies": YesOrNo};
+      api.sendResponse(event, messageData);
       callback(null);
     }
   ];
