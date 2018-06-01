@@ -110,7 +110,7 @@ app.post('/webhook', function (req, res) {
         ]
         async.waterfall(task);
       } else {
-        console.log('UNVERIFIED EVENTTYPE');
+        console.log('UNVERIFIED EVENT TYPE');
       }
     });
     res.sendStatus(200);
