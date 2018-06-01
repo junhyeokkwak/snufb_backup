@@ -80,8 +80,8 @@ app.post('/webhook', function (req, res) {
             if (result.length > 0){
               console.log('Conv Context: ' + result[0].conv_context);
               if (result[0].conv_context != "none") {
-                if (event.message.text == 'RESET CONV') {
-                  callback(null, reset(event));
+                if (event.message.text == 'RESET') {
+                  callback(null, functionSheet["RESET"]);
                 } else {
                   callback(null, functionSheet[result[0].conv_context]);
                 }
@@ -118,11 +118,6 @@ app.post('/webhook', function (req, res) {
     res.sendStatus(404);
   }
 });
-
-//reset conv_context
-function reset(event) {
-  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-}
 
 //mentor admin page
 app.get('/mentor-admin', function(req, res) {
