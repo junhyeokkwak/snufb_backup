@@ -61,11 +61,7 @@ var restaurantRecommendation_1 = function(event) {
   }
   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
   var naverClientSecrete = 'EjgVHFWgzo';
-  // var search = req.query.search;
-  // var queryOption = {'query':search, 'display':10, 'start':1, 'sort':'sim'};
-  // var query = querystring.stringify(queryOption);
   var options = { method: 'GET',
-      //https://openapi.naver.com/v1/search/shop.xml?query=한식&display=10&start=1&sort=sim
        url: 'https://openapi.naver.com/v1/search/local.json'+'?query='+search+'&display=10&start=1&sort=sim',
       // host: 'openapi.naver.com',
       // port: 433,
@@ -75,11 +71,6 @@ var restaurantRecommendation_1 = function(event) {
         'X-Naver-Client-Secret': naverClientSecrete,
       },
   };
-
-  // headers: {
-  //   'X-Naver-Client-Id':'mSdY16Cdgy3tfbILEmSN',
-  //   'X-Naver-Client-Secret': 'EjgVHFWgzo',
-  // },
 
   var task = [
     function(callback){
@@ -107,7 +98,7 @@ var restaurantRecommendation_1 = function(event) {
         //     }
         //   }
         // }
-        console.log(Json.parse(body));
+        console.log(JSON.parse(body));
         // api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
       });
       callback(null);
