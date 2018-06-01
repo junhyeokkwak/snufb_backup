@@ -27,19 +27,19 @@ function initRestaurantRecommendation(event) {
   console.log("RUN: initRestaurantRecommendation");
   if (event.message.text == "응"){
     console.log("USER SELECT : YES in initRestaurantConv");
-    // var task = [
-    //   function(callback){
-    //     connection.query('UPDATE Users SET conv_context="register2" WHERE user_id=' + event.sender.id);
-    //     callback(null, 'done');
-    //   },
-    //   function(err, callback){
-    //     api.sendResponse(event, {"text":"무슨 과?"});
-    //     var title = "등록하기!";
-    //     var url = process.env.HEROKU_URL + "/register";
-    //     api.handleWebview(event, title, url);
-    //     callback(null);
-    //   }
-    // ]
+    var task = [
+      function(callback){
+        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_1" WHERE user_id=' + event.sender.id);
+        callback(null, 'done');
+      },
+      function(err, callback){
+        var qrCuisines = qr.generateQuickReplies(["한식", "중식", "일식", "양식", "분식"]);
+        var messageData = {"text": "뭐 먹을래?", "quick_replies": qrCuisines};
+        api.sendResponse(event, messageData);
+        callback(null);
+      }
+    ];
+    async.waterfall(task);
   } else if (event.message.text == "아니") {
     console.log("USER SELECT : NO in initRestaurantConv");
 

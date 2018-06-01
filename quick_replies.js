@@ -1,3 +1,17 @@
+//quick_replies generator
+var generateQuickReplies = function(arr){
+  var quick_replies = []
+  for (var i = 0; i < arr.length; i++) {
+    var new_quick_replies = {
+      "content_type": "text",
+      "title": arr[i],
+      "payload": arr[i],
+    };
+    quick_replies.push(new_quick_replies);
+  }
+  return quick_replies;
+};
+
 // commonly used quick replies
 var YesOrNo = [{
   "content_type": "text",
@@ -42,6 +56,7 @@ var Mentor_type = [{
 }]
 
 module.exports = {
+  generateQuickReplies : generateQuickReplies,
   reply_arrays: {
     "YesOrNo": YesOrNo,
     "Menu" : Menu,
