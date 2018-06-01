@@ -18,7 +18,8 @@ var whichSikdang = function(event){
 
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
-      for (i = 0; i < JSON.parse(body).stores.length; i++){
+      //JSON.parse(body).stores.length
+      for (i = 0; i < 3; i++){
         sikdang.push({
           "content_type": "text",
           "title": JSON.parse(body).stores[i].name,
