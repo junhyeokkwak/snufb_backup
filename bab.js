@@ -1,6 +1,8 @@
 var request = require("request");
 var api = require("./apiCalls");
 var async = require("async");
+var mysql = require("mysql");
+var connection = mysql.createConnection(process.env.DATABASE_URL);
 
 //give out list of sikdangs
 var whichSikdang = function(event){
@@ -16,22 +18,32 @@ var whichSikdang = function(event){
          'cache-control': 'no-cache',
          babsession: '123',
          accesstoken: 'O1t5rnRk80LEErp1NIPgwSy1Inz0xOCtITLovskaYckJohmwsV' } };
-
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-    // Limited to only 4 dining halls as of now, will need to traverse the entire array
-    // eventually when we implement webviews.
-    // Length of the JSON sikdang array >> JSON.parse(body).stores.length
-    for (i = 0; i < 3; i++){
-      sikdang.push({
-        "content_type": "text",
-        "title": JSON.parse(body).stores[i].name,
-        "payload": JSON.parse(body).stores[i].name
+  var task = [
+    function(callback){
+      var err;
+      connection.query('UPDATE Users SET conv_context="sendBabMenu" WHERE user_id=' + event.sender.id);
+      callback(null, err);
+    },
+    function(err, callback){
+      request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+        // Limited to only 4 dining halls as of now, will need to traverse the entire array
+        // eventually when we implement webviews.
+        // Length of the JSON sikdang array >> JSON.parse(body).stores.length
+        for (i = 0; i < 3; i++){
+          sikdang.push({
+            "content_type": "text",
+            "title": JSON.parse(body).stores[i].name,
+            "payload": JSON.parse(body).stores[i].name
+          });
+        }
+        var messageData = {"text": "어디서 먹을건데?", "quick_replies": sikdang};
+        api.sendResponse(event, messageData);
       });
+      callback(null);
     }
-  var messageData = {"text": "어디서 먹을건데?", "quick_replies": sikdang};
-  api.sendResponse(event, messageData);
-  });
+  ];
+  async.waterfall(task);
 }
 
 var sendBabMenu = function(event){
@@ -47,29 +59,38 @@ var sendBabMenu = function(event){
          'cache-control': 'no-cache',
          babsession: '123',
          accesstoken: 'O1t5rnRk80LEErp1NIPgwSy1Inz0xOCtITLovskaYckJohmwsV' } };
-
-     request(options, function (error, response, body) {
-       if (error) throw new Error(error);
-       for (i = 0; i < JSON.parse(body).stores.length; i++){
-         if (JSON.parse(body).stores[i].name == event.message.text){
-           if(JSON.parse(body).stores[i].menus.length == 0){
-             api.sendResponse({"text": "오늘 여기는 밥이 안나와 다른데 가서 머거"});
-           }
-           else{
-             for (j = 0; j < 2; j++){
-               //async
-               babMenu.push({
-                 "content_type": "text",
-                 "title": JSON.parse(body).stores[i].menus[j].name,
-                 "payload": JSON.parse(body).stores[i].menus[j].name
-               });
-             }
-           }
-         }
-       }
-       api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0] + ", " + babMenu[1] + "야.\n존맛이겠다 ㅎㅎ" });
-     });
+  var task = [
+    function(callback){
+      connection.query('UPDATE Users SET conv_context="sendBabMenu" WHERE user_id=' + event.sender.id);
+      callback(null, err);
+    },
+    function (err, callback){
+      request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+        for (i = 0; i < JSON.parse(body).stores.length; i++){
+          if (JSON.parse(body).stores[i].name == event.message.text){
+            if(JSON.parse(body).stores[i].menus.length == 0){
+              api.sendResponse({"text": "오늘 여기는 밥이 안나와 다른데 가서 머거"});
+            }
+            else{
+              for (j = 0; j < 2; j++){
+                //async
+                babMenu.push({
+                  "content_type": "text",
+                  "title": JSON.parse(body).stores[i].menus[j].name,
+                  "payload": JSON.parse(body).stores[i].menus[j].name
+                });
+              }
+            }
+          }
+        }
+        api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0] + ", " + babMenu[1] + "야.\n존맛이겠다 ㅎㅎ" });
+      });
+      callback(null);
     }
+  ];
+  async.waterfall(task);
+}
 
 module.exports = {
     functionMatch: {
