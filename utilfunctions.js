@@ -1,3 +1,9 @@
+var request = require("request");
+var api = require("./apiCalls");
+var async = require("async");
+var mysql = require("mysql");
+var connection = mysql.createConnection(process.env.DATABASE_URL);
+
 //reset conv_context
 function reset(event) {
   console.log('RUN : reset - RESET CONV');
