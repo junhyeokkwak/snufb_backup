@@ -87,8 +87,8 @@ var restaurantRecommendation_1 = function(event) {
         if (error) throw new Error(error);
 
         console.log(JSON.parse(body));
-        console.log(JSON.parse(body).itmes);
-        console.log(JSON.parse(body).itmes[0].title);
+        console.log(JSON.parse(body).items);
+        console.log(JSON.parse(body).items[0].title);
         // api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
       });
       callback(null);
