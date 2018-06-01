@@ -17,7 +17,7 @@ var whichSikdang = function(event){
          accesstoken: 'O1t5rnRk80LEErp1NIPgwSy1Inz0xOCtITLovskaYckJohmwsV' } };
 
     request(options, function (error, response, body) {
-      console.log(JSON.parse(body));
+      console.log(JSON.parse(body).stores[0].name);
       // if (error) throw new Error(error);
       // for (i = 0; i < JSON.parse(body).stores.length; i++){
       //   sikdang.push({
