@@ -66,42 +66,7 @@ app.post('/webhook', function (req, res) {
         handlePostback(event);
       } else if (event.message) {
         console.log('HANDLING MESSAGE');
-        var task = [
-          function(callback){
-            connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
-              callback(null, err, result);
-            })
-          },
-          function(err, result, callback){
-            if (err) throw err;
-            if (result.length > 0){
-              console.log('Conv Context: ' + result[0].conv_context);
-              if (result[0].conv_context != "none") {
-                callback(null, functionSheet[result[0].conv_context]);
-              } else {
-                var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
-                  sessionId: event.sender.id
-                });
-                apiaiSession.on('response', function(response) {
-                  //console.log(functionSheet[event.message.text])
-                  callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
-                });
-                apiaiSession.on('error', function(error) {
-                  //handle errors
-                })
-                apiaiSession.end();
-              }
-            } else {
-              console.log('TO registerUser');
-              callback(null, functionSheet["registerUser"]);
-            }
-          },
-          function(execute, callback){
-            execute(event);
-            callback(null);
-          }
-        ]
-        async.waterfall(task);
+        handleMessage(event);
       } else {
         console.log('UNVERIFIED EVENTTYPE');
       }
@@ -112,6 +77,47 @@ app.post('/webhook', function (req, res) {
   }
 });
 
+function handleMessage(event) {
+  var task = [
+    function(callback){
+      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
+        callback(null, err, result);
+      })
+    },
+    function(err, result, callback){
+      if (err) throw err;
+      if (result.length > 0){
+        console.log('Conv Context: ' + result[0].conv_context);
+        if (result[0].conv_context != "none") {
+          callback(null, functionSheet[result[0].conv_context]);
+        } else {
+          var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
+            sessionId: event.sender.id
+          });
+          apiaiSession.on('response', function(response) {
+            //console.log(functionSheet[event.message.text])
+            console.log('NLPAPP - RESPONSE')
+            callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
+          });
+          apiaiSession.on('error', function(error) {
+            console.log('ERR');
+            //handle errors
+          })
+          apiaiSession.end();
+        }
+      } else {
+        console.log('TO registerUser');
+        callback(null, functionSheet["registerUser"]);
+      }
+    },
+    function(execute, callback){
+      execute(event);
+      callback(null);
+    }
+  ]
+  async.waterfall(task);
+};
+
 //css / json data from the html file
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -121,21 +127,28 @@ app.use(express.static(path.join(__dirname, 'webviews')));
 app.get('/register', function(req, res){
   res.sendFile(path.join(__dirname + '/webviews/registration.html'));
 })
-
 app.post('/register/new_user', function(req, res){
     console.log("REGISTRATION NEW: ");
     console.log(req.body);
     res.status(200).end();
+    MessengerExtensions.requestCloseBrowser(function success() {
+      console.log("CLOSE Webview");
+    }, function error(err) {
+
+    });
     // res.render('register-success', {data = req.body});
 });
-
 app.post('/register/re_user', function(req, res){
     console.log("REGISTRATION RE: ");
     console.log(req.body);
     res.status(200).end();
     // res.render('register-success', {data = req.body});
-});
+    MessengerExtensions.requestCloseBrowser(function success() {
+      console.log("CLOSE Webview");
+    }, function error(err) {
 
+    });
+});
 
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));

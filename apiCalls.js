@@ -6,7 +6,6 @@ function sendResponse(event, messageToSend) {
   var senderID = event.sender.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
-
   var messageData = {
     recipient: {
       id: senderID
