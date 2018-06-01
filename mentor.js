@@ -11,7 +11,7 @@ function query_demand1(event){
       callback(null, 'done');
     },
     function(err, callback){
-      var messageData = {"text": "어떻게 도와줄까? 찾고있는 사람 있어?"};
+      var messageData = {"text": "어떻게 도와줄까? 물어보고 싶은게 뭐야?"};
       api.sendResponse(event, messageData);
       callback(null);
     }]
@@ -46,7 +46,6 @@ function major_mentor(event){
       });
     },
     function(result, callback){
-      connection.query('INSERT INTO Mentor_Questions (user_id, college_major) VALUES ("' + event.sender.id + '","'+ result[0].college_major+ '")');
       connection.query('UPDATE Users SET conv_context="ask_mentor" WHERE user_id=' + event.sender.id);
       callback(null, result);
     },
@@ -61,23 +60,32 @@ function major_mentor(event){
 function ask_mentor(event){
   var task = [
     function(callback){
-      connection.query('UPDATE Mentor_Questions SET question="' + event.message.text + '" WHERE user_id=' + event.sender.id);
-      var messageData = {"text": "물어보고 알려줄겡"}
-      api.sendResponse(event, messageData)
+      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields){
+        callback(null, result);
+      });
+    },
+    function(result, callback){
+      connection.query('INSERT INTO Mentor_Questions (user_id, question, college_major) VALUES ("' + event.sender.id + '","'+ event.message.text + '","' + result[0].college_major+ '")');
       callback(null, 'done');
     },
-    function (err, callback){
-      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields){
-        callback(null, result[0].college_major);
-      });
-    },
-    function (major, callback){
-      connection.query('SELECT * FROM Users WHERE college_major="' + major +'"', function (err, result, fields) {
-        var messageData = {"text": "후배가 물어보는데 대답 좀 해줘:\n" + event.message.text};
-        api.sendMessage(result[1].user_id, messageData);
-        callback(null);
-      });
+    function(err, callback){
+      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+      var messageData = {"text": "물어보고 알려줄겡"}
+      api.sendResponse(event, messageData)
+      callback(null);
     }
+    // function (err, callback){
+    //   connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields){
+    //     callback(null, result[0].college_major);
+    //   });
+    // },
+    // function (major, callback){
+    //   connection.query('SELECT * FROM Users WHERE college_major="' + major +'"', function (err, result, fields) {
+    //     var messageData = {"text": "후배가 물어보는데 대답 좀 해줘:\n" + event.message.text};
+    //     api.sendMessage(result[1].user_id, messageData);
+    //     callback(null);
+    //   });
+    // }
   ];
   async.waterfall(task);
 }

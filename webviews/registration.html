@@ -15,7 +15,7 @@
         xfbml      : true,
         version    : 'v2.11'
       });
-        
+
       //FB.AppEvents.logPageView();
 
       FB.getLoginStatus(function(response) {
@@ -25,7 +25,7 @@
           getElementById('status').innerHTML = "we are not connected";
         }
       });
-        
+
     };
 
     (function(d, s, id){
@@ -61,7 +61,7 @@
       <input class = "submit" type = "submit" value="새로 등록">
 <!--       <input type="text" placeholder="기타?"/> -->
 <!--       <button onclick="newRegi()">등록</button> -->
-      <p class = "message">이미 등록되어 있어? 
+      <p class = "message">이미 등록되어 있어?
         <a href="#"> 새 정보로 다시 등록 </a>
       </p>
       </form>
@@ -72,7 +72,7 @@
 <!--       <input type="text" placeholder="기타?"/> -->
       <input class = "submit" type = "submit" value="새정보로 다시 등록">
 <!--       <button onclick="reRegi()">새정보로 다시 등록</button> -->
-      <p class = "message">아직 등록 안 되어있어? 
+      <p class = "message">아직 등록 안 되어있어?
         <a href="#"> 신규 등록 </a>
       </p>
       </form>
@@ -83,7 +83,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script>
     $('.message a').click(function(){
-    $('form').animate({height: "toggle", opacity: "toggle"}, "slow")  
+    $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
     });
 
     function newRegi(){
@@ -91,7 +91,7 @@
       var newRegiMajor = x.elements["newRegiMajor"].value;
       var newRegiClass = x.elements["newRegiClass"].value;
       //document.write(newRegiMajor +"/"+  newRegiClass);
-      console.log("newRegiMajor: " + newRegiMajor + " / " 
+      console.log("newRegiMajor: " + newRegiMajor + " / "
         + "newRegiClass: " + newRegiClass);
     }
 
@@ -100,7 +100,7 @@
       var reRegiMajor = x.elements["reRegiMajor"].value;
       var reRegiClass = x.elements["reRegiClass"].value;
       //document.write(reRegiMajor +"/"+  reRegiClass);
-      console.log("reRegiMajor: " + reRegiMajor + " / " 
+      console.log("reRegiMajor: " + reRegiMajor + " / "
         + "reRegiClass: " + reRegiClass);
     }
 
