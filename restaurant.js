@@ -6,8 +6,8 @@ var async = require('async');
 var mysql = require("mysql");
 
 //XML to json
-var querystring = require('querystring');
-var parseString = require('xml2js').parseString;
+// var querystring = require('querystring');
+// var parseString = require('xml2js').parseString;
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -62,19 +62,25 @@ var restaurantRecommendation_1 = function(event) {
   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
   var naverClientSecrete = 'EjgVHFWgzo';
   // var search = req.query.search;
-  var queryOption = {'query':search, 'display':10, 'start':1, 'sort':'sim'};
-  var query = querystring.stringify(queryOption);
+  // var queryOption = {'query':search, 'display':10, 'start':1, 'sort':'sim'};
+  // var query = querystring.stringify(queryOption);
   var options = { method: 'GET',
-      //https://openapi.naver.com/v1/search/shop.xml?query=검색어&display=10&start=1&sort=sim
-      // url: 'https://openapi.naver.com/v1/search/local.json'+'?query='+search+'&display=10&start=1&sort=sim',
-      host: 'openapi.naver.com',
-      port: 433,
-      path: '/v1/search/shop.json'+query,
+      //https://openapi.naver.com/v1/search/shop.xml?query=한식&display=10&start=1&sort=sim
+       url: 'https://openapi.naver.com/v1/search/local.json'+'?query='+search+'&display=10&start=1&sort=sim',
+      // host: 'openapi.naver.com',
+      // port: 433,
+      // path: '/v1/search/shop.json'+query,
       headers: {
         'X-Naver-Client-Id':naverClientID,
         'X-Naver-Client-Secret': naverClientSecrete,
       },
   };
+
+  // headers: {
+  //   'X-Naver-Client-Id':'mSdY16Cdgy3tfbILEmSN',
+  //   'X-Naver-Client-Secret': 'EjgVHFWgzo',
+  // },
+
   var task = [
     function(callback){
       var err;
