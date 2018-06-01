@@ -20,7 +20,7 @@ var initRestaurantConv = function(event) {
       callback(null, err);
     },
     function(err, callback){
-      var messageData = {"text": "왜 굶고다녀ㅠㅠ심심한데 메뉴 추천이 해 줄까?", "quick_replies": qr.reply_arrays['YesOrNo']};
+      var messageData = {"text": "왜 굶고다녀ㅠㅠ심심한데 메뉴 추천해줄까?", "quick_replies": qr.reply_arrays['YesOrNo']};
       api.sendResponse(event, messageData);
       callback(null);
     }
@@ -85,11 +85,14 @@ var restaurantRecommendation_1 = function(event) {
     function(err, callback){
       request(options, function (error, response, body) {
         if (error) throw new Error(error);
-
-        console.log(JSON.parse(body));
+        //console.log(JSON.parse(body));
         console.log(JSON.parse(body).items);
         console.log(JSON.parse(body).items[0].title);
+        console.log(JSON.parse(body).items[0].link);
         // api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
+        var title = "흠..." + JSON.parse(body).items[0].title + "는 어때??";
+        var url = JSON.parse(body).items[0].link;
+        api.handleWebview(event, title, url);
       });
       callback(null);
     },
