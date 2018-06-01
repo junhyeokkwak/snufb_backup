@@ -47,7 +47,6 @@ var whichSikdang = function(event){
 }
 
 var sendBabMenu = function(event){
-  var babMenu = [];
   var utc = new Date().setUTCHours(28);
   var todayDate = new Date(utc).toISOString().slice(0,10);
   var key = "I5mnxs3t4W";
@@ -70,6 +69,7 @@ var sendBabMenu = function(event){
         if (error) throw new Error(error);
         for (i = 0; i < JSON.parse(body).stores.length; i++){
           if (JSON.parse(body).stores[i].name == event.message.text){
+            console.log(JSON.parse(body).stores[i].menus);
             if(JSON.parse(body).stores[i].menus.length == 0){
               api.sendResponse({"text": "오늘 여기는 밥이 안나와 다른데 가서 머거"});
             }
