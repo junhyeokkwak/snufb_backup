@@ -99,9 +99,10 @@ var restaurantRecommendation_1 = function(event) {
         var titleMessage = "TITLE MESSAGE";
         var buttonMessage = "BUTTONMESSAGE";
         var innertask = [
+          var err;
           function(callback){
             api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + " 어때??"});
-            callback(null, 'done1');
+            callback(null, err);
           },
           function(err, callback){
             if (url == '') {
@@ -112,7 +113,7 @@ var restaurantRecommendation_1 = function(event) {
             } else {
               console.log('RESTAURANT URL EXISTS');
               api.handleRestaurantWebview(event, titleMessage, url, buttonMessage);
-              callback(null, 'done2');
+              callback(null, err);
             }
           },
           function(err, callback) {
