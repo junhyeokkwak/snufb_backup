@@ -131,14 +131,14 @@ function Josa(txt, josa){
     if (josa == '이' || josa == '가') josa = (jong?'이':'가');
     if (josa == '은' || josa == '는') josa = (jong?'은':'는');
     if (josa == '와' || josa == '과') josa = (jong?'와':'과');
-    return txt + jong;
+    return txt + josa;
   } else {
     jong = false;
     if (josa == '을' || josa == '를') josa = (jong?'을':'를');
     if (josa == '이' || josa == '가') josa = (jong?'이':'가');
     if (josa == '은' || josa == '는') josa = (jong?'은':'는');
     if (josa == '와' || josa == '과') josa = (jong?'와':'과');
-    return txt + jong;
+    return txt + josa;
   }
 }
 
