@@ -92,10 +92,13 @@ var restaurantRecommendation_1 = function(event) {
         console.log(JSON.parse(body).items);
         console.log(JSON.parse(body).items[0].title);
         console.log(JSON.parse(body).items[0].link);
+        console.log(JSON.parse(body).items[0].category);
         var title = JSON.parse(body).items[0].title;
-        var titleMessage = "오늘메뉴는 "+title+" 어때??:)";
         var url = JSON.parse(body).items[0].link;
+        var category = JSON.parse(body).items[0].category;
+        var titleMessage = "신촌 주변" + category + "중 에서는" + title + "가 괜찮데:)";
         var buttonMessage = title + " 홈페이지 바로가기!";
+        api.sendResponse({'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + "어때??"})
         if (url == '') {
           console.log('RESTAURANT URL DNE');
           url = 'http://www.example.com/'
