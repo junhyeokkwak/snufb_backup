@@ -133,7 +133,7 @@ function Josa(txt, josa){
     if (josa == '와' || josa == '과') josaResult = (jong?'와':'과');
     return txt + josaResult;
   } else {
-    jong = false;
+    jong = true;
     if (josa == '을' || josa == '를') josaResult = (jong?'을':'를');
     if (josa == '이' || josa == '가') josaResult = (jong?'이':'가');
     if (josa == '은' || josa == '는') josaResult = (jong?'은':'는');
