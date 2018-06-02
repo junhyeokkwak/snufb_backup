@@ -66,7 +66,7 @@ var restaurantRecommendation_1 = function(event) {
       url : 'https://openapi.naver.com/v1/search/local.json',
       qs : {
         query : search,
-        display : 1000,
+        display : 1,
         start : 1,
         sort : "comment" // 리뷰 개수 순
       },
@@ -87,14 +87,14 @@ var restaurantRecommendation_1 = function(event) {
         if (error) throw new Error(error);
         //console.log(JSON.parse(body));
         console.log(JSON.parse(body).items);
-        // console.log(JSON.parse(body).items[0].title);
-        // console.log(JSON.parse(body).items[0].link);
-        // // api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
-        // var title = JSON.parse(body).items[0].title;
-        // var url = JSON.parse(body).items[0].link;
-        // var titleMessage = "오늘메뉴는 "+title+" 어때??:)";
-        // var buttonMessage = title + " 홈페이지 바로가기!";
-        // api.handleRestaurantWebview(event, titleMessage, url, buttonMessage)
+        console.log(JSON.parse(body).items[0].title);
+        console.log(JSON.parse(body).items[0].link);
+        // api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
+        var title = JSON.parse(body).items[0].title;
+        var url = JSON.parse(body).items[0].link;
+        var titleMessage = "오늘메뉴는 "+title+" 어때??:)";
+        var buttonMessage = title + " 홈페이지 바로가기!";
+        api.handleRestaurantWebview(event, titleMessage, url, buttonMessage)
       });
       callback(null);
     },
