@@ -98,17 +98,27 @@ var restaurantRecommendation_1 = function(event) {
         var category = JSON.parse(body).items[0].category;
         var titleMessage = "TITLE MESSAGE";
         var buttonMessage = title + " 홈페이지 바로가기!";
-        api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + "어때??"})
-        if (url == '') {
-          console.log('RESTAURANT URL DNE');
-          url = 'http://www.example.com/'
-          api.handleRestaurantWebview(event, titleMessage, url, buttonMessage)
-        } else {
-          console.log('RESTAURANT URL EXISTS');
-          var buttonMessage = title + " 홈페이지 바로가기!";
-          api.handleRestaurantWebview(event, titleMessage, url, buttonMessage)
-        }
-        api.sendResponse(event, {'text' : "신촌 주변" + category + "중 에서는" + title + "가 괜찮데:)"})
+        var innertask = [
+          function(callback) {
+            var err;
+            api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + "어때??"});
+            if (url == '') {
+              console.log('RESTAURANT URL DNE');
+              url = 'http://www.example.com/'
+              api.handleRestaurantWebview(event, titleMessage, url, buttonMessage)
+            } else {
+              console.log('RESTAURANT URL EXISTS');
+              var buttonMessage = title + " 홈페이지 바로가기!";
+              api.handleRestaurantWebview(event, titleMessage, url, buttonMessage)
+            }
+            callback(null, err);
+          },
+          function(err, callback) {
+            api.sendResponse(event, {'text' : "신촌 주변" + category + "중 에서는" + title + "가 괜찮데:)"});
+            callback(null);
+          },
+        ];
+        async.waterfall(innertask);
       });
       callback(null);
     },
