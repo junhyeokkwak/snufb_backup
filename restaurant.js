@@ -99,8 +99,8 @@ var restaurantRecommendation_1 = function(event) {
         var titleMessage = "TITLE MESSAGE";
         var buttonMessage = "BUTTONMESSAGE";
         var innertask = [
-          var err;
           function(callback){
+            var err;
             api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + " 어때??"});
             callback(null, err);
           },
