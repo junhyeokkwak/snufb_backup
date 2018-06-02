@@ -63,13 +63,14 @@ function handleRestaurantWebview(event, titleMessage, url, buttonMessage) {
                   "title":titleMessage,
                   "type":"web_url",
                   "url":url,
-                  "webview_height_ratio":"compact"
+                  "webview_height_ratio":"tall"
                 },
               ],
               "image_url": "http://www.example.com/image.png",
               "item_url": url,
               //"subtitle":"SUTBTITILE",
               "title": buttonMessage,
+              "webview_height_ratio":"tall"
             }],
             "template_type":"generic"
           },

@@ -55,9 +55,9 @@ var initRestaurantRecommendation = function(event) {
 
 var restaurantRecommendation_1 = function(event) {
   console.log("RUN: restaurantRecommendation_1");
-  if (event.message.text == "한식"){
-    console.log("USER SELECT : 한식 in restaurantRecommendation_1");
-    var search = '한식';
+  if (event.message.text == "한식" ||  "중식" || "일식" || "양식" || "분식") {
+    console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_1");
+    var search = "신촌" + event.message.text;
   }
   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
   var naverClientSecrete = 'EjgVHFWgzo';
@@ -66,7 +66,7 @@ var restaurantRecommendation_1 = function(event) {
       url : 'https://openapi.naver.com/v1/search/local.json',
       qs : {
         query : search,
-        display : 1,
+        display : 10,
         start : 1,
         sort : "comment" // 리뷰 개수 순
       },
@@ -89,7 +89,6 @@ var restaurantRecommendation_1 = function(event) {
         console.log(JSON.parse(body).items);
         console.log(JSON.parse(body).items[0].title);
         console.log(JSON.parse(body).items[0].link);
-        // api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
         var title = JSON.parse(body).items[0].title;
         var url = JSON.parse(body).items[0].link;
         var titleMessage = "오늘메뉴는 "+title+" 어때??:)";
