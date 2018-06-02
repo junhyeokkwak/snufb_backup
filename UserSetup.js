@@ -1,6 +1,7 @@
 var request = require("request");
 var qr = require('./quick_replies');
 var api = require('./apiCalls')
+var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
 

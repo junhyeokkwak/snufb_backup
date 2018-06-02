@@ -116,7 +116,6 @@ var restaurantRecommendation_1 = function(event) {
   async.waterfall(task);
 };
 
-
 //function sortByCriterion(arr, criteria)
 
 module.exports = {
