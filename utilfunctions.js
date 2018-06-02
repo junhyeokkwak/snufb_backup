@@ -41,8 +41,9 @@ function getJosa(txt, josa)
 	if (code % 28 == 0) return txt + getJosaHelper(josa, false);
 	else return txt + getJosaHelper(josa, true);
 }
+module.exports.getJosa = getJosa;
 
-getJosaHelper = function (josa, jong) {
+function getJosaHelper (josa, jong) {
 	// jong : true면 받침있음, false면 받침없음
 	if (josa == '을' || josa == '를') return (jong?'을':'를');
 	if (josa == '이' || josa == '가') return (jong?'이':'가');
@@ -51,8 +52,8 @@ getJosaHelper = function (josa, jong) {
 	// Undefined 조사
 	return '**';
 }
+module.exports.getJosaHelper = getJosaHelper;
 
-module.exports.getJosa = getJosa;
 
 module.exports = {
     functionMatch: {
