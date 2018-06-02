@@ -58,6 +58,9 @@ var restaurantRecommendation_1 = function(event) {
   if (event.message.text == "한식" ||  "중식" || "일식" || "양식" || "분식") {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_1");
     var search = "신촌" + event.message.text;
+    console.log('SEARCH: ' + search);
+  } else {
+    console.log('UNVERIFIED SEARCH');
   }
   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
   var naverClientSecrete = 'EjgVHFWgzo';
@@ -66,7 +69,7 @@ var restaurantRecommendation_1 = function(event) {
       url : 'https://openapi.naver.com/v1/search/local.json',
       qs : {
         query : search,
-        display : 10,
+        display : 1,
         start : 1,
         sort : "comment" // 리뷰 개수 순
       },
