@@ -90,15 +90,15 @@ var restaurantRecommendation_1 = function(event) {
         if (error) throw new Error(error);
         //console.log(JSON.parse(body));
         console.log(JSON.parse(body).items);
-        console.log(JSON.parse(body).items[0].title);
-        console.log(JSON.parse(body).items[0].link);
-        console.log(JSON.parse(body).items[0].category);
+        console.log("RECO RES TITLE: " + JSON.parse(body).items[0].title);
+        console.log("RECO RES LINK: " + JSON.parse(body).items[0].link);
+        console.log("RECO RES CATEGORY: " + JSON.parse(body).items[0].category);
         var title = JSON.parse(body).items[0].title;
         var url = JSON.parse(body).items[0].link;
         var category = JSON.parse(body).items[0].category;
         var titleMessage = "신촌 주변" + category + "중 에서는" + title + "가 괜찮데:)";
         var buttonMessage = title + " 홈페이지 바로가기!";
-        api.sendResponse({'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + "어때??"})
+        api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + "어때??"})
         if (url == '') {
           console.log('RESTAURANT URL DNE');
           url = 'http://www.example.com/'
