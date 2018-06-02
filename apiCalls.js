@@ -48,7 +48,37 @@ var handlePostback = function handlePostback(event) {
     }
 }
 
-
+function handleRestaurantWebview(event, titleMessage, url, buttonMessage) {
+  var senderID = event.sender.id;
+    let messageData = {
+      recipient: {
+        id: senderID
+      },
+      message: {
+        "attachment":{
+          "payload":{
+            "elements":[{
+              "buttons": [
+                {
+                  "title":titleMessage,
+                  "type":"web_url",
+                  "url":url,
+                  "webview_height_ratio":"compact"
+                },
+              ],
+              "image_url": "http://www.example.com/image.png",
+              "item_url": url,
+              //"subtitle":"SUTBTITILE",
+              "title": buttonMessage,
+            }],
+            "template_type":"generic"
+          },
+          "type":"template"
+        }
+      }
+    };
+    callSendAPI(messageData);
+}
 
 function handleWebview(event, title, url) {
   var senderID = event.sender.id;
@@ -129,6 +159,7 @@ function callSendAPI(messageData) {
   });
 }
 
+module.exports.handleRestaurantWebview = handleRestaurantWebview;
 module.exports.handlePostback = handlePostback;
 module.exports.sendResponse = sendResponse;
 module.exports.handleWebview = handleWebview;
