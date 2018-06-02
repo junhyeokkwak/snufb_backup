@@ -108,8 +108,7 @@ var restaurantRecommendation_1 = function(event) {
           console.log('RESTAURANT URL EXISTS');
           api.handleRestaurantWebview(event, titleMessage, url, buttonMessage);
         }
-        var titleJosa = Josa(title, "가");
-        api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + title + titleJosa +" 괜찮데:)"});
+        api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + Josa(title, "가") +" 괜찮데:)"});
       });
       callback(null);
     },
@@ -128,17 +127,17 @@ function Josa(txt, josa){
   var jong
 	if (code % 28 == 0) {
     jong = false;
-    if (josa == '을' || josa == '를') jong?'을':'를';
-    if (josa == '이' || josa == '가') jong?'이':'가';
-    if (josa == '은' || josa == '는') jong?'은':'는';
-    if (josa == '와' || josa == '과') jong?'와':'과';
+    if (josa == '을' || josa == '를') josa = (jong?'을':'를');
+    if (josa == '이' || josa == '가') josa = (jong?'이':'가');
+    if (josa == '은' || josa == '는') josa = (jong?'은':'는');
+    if (josa == '와' || josa == '과') josa = (jong?'와':'과');
     return txt + jong;
   } else {
     jong = false;
-    if (josa == '을' || josa == '를') jong?'을':'를';
-    if (josa == '이' || josa == '가') jong?'이':'가';
-    if (josa == '은' || josa == '는') jong?'은':'는';
-    if (josa == '와' || josa == '과') jong?'와':'과';
+    if (josa == '을' || josa == '를') josa = (jong?'을':'를');
+    if (josa == '이' || josa == '가') josa = (jong?'이':'가');
+    if (josa == '은' || josa == '는') josa = (jong?'은':'는');
+    if (josa == '와' || josa == '과') josa = (jong?'와':'과');
     return txt + jong;
   }
 }
