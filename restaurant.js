@@ -127,18 +127,18 @@ function Josa(txt, josa){
   var jong
 	if (code % 28 == 0) {
     jong = false;
-    if (josa == '을' || josa == '를') josa = (jong?'을':'를');
-    if (josa == '이' || josa == '가') josa = (jong?'이':'가');
-    if (josa == '은' || josa == '는') josa = (jong?'은':'는');
-    if (josa == '와' || josa == '과') josa = (jong?'와':'과');
-    return txt + josa;
+    if (josa == '을' || josa == '를') josaResult = (jong?'을':'를');
+    if (josa == '이' || josa == '가') josaResult = (jong?'이':'가');
+    if (josa == '은' || josa == '는') josaResult = (jong?'은':'는');
+    if (josa == '와' || josa == '과') josaResult = (jong?'와':'과');
+    return txt + josaResult;
   } else {
     jong = false;
-    if (josa == '을' || josa == '를') josa = (jong?'을':'를');
-    if (josa == '이' || josa == '가') josa = (jong?'이':'가');
-    if (josa == '은' || josa == '는') josa = (jong?'은':'는');
-    if (josa == '와' || josa == '과') josa = (jong?'와':'과');
-    return txt + josa;
+    if (josa == '을' || josa == '를') josaResult = (jong?'을':'를');
+    if (josa == '이' || josa == '가') josaResult = (jong?'이':'가');
+    if (josa == '은' || josa == '는') josaResult = (jong?'은':'는');
+    if (josa == '와' || josa == '과') josaResult = (jong?'와':'과');
+    return txt + josaResult;
   }
 }
 
