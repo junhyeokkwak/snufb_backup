@@ -36,7 +36,7 @@ function getJosa(txt, josa)
 	else return txt + Josa.get(josa, true);
 }
 
-Josa.get = function (josa, jong) {
+getJosa.get = function (josa, jong) {
 	// jong : true면 받침있음, false면 받침없음
 	if (josa == '을' || josa == '를') return (jong?'을':'를');
 	if (josa == '이' || josa == '가') return (jong?'이':'가');
