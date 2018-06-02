@@ -70,7 +70,6 @@ function handleRestaurantWebview(event, titleMessage, url, buttonMessage) {
               "item_url": url,
               //"subtitle":"SUTBTITILE",
               "title": buttonMessage,
-              "webview_height_ratio":"tall"
             }],
             "template_type":"generic"
           },
