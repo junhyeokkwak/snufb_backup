@@ -46,7 +46,7 @@ getJosa.get = function (josa, jong) {
 	return '**';
 }
 
-module.export.
+module.export.getJosa = getJosa;
 
 module.exports = {
     functionMatch: {
