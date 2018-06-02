@@ -32,17 +32,19 @@ function Josa(txt, josa){
 	if (code < 0 || code > 11171) return txt;
   var jong
 	if (code % 28 == 0) {
+    jong = false;
     if (josa == '을' || josa == '를') jong?'을':'를';
     if (josa == '이' || josa == '가') jong?'이':'가';
     if (josa == '은' || josa == '는') jong?'은':'는';
     if (josa == '와' || josa == '과') jong?'와':'과';
-    return txt + Josa.get(josa, false);
+    return txt + jong;
   } else {
+    jong = false;
     if (josa == '을' || josa == '를') jong?'을':'를';
     if (josa == '이' || josa == '가') jong?'이':'가';
     if (josa == '은' || josa == '는') jong?'은':'는';
     if (josa == '와' || josa == '과') jong?'와':'과';
-    return txt + Josa.get(josa, true);
+    return txt + jong;
   }
 }
 
