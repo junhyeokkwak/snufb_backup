@@ -97,10 +97,13 @@ var restaurantRecommendation_1 = function(event) {
         var url = JSON.parse(body).items[0].link;
         var category = JSON.parse(body).items[0].category;
         var titleMessage = "TITLE MESSAGE";
-        var buttonMessage = "BUTTONMESSAGE;";
+        var buttonMessage = "BUTTONMESSAGE";
         var innertask = [
-          function(callback) {
-            api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + "어때??"});
+          function(callback){
+            api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + " 어때??"});
+            callback(null, 'done1');
+          },
+          function(err, callback){
             if (url == '') {
               console.log('RESTAURANT URL DNE');
               url = 'http://www.example.com/'
@@ -109,13 +112,13 @@ var restaurantRecommendation_1 = function(event) {
               console.log('RESTAURANT URL EXISTS');
               api.handleRestaurantWebview(event, titleMessage, url, buttonMessage);
             }
-            callback(null, "DONE");
+            callback(null, 'done2');
           },
           function(err, callback) {
-            api.sendResponse(event, {'text' : "신촌 주변" + category + "중 에서는" + title + "가 괜찮데:)"});
+            api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + title + "(이)가 괜찮데:)"});
             callback(null);
-          },
-        ];
+          }
+        ]
         async.waterfall(innertask);
       });
       callback(null);
