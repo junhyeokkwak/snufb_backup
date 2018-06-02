@@ -28,12 +28,18 @@ function getJosa(txt, josa)
 	var cho = 19, jung = 21, jong=28;
 	var i1, i2, code1, code2;
 	// empty str
-	if (txt.length == 0) return '';
+	if (txt.length == 0) {
+    console.log("TXT is not JOSA");
+    return '';
+  }
   // !Korean
-	if (code < 0 || code > 11171) return txt;
+	if (code < 0 || code > 11171) {
+    console.log("TXT is not JOSA");
+    return txt;
+  }
   // Korean
-	if (code % 28 == 0) return txt + Josa.get(josa, false);
-	else return txt + Josa.get(josa, true);
+	if (code % 28 == 0) return txt + getJosa.get(josa, false);
+	else return txt + getJosa.get(josa, true);
 }
 
 getJosa.get = function (josa, jong) {
