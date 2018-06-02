@@ -108,11 +108,12 @@ var restaurantRecommendation_1 = function(event) {
               console.log('RESTAURANT URL DNE');
               url = 'http://www.example.com/'
               api.handleRestaurantWebview(event, titleMessage, url, buttonMessage);
+              callback(null, 'done2');
             } else {
               console.log('RESTAURANT URL EXISTS');
               api.handleRestaurantWebview(event, titleMessage, url, buttonMessage);
+              callback(null, 'done2');
             }
-            callback(null, 'done2');
           },
           function(err, callback) {
             api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + title + "(이)가 괜찮데:)"});
