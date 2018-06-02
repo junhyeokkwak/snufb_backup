@@ -22,7 +22,7 @@ function generateQuickReplies(arr){
   }
 };
 
-function Josa(txt, josa)
+function getJosa(txt, josa)
 {
 	var code = txt.charCodeAt(txt.length-1) - 44032;
 	var cho = 19, jung = 21, jong=28;
@@ -31,7 +31,7 @@ function Josa(txt, josa)
 	if (txt.length == 0) return '';
   // !Korean
 	if (code < 0 || code > 11171) return txt;
-
+  // Korean
 	if (code % 28 == 0) return txt + Josa.get(josa, false);
 	else return txt + Josa.get(josa, true);
 }
@@ -42,9 +42,11 @@ Josa.get = function (josa, jong) {
 	if (josa == '이' || josa == '가') return (jong?'이':'가');
 	if (josa == '은' || josa == '는') return (jong?'은':'는');
 	if (josa == '와' || josa == '과') return (jong?'와':'과');
-	// 알 수 없는 조사
+	// Undefined 조사
 	return '**';
 }
+
+module.export.
 
 module.exports = {
     functionMatch: {
