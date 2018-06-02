@@ -48,6 +48,7 @@ var handlePostback = function handlePostback(event) {
     }
 }
 
+
 function handleRestaurantWebview(event, titleMessage, url, buttonMessage) {
   var senderID = event.sender.id;
     let messageData = {
@@ -60,7 +61,7 @@ function handleRestaurantWebview(event, titleMessage, url, buttonMessage) {
             "elements":[{
               "buttons": [
                 {
-                  "title":titleMessage,
+                  "title": buttonMessage,
                   "type":"web_url",
                   "url":url,
                   "webview_height_ratio":"tall"
@@ -69,7 +70,7 @@ function handleRestaurantWebview(event, titleMessage, url, buttonMessage) {
               "image_url": "http://www.example.com/image.png",
               "item_url": url,
               //"subtitle":"SUTBTITILE",
-              "title": buttonMessage,
+              "title": titleMessage,
             }],
             "template_type":"generic"
           },
