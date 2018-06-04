@@ -167,30 +167,6 @@ module.exports = {
   }
 }
 
-//css / json data from the html file
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'webviews')));
-
-// webview URLs
-app.get('/register', function(req, res){
-  res.sendFile(path.join(__dirname + '/webviews/registration.html'));
-})
-
-app.post('/register/new_user', function(req, res){
-    console.log("REGISTRATION NEW: ");
-    console.log(req.body);
-    res.status(200).end();
-    // res.render('register-success', {data = req.body});
-});
-
-app.post('/register/re_user', function(req, res){
-    console.log("REGISTRATION RE: ");
-    console.log(req.body);
-    res.status(200).end();
-    // res.render('register-success', {data = req.body});
-});
-
 
 // 기존 register1 (학교 서울대 맞아? 에 대한 대답.)
 // function register1(event) {
