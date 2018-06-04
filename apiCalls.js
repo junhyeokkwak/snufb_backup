@@ -100,10 +100,10 @@ function handleWebview(event, title, url, size) {
                   "webview_height_ratio": size,
                 },
               ],
-              // "image_url": "http://www.example.com/image.png",
-              // "item_url": "http://www.example.com",
-              // "subtitle":"let's go!",
-              // "title":"Some URL"
+              "image_url": __dirname + '/ewha_mascot.jpg',
+              "item_url": url,
+              //"subtitle":"let's go!",
+              "title":"밑의 주소로 들어가서 등록해줘!"
             }],
             "template_type":"generic"
           },
