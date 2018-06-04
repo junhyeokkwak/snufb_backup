@@ -12,7 +12,12 @@ function registerUser(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfPostback = event.timestamp;
-  request({
+
+  if (process.env.DATABASE_URL==null) {
+    console.log('ERR: THERE IS NO DATABASE CONNECTED TO THE SERVER');
+  } else if (process.env.DATABASE_URL.indexOf('temporary123!')>-1){
+    ////////////////////SQL///////////////////
+    request({
       url: "https://graph.facebook.com/v2.6/" + senderID,
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN,
@@ -32,6 +37,7 @@ function registerUser(event) {
             var gender = bodyObj.gender;
             connection.query('SELECT * FROM Users WHERE user_id=' + senderID, function(err, result, fields) {
               if (result.length == 0){
+                //set conv_context as register1
                 connection.query('INSERT INTO Users (user_id, first_name, last_name, sex, conv_context) VALUES ('+ event.sender.id + ', "' + first_name + '","' + last_name + '","' + gender + '",' + '"register1"' + ')');
               }
             } );
@@ -46,6 +52,10 @@ function registerUser(event) {
         async.waterfall(task);
       }
     });
+    ////////////////////SQL///////////////////
+  } else {
+    console.log('ERR: func_registerUser - no DB');
+  }
 }
 
 // 이름이 확실히 맞는지에 대한 확인 단계 
@@ -103,7 +113,9 @@ function checkSchool(event) {
       },
       function(err, callback){
         api.sendResponse(event, {"text":"무슨 과?"});
-        // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
+        var title = "등록하기!";
+        var url = process.env.HEROKU_URL + "/register";
+        api.handleWebview(event, title, url);
         callback(null);
       }
     ]

@@ -6,12 +6,16 @@ var api = require('./apiCalls')
 var async = require('async');
 var mysql = require('mysql');
 var path = require('path')
+const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 var apiai = require('apiai');
 var nlpapp = apiai("542cfeef5714428193dc4478760de396");
 
 var app = express();
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.json());
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 app.set('port', (process.env.PORT || 5000));
@@ -57,7 +61,14 @@ app.post('/webhook', function (req, res) {
     data.entry.forEach(function(entry) {
       var pageID = entry.id;
       var timeOfEvent = entry.time;
-      entry.messaging.forEach(function(event) {
+      var event = entry.messaging[0];
+      console.log(event);
+      console.log('Sender PSID: ' + event.sender.id);
+      if (event.postback) {
+        console.log('HANDLING POSTBACK');
+        handlePostback(event);
+      } else if (event.message) {
+        console.log('HANDLING MESSAGE');
         var task = [
           function(callback){
             connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
@@ -67,25 +78,29 @@ app.post('/webhook', function (req, res) {
           function(err, result, callback){
             if (err) throw err;
             if (result.length > 0){
+              console.log('Conv Context: ' + result[0].conv_context);
               if (result[0].conv_context != "none") {
-                callback(null, functionSheet[result[0].conv_context]);
+                if (event.message.text == 'RESET') {
+                  callback(null, functionSheet["RESET"]);
+                  console.log('Conv Context: ' + result[0].conv_context);
+                } else {
+                  callback(null, functionSheet[result[0].conv_context]);
+                }
               } else {
                 var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
                   sessionId: event.sender.id
                 });
-
                 apiaiSession.on('response', function(response) {
-                  console.log(functionSheet[event.message.text])
+                  //console.log(functionSheet[event.message.text])
                   callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
                 });
-
                 apiaiSession.on('error', function(error) {
                   //handle errors
                 })
-
                 apiaiSession.end();
               }
             } else {
+              console.log('TO registerUser');
               callback(null, functionSheet["registerUser"]);
             }
           },
@@ -95,7 +110,9 @@ app.post('/webhook', function (req, res) {
           }
         ]
         async.waterfall(task);
-      });
+      } else {
+        console.log('UNVERIFIED EVENT TYPE');
+      }
     });
     res.sendStatus(200);
   } else {
@@ -103,9 +120,50 @@ app.post('/webhook', function (req, res) {
   }
 });
 
+//mentor admin page
+app.get('/mentor-admin', function(req, res) {
+  GetData(function (recordSet) {
+        res.render('mentor', {title: "title", recordSet: recordSet, length: recordSet.length });
+        console.log(recordSet);
+    });
+});
+
+function GetData(callBack){
+ connection.query('SELECT * from Mentor_Questions', function(err, result){
+   callBack(result);
+ });
+}
+
+app.post('/query/approve', function(req, res) {
+  console.log("APPROVE");
+});
+
+app.post('/query/decline', function(req, res) {
+  console.log("DECLINE");
+});
+
+//css / json data from the html file
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'webviews')));
+
 // webview URLs
 app.get('/register', function(req, res){
   res.sendFile(path.join(__dirname + '/webviews/registration.html'));
+})
+
+app.post('/register/new_user', function(req, res){
+    console.log("REGISTRATION NEW: ");
+    console.log(req.body);
+    res.status(200).end();
+    // res.render('register-success', {data = req.body});
+});
+
+app.post('/register/re_user', function(req, res){
+    console.log("REGISTRATION RE: ");
+    console.log(req.body);
+    res.status(200).end();
+    // res.render('register-success', {data = req.body});
 });
 
 

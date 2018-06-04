@@ -1,0 +1,43 @@
+<html>
+  <head>
+  <title><%= title %></title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <h1>Questions Asked</h1>
+    <table style="width:100%">
+      <tr>
+        <th>user_id</th>
+        <th>Question</th>
+        <th>College Major</th>
+      </tr>
+      <% for (var i = 0; i < length; i++){ %>
+        <tr>
+          <td> <%= recordSet[i].user_id %> </td>
+          <td> <%= recordSet[i].question %> </td>
+          <td> <%= recordSet[i].college_major %> </td>
+          <td>
+            <form method="post" action="/query/approve">
+              <input class = "submit" type = "submit" value="승인">
+            </form>
+            <form method="post" action="/query/decline">
+              <input class = "submit" type = "submit" value="거부">
+            </form>
+          </td>
+        </tr>
+      <% } %>
+  </table>
+
+  <script>
+  var mysql = require('mysql');
+  var connection = mysql.createConnection(process.env.DATABASE_URL);
+  function approve(){
+    connection.query('INSERT INTO Mentor_Questions (user_id) VALUES ("hello")');
+    console.log('hi');
+  };
+  function decline(){
+
+  }
+  </script>
+  </body>
+</html>
