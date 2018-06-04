@@ -115,7 +115,7 @@ function checkSchool(event) {
         api.sendResponse(event, {"text":"무슨 과?"});
         var title = "등록하기!";
         var url = process.env.HEROKU_URL + "/register";
-        api.handleWebview(event, title, url, "tall");
+        api.handleWebview(event, title, url, "compact");
         callback(null);
       }
     ]
