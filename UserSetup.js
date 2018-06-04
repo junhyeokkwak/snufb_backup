@@ -8,7 +8,7 @@ var connection = mysql.createConnection(process.env.DATABASE_URL);
 
 // checks one more time whether the user is new, and then register into database
 // then asks whether he/she goes to SNU
-function registerUser(event) {        
+function registerUser(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfPostback = event.timestamp;
@@ -58,8 +58,8 @@ function registerUser(event) {
   }
 }
 
-// 이름이 확실히 맞는지에 대한 확인 단계 
-function register1(event) { 
+// 이름이 확실히 맞는지에 대한 확인 단계
+function register1(event) {
   if (event.message.text == "응"){
     var task = [
       function(callback){
@@ -92,6 +92,7 @@ function changeName1(event) {
   var task = [
     function(callback) {
       connection.query('UPDATE Users SET conv_context="register1" WHERE user_id=' + event.sender.id);
+      /* just for checking */ connection.query('UPDATE Users SET student_number="000" WHERE user_id=' + event.sender.id);
       connection.query('UPDATE Users SET first_name=' + '"' + event.message.text + '"' + ' WHERE user_id=' + event.sender.id);
       callback(null, 'done');
     },
@@ -104,7 +105,7 @@ function changeName1(event) {
 }
 
 // 기존 register1 (학교 서울대 맞아? 에 대한 대답.)
-function checkSchool(event) { 
+function checkSchool(event) {
   if (event.message.text == "응"){
     var task = [
       function(callback){
@@ -172,7 +173,7 @@ module.exports = {
 
 
 // 기존 register1 (학교 서울대 맞아? 에 대한 대답.)
-// function register1(event) { 
+// function register1(event) {
 //   if (event.message.text == "응"){
 //     var task = [
 //       function(callback){
