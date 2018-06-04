@@ -47,7 +47,7 @@ function Josa(txt, josa){
     return txt + josaResult;
   }
 }
-module.exports.Josa = Josa;
+//module.exports.Josa = Josa;
 module.exports = {
     functionMatch: {
         "RESET" : reset,
