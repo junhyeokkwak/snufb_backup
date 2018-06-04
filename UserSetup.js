@@ -1,12 +1,13 @@
 var request = require("request");
 var qr = require('./quick_replies');
 var api = require('./apiCalls')
-var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
+// checks one more time whether the user is new, and then register into database
+// then asks whether he/she goes to SNU
 function registerUser(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
@@ -43,7 +44,8 @@ function registerUser(event) {
             callback(null, first_name);
           },
           function (first_name, callback) {
-            api.sendResponse(event, {"text":"안녕 " + first_name + "!\n난 설대봇이야. 서울대 다니니!?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+          //  api.sendResponse(event, {"text": "에이 요 와썹"});
+            api.sendResponse(event, {"text":"안녕! 난 설대봇이라고 해. 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
             callback(null);
           }
         ];
@@ -56,7 +58,53 @@ function registerUser(event) {
   }
 }
 
+// 이름이 확실히 맞는지에 대한 확인 단계
 function register1(event) {
+  if (event.message.text == "응"){
+    var task = [
+      function(callback){
+        connection.query('UPDATE Users SET conv_context="checkSchool" WHERE user_id=' + event.sender.id);
+        callback(null, 'done');
+      },
+      function(err, callback){
+        api.sendResponse(event, {"text":"오키! 학교는 서울대 다니는거구?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+        // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
+        callback(null);
+      }
+    ]
+  } else {
+    var task = [
+      function(callback){
+        connection.query('UPDATE Users SET conv_context="changeName1" WHERE user_id=' + event.sender.id);
+        callback(null, 'done');
+      },
+      function(err, callback){
+        api.sendResponse(event, {"text":"미안... 내가 실수했나 보네ㅠㅠ 그럼 이름이 뭐야? \n(내가 불러줬으면 하는 대로 이름만!! 쳐줘!)"});
+        callback(null);
+      }
+    ]
+  }
+  async.waterfall(task);
+}
+
+//이름에 문제가 있을 시 수정하는 단계
+function changeName1(event) {
+  var task = [
+    function(callback) {
+      connection.query('UPDATE Users SET conv_context="register1" WHERE user_id=' + event.sender.id);
+      connection.query('UPDATE Users SET first_name=' + '"' + event.message.text + '"' + ' WHERE user_id=' + event.sender.id);
+      callback(null, 'done');
+    },
+    function(err, callback) {
+        api.sendResponse(event, {"text":"오키 그럼 " + event.message.text + "(이)라고 부르면 돼?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+        callback(null);
+    }
+  ]
+  async.waterfall(task);
+}
+
+// 기존 register1 (학교 서울대 맞아? 에 대한 대답.)
+function checkSchool(event) {
   if (event.message.text == "응"){
     var task = [
       function(callback){
@@ -78,7 +126,7 @@ function register1(event) {
         callback(null, 'done');
       },
       function(err, callback){
-        api.sendResponse(event, {"text":"그럼 너희 학교 담당 봇한테 가!"});
+        api.sendResponse(event, {"text":"앗 그렇구나! 내가 너네 학교 봇이 있는지 알아보고 소개해줄게!"});
         callback(null);
       }
     ]
@@ -112,7 +160,63 @@ module.exports = {
     "register1": register1,
     "register2": register2,
     "notStudent": notStudent,
+    "changeName1": changeName1,
+    "checkSchool": checkSchool,
     //temporary additions
     "메뉴": register2
   }
 }
+
+//css / json data from the html file
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'webviews')));
+
+// webview URLs
+app.get('/register', function(req, res){
+  res.sendFile(path.join(__dirname + '/webviews/registration.html'));
+})
+
+app.post('/register/new_user', function(req, res){
+    console.log("REGISTRATION NEW: ");
+    console.log(req.body);
+    res.status(200).end();
+    // res.render('register-success', {data = req.body});
+});
+
+app.post('/register/re_user', function(req, res){
+    console.log("REGISTRATION RE: ");
+    console.log(req.body);
+    res.status(200).end();
+    // res.render('register-success', {data = req.body});
+});
+
+
+// 기존 register1 (학교 서울대 맞아? 에 대한 대답.)
+// function register1(event) {
+//   if (event.message.text == "응"){
+//     var task = [
+//       function(callback){
+//         connection.query('UPDATE Users SET conv_context="register2" WHERE user_id=' + event.sender.id);
+//         callback(null, 'done');
+//       },
+//       function(err, callback){
+//         api.sendResponse(event, {"text":"무슨 과?"});
+//         // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
+//         callback(null);
+//       }
+//     ]
+//   } else {
+//     var task = [
+//       function(callback){
+//         connection.query('UPDATE Users SET conv_context="notStudent" WHERE user_id=' + event.sender.id);
+//         callback(null, 'done');
+//       },
+//       function(err, callback){
+//         api.sendResponse(event, {"text":"그럼 너희 학교 담당 봇한테 가!"});
+//         callback(null);
+//       }
+//     ]
+//   }
+//   async.waterfall(task);
+// }
