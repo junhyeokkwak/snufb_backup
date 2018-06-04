@@ -102,7 +102,7 @@ function handleWebview(event, title, url, size) {
               ],
               //"subtitle":"let's go!",
               "title":"밑의 주소로 들어가서 등록해줘!"
-              "image_url": 'http://mblogthumb3.phinf.naver.net/20150828_254/pcrht_14407698481174iaCv_PNG/Screenshot_2015-08-28-18-03-41_edit.png?type=w2',
+              "image_url": 'http://www.example.com',
               "item_url": url,
               "webview_height_ratio": size,
             }],
