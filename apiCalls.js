@@ -100,7 +100,7 @@ function handleWebview(event, title, url, size) {
                   "webview_height_ratio": size,
                 },
               ],
-              "image_url": __dirname + '/ewha_mascot.jpg',
+              "image_url": 'http://mblogthumb3.phinf.naver.net/20150828_254/pcrht_14407698481174iaCv_PNG/Screenshot_2015-08-28-18-03-41_edit.png?type=w2',
               "item_url": url,
               //"subtitle":"let's go!",
               "title":"밑의 주소로 들어가서 등록해줘!"
