@@ -96,7 +96,7 @@ function changeName1(event) {
       callback(null, 'done');
     },
     function(err, callback) {
-        api.sendResponse(event, {"text":"오키 그럼 " + event.message.text + "라고 부르면 돼?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+        api.sendResponse(event, {"text":"오키 그럼 " + event.message.text + "(이)라고 부르면 돼?", "quick_replies": qr.reply_arrays["YesOrNo"]});
         callback(null);
     }
   ]
