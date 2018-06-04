@@ -82,7 +82,7 @@ function handleRestaurantWebview(event, titleMessage, url, buttonMessage) {
     callSendAPI(messageData);
 }
 
-function handleWebview(event, title, url) {
+function handleWebview(event, title, url, size) {
   var senderID = event.sender.id;
     let messageData = {
       recipient: {
@@ -97,13 +97,13 @@ function handleWebview(event, title, url) {
                   "title":title,
                   "type":"web_url",
                   "url":url,
-                  "webview_height_ratio":"compact"
+                  "webview_height_ratio": size,
                 },
               ],
-              "image_url": "http://www.example.com/image.png",
-              "item_url": "http://www.example.com",
-              "subtitle":"let's go!",
-              "title":"Some URL"
+              // "image_url": "http://www.example.com/image.png",
+              // "item_url": "http://www.example.com",
+              // "subtitle":"let's go!",
+              // "title":"Some URL"
             }],
             "template_type":"generic"
           },
