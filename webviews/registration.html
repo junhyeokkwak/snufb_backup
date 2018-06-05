@@ -16,7 +16,6 @@
        });
        FB.AppEvents.logPageView();
      };
-
     var user_psid;
    (function(d, s, id){
      var js, fjs = d.getElementsByTagName(s)[0];
@@ -39,6 +38,7 @@
        MessengerExtensions.getContext('2169355909963830',
          function success(result){
            user_psid = result.psid;
+           initInput(user_psid);
            // alert("Success: "+ result.psid);
            console.log("Success: "+ result.psid);
          },
@@ -65,7 +65,7 @@
    function sendUserInfo() {
        // document.write(user_psid);
    }
-   function initInput() {
+   function initInput(user_psid) {
     	document.forms[0].user_psid.value = user_psid;
     }
   </script>
