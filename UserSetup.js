@@ -138,11 +138,10 @@ function register2(event) {
   var task = [
     function(callback){
       connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-      connection.query('UPDATE Users SET college_major=' + '"' + event.message.text + '"' + ' WHERE user_id=' + event.sender.id);
       callback(null, 'done');
     },
     function(err, callback){
-      api.sendResponse(event, {"text":"문송하네.. ㅠㅠ 뭐 쨌든 나는 캠퍼스 최고의 인싸 (이름)이야.\n너가 조언을 구하거나 만나고 싶은 사람이 있다면 말만 해! 소개시켜줄게 :~)",
+      api.sendResponse(event, {"text":"그럼 이제 내 소개를 해볼까? 나는 자타공인 우리 대학교 최고 인싸, 칼답을 자랑하는 이대봇이라고 해!\n학식 메뉴, 학교 주변 맛집, 교통 정보을 알려주는 것부터 학교 내 다른 사람과 연결시켜 주는 것까지 못하는게 없다구! 그럼 오늘은 뭘 도와줄까?",
         "quick_replies": qr.reply_arrays["Menu"]});
       callback(null);
     }
