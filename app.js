@@ -112,15 +112,8 @@ app.post('/webhook', function (req, res) {
                 apiaiSession.end();
               }
             } else {
-              if (event.message.text == 'TEST REGI'){
-                console.log('SET CONV CONT: register1');
-                connection.query('UPDATE Users SET conv_context="register1" WHERE user_id=' + event.sender.id);
-                console.log('Conv Context: ' + result[0].conv_context);
-                callback(null, functionSheet[result[0].conv_context]);
-              } else {
-                console.log('TO registerUser');
-                callback(null, functionSheet["registerUser"]);  
-              }
+              console.log('TO registerUser');
+              callback(null, functionSheet["registerUser"]);
             }
           },
           function(execute, callback){

@@ -28,7 +28,7 @@
 
    window.extAsyncInit = function () {
        var isSupported = MessengerExtensions.isInExtension();
-       alert(isSupported);
+       //alert(isSupported);
        // the Messenger Extensions JS SDK is done loading
        // MessengerExtensions.requestCloseBrowser(function success() {
        //     console.log("closing success");
@@ -62,24 +62,12 @@
    //     }
    //   )
    // }
+   function sendUserInfo() {
+       document.write(user_psid);
+       
+   }
   </script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script>
-        function sendUserInfo(){
-            var formData = JSON.stringify($(user_psid).serializeArray());
-            $.ajax({
-                type: "POST",
-                url:"http://localhost:3000/test",
-                data: formData,
-                sucess: function(){
-                    alert("something!");
-                },
-                error: function(textstatus, errorThrown) {
-                    alert('text status ' + textstatus + ', err ' + errorThrown);
-                }
-            });
-        }
-        </script>
+
   <div class = "login-page">
     <div class = "form">
       <form class = "register-form" id = "register-form" method = "post" action="/register/new_user">
