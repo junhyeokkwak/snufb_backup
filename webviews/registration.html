@@ -49,27 +49,44 @@
        );
      };
    // function windowClose() { window.open('','_parent',''); window.close();}
-   function sendUserInfo(){
-     console.log("USER PSID: " + user_psid);
-     alert("sendUserInfo Success: " + user_psid);
-     var url = process.env.HEROKU_URL + "/register/user_info";
-     var messageData = { json: { "user_psid" : user_psid }};
-     request.post(url, messageData,
-       funtion (err, response, body) {
-         if (!err && response.statusCode == 200){
-           console.log(body);
-         }
-       }
-     )
-   }
+   // function sendUserInfo(){
+   //   console.log("USER PSID: " + user_psid);
+   //   alert("sendUserInfo Success: " + user_psid);
+   //   var url = process.env.HEROKU_URL + "/register/user_info";
+   //   var messageData = { json: { "user_psid" : user_psid }};
+   //   request.post(url, messageData,
+   //     funtion (err, response, body) {
+   //       if (!err && response.statusCode == 200){
+   //         console.log(body);
+   //       }
+   //     }
+   //   )
+   // }
   </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script>
+        function sendUserInfo(){
+            var formData = JSON.stringify($(user_psid).serializeArray());
+            $.ajax({
+                type: "POST",
+                url:"http://localhost:3000/test",
+                data: formData,
+                sucess: function(){
+                    alert("something!");
+                },
+                error: function(textstatus, errorThrown) {
+                    alert('text status ' + textstatus + ', err ' + errorThrown);
+                }
+            });
+        }
+        </script>
   <div class = "login-page">
     <div class = "form">
       <form class = "register-form" id = "register-form" method = "post" action="/register/new_user">
       <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
       <input name = "newRegiClass" type="text" placeholder="학번"/>
-      <input class = "submit" type = "submit" value="새로 등록">
-      <button onclick="sendUserInfo()"> TESTER</button>
+      <input class = "submit" type = "submit" value="새로 등록" onclick="sendUserInfo()">
+      <button onclick="sendUserInfo()">TESTER</button>
 <!--       <input type="text" placeholder="기타?"/> -->
 <!--       <button onclick="newRegi()">등록</button> -->
       <p class = "message">이미 등록되어 있어?
