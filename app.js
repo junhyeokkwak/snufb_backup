@@ -83,7 +83,14 @@ app.post('/webhook', function (req, res) {
                 if (event.message.text == 'RESET') {
                   callback(null, functionSheet["RESET"]);
                   console.log('Conv Context: ' + result[0].conv_context);
-                } else {
+                }
+                // else if ((event.message.text.length > 12) && (event.message.text.substr(0,12) == 'SET CONV CON:')) {
+                //   var newConvContext = event.message.text.substr(12,event.message.text.length);
+                //   connection.query('UPDATE Users SET conv_context="'+ newConvContext +'" WHERE user_id=' + event.sender.id);
+                //   callback(null, functionSheet[newConvContext]);
+                //   console.log('Conv Context: ' + result[0].conv_context);
+                // }
+                else {
                   callback(null, functionSheet[result[0].conv_context]);
                 }
               } else {
