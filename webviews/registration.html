@@ -49,22 +49,7 @@
        );
      };
    // function windowClose() { window.open('','_parent',''); window.close();}
-   // function sendUserInfo(){
-   //   console.log("USER PSID: " + user_psid);
-   //   alert("sendUserInfo Success: " + user_psid);
-   //   var url = process.env.HEROKU_URL + "/register/user_info";
-   //   var messageData = { json: { "user_psid" : user_psid }};
-   //   request.post(url, messageData,
-   //     funtion (err, response, body) {
-   //       if (!err && response.statusCode == 200){
-   //         console.log(body);
-   //       }
-   //     }
-   //   )
-   // }
-   function sendUserInfo() {
-       // document.write(user_psid);
-   }
+
    function initInput(user_psid) {
     	document.forms[0].user_psid.value = user_psid;
     }
