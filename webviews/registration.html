@@ -6,7 +6,7 @@
   <title>hoomba</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body onLoad="initInput()">
   <script>
     window.fbAsyncInit = function() {
        FB.init({
@@ -65,16 +65,19 @@
    function sendUserInfo() {
        // document.write(user_psid);
    }
+   function initInput() {
+    	document.forms[0].user_psid.value = user_psid;
+    }
   </script>
 
   <div class = "login-page">
     <div class = "form">
       <form class = "register-form" id = "register-form" method = "post" action="/register/new_user">
-      <input name="user_psid" type="hidden" value=user_psid />
+      <input name="user_psid" type="hidden" value="" />
       <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
       <input name = "newRegiClass" type="text" placeholder="학번"/>
       <input class = "submit" type = "submit" value="새로 등록">
-      <button onclick="sendUserInfo()">TESTER</button>
+      <!-- <button onclick="sendUserInfo()">TESTER</button> -->
 <!--       <input type="text" placeholder="기타?"/> -->
 <!--       <button onclick="newRegi()">등록</button> -->
       <p class = "message">이미 등록되어 있어?
