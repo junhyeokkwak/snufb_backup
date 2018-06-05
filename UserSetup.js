@@ -138,6 +138,7 @@ function register2(event) {
   var task = [
     function(callback){
       connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+      console.log(connection.query('SELECT user_id WHERE'+ event.sender.id));
       callback(null, 'done');
     },
     function(err, callback){
