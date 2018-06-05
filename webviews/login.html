@@ -43,16 +43,16 @@
          }
        );
      };
-   function windowClose() { window.open('','_parent',''); window.close();}
+   // function windowClose() { window.open('','_parent',''); window.close();}
    function sendUserInfo(){
      console.log("USER PSID: " + user_psid);
      alert("sendUserInfo Success: " + user_psid);
    }
   </script>
-  
+  <!--
   <form action='submit'>
     <input type="button" value="CLOSE BUTTON" onclick="windowClose();">
-  </form>
+  </form> -->
 
   <form action='submit'>
     <input type="button" value="SEND USER INFO BUTTON" onclick="sendUserInfo();">
