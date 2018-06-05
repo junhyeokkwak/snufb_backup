@@ -172,6 +172,10 @@ app.get('/register', function(req, res){
 app.post('/register/new_user', function(req, res){
     console.log("REGISTRATION NEW: ");
     console.log(req.body);
+    // update SQL database
+  //  req.body.newMajor
+    //  connection.query('UPDATE Users SET college_major="' + req.body.newRegiMajor + '" WHERE user_id=' + event.sender.id);
+    // connection.query('UPDATE Users SET student_number="' + req.body.newRegiClass + '" WHERE user_id=' + event.sender.id);
     res.status(200).end();
     // res.render('register-success', {data = req.body});
 });
