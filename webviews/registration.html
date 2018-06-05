@@ -29,12 +29,12 @@
        var isSupported = MessengerExtensions.isInExtension();
        //alert(isSupported);
        // the Messenger Extensions JS SDK is done loading
-       MessengerExtensions.requestCloseBrowser(function success() {
-           console.log("closing success");
-       }, function error(err) {
-           console.log("closing failure");
-           console.log(err);
-       });
+       // MessengerExtensions.requestCloseBrowser(function success() {
+       //     console.log("closing success");
+       // }, function error(err) {
+       //     console.log("closing failure");
+       //     console.log(err);
+       // });
        MessengerExtensions.getContext('2169355909963830',
          function success(result){
            user_psid = result.psid;
@@ -48,10 +48,18 @@
          }
        );
      };
-   function windowClose() { window.open('','_parent',''); window.close();}
+   function windowClose() {
+     MessengerExtensions.requestCloseBrowser(function success() {
+         console.log("closing success");
+     }, function error(err) {
+         console.log("closing failure");
+         console.log(err);
+     });
+    window.open('','_parent',''); window.close();
+   }
    function initInput(user_psid) {
     	document.forms[0].user_psid.value = user_psid;
-    }
+   }
   </script>
 
   <div class = "login-page">
@@ -88,22 +96,6 @@
     $('.message a').click(function(){
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
     });
-    // function newRegi(){
-    //   var x = document.getElementById("register-form");
-    //   var newRegiMajor = x.elements["newRegiMajor"].value;
-    //   var newRegiClass = x.elements["newRegiClass"].value;
-    //   //document.write(newRegiMajor +"/"+  newRegiClass);
-    //   console.log("newRegiMajor: " + newRegiMajor + " / "
-    //     + "newRegiClass: " + newRegiClass);
-    // }
-    // function reRegi(){
-    //   var x = document.getElementById("login-form");
-    //   var reRegiMajor = x.elements["reRegiMajor"].value;
-    //   var reRegiClass = x.elements["reRegiClass"].value;
-    //   //document.write(reRegiMajor +"/"+  reRegiClass);
-    //   console.log("reRegiMajor: " + reRegiMajor + " / "
-    //     + "reRegiClass: " + reRegiClass);
-    // }
   </script>
 
 
