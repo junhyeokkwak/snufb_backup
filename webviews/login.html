@@ -13,23 +13,51 @@
     //    fjs.parentNode.insertBefore(js, fjs);
     //  }(document, 'script', 'facebook-jssdk'));
 
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'Messenger'));
+    // (function(d, s, id){
+    //   var js, fjs = d.getElementsByTagName(s)[0];
+    //   if (d.getElementById(id)) {return;}
+    //   js = d.createElement(s); js.id = id;
+    //   js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+    //   fjs.parentNode.insertBefore(js, fjs);
+    // }(document, 'script', 'Messenger'));
 
     window.fbAsyncInit = function() {
        FB.init({
          appId      : '2169355909963830',
          xfbml      : true,
-         version    : 'v2.9'
+         version    : 'v2.11'
        });
        FB.AppEvents.logPageView();
      };
 
+    var user_psid;
+   (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'Messenger'));
+
+   window.extAsyncInit = function () {
+       var isSupported = MessengerExtensions.isInExtension();
+       alert(isSupported);
+       // the Messenger Extensions JS SDK is done loading
+       MessengerExtensions.getContext('2169355909963830',
+         function success(result){
+           user_psid = result.psid;
+           alert("Success: "+ result.psid);
+         },
+         function error(result){
+           alert("FAIL: " + JSON.stringify(result));
+         }
+       );
+     };
+
+   function sendUserInfo(){
+     console.log("USER PSID: " + user_psid);
+     alert("sendUserInfo Success: " + user_psid);
+   }
   </script>
 
   <!-- <script language="javascript" type="text/javascript">
@@ -44,33 +72,33 @@
   </form>
 
   <script>
-    var user_psid;
-    window.extAsyncInit = function() {
-      // the Messenger Extensions JS SDK is done loading
-        console.log("hello");
-        // MessengerExtensions.requestCloseBrowser(function success() {
-        //     console.log("closing success");
-        // }, function error(err) {
-        //     console.log("closing failure");
-        //     console.log(err);
-        // });
-        MessengerExtensions.getContext('2169355909963830',
-          function success(thread_context){
-            user_psid = result.psid;
-            alert("getContext Success: " + user_psid);
-            // console.log("sending success");
-          },
-          function error(err){
-            alert(JSON.stringify(result))
-            // console.log("sending failure");
-            console.log(err);
-          }
-        );
-    };
-    function sendUserInfo(){
-      console.log("USER PSID: " + user_psid);
-      alert("sendUserInfo Success: " + user_psid);
-    }
+    // var user_psid;
+    // window.extAsyncInit = function() {
+    //   // the Messenger Extensions JS SDK is done loading
+    //     console.log("hello");
+    //     // MessengerExtensions.requestCloseBrowser(function success() {
+    //     //     console.log("closing success");
+    //     // }, function error(err) {
+    //     //     console.log("closing failure");
+    //     //     console.log(err);
+    //     // });
+    //     MessengerExtensions.getContext('2169355909963830',
+    //       function success(thread_context){
+    //         user_psid = result.psid;
+    //         alert("getContext Success: " + user_psid);
+    //         // console.log("sending success");
+    //       },
+    //       function error(err){
+    //         alert(JSON.stringify(result))
+    //         // console.log("sending failure");
+    //         console.log(err);
+    //       }
+    //     );
+    // };
+    // function sendUserInfo(){
+    //   console.log("USER PSID: " + user_psid);
+    //   alert("sendUserInfo Success: " + user_psid);
+    // }
   </script>
 
 </body>
