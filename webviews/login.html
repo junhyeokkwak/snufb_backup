@@ -5,22 +5,6 @@
     </head>
 <body>
   <script>
-    // (function(d, s, id){
-    //    var js, fjs = d.getElementsByTagName(s)[0];
-    //    if (d.getElementById(id)) {return;}
-    //    js = d.createElement(s); js.id = id;
-    //    js.src = "//connect.facebook.net/en_US/sdk.js";
-    //    fjs.parentNode.insertBefore(js, fjs);
-    //  }(document, 'script', 'facebook-jssdk'));
-
-    // (function(d, s, id){
-    //   var js, fjs = d.getElementsByTagName(s)[0];
-    //   if (d.getElementById(id)) {return;}
-    //   js = d.createElement(s); js.id = id;
-    //   js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
-    //   fjs.parentNode.insertBefore(js, fjs);
-    // }(document, 'script', 'Messenger'));
-
     window.fbAsyncInit = function() {
        FB.init({
          appId      : '2169355909963830',
@@ -43,6 +27,12 @@
        var isSupported = MessengerExtensions.isInExtension();
        alert(isSupported);
        // the Messenger Extensions JS SDK is done loading
+       MessengerExtensions.requestCloseBrowser(function success() {
+           console.log("closing success");
+       }, function error(err) {
+           console.log("closing failure");
+           console.log(err);
+       });
        MessengerExtensions.getContext('2169355909963830',
          function success(result){
            user_psid = result.psid;
@@ -53,19 +43,16 @@
          }
        );
      };
-
+   function windowClose() { window.open('','_parent',''); window.close();}
    function sendUserInfo(){
      console.log("USER PSID: " + user_psid);
      alert("sendUserInfo Success: " + user_psid);
    }
   </script>
-
-  <!-- <script language="javascript" type="text/javascript">
-    function windowClose() { window.open('','_parent',''); window.close();}
-  </script>
+  
   <form action='submit'>
     <input type="button" value="CLOSE BUTTON" onclick="windowClose();">
-  </form> -->
+  </form>
 
   <form action='submit'>
     <input type="button" value="SEND USER INFO BUTTON" onclick="sendUserInfo();">
