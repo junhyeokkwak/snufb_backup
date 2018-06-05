@@ -30,12 +30,12 @@
        var isSupported = MessengerExtensions.isInExtension();
        alert(isSupported);
        // the Messenger Extensions JS SDK is done loading
-       MessengerExtensions.requestCloseBrowser(function success() {
-           console.log("closing success");
-       }, function error(err) {
-           console.log("closing failure");
-           console.log(err);
-       });
+       // MessengerExtensions.requestCloseBrowser(function success() {
+       //     console.log("closing success");
+       // }, function error(err) {
+       //     console.log("closing failure");
+       //     console.log(err);
+       // });
        MessengerExtensions.getContext('2169355909963830',
          function success(result){
            user_psid = result.psid;
