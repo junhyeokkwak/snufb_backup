@@ -49,7 +49,7 @@
        );
      };
    function sendBye() {
-
+     document.write("fuckoff");
    }
    function closeWindow() {
      MessengerExtensions.requestCloseBrowser(function success() {
@@ -71,7 +71,7 @@
       <input name="user_psid" type="hidden" value="" />
       <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
       <input name = "newRegiClass" type="text" placeholder="학번"/>
-      <input class = "trans" type = "submit" value="새로 등록">
+      <input class = "trans" type = "submit" value="새로 등록" onclick="sendBye()">
       <!-- <p class = "message">이미 등록되어 있어?
         <a href="#"> 새 정보로 다시 등록 </a>
       </p> -->
@@ -87,24 +87,24 @@
       </p>
       </form> -->
 
-      <form class="login-form" id = "login-form" href="#">
+      <!-- <form class="login-form" id = "login-form" href="#">
         <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
         <input name = "newRegiClass" type="text" placeholder="학번"/>
         <input class = "trans" type = "submit" value="새로 등록">
-      </form>
+      </form> -->
 
     </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script>
-    // $('.message a').click(function(){
-    // $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
-    // });
-
-    $('.trans').click(function(){
+    $('.message a').click(function(){
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
     });
+
+    // $('.trans').click(function(){
+    // $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
+    // });
   </script>
 
 
