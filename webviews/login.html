@@ -35,12 +35,17 @@
   <script language="javascript" type="text/javascript">
     function windowClose() { window.open('','_parent',''); window.close();}
   </script>
+  <form action='submit'>
+    <input type="button" value="CLOSE BUTTON" onclick="windowClose();">
+  </form>
+
 
   <form action='submit'>
-    <input type="button" value="OK!" onclick="windowClose();">
+    <input type="button" value="SEND USER INFO BUTTON" onclick="sendUserInfo();">
   </form>
 
   <script>
+    var user_psid;
     window.extAsyncInit = function() {
       // the Messenger Extensions JS SDK is done loading
         console.log("hello");
@@ -50,7 +55,24 @@
             console.log("closing failure");
             console.log(err);
         });
+        MessengerExtensions.getContext('2169355909963830',
+          function success(thread_context){
+            user_psid = result.psid;
+            alert("getContext Success: " + user_psid);
+            // console.log("sending success");
+          },
+          function error(err){
+            alert(JSON.stringify(result))
+            // console.log("sending failure");
+            console.log(err);
+          }
+        );
     };
+    function sendUserInfo(){
+      console.log("USER PSID: " + user_psid);
+      alert("sendUserInfo Success: " + user_psid);
+    }
   </script>
+
 </body>
 </html>
