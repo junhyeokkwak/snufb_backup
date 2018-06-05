@@ -52,7 +52,7 @@ function Josa(txt, josa){
 function testWebview(event){
   console.log("RUN testWebview");
   var title = "TEST";
-  var url = process.env.HEROKU_URL + '/login';
+  var url = process.env.HEROKU_URL + '/register';
   var size = "tall";
   api.handleWebview(event, title, url, size)
 }
