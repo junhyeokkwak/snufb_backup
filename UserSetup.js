@@ -103,7 +103,7 @@ function changeName1(event) {
   async.waterfall(task);
 }
 
-// 기존 register1 (학교 서울대 맞아? 에 대한 대답.)
+// 학과 학번 웹뷰 띄우는 부분 (학교 서울대 맞아? 에 대한 대답으로 시작.)
 function checkSchool(event) {
   if (event.message.text == "응"){
     var task = [
@@ -114,6 +114,7 @@ function checkSchool(event) {
       function(err, callback){
         api.sendResponse(event, {"text":"무슨 과?"});
         var title = "등록하기!";
+        // var url = process.env.HEROKU_URL + "/register";
         var url = process.env.HEROKU_URL + "/register";
         api.handleWebview(event, title, url);
         callback(null);
