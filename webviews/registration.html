@@ -7,55 +7,13 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<!--   <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '190425794950879',
-        //cookie     : true,
-        xfbml      : true,
-        version    : 'v2.11'
-      });
-
-      //FB.AppEvents.logPageView();
-
-      FB.getLoginStatus(function(response) {
-        if (response.status === 'connected') {
-          getElementById('status').innerHTML = "we are connected";
-        } else if (response.status === 'no_authorized') {
-          getElementById('status').innerHTML = "we are not connected";
-        }
-      });
-
-    };
-
-    (function(d, s, id){
-       var js, fjs = d.getElementsByTagName(s)[0];
-       if (d.getElementById(id)) {return;}
-       js = d.createElement(s); js.id = id;
-       js.src = "https://connect.facebook.net/en_US/sdk.js";
-       fjs.parentNode.insertBefore(js, fjs);
-     }(document, 'script', 'facebook-jssdk'));
-
-    function statusChangeCallback(response){
-      if (response.status === 'connected'){
-        console.log('logged in authenticated');
-        document.getElementById('status').innerHTML = "LOGGED IN";
-      } else {
-        console.log('logged in not authenticated');
-        document.getElementById('status').innerHTML = "NOT LOGGED IN";
-      }
-    }
-
-    function checkLoginState() {
-      FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-      });
-    }
-  </script>
- -->
   <div class = "login-page">
     <div class = "form">
       <form class = "register-form" id = "register-form" method = "post" action="/register/new_user">
+        <!-- <select>
+          <option>두둠칫
+          <option>두둠칫
+        </select> -->
       <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
       <input name = "newRegiClass" type="text" placeholder="학번"/>
       <input class = "submit" type = "submit" value="새로 등록">
@@ -86,26 +44,42 @@
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
     });
 
-    function newRegi(){
-      var x = document.getElementById("register-form");
-      var newRegiMajor = x.elements["newRegiMajor"].value;
-      var newRegiClass = x.elements["newRegiClass"].value;
-      //document.write(newRegiMajor +"/"+  newRegiClass);
-      console.log("newRegiMajor: " + newRegiMajor + " / "
-        + "newRegiClass: " + newRegiClass);
-    }
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/messenger.Extensions.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
 
-    function reRegi(){
-      var x = document.getElementById("login-form");
-      var reRegiMajor = x.elements["reRegiMajor"].value;
-      var reRegiClass = x.elements["reRegiClass"].value;
-      //document.write(reRegiMajor +"/"+  reRegiClass);
-      console.log("reRegiMajor: " + reRegiMajor + " / "
-        + "reRegiClass: " + reRegiClass);
-    }
+    MessengerExtensions.getContext('YOUR_APP_ID',
+      function success(thread_context){
+        console.log("USERPSID");
+        console.log(thread_context);
+        // success
+      },
+      function error(err){
+        // error
+      }
+    );
 
+    // function newRegi(){
+    //   var x = document.getElementById("register-form");
+    //   var newRegiMajor = x.elements["newRegiMajor"].value;
+    //   var newRegiClass = x.elements["newRegiClass"].value;
+    //   //document.write(newRegiMajor +"/"+  newRegiClass);
+    //   console.log("newRegiMajor: " + newRegiMajor + " / "
+    //     + "newRegiClass: " + newRegiClass);
+    // }
+    //
+    // function reRegi(){
+    //   var x = document.getElementById("login-form");
+    //   var reRegiMajor = x.elements["reRegiMajor"].value;
+    //   var reRegiClass = x.elements["reRegiClass"].value;
+    //   //document.write(reRegiMajor +"/"+  reRegiClass);
+    //   console.log("reRegiMajor: " + reRegiMajor + " / "
+    //     + "reRegiClass: " + reRegiClass);
+    // }
   </script>
-
-
 </body>
 </html>

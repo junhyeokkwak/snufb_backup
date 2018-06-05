@@ -142,8 +142,6 @@ function Josa(txt, josa){
   }
 }
 
-//function sortByCriterion(arr, criteria)
-
 module.exports = {
   functionMatch: {
     "배고파": initRestaurantConv,

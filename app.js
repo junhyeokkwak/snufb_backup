@@ -150,7 +150,14 @@ app.use(express.static(path.join(__dirname, 'webviews')));
 // webview URLs
 app.get('/register', function(req, res){
   res.sendFile(path.join(__dirname + '/webviews/registration.html'));
-})
+});
+
+app.post('/register/user_psid', function(req, res){
+    console.log("REGISTRATION USER PSID: ");
+    console.log(req.body);
+    res.status(200).end();
+    // res.render('register-success', {data = req.body});
+});
 
 app.post('/register/new_user', function(req, res){
     console.log("REGISTRATION NEW: ");
