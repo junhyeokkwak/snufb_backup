@@ -52,7 +52,7 @@
    function sendUserInfo(){
      console.log("USER PSID: " + user_psid);
      alert("sendUserInfo Success: " + user_psid);
-     var url = process.env.HEROKU_URL + "/register";
+     var url = process.env.HEROKU_URL + "/register/user_info";
      var messageData = { json: { "user_psid" : user_psid }};
      request.post(url, messageData,
        funtion (err, response, body) {

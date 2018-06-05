@@ -168,7 +168,7 @@ app.get('/login', function(req, res){
 app.get('/register', function(req, res){
   res.sendFile(path.join(__dirname + '/webviews/registration.html'));
 });
-app.post('/register/user_psid', function(req, res){
+app.post('/register/user_info', function(req, res){
     console.log("REGISTRATION USER PSID: ");
     console.log(req.body);
     res.status(200).end();
