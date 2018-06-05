@@ -138,7 +138,7 @@ function register2(event) {
   var task = [
     function(callback){
       connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-      api.sendResponse(event, {"text":"그럼 이제 내 소개를 해볼까?"}
+      api.sendResponse(event, {"text":"그럼 이제 내 소개를 해볼까?"};
 
       callback(null, 'done');
     },
