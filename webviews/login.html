@@ -32,13 +32,12 @@
 
   </script>
 
-  <script language="javascript" type="text/javascript">
+  <!-- <script language="javascript" type="text/javascript">
     function windowClose() { window.open('','_parent',''); window.close();}
   </script>
   <form action='submit'>
     <input type="button" value="CLOSE BUTTON" onclick="windowClose();">
-  </form>
-
+  </form> -->
 
   <form action='submit'>
     <input type="button" value="SEND USER INFO BUTTON" onclick="sendUserInfo();">
@@ -49,12 +48,12 @@
     window.extAsyncInit = function() {
       // the Messenger Extensions JS SDK is done loading
         console.log("hello");
-        MessengerExtensions.requestCloseBrowser(function success() {
-            console.log("closing success");
-        }, function error(err) {
-            console.log("closing failure");
-            console.log(err);
-        });
+        // MessengerExtensions.requestCloseBrowser(function success() {
+        //     console.log("closing success");
+        // }, function error(err) {
+        //     console.log("closing failure");
+        //     console.log(err);
+        // });
         MessengerExtensions.getContext('2169355909963830',
           function success(thread_context){
             user_psid = result.psid;
