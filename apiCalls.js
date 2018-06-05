@@ -98,6 +98,7 @@ function handleWebview(event, title, url, size) {
                   "type":"web_url",
                   "url":url,
                   "webview_height_ratio": size,
+                  "messenger_extensions" : true,
                 },
               ],
               "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34049719_564306210636936_4075070764355682304_n.jpg?_nc_cat=0&oh=4e784791b00ee0a2dc92482deddf8df2&oe=5BB4EDBE',
