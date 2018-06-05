@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Login to See Leaderboard </title>
+    </head>
+<body>
+  <script>
+   window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '2169355909963830',
+        xfbml      : true,
+        version    : 'v2.9'
+      });
+      FB.AppEvents.logPageView();
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+  </script>
+  <p>Successfully linked account!</p>
+
+  <script language="javascript" type="text/javascript">
+    function windowClose() { window.open('','_parent',''); window.close();}
+  </script>
+
+  <form action='submit'>
+    <input type="button" value="OK!" onclick="windowClose();">
+  </form>
+
+  <script>
+    window.extAsyncInit = function() {
+      // the Messenger Extensions JS SDK is done loading
+        console.log("hello");
+        MessengerExtensions.requestCloseBrowser(function success() {
+            console.log("closing success");
+        }, function error(err) {
+            console.log("closing failure");
+            console.log(err);
+        });
+    };
+  </script>
+</body>
+</html>

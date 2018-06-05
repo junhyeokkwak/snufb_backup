@@ -159,31 +159,38 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'webviews')));
 
+//login
+app.get('/login', function(req, res){
+  res.sendFile(path.join(__dirname + '/webviews/login.html'));
+});
+
 // webview URLs
 app.get('/register', function(req, res){
   res.sendFile(path.join(__dirname + '/webviews/registration.html'));
 });
-
 app.post('/register/user_psid', function(req, res){
     console.log("REGISTRATION USER PSID: ");
     console.log(req.body);
     res.status(200).end();
     // res.render('register-success', {data = req.body});
 });
-
 app.post('/register/new_user', function(req, res){
     console.log("REGISTRATION NEW: ");
     console.log(req.body);
     res.status(200).end();
     // res.render('register-success', {data = req.body});
 });
-
 app.post('/register/re_user', function(req, res){
     console.log("REGISTRATION RE: ");
     console.log(req.body);
     res.status(200).end();
     // res.render('register-success', {data = req.body});
 });
+
+
+
+
+
 
 
 app.listen(app.get('port'), function () {

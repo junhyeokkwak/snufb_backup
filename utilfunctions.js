@@ -48,6 +48,15 @@ function Josa(txt, josa){
   }
 }
 //module.exports.Josa = Josa;
+
+function testWebview(event){
+  console.log("RUN testWebview");
+  var title = "TEST";
+  var url = process.env.HEROKU_URL + '/login';
+  var size = "tall";
+  api.handleWebview(event, title, url, size)
+}
+
 module.exports = {
     functionMatch: {
         "RESET" : reset,
