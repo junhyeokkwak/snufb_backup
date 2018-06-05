@@ -62,16 +62,19 @@
 
     window.extAsyncInit = function() {
       MessengerExtensions.getContext('2169355909963830', function(context) {
+        document.write("getContext() works");
         document.querySelector('.context').innerText = JSON.stringify(context, null, 2)
       })
     }
     function askPermission() {
       MessengerExtensions.askPermission(function(result) {
+        document.write("askPermission() works");
         document.querySelector('.perm').innerText = JSON.stringify(result, null, 2)
       }, function() {}, 'user_profile')
     }
     function beginShareFlow() {
       MessengerExtensions.beginShareFlow(function(result) {
+        document.write("beginShareFlow() works");
         document.querySelector('.share').innerText = JSON.stringify(result, null, 2)
       }, function() {}, {
         attachment: {
