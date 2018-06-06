@@ -75,29 +75,40 @@
      var regiMajor = document.forms[0].newRegiMajor.value;
      var regiClass = document.forms[0].newRegiClass.value;
      alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
-     //closeWindow();
+     closeWindow();
    }
 
    function endReRegi() {
      var regiMajor = document.forms[1].reRegiMajor.value;
      var regiClass = document.forms[1].reRegiClass.value;
      alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 수정됐어!\n 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
-     //closeWindow();
+     closeWindow();
    }
 
-   function closeWindow() {
-     MessengerExtensions.requestCloseBrowser(function success() {
-         console.log("closing success");
-     }, function error(err) {
-         console.log("closing failure");
-         console.log(err);
-     });
-    window.open('','_parent',''); window.close();
-   }
+    function closeWindow() {
+      var async = require('async');
+      var task = [
+        function(callback){
+            alert("HI")
+            callback(null, "done");
+        },
+        function(str, callback){
+          MessengerExtensions.requestCloseBrowser(function success() {
+             console.log("closing success");
+          }, function error(err) {
+             console.log("closing failure");
+             console.log(err);
+          });
+          window.open('','_parent',''); window.close();
+          callback(null);
+        }
+      ];
+      async.waterfall(task);
+    }
 
-   function initInput(user_psid) {
+    function initInput(user_psid) {
     	document.forms[0].user_psid.value = user_psid;
-   }
+    }
 
    // function swalTest() {
    //   swal("HI");
