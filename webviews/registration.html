@@ -52,11 +52,14 @@
        );
      };
    function sendBye() {
-     var regiMajor = document.forms[0].newRegiMajor.value;
-     var regiClass = document.forms[0].newRegiClass.value;
+     // var regiMajor = document.forms[0].newRegiMajor.value;
+     // var regiClass = document.forms[0].newRegiClass.value;
+     var regiMajor = "예시학과";
+     var regiClass = "예시학번";
      swal("학번: "+ regiClass + " / 전공: " + regiMajor, "사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?", "success");
      // alert("사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
-     closeWindow();
+     // closeWindow();
+
      // document.write("이 창은 3초뒤에 자동으로 닫혀!!");
      // setTimeout(function(){
      //   console.log('registration.html closed');
