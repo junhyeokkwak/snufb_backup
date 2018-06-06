@@ -49,12 +49,13 @@
        );
      };
    function sendBye() {
+     alert("사용자 정보가 등록됐어! 창은 3초 뒤에 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
      // document.write("이 창은 3초뒤에 자동으로 닫혀!!");
-     // setTimeout(function(){
-     //   console.log('registration.html closed');
-     //   closeWindow();
-     // }, 3000); //milliseconds!!!
-     window.location.pathname = "/login.html/";
+     setTimeout(function(){
+       console.log('registration.html closed');
+       closeWindow();
+     }, 3000); //milliseconds!!!
+     // window.location.pathname = "/login.html/";
    }
 
    function closeWindow() {
