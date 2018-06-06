@@ -3,18 +3,102 @@
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="utf-8">
-  <title>login.html</title>
+  <title>사용자 정보 등록</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <script>
-  var regiMajor = "예시학과";
-  var regiClass = "예시학번";
-  </script>
-  <button onclick="location.href='registration.html';">BUTTON</button>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- <script src="../node_modules/sweetalert/dist/sweetalert.min.js"></script> -->
+
+  <script>
+    window.fbAsyncInit = function() {
+       FB.init({
+         appId      : '2169355909963830',
+         xfbml      : true,
+         version    : 'v2.11'
+       });
+       FB.AppEvents.logPageView();
+     };
+    var user_psid;
+   (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'Messenger'));
+
+   window.extAsyncInit = function () {
+       var isSupported = MessengerExtensions.isInExtension();
+       //alert(isSupported);
+       // the Messenger Extensions JS SDK is done loading
+       MessengerExtensions.getContext('2169355909963830',
+         function success(result){
+           user_psid = result.psid;
+           initInput(user_psid);
+           //alert("Success: "+ result.psid);
+           console.log("Success: "+ result.psid);
+         },
+         function error(result){
+           swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ", "error");
+           // alert("ERR CODE: " + JSON.stringify(result));
+           console.log("FAIL: " + JSON.stringify(result));
+           // alert("FAIL: " + JSON.stringify(result));
+         }
+       );
+     };
+   function sendBye() {
+     // var regiMajor = document.forms[0].newRegiMajor.value;
+     // var regiClass = document.forms[0].newRegiClass.value;
+     alert("사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
+     // var regiMajor = "예시학과";
+     // var regiClass = "예시학번";
+     // swal("학번: "+ regiClass + " / 전공: " + regiMajor, "사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?", "success");
+     swal("HELLO")
+
+   function initInput(user_psid) {
+    	document.forms[0].user_psid.value = user_psid;
+   }
+  </script>
+
   <button onclick= 'swal("Oops!", "Something went wrong!", "error")'>SWEET ALERT TEST: Error</button>
-  <button onclick= 'swal("학번: "+ regiClass + " / 전공: " + regiMajor, "사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?", "success");'>SWEET ALERT TES: SuccessT</button>
+
+  <div class = "login-page">
+    <div class = "form" herf="#" href="#">
+      <form class = "register-form" id = "register-form" method = "post" action="/register/new_user">
+      <input name="user_psid" type="hidden" value="" />
+      <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
+      <input name = "newRegiClass" type="text" placeholder="학번"/>
+      <input class = "submit" type = "submit" value="새로 등록" onclick="sendBye()"/>
+      <p class = "message">이미 등록되어 있어?
+        <a href="#"> 새 정보로 다시 등록 </a>
+      </p>
+      </form>
+
+      <form class="login-form" id = "login-form" method = "post" action="/register/re_user">
+      <input name="user_psid" type="hidden" value="" />
+      <input name = "reRegiMajor" type="text" placeholder="전공학과"/>
+      <input name = "reRegiClass" type="text" placeholder="학번"/>
+      <input class = "submit" type = "submit" value="새정보로 다시 등록">
+      <p class = "message">아직 등록 안 되어있어?
+        <a href="#"> 신규 등록 </a>
+      </p>
+      </form>
+
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $('.message a').click(function(){
+    $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
+    });
+
+    // $('.trans').click(function(){
+    // $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
+    // });
+  </script>
+
+
 </body>
 </html>
