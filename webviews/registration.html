@@ -50,10 +50,11 @@
      };
    function sendBye() {
      document.write("이 창은 3초뒤에 자동으로 닫혀!!");
-     var closeTimer = setTimeout(function(){
+     setTimeout(function(){
+       console.log('registration.html closed');
        closeWindow();
+       // alert("close");
      }, 3000); //milliseconds!!!
-     clearTimeout(closeTimer);
    }
 
    function closeWindow() {
@@ -83,7 +84,7 @@
       </p>
       </form>
 
-      <!-- <form class="login-form" id = "login-form" method = "post" action="/register/re_user">
+      <form class="login-form" id = "login-form" method = "post" action="/register/re_user">
       <input name="user_psid" type="hidden" value="" />
       <input name = "reRegiMajor" type="text" placeholder="전공학과"/>
       <input name = "reRegiClass" type="text" placeholder="학번"/>
@@ -91,13 +92,6 @@
       <p class = "message">아직 등록 안 되어있어?
         <a href="#"> 신규 등록 </a>
       </p>
-      </form> -->
-
-      <form class="login-form" id = "login-form" method = "post" action = "/register/new_user_done">
-        <textarea>text</textarea>
-        <p class = "message">아직 등록 안 되어있어?
-          <a href="#"> 신규 등록 </a>
-        </p>
       </form>
 
     </div>
