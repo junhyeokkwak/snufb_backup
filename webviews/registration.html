@@ -75,9 +75,9 @@
       <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
       <input name = "newRegiClass" type="text" placeholder="학번"/>
       <input class = "submit" type = "submit" value="새로 등록" onclick="sendBye()">
-      <!-- <p class = "message">이미 등록되어 있어?
+      <p class = "message">이미 등록되어 있어?
         <a href="#"> 새 정보로 다시 등록 </a>
-      </p> -->
+      </p>
       </form>
 
       <!-- <form class="login-form" id = "login-form" method = "post" action="/register/re_user">
@@ -90,11 +90,12 @@
       </p>
       </form> -->
 
-      <!-- <form class="login-form" id = "login-form" href="#">
-        <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
-        <input name = "newRegiClass" type="text" placeholder="학번"/>
-        <input class = "trans" type = "submit" value="새로 등록">
-      </form> -->
+      <form class="login-form" id = "login-form" method = "post" action = "/register/new_user_done">
+        <textarea>text</textarea>
+        <p class = "message">아직 등록 안 되어있어?
+          <a href="#"> 신규 등록 </a>
+        </p>
+      </form>
 
     </div>
   </div>
