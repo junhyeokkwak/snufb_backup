@@ -6,8 +6,9 @@
   <title>사용자 정보 등록</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body onLoad="initInput()">
-  <script src="../node_modules/sweetalert/dist/sweetalert.min.js"></script>
+<body>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- <script src="../node_modules/sweetalert/dist/sweetalert.min.js"></script> -->
   <script>
     window.fbAsyncInit = function() {
        FB.init({
@@ -30,12 +31,6 @@
        var isSupported = MessengerExtensions.isInExtension();
        //alert(isSupported);
        // the Messenger Extensions JS SDK is done loading
-       // MessengerExtensions.requestCloseBrowser(function success() {
-       //     console.log("closing success");
-       // }, function error(err) {
-       //     console.log("closing failure");
-       //     console.log(err);
-       // });
        MessengerExtensions.getContext('2169355909963830',
          function success(result){
            user_psid = result.psid;
@@ -58,30 +53,11 @@
      var regiMajor = "예시학과";
      var regiClass = "예시학번";
      swal("학번: "+ regiClass + " / 전공: " + regiMajor, "사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?", "success");
-     // alert("사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
-     // closeWindow();
-
-     // document.write("이 창은 3초뒤에 자동으로 닫혀!!");
-     // setTimeout(function(){
-     //   console.log('registration.html closed');
-     //   closeWindow();
-     // }, 3000); //milliseconds!!!
-     // window.location.pathname = "/login.html/";
-   }
-
-   // function closeWindow() {
-   //   MessengerExtensions.requestCloseBrowser(function success() {
-   //       console.log("closing success");
-   //   }, function error(err) {
-   //       console.log("closing failure");
-   //       console.log(err);
-   //   });
-   //  window.open('','_parent',''); window.close();
-   // }
 
    function initInput(user_psid) {
     	document.forms[0].user_psid.value = user_psid;
    }
+   
   </script>
 
   <div class = "login-page">
