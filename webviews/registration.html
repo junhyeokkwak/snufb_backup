@@ -50,38 +50,18 @@
          }
        );
      };
-   // function sendBye(new_or_re) {
-   //   if (new_or_re == "new") {
-   //     var regiMajor = document.getElementById("newRegiMajor").value;
-   //     var regiClass = document.getElementById("newRegiClass").value;
-   //   } else if (new_or_re == "re") {
-   //     var regiMajor = document.getElementById("reRegiMajor").value;
-   //     var regiClass = document.getElementById("reRegiClass").value;
-   //   } else {
-   //     var regiMajor = "UNDEFINED";
-   //     var regiClass = "UNDEFINED";
-   //   }
-   //   alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
-   //   // swal(regiMajor + "/" + regiClass + "사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
-   //   closeWindow();
-   //   // document.write("이 창은 3초뒤에 자동으로 닫혀!!");
-   //   // setTimeout(function(){
-   //   //   console.log('registration.html closed');
-   //   //   closeWindow();
-   //   // }, 3000); //milliseconds!!!
-   //   // window.location.pathname = "/login.html/";
-   // }
+
    function endNewRegi() {
      var regiMajor = document.forms[0].newRegiMajor.value;
      var regiClass = document.forms[0].newRegiClass.value;
-     alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
+     alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?");
      closeWindow();
    }
 
    function endReRegi() {
      var regiMajor = document.forms[1].reRegiMajor.value;
      var regiClass = document.forms[1].reRegiClass.value;
-     alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 수정됐어!\n 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
+     alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 수정됐어!\n 창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?");
      closeWindow();
    }
 
@@ -148,3 +128,26 @@
 
 </body>
 </html>
+
+
+<!-- // function sendBye(new_or_re) {
+//   if (new_or_re == "new") {
+//     var regiMajor = document.getElementById("newRegiMajor").value;
+//     var regiClass = document.getElementById("newRegiClass").value;
+//   } else if (new_or_re == "re") {
+//     var regiMajor = document.getElementById("reRegiMajor").value;
+//     var regiClass = document.getElementById("reRegiClass").value;
+//   } else {
+//     var regiMajor = "UNDEFINED";
+//     var regiClass = "UNDEFINED";
+//   }
+//   alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
+//   // swal(regiMajor + "/" + regiClass + "사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
+//   closeWindow();
+//   // document.write("이 창은 3초뒤에 자동으로 닫혀!!");
+//   // setTimeout(function(){
+//   //   console.log('registration.html closed');
+//   //   closeWindow();
+//   // }, 3000); //milliseconds!!!
+//   // window.location.pathname = "/login.html/";
+// } -->
