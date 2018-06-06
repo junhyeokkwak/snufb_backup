@@ -85,30 +85,19 @@
      closeWindow();
    }
 
-    function closeWindow() {
-      var async = require('async');
-      var task = [
-        function(callback){
-            alert("HI")
-            callback(null, "done");
-        },
-        function(str, callback){
-          MessengerExtensions.requestCloseBrowser(function success() {
-             console.log("closing success");
-          }, function error(err) {
-             console.log("closing failure");
-             console.log(err);
-          });
-          window.open('','_parent',''); window.close();
-          callback(null);
-        }
-      ];
-      async.waterfall(task);
-    }
+   function closeWindow() {
+     MessengerExtensions.requestCloseBrowser(function success() {
+         console.log("closing success");
+     }, function error(err) {
+         console.log("closing failure");
+         console.log(err);
+     });
+    window.open('','_parent',''); window.close();
+   }
 
-    function initInput(user_psid) {
+   function initInput(user_psid) {
     	document.forms[0].user_psid.value = user_psid;
-    }
+   }
 
    // function swalTest() {
    //   swal("HI");
