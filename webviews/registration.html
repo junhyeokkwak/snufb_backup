@@ -39,7 +39,7 @@
          function success(result){
            user_psid = result.psid;
            initInput(user_psid);
-           // alert("Success: "+ result.psid);
+           alert("Success: "+ result.psid);
            console.log("Success: "+ result.psid);
          },
          function error(result){
@@ -50,9 +50,10 @@
      };
    function sendBye() {
      document.write("이 창은 3초뒤에 자동으로 닫혀!");
-     setTimeout(function(){
+     var closeTimer = setTimeout(function(){
        closeWindow();
-     }, 3);
+     }, 3000); //milliseconds!!!
+     clearTimeout(closeTimer);
    }
 
    function closeWindow() {
@@ -64,6 +65,7 @@
      });
     window.open('','_parent',''); window.close();
    }
+
    function initInput(user_psid) {
     	document.forms[0].user_psid.value = user_psid;
    }
