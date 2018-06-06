@@ -53,7 +53,7 @@
    function sendBye() {
      var regiMajor = document.forms[0].newRegiMajor.value;
      var regiClass = document.forms[0].newRegiClass.value;
-     alert("전공: " + regiMajor + " / 학번: " + regiClass + "사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
+     alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
      // swal(regiMajor + "/" + regiClass + "사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
      closeWindow();
      // document.write("이 창은 3초뒤에 자동으로 닫혀!!");
@@ -104,7 +104,7 @@
       <input name="user_psid" type="hidden" value="" />
       <input name = "reRegiMajor" type="text" placeholder="전공학과"/>
       <input name = "reRegiClass" type="text" placeholder="학번"/>
-      <input class = "submit" type = "submit" onclick="sendUserInfo()" value="새정보로 다시 등록">
+      <input class = "submit" type = "submit" value="새정보로 다시 등록" onclick="sendBye()" />
       <p class = "message">아직 등록 안 되어있어?
         <a href="#"> 신규 등록 </a>
       </p>
