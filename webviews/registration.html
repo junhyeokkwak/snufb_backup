@@ -49,12 +49,18 @@
        );
      };
    function sendBye() {
-     document.write("이 창은 3초뒤에 자동으로 닫혀!!");
-     setTimeout(function(){
-       console.log('registration.html closed');
-       closeWindow();
-       // alert("close");
-     }, 3000); //milliseconds!!!
+     var time = 3;
+     setInterval(function(){
+       var timeText = time + '초 후 창이 자동으로 꺼질거야!';
+       console.log(timeText);
+       //document.write(timeText);
+       time--;
+     }, 1000)
+     // document.write("이 창은 3초뒤에 자동으로 닫혀!!");
+     // setTimeout(function(){
+     //   console.log('registration.html closed');
+     //   closeWindow();
+     // }, 3000); //milliseconds!!!
    }
 
    function closeWindow() {
