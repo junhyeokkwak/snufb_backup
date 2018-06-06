@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="utf-8">
-  <title>hoomba</title>
+  <title>사용자 정보 등록</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body onLoad="initInput()">
@@ -39,18 +39,19 @@
          function success(result){
            user_psid = result.psid;
            initInput(user_psid);
-           alert("Success: "+ result.psid);
+           //alert("Success: "+ result.psid);
            console.log("Success: "+ result.psid);
          },
          function error(result){
+           alert("미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ ERR CODE: " + JSON.stringify(result));
            console.log("FAIL: " + JSON.stringify(result));
            // alert("FAIL: " + JSON.stringify(result));
          }
        );
      };
    function sendBye() {
-     closeWindow();
      alert("사용자 정보가 등록됐어! 창은 3초 뒤에 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
+     closeWindow();
      // document.write("이 창은 3초뒤에 자동으로 닫혀!!");
      // setTimeout(function(){
      //   console.log('registration.html closed');
