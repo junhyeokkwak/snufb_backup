@@ -53,7 +53,7 @@
    function sendBye() {
      var regiMajor = document.forms[0].newRegiMajor.value;
      var regiClass = document.forms[0].newRegiClass.value;
-     alert("전공: " regiMajor + " / 학번: " + regiClass + "사용자 정보가 등록됐어!\n 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
+     alert("전공: " + regiMajor + " / 학번: " + regiClass + "사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
      // swal(regiMajor + "/" + regiClass + "사용자 정보가 등록됐어! 창은 [확인]을 누르면 꺼질거야! 혹시 잘못 입력한 정보가 있니?");
      closeWindow();
      // document.write("이 창은 3초뒤에 자동으로 닫혀!!");
@@ -81,6 +81,7 @@
    function swalTest() {
      swal("HI");
    }
+
   </script>
 
   <button onclick= 'swal("Oops!", "Something went wrong!", "error")'>SWEET ALERT TEST: Error1</button>
