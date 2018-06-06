@@ -43,7 +43,8 @@
            console.log("Success: "+ result.psid);
          },
          function error(result){
-           alert("미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ ERR CODE: " + JSON.stringify(result));
+           // alert("미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ ERR CODE: " + JSON.stringify(result));
+           swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ", "error")
            console.log("FAIL: " + JSON.stringify(result));
            // alert("FAIL: " + JSON.stringify(result));
          }
@@ -77,6 +78,8 @@
    }
   </script>
 
+  <button onclick= 'swal("Oops!", "Something went wrong!", "error")'>SWEET ALERT TEST: Error</button>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <div class = "login-page">
     <div class = "form" herf="#" href="#">
       <form class = "register-form" id = "register-form" method = "post" action="/register/new_user">
