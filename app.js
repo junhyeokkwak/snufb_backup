@@ -179,8 +179,8 @@ app.post('/register/re_user', function(req, res){
     console.log("REGISTRATION RE: ");
     console.log(req.body);
 
-    // connection.query('UPDATE Users SET college_major="' + req.body.reRegiMajor + '" WHERE user_id=' + req.body.user_psid);
-    // connection.query('UPDATE Users SET student_number="' + req.body.reRegiClass + '" WHERE user_id=' + req.body.user_psid);
+    connection.query('UPDATE Users SET college_major="' + req.body.reRegiMajor + '" WHERE user_id=' + req.body.user_psid);
+    connection.query('UPDATE Users SET student_number="' + req.body.reRegiClass + '" WHERE user_id=' + req.body.user_psid);
 
     res.status(200).end();
     // res.render('register-success', {data = req.body});
