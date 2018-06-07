@@ -151,7 +151,7 @@ function register2(event) {
     function(err, callback) {
       setTimeout(function () {
         console.log('hahahah')
-      }, 10000);
+      }, 100000);
       callback(null, 'done');
     },
 
