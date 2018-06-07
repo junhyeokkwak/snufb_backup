@@ -142,7 +142,7 @@ function register2(event) {
       // experiment (extracting data from database)
       connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
         if (err) throw err;
-        console.log(result);
+        console.log("hi" + result);
       });
       callback(null, 'done');
     },
