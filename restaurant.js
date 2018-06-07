@@ -56,7 +56,7 @@ var initRestaurantRecommendation = function(event) {
       },
       function(err, callback){
         var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
-        var messageData = {"text": "칵-퉤! ㅋㅋㅋ안해 때려쳐 시발", "quick_replies": qrCuisines};
+        var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
          api.sendResponse(event, messageData);
         callback(null);
       },
