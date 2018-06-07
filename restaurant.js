@@ -96,7 +96,7 @@ var restaurantRecommendation_1 = function(event) {
         console.log("RECO RES CATEGORY: " + JSON.parse(body).items[0].category);
         var title = JSON.parse(body).items[0].title;
         var url = JSON.parse(body).items[0].link;
-        var image_url = "www.example.com/image"
+        var image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
         var category = JSON.parse(body).items[0].category;
         var titleMessage = "TITLE MESSAGE";
         var buttonMessage = "BUTTONMESSAGE";
