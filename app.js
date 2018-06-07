@@ -159,10 +159,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'webviews')));
 
-//login
-app.get('/login', function(req, res){
-  res.sendFile(path.join(__dirname + '/webviews/login.html'));
-});
 
 // webview URLs
 app.get('/register', function(req, res){

@@ -138,7 +138,15 @@ function register2(event) {
   var task = [
     function(callback){
       connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    //  console.log(connection.query('SELECT first_name FROM Users WHERE user_id='+ event.sender.id));
+
+      // experiment (extracting data from database)
+      connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+        if (err) throw err;
+        console.log(result);
+      });
+      }
+
+      // console.log(connection.query('SELECT first_name FROM Users WHERE user_id='+ event.sender.id));
       callback(null, 'done');
     },
     function(err, callback){
