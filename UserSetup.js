@@ -144,7 +144,7 @@ function register2(event) {
         if (err) throw err;
         //console.log("hi" + result);
         console.log(result[0].first_name);
-        api.sendResponse(event, {"text": JSON.stringify(result.first_name) + "고마워!"}); // JSON.stringify 빼고 실험.
+        api.sendResponse(event, {"text": result[0].first_name + " 고마워!"}); // JSON.stringify 빼고 실험.
       });
       callback(null, 'done');
     },
