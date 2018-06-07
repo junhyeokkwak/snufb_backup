@@ -95,18 +95,18 @@ var restaurantRecommendation_1 = function(event) {
         console.log(JSON.parse(body).items);
         console.log("RECO RES TITLE: " + JSON.parse(body).items[0].title);
         console.log("RECO RES LINK: " + JSON.parse(body).items[0].link);
-        // console.log("RECO RES CATEGORY: " + JSON.parse(body).items[0].category);
+        console.log("RECO RES CATEGORY: " + JSON.parse(body).items[0].category);
         var title = JSON.parse(body).items[0].title;
         var url = JSON.parse(body).items[0].link;
         var image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
-        // var category = JSON.parse(body).items[0].category;
-        var category = "[임시카테고리]";
+        var category = JSON.parse(body).items[0].category.split('>')[1];
+        // var category = "[임시카테고리]";
         var titleMessage = title;
         var buttonMessage = title + " 사이트 바로가기!";
         var innertask = [
           function(callback) {
             var innerErr;
-            api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + " 어때??"});
+            api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + category + " 어때??"});
             callback(null,innerErr);
           },
           function(innerErr, callback) {
