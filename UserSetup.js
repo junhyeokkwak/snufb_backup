@@ -143,7 +143,7 @@ function register2(event) {
       connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
         if (err) throw err;
         //console.log("hi" + result);
-        api.sendResponse(event, {"text": JSON.stringify(result).first_name + "고마워!"});
+        api.sendResponse(event, {"text": result.first_name + "고마워!"}); // JSON.stringify 빼고 실험.
       });
       callback(null, 'done');
     },
