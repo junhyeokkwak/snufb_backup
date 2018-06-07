@@ -102,8 +102,8 @@ var restaurantRecommendation_1 = function(event) {
         var titleMessage = title;
         var buttonMessage = title + " 사이트 바로가기!";
         api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + " 어때??"});
+        callback(body, title, url, image_url, category, titleMessage, buttonMessage);
       });
-      callback(body, title, url, image_url, category, titleMessage, buttonMessage);
     },
     function(body, title, url, image_url, category, titleMessage, buttonMessage, callback) {
       if (url == '') {
@@ -125,7 +125,7 @@ var restaurantRecommendation_1 = function(event) {
     function(body, title, url, image_url, category, titleMessage, buttonMessage, callback) {
       api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + Josa(title, "가") +" 괜찮데:)"});
       callback(null);
-    }.
+    },
   ];
   async.waterfall(task);
 };
