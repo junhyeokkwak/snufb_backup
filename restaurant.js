@@ -87,7 +87,9 @@ var restaurantRecommendation_1 = function(event) {
       callback(null, err);
     },
     function(err, callback){
+      var body;
       request(options, function (error, response, body) {
+        var body = body;
         if (error) throw new Error(error);
         //console.log(JSON.parse(body));
         console.log(JSON.parse(body).items);
