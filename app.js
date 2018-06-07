@@ -159,10 +159,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'webviews')));
 
-//login
-app.get('/login', function(req, res){
-  res.sendFile(path.join(__dirname + '/webviews/login.html'));
-});
 
 // webview URLs
 app.get('/register', function(req, res){
@@ -174,14 +170,18 @@ app.post('/register/new_user', function(req, res){
     console.log(req.body);
     // update SQL database
   //  req.body.newMajor
-    //  connection.query('UPDATE Users SET college_major="' + req.body.newRegiMajor + '" WHERE user_id=' + event.sender.id);
-    // connection.query('UPDATE Users SET student_number="' + req.body.newRegiClass + '" WHERE user_id=' + event.sender.id);
+    connection.query('UPDATE Users SET college_major="' + req.body.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
+    connection.query('UPDATE Users SET student_number="' + req.body.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
     res.status(200).end();
     // res.render('register-success', {data = req.body});
 });
 app.post('/register/re_user', function(req, res){
     console.log("REGISTRATION RE: ");
     console.log(req.body);
+
+    connection.query('UPDATE Users SET college_major="' + req.body.reRegiMajor + '" WHERE user_id=' + req.body.user_psid);
+    connection.query('UPDATE Users SET student_number="' + req.body.reRegiClass + '" WHERE user_id=' + req.body.user_psid);
+
     res.status(200).end();
     // res.render('register-success', {data = req.body});
 });
