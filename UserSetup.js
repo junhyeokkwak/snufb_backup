@@ -150,9 +150,8 @@ function register2(event) {
 
     function(err, callback) {
       setTimeout(function () {
-        console.log('hahahah')
-      }, 100000);
-      callback(null, 'done');
+        callback(null, 'done');
+      }, 1000);
     },
 
     function(err, callback){
