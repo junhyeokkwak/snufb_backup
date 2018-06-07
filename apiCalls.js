@@ -50,7 +50,7 @@ var handlePostback = function handlePostback(event) {
 }
 
 
-function handleRestaurantWebview(event, titleMessage, url, buttonMessage) {
+function handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage) {
   var senderID = event.sender.id;
     let messageData = {
       recipient: {
@@ -68,7 +68,7 @@ function handleRestaurantWebview(event, titleMessage, url, buttonMessage) {
                   "webview_height_ratio":"tall"
                 },
               ],
-              "image_url": "http://www.example.com/image.png",
+              "image_url": image_url,
               "item_url": url,
               //"subtitle":"SUTBTITILE",
               "title": titleMessage,

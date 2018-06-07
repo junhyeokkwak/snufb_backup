@@ -5,6 +5,7 @@ var api = require('./apiCalls');
 var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
+const isImageUrl = require('is-image-url');
 
 //XML to json
 // var querystring = require('querystring');
@@ -66,8 +67,8 @@ var restaurantRecommendation_1 = function(event) {
   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
   var naverClientSecrete = 'EjgVHFWgzo';
   var options = { method: 'GET',
-       // url: 'https://openapi.naver.com/v1/search/local.json'+'?query='+search+'&display=10&start=1&sort=sim',
-      url : 'https://openapi.naver.com/v1/search/local.json',
+      url : 'https://openapi.naver.com/v1/search/shop.json',
+      // url : 'https://openapi.naver.com/v1/search/local.json',
       qs : {
         query : search,
         display : 1,
@@ -79,7 +80,6 @@ var restaurantRecommendation_1 = function(event) {
         'X-Naver-Client-Secret': naverClientSecrete,
       },
   };
-
   var task = [
     function(callback){
       var err;
@@ -96,6 +96,7 @@ var restaurantRecommendation_1 = function(event) {
         console.log("RECO RES CATEGORY: " + JSON.parse(body).items[0].category);
         var title = JSON.parse(body).items[0].title;
         var url = JSON.parse(body).items[0].link;
+        var imageURL = "www.example.com/image"
         var category = JSON.parse(body).items[0].category;
         var titleMessage = "TITLE MESSAGE";
         var buttonMessage = "BUTTONMESSAGE";
@@ -103,10 +104,16 @@ var restaurantRecommendation_1 = function(event) {
         if (url == '') {
           console.log('RESTAURANT URL DNE');
           url = 'http://www.example.com/'
-          api.handleRestaurantWebview(event, titleMessage, url, buttonMessage);
+          if (JSON.parse(body).items[0].link != "" && isImageUrl(JSON.parse(body).items[0].link)) {
+            var imageURL = JSON.parse(body).items[0].link;
+          }
+          api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
         } else {
           console.log('RESTAURANT URL EXISTS');
-          api.handleRestaurantWebview(event, titleMessage, url, buttonMessage);
+          if (JSON.parse(body).items[0].link != "" && isImageUrl(JSON.parse(body).items[0].link)) {
+            var imageURL = JSON.parse(body).items[0].link;
+          }
+          api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
         }
         api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + Josa(title, "가") +" 괜찮데:)"});
       });
