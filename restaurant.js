@@ -59,7 +59,7 @@ var restaurantRecommendation_1 = function(event) {
   console.log("RUN: restaurantRecommendation_1");
   if (event.message.text == "한식" ||  "중식" || "일식" || "양식" || "분식") {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_1");
-    var search = "신촌" + event.message.text;
+    var search = "신촌 맛집 " + event.message.text;
     console.log('SEARCH: ' + search);
   } else {
     console.log('UNVERIFIED SEARCH');
@@ -67,8 +67,8 @@ var restaurantRecommendation_1 = function(event) {
   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
   var naverClientSecrete = 'EjgVHFWgzo';
   var options = { method: 'GET',
-      url : 'https://openapi.naver.com/v1/search/shop.json',
-      // url : 'https://openapi.naver.com/v1/search/local.json',
+      // url : 'https://openapi.naver.com/v1/search/shop.json',
+      url : 'https://openapi.naver.com/v1/search/local.json',
       qs : {
         query : search,
         display : 1,
