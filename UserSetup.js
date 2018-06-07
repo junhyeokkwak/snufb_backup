@@ -144,9 +144,6 @@ function register2(event) {
         if (err) throw err;
         console.log(result);
       });
-      }
-
-      // console.log(connection.query('SELECT first_name FROM Users WHERE user_id='+ event.sender.id));
       callback(null, 'done');
     },
     function(err, callback){
