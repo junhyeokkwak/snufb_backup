@@ -49,7 +49,19 @@ var initRestaurantRecommendation = function(event) {
     async.waterfall(task);
   } else if (event.message.text == "아니") {
     console.log("USER SELECT : NO in initRestaurantConv");
-
+    var task = [
+      function(callback){
+        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+        callback(null, 'done');
+      },
+      function(err, callback){
+        var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
+        var messageData = {"text": "칵-퉤! ㅋㅋㅋ안해 때려쳐 시발", "quick_replies": qrCuisines};
+         api.sendResponse(event, messageData);
+        callback(null);
+      },
+    ];
+    async.waterfall(task);
   } else {
     console.log("USER SELECT : UNEXPECTED RESPONSE in initRestaurantConv");
   }
@@ -66,7 +78,8 @@ var restaurantRecommendation_1 = function(event) {
   }
   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
   var naverClientSecrete = 'EjgVHFWgzo';
-  var options = { method: 'GET',
+  var options = {
+      method: 'GET',
       // url : 'https://openapi.naver.com/v1/search/shop.json',
       url : 'https://openapi.naver.com/v1/search/local.json',
       qs : {
