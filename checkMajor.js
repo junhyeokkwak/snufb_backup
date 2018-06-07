@@ -14,24 +14,37 @@ const rl = readline.createInterface({
   output:process.stdout
 });
 
-function printTest() {
+function printTest(majorList) {
   for (var i = 0; i < majorList.length; i ++) {
     console.log(majorList[i]);
   }
 }
 
-function checkSimilarity() {
+function checkSimilarity(majorList) {
+  console.log("working");
+  var rankList;
+  var count = 0;
+  for (var i = 0; i < majorList.length; i++) {
+    count++;
+  }
+  console.log("count: " + count);
+  console.log("majorList.length: " + majorList.length);
   for (var i = 0; i < majorList.length; i ++) {
-    console.log(majorList[i]);
+    // majorList[i]
   }
 }
-
 
 rl.setPrompt("Your input: ");
 rl.prompt();
 rl.on("line", (data) => {
   if (data == "test") {
-    printTest();
+    // printTest();
+    printTest(majorList);
+    console.log(majorList.length);
+  }
+  if (data == "check") {
+    // printTest();
+    checkSimilarity(majorList);
   }
   console.log(data);
   rl.prompt();
