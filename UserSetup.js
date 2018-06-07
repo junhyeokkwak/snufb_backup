@@ -142,12 +142,16 @@ function register2(event) {
       // experiment (extracting data from database)
       connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
         if (err) throw err;
-        //console.log("hi" + result);
-        console.log(result[0].first_name);
-        api.sendResponse(event, {"text": result[0].first_name + " 고마워!"}); // JSON.stringify 빼고 실험.
+        //console.log(result[0].first_name);
+        api.sendResponse(event, {"text": result[0].first_name + " 고마워!"});
       });
+      setTimeout(function () {
+        console.log('boo')
+      }, 100);
+
       callback(null, 'done');
     },
+    
     function(err, callback){
       api.sendResponse(event, {"text":"그럼 이제 내 소개를 해볼까?\n\n나는 자타공인 우리 대학교 최고 인싸, 칼답을 자랑하는 이대봇이라고 해!\n학식 메뉴, 학교 주변 맛집, 교통 정보을 알려주는 것부터 학교 내 다른 사람과 연결시켜 주는 것까지 못하는게 없다구!\n\n그럼 오늘은 뭘 도와줄까?",
         "quick_replies": qr.reply_arrays["Menu"]});
