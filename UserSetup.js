@@ -142,7 +142,8 @@ function register2(event) {
       // experiment (extracting data from database)
       connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
         if (err) throw err;
-        console.log("hi" + result);
+        //console.log("hi" + result);
+        api.sendResponse(event, {"text": result + "고마워!"});
       });
       callback(null, 'done');
     },
@@ -156,7 +157,7 @@ function register2(event) {
 }
 
 function notStudent(event) {
-  api.sendResponse(event, {"text": "나는 서울대 담당이니까 너희 학교 봇한테 말 걸어줘"})
+  api.sendResponse(event, {"text": "나는 서울대 담당이니까 너희 학교 봇한테 말 걸어줘"});
 }
 
 module.exports = {
