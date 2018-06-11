@@ -10,21 +10,21 @@ var connection = mysql.createConnection(process.env.DATABASE_URL);
 
 function profSearch(event) {
   console.log('START PROFESSOR SEARCH');
-  function(error, response, body) {
-    if (error) throw new Error(error);
-    else {
-      var task = [
-        function(callback) {
-          connection.query('UPDATE Users SET conv_context="profName" WHERE user_id=' + event.sender.id);
-          callback(null, 'done');
-        },
-        function(err, callback) {
-          api.sendResponse(event, {"text": "어떤 교수님 검색해줄까?"});
-        }
-      ]
-      async.waterfall(task);
-    }
-  }
+  // function(error, response, body) {
+  //   if (error) throw new Error(error);
+  //   else {
+    var task = [
+      function(callback) {
+        connection.query('UPDATE Users SET conv_context="profName" WHERE user_id=' + event.sender.id);
+        callback(null, 'done');
+      },
+      function(err, callback) {
+        api.sendResponse(event, {"text": "어떤 교수님 검색해줄까?"});
+      }
+    ]
+    async.waterfall(task);
+//    }
+//  }
 }
 
 function profName(event) {
