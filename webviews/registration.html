@@ -208,7 +208,7 @@
             customClass: 'sweetalert-lg',
           });
         } else {
-          document.getElementById("login-form").submit();
+          // document.getElementById("login-form").submit();
           swal({
             title: '수정 완료',
             text: '수정이 완료됐어!',
@@ -225,9 +225,11 @@
             }
           }).then((value) => {
             if (!value) {
+              closeWindow();
               document.getElementById("login-form").submit();
               // closeWindow();
             } else {
+              closeWindow();
               document.getElementById("login-form").submit();
               // closeWindow();
             }
