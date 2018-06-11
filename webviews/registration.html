@@ -77,6 +77,73 @@
       document.forms[1].user_psid.value = user_psid;
    }
 
+   $(document).on('click', '#btn-submit-new', function(e) {
+     var regiMajor = document.forms[0].newRegiMajor.value;
+     var regiClass = document.forms[0].newRegiClass.value;
+     e.preventDefault();
+     swal({
+       title: "정보 확인",
+       text: "[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?",
+       icon: "success",
+       buttons: {
+         cancel: {
+           text: "다시 입력",
+           value: false,
+           visible: true,
+           className: "",
+           closeModal: true,
+         },
+         confirm: {
+           text: "확인",
+           value: true,
+           visible: true,
+           className: "",
+           closeModal: true
+         }
+       },
+     }).then((value) => {
+       // swal(`The returned value is: ${value}`);
+       if (!value) {
+         // swal('다시 입력해줘!', '', "error");
+       } else {
+         // document.getElementById("register-form").submit();
+         // swal({
+         //   title: '등록 완료',
+         //   text: '등록이 완료됐어!',
+         //   icon: "sucess",
+         //   timer: 3000,
+         // });
+         // closeWindow();
+
+         // alert('close2');
+         // closeWindow();
+
+         task = [
+           function(callback) {
+             var err = 'done';
+             document.getElementById("register-form").submit();
+             callback(null, err);
+           },
+           function(err, callback) {
+             swal({
+               title: '등록 완료',
+               text: '등록이 완료됐어!',
+               icon: "sucess",
+               timer: 3000,
+             });
+             callback(null, err);
+           },
+           function(err, callback) {
+             document.closeWindow();
+             callback(null);
+           }
+         ];
+         async.waterfall(task);
+         // swal('등록이 완료됐어!', "sucess");
+       }
+     });
+   });
+
   </script>
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -111,73 +178,6 @@
 
     $('.message a').click(function(){
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
-    });
-
-    $(document).on('click', '#btn-submit-new', function(e) {
-      var regiMajor = document.forms[0].newRegiMajor.value;
-      var regiClass = document.forms[0].newRegiClass.value;
-      e.preventDefault();
-      swal({
-        title: "정보 확인",
-        text: "[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?",
-        icon: "success",
-        buttons: {
-          cancel: {
-            text: "다시 입력",
-            value: false,
-            visible: true,
-            className: "",
-            closeModal: true,
-          },
-          confirm: {
-            text: "확인",
-            value: true,
-            visible: true,
-            className: "",
-            closeModal: true
-          }
-        },
-      }).then((value) => {
-        // swal(`The returned value is: ${value}`);
-        if (!value) {
-          // swal('다시 입력해줘!', '', "error");
-        } else {
-          // document.getElementById("register-form").submit();
-          // swal({
-          //   title: '등록 완료',
-          //   text: '등록이 완료됐어!',
-          //   icon: "sucess",
-          //   timer: 3000,
-          // });
-          // closeWindow();
-
-          // alert('close2');
-          // closeWindow();
-
-          task = [
-            function(callback) {
-              var err = 'done';
-              document.getElementById("register-form").submit();
-              callback(null, err);
-            },
-            function(err, callback) {
-              swal({
-                title: '등록 완료',
-                text: '등록이 완료됐어!',
-                icon: "sucess",
-                timer: 3000,
-              });
-              callback(null, err);
-            },
-            function(err, callback) {
-              closeWindow();
-              callback(null);
-            }
-          ];
-          async.waterfall(task);
-          // swal('등록이 완료됐어!', "sucess");
-        }
-      });
     });
 
   </script>
