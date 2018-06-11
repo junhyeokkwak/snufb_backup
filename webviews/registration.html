@@ -140,7 +140,7 @@
         if (!value) {
           // swal('다시 입력해줘!', '', "error");
         } else {
-          document.getElementById("register-form").submit().then(closeWindow());
+          document.getElementById("register-form").submit().then(() => closeWindow());
           // swal('등록이 완료됐어!', "sucess");
           // closeWindow();
         }
