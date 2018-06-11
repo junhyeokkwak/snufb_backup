@@ -84,11 +84,11 @@
    //   swal("HI");
    // }
 
-  function validate() {
+  function validate(e) {
      // var regiMajor = document.forms[0].newRegiMajor.value;
      // var regiClass = document.forms[0].newRegiClass.value;
      // return confirm("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n 위의 정보가 맞다면 [확인]을 눌러줘!");
-     // this.preventDefault();
+     e.preventDefault();
      swal({
        title: 'Are you sure?',
        text: "It will permanently deleted !",
