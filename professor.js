@@ -20,6 +20,8 @@ function profSearch(event) {
       },
       function(err, callback) {
         api.sendResponse(event, {"text": "어떤 교수님 검색해줄까?"});
+        connection.query('UPDATE ewhaProf SET info="bestPlayer" WHERE name="손흥민"');
+        callback(null);
       }
     ]
     async.waterfall(task);
@@ -29,6 +31,7 @@ function profSearch(event) {
 
 function profName(event) {
   console.log('PROFESSOR NAME INPUT');
+
   connection.query('SELECT email FROM ewhaProf WHERE name=' + event.message.text, function(err, result, fields) {
     //if (err) throw err;
     var profEmail = result[0].email;
