@@ -38,7 +38,7 @@ var busConv_1_Number = function(event) {
       function(callback) {
         var err;
         console.log('VALID BUSNUM');
-        connection.query('UPDATE Users SET conv_context="busConv_2_Number" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="busConv_2_Station" WHERE user_id=' + event.sender.id);
         if (event.message.text == "153번") busRouteId = 100100032;
         callback(null, err);
       },
@@ -85,7 +85,7 @@ var busConv_3_Print = function(event) {
   console.log("RUN busConv_3_Print");
   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   var messageData = {"text": `busRouteId: ${busRouteId} stId: ${stID}`};
-  api.sendResponse(event, messageData);  
+  api.sendResponse(event, messageData);
 }
 
 module.exports = {
