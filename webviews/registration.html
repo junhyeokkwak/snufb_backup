@@ -122,7 +122,7 @@
         title: "정보 확인",
         text: "[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?",
         icon: "success",
-        customClass: 'sweetalert-lg',
+        className: 'sweetalert-lg',
         buttons: {
           cancel: {
             text: "다시 입력",
@@ -145,7 +145,7 @@
             title: '다시 입력해줘!',
             text: '',
             icon: "error",
-            customClass: 'sweetalert-lg',
+            className: 'sweetalert-lg',
           });
         } else {
           document.getElementById("register-form").submit();
@@ -153,7 +153,7 @@
             title: '등록 완료',
             text: '등록이 완료됐어!',
             icon: "success",
-            customClass: 'sweetalert-lg',
+            className: 'sweetalert-lg',
             buttons: {
               confirm: {
                 text: "확인",
@@ -163,7 +163,6 @@
                 closeModal: true
               }
             }
-            // timer: 3000,
           }).then((value) => {
             if (!value) {
               closeWindow();
@@ -183,7 +182,7 @@
         title: "정보 확인",
         text: "[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 수정됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?",
         icon: "success",
-        customClass: 'sweetalert-lg',
+        className: 'sweetalert-lg',
         buttons: {
           cancel: {
             text: "다시 입력",
@@ -224,7 +223,6 @@
                 closeModal: true
               }
             }
-            // timer: 3000,
           }).then((value) => {
             if (!value) {
               closeWindow();
