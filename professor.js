@@ -31,23 +31,36 @@ function profSearch(event) {
 
 function profName(event) {
   console.log('PROFESSOR NAME INPUT');
+  var task = [
+    function(callback) {
+      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+      connection.query('SELECT email FROM ewhaProf WHERE name=' + event.message.text, function(err, result, fields) {
+        if (err) throw err;
 
-  connection.query('SELECT email FROM ewhaProf WHERE name=' + event.message.text, function(err, result, fields) {
-    var profEmail = result[0].email;
-    var task = [
-      function(callback) {
-        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-        console.log("ProfEmail: " + profEmail);
-        callback(null, 'done');
-      },
-      function(err, callback) {
-        api.sendResponse(event, {"text": profEmail + " 인 것 같은데?"});
-      }
-    ]
-    async.waterfall(task);
-
-  });
+        api.sendResponse(event, {"text": result[0].email + "이야"});
+      });
+      callback(null);
+    }
+  ]
+  async.waterfall(task);
 }
+//
+//   connection.query('SELECT email FROM ewhaProf WHERE name=' + event.message.text, function(err, result, fields) {
+//     var profEmail = result[0].email;
+//     var task = [
+//       function(callback) {
+//         connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+//         console.log("ProfEmail: " + profEmail);
+//         callback(null, 'done');
+//       },
+//       function(err, callback) {
+//         api.sendResponse(event, {"text": profEmail + " 인 것 같은데?"});
+//       }
+//     ]
+//     async.waterfall(task);
+//
+//   });
+// }
 
 
 
