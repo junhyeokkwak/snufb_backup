@@ -148,6 +148,7 @@
             className: 'sweetalert-lg',
           });
         } else {
+          e.preventDefault();
           document.getElementById("register-form").submit();
           swal({
             title: '등록 완료',
