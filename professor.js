@@ -30,7 +30,7 @@ function profSearch(event) {
 function profName(event) {
   console.log('PROFESSOR NAME INPUT');
   connection.query('SELECT email FROM ewhaProf WHERE name=' + event.message.text, function(err, result, fields) {
-    if (err) throw err;
+    //if (err) throw err;
     var profEmail = result[0].email;
     var task = [
       function(callback) {
