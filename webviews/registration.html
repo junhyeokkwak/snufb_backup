@@ -119,7 +119,6 @@
     $('.message a').click(function(){
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
     });
-
     $(document).on('click', '#btn-submit', function(e) {
       e.preventDefault();
       swal({
@@ -145,8 +144,8 @@
       }).then((value) => {
         swal(`The returned value is: ${value}`);
         if(value) {
-          $('#register-form').submit();
-          closeWindow();
+          form.submit();
+          // closeWindow();
         } else if(!value) {
           swal(`다시 입력해줘!`);
         }
