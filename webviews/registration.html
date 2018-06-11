@@ -80,6 +80,7 @@
   </script>
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- <script src="https://unpkg.com/sweetalert2/dist/sweetalert.min.js"></script> -->
   <div class = "login-page">
     <div class = "form" herf="#" href="#">
       <form class = "register-form" id = "register-form" method = "post" action="/register/new_user"/>
@@ -118,6 +119,8 @@
         title: "정보 확인",
         text: "[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?",
         icon: "success",
+        // customClass: 'swal-wide',
+        width: 2000,
         buttons: {
           cancel: {
             text: "다시 입력",
@@ -137,13 +140,19 @@
       }).then((value) => {
         // swal(`The returned value is: ${value}`);
         if (!value) {
-          swal('다시 입력해줘!', '', "error");
+          swal({
+            title: '다시 입력해줘!',
+            text: '',
+            icon: "error",
+            customClass: 'swal-wide',
+          });
         } else {
           // document.getElementById("register-form").submit();
           swal({
             title: '등록 완료',
             text: '등록이 완료됐어!',
             icon: "success",
+            customClass: 'swal-wide',
             buttons: {
               confirm: {
                 text: "확인",
