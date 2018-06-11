@@ -81,11 +81,18 @@ var busConv_2_Station = function(event) {
   }
 };
 
+var busConv_3_Print = function(event) {
+  console.log("RUN busConv_3_Print");
+  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+  var messageData = {"text": `busRouteId: ${busRouteId} stId: ${stID}`};
+  api.sendResponse(event, messageData);  
+}
 
 module.exports = {
   functionMatch: {
     "버스": initBusConv,
     "busConv_1_Number" : busConv_1_Number,
     "busConv_2_Station" : busConv_2_Station,
+    "busConv_3_Print" : busConv_3_Print,
   }
 };
