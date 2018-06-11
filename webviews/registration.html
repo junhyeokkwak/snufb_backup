@@ -135,24 +135,23 @@
           }
         },
       }).then((value) => {
-        swal(`The returned value is: ${value}`);
-
-        // if (!value) {
-        //   // swal('다시 입력해줘!', '', "error");
-        // } else {
-        //   // document.getElementById("register-form").submit();
-        //   swal({
-        //     title: '등록 완료',
-        //     text: '등록이 완료됐어!',
-        //     icon: "sucess",
-        //     timer: 3000,
-        //   });
-        //   setTimeout(function() {
-        //     closeWindow();
-        //   }, 3000);
-        // }
+        // swal(`The returned value is: ${value}`);
+        if (!value) {
+          swal('다시 입력해줘!', '', "error");
+        } else {
+          document.getElementById("register-form").submit();
+          swal({
+            title: '등록 완료',
+            text: '등록이 완료됐어!',
+            icon: "success",
+            // timer: 3000,
+          });
+          setTimeout(function() {
+            closeWindow();
+          }, 3000);
+        }
+        // closeWindow();
       });
-      closeWindow();
     });
 
   </script>
