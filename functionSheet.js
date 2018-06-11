@@ -1,4 +1,4 @@
-﻿var fileNameList = ["./UserSetup.js", "./love.js", "./mentor.js", "./bab.js", "./restaurant.js", "./utilfunctions.js"];
+﻿var fileNameList = ["./UserSetup.js", "./love.js", "./mentor.js", "./bab.js", "./restaurant.js", "./utilfunctions.js", "./joke.js"];
 var functionSheet = [];
 
 fileNameList.forEach(function (fileName) {
