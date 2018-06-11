@@ -150,7 +150,10 @@
         "Are you sure you want to do this?",
         buttons: {
           cancle : "CANCEL",
-          confirm : "CONFORM",          
+          confirm : {
+            text: "CONFIRM",
+            value: "confirm",
+          },
         },
       }).then((value) => {
           swal(`The returned value is: ${value}`);
