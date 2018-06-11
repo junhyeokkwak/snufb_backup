@@ -59,7 +59,7 @@ var busConv_1_Number = function(event) {
 
 module.exports = {
   functionMatch: {
-    "버스": initRestaurantConv,
+    "버스": initBusConv,
     "busConv_1_Number" : busConv_1_Number,
     "busConv_2_Station" : busConv_1_Station,
   }
