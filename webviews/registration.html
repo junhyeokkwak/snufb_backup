@@ -147,12 +147,27 @@
     $(document).on('click', '#btn-submit', function(e) {
       e.preventDefault();
       swal({
-        "Are you sure you want to do this?", {
-          buttons: ["Oh noez!", true],
+        title: "TITLE",
+        text: "TEXT",
+        icon: "success",
+        buttons: {
+          cancel: {
+            text: "Cancel",
+            value: false,
+            visible: true,
+            className: "",
+            closeModal: true,
+          },
+          confirm: {
+            text: "OK",
+            value: true,
+            visible: true,
+            className: "",
+            closeModal: true
+          }
         },
       }).then((value) => {
-          swal(`The returned value is: ${value}`);
-        }
+        swal(`The returned value is: ${value}`);
       });
       // swal({
       //   title: 'Confirm',
