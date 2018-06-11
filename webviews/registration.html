@@ -106,37 +106,40 @@
        if (!value) {
          // swal('다시 입력해줘!', '', "error");
        } else {
-         // document.getElementById("register-form").submit();
-         // swal({
-         //   title: '등록 완료',
-         //   text: '등록이 완료됐어!',
-         //   icon: "sucess",
-         //   timer: 3000,
-         // });
-         // closeWindow();
+         document.getElementById("register-form").submit();
+         swal({
+           title: '등록 완료',
+           text: '등록이 완료됐어!',
+           icon: "sucess",
+           timer: 3000,
+         });
+         setTimeout(function() {
+           closeWindow();
+         }, 3000);
 
          // alert('close2');
          // closeWindow();
 
-         task = [
-           function(callback) {
-             var err = 'done';
-             document.getElementById("register-form").submit();
-             swal({
-               title: '등록 완료',
-               text: '등록이 완료됐어!',
-               icon: "sucess",
-               timer: 3000,
-             });
-             callback(null, err);
-           },
-           function(err, callback) {
-             document.closeWindow();
-             callback(null);
-           }
-         ];
-         async.waterfall(task);
-         // swal('등록이 완료됐어!', "sucess");
+         // task = [
+         //   function(callback) {
+         //     var err = 'done';
+         //     document.getElementById("register-form").submit();
+         //     swal({
+         //       title: '등록 완료',
+         //       text: '등록이 완료됐어!',
+         //       icon: "sucess",
+         //       timer: 3000,
+         //     });
+         //     callback(null, err);
+         //   },
+         //   function(err, callback) {
+         //     document.closeWindow();
+         //     callback(null);
+         //   }
+         // ];
+         // async.waterfall(task);
+         // // swal('등록이 완료됐어!', "sucess");
+
        }
      });
    });
