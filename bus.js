@@ -33,7 +33,7 @@ var initBusConv = function(event) {
 
 var busTest = function(event) {
   console.log('TEST busTest');
-  if (event.message.text.indexOF('/') > -1) {
+  if (event.message.text.indexOf('/') > -1) {
     console.log('VALID busTest INPUT');
     var txt = event.message.text;
     var busNum, stName, busRouteId, stId;
