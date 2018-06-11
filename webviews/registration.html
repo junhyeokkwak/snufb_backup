@@ -147,23 +147,42 @@
     $(document).on('click', '#btn-submit', function(e) {
       e.preventDefault();
       swal({
-        title: 'Confirm',
-        input: 'checkbox',
-        inputValue: 0,
-        inputPlaceholder: ' I agree with the Terms',
-        confirmButtonText: 'Continue',
-        inputValidator: function (result) {
-          return new Promise(function (resolve, reject) {
-            if (result) {
-              resolve();
-            } else {
-              reject('You need to agree with the Terms');
-            }
-          })
+        title              : "Are you sure?",
+        text               : "You want to save?",
+        type               : "warning",
+        allowEscapeKey     : false,
+        allowOutsideClick  : false,
+        showCancelButton   : true,
+        confirmButtonColor : "#DD6B55",
+        confirmButtonText  : "Yes",
+        showLoaderOnConfirm: true,
+        closeOnConfirm     : false
+      }).then(function(isConfirm) {
+        if(ifConfirm) {
+          $('#register-form').submit;
+          return true;
+        } else {
+          return false;
         }
-      }).then(function(result) {
-        $('#register-form').submit;
       });
+      // swal({
+      //   title: 'Confirm',
+      //   input: 'checkbox',
+      //   inputValue: 0,
+      //   inputPlaceholder: ' I agree with the Terms',
+      //   confirmButtonText: 'Continue',
+      //   inputValidator: function (result) {
+      //     return new Promise(function (resolve, reject) {
+      //       if (result) {
+      //         resolve();
+      //       } else {
+      //         reject('You need to agree with the Terms');
+      //       }
+      //     })
+      //   }
+      // }).then(function(result) {
+      //   $('#register-form').submit;
+      // });
     });
   </script>
 
