@@ -77,7 +77,7 @@ var restaurantRecommendation_1 = function(event) {
     console.log('UNVERIFIED SEARCH');
   }
   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
-  var naverClientSecrete = 'EjgVHFWgzo';
+  var naverClientSecret = 'EjgVHFWgzo';
   var options = {
       method: 'GET',
       // url : 'https://openapi.naver.com/v1/search/shop.json',
@@ -90,7 +90,7 @@ var restaurantRecommendation_1 = function(event) {
       },
       headers: {
         'X-Naver-Client-Id':naverClientID,
-        'X-Naver-Client-Secret': naverClientSecrete,
+        'X-Naver-Client-Secret': naverClientSecret,
       },
   };
   var task = [

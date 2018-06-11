@@ -146,7 +146,7 @@
         if (!value) {
           swal('다시 입력해줘');
         } else {
-          form.submit();
+           document.getElementById("register-form").submit();
         }
         // if(value) {
         //   form.submit();
@@ -155,24 +155,6 @@
         //   swal(`다시 입력해줘!`);
         // }
       });
-      // swal({
-      //   title: 'Confirm',
-      //   input: 'checkbox',
-      //   inputValue: 0,
-      //   inputPlaceholder: ' I agree with the Terms',
-      //   confirmButtonText: 'Continue',
-      //   inputValidator: function (result) {
-      //     return new Promise(function (resolve, reject) {
-      //       if (result) {
-      //         resolve();
-      //       } else {
-      //         reject('You need to agree with the Terms');
-      //       }
-      //     })
-      //   }
-      // }).then(function(result) {
-      //   $('#register-form').submit;
-      // });
     });
   </script>
 
