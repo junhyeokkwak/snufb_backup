@@ -147,13 +147,8 @@
     $(document).on('click', '#btn-submit', function(e) {
       e.preventDefault();
       swal({
-        "Are you sure you want to do this?",
-        buttons: {
-          cancle : "CANCEL",
-          confirm : {
-            text: "CONFIRM",
-            value: "confirm",
-          },
+        "Are you sure you want to do this?", {
+          buttons: ["Oh noez!", true],
         },
       }).then((value) => {
           swal(`The returned value is: ${value}`);
