@@ -17,7 +17,7 @@ var initBusConv = function(event) {
   var task = [
     function(callback){
       var err;
-      connection.query('UPDATE Users SET conv_context="busConv_1_Number" WHERE user_id=' + event.sender.id);
+      connection.query('UPDATE Users SET conv_context="busTest" WHERE user_id=' + event.sender.id);
       callback(null, err);
     },
     function(err, callback){
@@ -111,6 +111,7 @@ var busTest = function(event) {
 module.exports = {
   functionMatch: {
     "버스": initBusConv,
+    "busTest" : busTest,
     // "busConv_1_Number" : busConv_1_Number,
     // "busConv_2_Station" : busConv_2_Station,
     // "busConv_3_Print" : busConv_3_Print,
