@@ -89,23 +89,23 @@
      // var regiClass = document.forms[0].newRegiClass.value;
      // return confirm("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n 위의 정보가 맞다면 [확인]을 눌러줘!");
      e.preventDefault();
-     swal({
-       title: 'Are you sure?',
-       text: "It will permanently deleted !",
-       type: 'warning',
-       showCancelButton: true,
-       confirmButtonColor: '#3085d6',
-       cancelButtonColor: '#d33',
-       confirmButtonText: 'Yes, delete it!'
-     }).then(function(){
-       swal(
-         'Deleted!',
-         'Your file has been deleted.',
-         'success'
-       );
-     })
+     // swal({
+     //   title: 'Are you sure?',
+     //   text: "It will permanently deleted !",
+     //   type: 'warning',
+     //   showCancelButton: true,
+     //   confirmButtonColor: '#3085d6',
+     //   cancelButtonColor: '#d33',
+     //   confirmButtonText: 'Yes, delete it!'
+     // }).then(function(){
+     //   swal(
+     //     'Deleted!',
+     //     'Your file has been deleted.',
+     //     'success'
+     //   );
+     // })
   }
-
+  // onsubmit="return validate(this);"
   </script>
 
   <!-- <button onclick= 'swal("Oops!", "Something went wrong!", "error")'>SWEET ALERT TEST: Error1</button>
@@ -113,18 +113,18 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <div class = "login-page">
     <div class = "form" herf="#" href="#">
-      <form class = "register-form" id = "register-form" method = "post" action="/register/new_user" onsubmit="return validate(this);"/>
+      <form class = "register-form" id = "register-form" method = "post" action="/register/new_user"/>
       <input name="user_psid" type="hidden" value="" />
       <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
       <input name = "newRegiClass" type="text" placeholder="학번"/>
-      <button class = "submit" value = "submit"> 새로 등록 </button>
+      <button class = "submit" id="btn-submit" value = "submit"> 새로 등록 </button>
       <!-- <input class = "submit" type = "button" value="새로 등록"/> -->
       <p class = "message">이미 등록되어 있어?
         <a href="#"> 새 정보로 다시 등록 </a>
       </p>
       </form>
 
-      <form class="login-form" id = "login-form" method = "post" action="/register/re_user" onsubmit="return validate(this);">
+      <form class="login-form" id = "login-form" method = "post" action="/register/re_user">
       <input name="user_psid" type="hidden" value="" />
       <input name = "reRegiMajor" type="text" placeholder="전공학과"/>
       <input name = "reRegiClass" type="text" placeholder="학번"/>
@@ -144,9 +144,27 @@
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
     });
 
-    // $('.trans').click(function(){
-    // $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
-    // });
+    $(document).on('click', '#btn-submit', function(e) {
+      e.preventDefault();
+      swal({
+        title: 'Confirm',
+        input: 'checkbox',
+        inputValue: 0,
+        inputPlaceholder: ' I agree with the Terms',
+        confirmButtonText: 'Continue',
+        inputValidator: function (result) {
+          return new Promise(function (resolve, reject) {
+            if (result) {
+              resolve();
+            } else {
+              reject('You need to agree with the Terms');
+            }
+          })
+        }
+      }).then(function(result) {
+        $('#register-form').submit;
+      });
+    });
   </script>
 
 
