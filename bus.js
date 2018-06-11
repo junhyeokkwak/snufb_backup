@@ -56,11 +56,36 @@ var busConv_1_Number = function(event) {
   }
 };
 
+var busConv_2_Station = function(event) {
+  console.log('RUN busConv_2_Station');
+  if (event.message.text == "연세대앞" || "신촌기차역" || "신촌역2호선" || "신촌로터리") {
+    var stId;
+    var task = [
+      function(callback) {
+        var err;
+        console.log('VALID STID');
+        connection.query('UPDATE Users SET conv_context="busConv_3_Print" WHERE user_id=' + event.sender.id);
+        if (event.message.text == "연세대앞") stId = 112000012;
+        callback(null, err);
+      },
+      function(err, callback) {
+        var messageData = {"text": `busRouteId: ${busRouteId} stId: ${stID}`};
+        api.sendResponse(event, messageData);
+        callback(null);
+      }
+    ];
+    async.waterfall(task);
+  } else {
+    console.log('INVALID STID');
+    connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+  }
+};
+
 
 module.exports = {
   functionMatch: {
     "버스": initBusConv,
     "busConv_1_Number" : busConv_1_Number,
-    "busConv_2_Station" : busConv_1_Station,
+    "busConv_2_Station" : busConv_2_Station,
   }
 };
