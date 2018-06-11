@@ -85,7 +85,9 @@
    // }
 
    function validate() {
-     return confirm('Do you really want to submit the form?')
+     var regiMajor = document.forms[0].newRegiMajor.value;
+     var regiClass = document.forms[0].newRegiClass.value;
+     return confirm("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n 위의 정보가 맞다면 [확인]을 눌러줘!");
    }
 
   </script>
