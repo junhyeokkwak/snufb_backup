@@ -146,6 +146,8 @@
             text: '등록이 완료됐어!',
             icon: "sucess",
             timer: 2000,
+          }).then(() => {
+            closeWindow();          
           });
           // task = [
           //   function(callback) {
@@ -160,7 +162,6 @@
           // ];
           // async.waterfall(task);
           // swal('등록이 완료됐어!', "sucess");
-          closeWindow();
         }
       });
     });
