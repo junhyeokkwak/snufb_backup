@@ -140,18 +140,19 @@
         if (!value) {
           // swal('다시 입력해줘!', '', "error");
         } else {
-          task = [
-            function(callback) {
-              var err = 'done';
-              document.getElementById("register-form").submit();
-              callback(null, err);
-            },
-            function(err, callback) {
-              closeWindow();
-              callback(null);
-            }
-          ];
-          async.waterfall(task);
+          document.getElementById("register-form").submit().then(() => { closeWindow(); });
+          // task = [
+          //   function(callback) {
+          //     var err = 'done';
+          //     document.getElementById("register-form").submit();
+          //     callback(null, err);
+          //   },
+          //   function(err, callback) {
+          //     closeWindow();
+          //     callback(null);
+          //   }
+          // ];
+          // async.waterfall(task);
           // swal('등록이 완료됐어!', "sucess");
           // closeWindow();
         }
