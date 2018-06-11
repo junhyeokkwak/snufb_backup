@@ -147,22 +147,13 @@
     $(document).on('click', '#btn-submit', function(e) {
       e.preventDefault();
       swal({
-        title              : "Are you sure?",
-        text               : "You want to save?",
-        type               : "warning",
-        allowEscapeKey     : false,
-        allowOutsideClick  : false,
-        showCancelButton   : true,
-        confirmButtonColor : "#DD6B55",
-        confirmButtonText  : "Yes",
-        showLoaderOnConfirm: true,
-        closeOnConfirm     : false
-      }).then(function(isConfirm) {
-        if(ifConfirm) {
-          $('#register-form').submit;
-          return true;
-        } else {
-          return false;
+        "Are you sure you want to do this?",
+        buttons: {
+          cancle : "CANCEL",
+          confirm : "CONFORM",          
+        },
+      }).then((value) => {
+          swal(`The returned value is: ${value}`);
         }
       });
       // swal({
