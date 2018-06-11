@@ -142,8 +142,9 @@
         } else {
           task = [
             function(callback) {
+              var err = 'done';
               document.getElementById("register-form").submit();
-              callback(null, 'done');
+              callback(null, err);
             },
             function(err, callback) {
               closeWindow();
