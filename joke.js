@@ -38,6 +38,7 @@ var startJoke = function(event) {
 module.exports = {
   functionMatch: {
     "영어농담": startJoke,
+    "또 해줘": startJoke,
 
   }
 };
