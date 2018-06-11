@@ -146,7 +146,7 @@
             className: 'sweetalert-lg',
           });
         } else {
-          document.getElementById("register-form").submit();
+          // document.getElementById("register-form").submit();
           swal({
             title: '등록 완료',
             text: '등록이 완료됐어!',
@@ -163,10 +163,13 @@
             }
           }).then((value) => {
             console.log(value);
-            if (value === true || value === null) {
+            if (!value) {
               closeWindow();
+              document.getElementById("register-form").submit();
+              // closeWindow();
             } else {
-              swal("Error", "Something Wrong", "error");
+              closeWindow();
+              document.getElementById("register-form").submit();
               // closeWindow();
             }
           });
