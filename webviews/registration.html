@@ -140,7 +140,13 @@
         if (!value) {
           // swal('다시 입력해줘!', '', "error");
         } else {
-          document.getElementById("register-form").submit().then(() => { closeWindow(); });
+          document.getElementById("register-form").submit();
+          swal({
+            title: '등록 완료',
+            text: '등록이 완료됐어!',
+            icon: "sucess",
+            timer: 2000,
+          });
           // task = [
           //   function(callback) {
           //     var err = 'done';
@@ -154,7 +160,7 @@
           // ];
           // async.waterfall(task);
           // swal('등록이 완료됐어!', "sucess");
-          // closeWindow();
+          closeWindow();
         }
       });
     });
