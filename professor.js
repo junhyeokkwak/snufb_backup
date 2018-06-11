@@ -34,7 +34,7 @@ function profName(event) {
   var task = [
     function(callback) {
       connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-      connection.query('SELECT email FROM ewhaProf WHERE name=' + event.message.text, function(err, result, fields) {
+      connection.query('SELECT email FROM ewhaProf WHERE name=손흥민', function(err, result, fields) {
         if (err) throw err;
 
         api.sendResponse(event, {"text": result[0].email + "이야"});
