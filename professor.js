@@ -29,6 +29,19 @@ function profSearch(event) {
 
 function profName(event) {
   console.log('PROFESSOR NAME INPUT');
+  var profEmail = connection.query('SELECT email FROM ewhaProf WHERE name=' event.message.text);
+  console.log("ProfEmail: " + profEmail);
+  var task = [
+    function(callback) {
+      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+      callback(null, 'done');
+    },
+    function(err, callback) {
+      api.sendResponse(event, {"text": profEmail + " 인 것 같은데?"});
+    }
+  ]
+  async.waterfall(task);
+
 }
 
 
