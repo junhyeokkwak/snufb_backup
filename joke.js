@@ -22,7 +22,7 @@ var startJoke = function(event) {
     },
     function(err, callback) {
       request(jokeContent, function(error, response, body) {
-        if (err) throw err;
+        if (error) throw new Error(error);
         var jokeString = JSON.parse(body).joke;
         console.log(jokeString);
       //  api.sendResponse(event, {'text' : })
