@@ -147,9 +147,11 @@
             icon: "sucess",
             timer: 3000,
           }).then(() => {
-            document.closeWindow();
+            alert('close1');
+            closeWindow();
           });
-          document.closeWindow();
+          alert('close2');
+          closeWindow();
           // task = [
           //   function(callback) {
           //     var err = 'done';
