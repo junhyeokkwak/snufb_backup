@@ -25,6 +25,7 @@ var startJoke = function(event) {
         if (error) throw new Error(error);
         var jokeString = JSON.parse(body).joke;
         console.log(jokeString);
+        api.sendResponse(event, {'text' : jokeString});
       //  api.sendResponse(event, {'text' : })
 
     });
@@ -36,7 +37,7 @@ var startJoke = function(event) {
 
 module.exports = {
   functionMatch: {
-    "ㄴㄷ": startJoke,
+    "영어농담": startJoke,
 
   }
 };
