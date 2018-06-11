@@ -143,12 +143,17 @@
         },
       }).then((value) => {
         swal(`The returned value is: ${value}`);
-        if(value) {
+        if (!value) {
+          swal('다시 입력해줘');
+        } else {
           form.submit();
-          // closeWindow();
-        } else if(!value) {
-          swal(`다시 입력해줘!`);
         }
+        // if(value) {
+        //   form.submit();
+        //   // closeWindow();
+        // } else if(!value) {
+        //   swal(`다시 입력해줘!`);
+        // }
       });
       // swal({
       //   title: 'Confirm',
