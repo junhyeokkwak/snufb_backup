@@ -46,18 +46,18 @@ var busTest = function(event) {
     if (stName == "연세대앞" || "연대앞") stId = 112000012;
     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
 
-    getBusArriveInfo(busRouteId, stID);
+    getBusArriveInfo(busRouteId, stId);
   } else {
     console.log('INVALID busTest INPUT');
   }
 };
 
-var getBusArriveInfo = function(busRouteId, stID) {
+var getBusArriveInfo = function(busRouteId, stId) {
   console.log("RUN getBusArriveInfo");
-  var ord = getArrInfoByRouteAll(busRouteId, stID);
+  var ord = getArrInfoByRouteAll(busRouteId, stId);
 }
 
-var getArrInfoByRouteAll = function(busRouteId, stID) {
+var getArrInfoByRouteAll = function(busRouteId, stId) {
   console.log("RUN getArrInfoByRouteAll");
   // NOTE: pseudo!!
   var serviceKey = process.env.BUS_SERVICE_KEY;
@@ -129,20 +129,20 @@ var getArrInfoByRouteAll = function(busRouteId, stID) {
 //     var task = [
 //       function(callback) {
 //         var err;
-//         console.log('VALID STID');
+//         console.log('VALID stId');
 //         connection.query('UPDATE Users SET conv_context="busConv_3_Print" WHERE user_id=' + event.sender.id);
 //         //put stId in mysql
 //         callback(null, err);
 //       },
 //       function(err, callback) {
-//         var messageData = {"text": `busRouteId: ${busRouteId} stId: ${stID}`};
+//         var messageData = {"text": `busRouteId: ${busRouteId} stId: ${stId}`};
 //         api.sendResponse(event, messageData);
 //         callback(null);
 //       }
 //     ];
 //     async.waterfall(task);
 //   } else {
-//     console.log('INVALID STID');
+//     console.log('INVALID stId');
 //     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
 //   }
 // };
@@ -150,7 +150,7 @@ var getArrInfoByRouteAll = function(busRouteId, stID) {
 // var busConv_3_Print = function(event) {
 //   console.log("RUN busConv_3_Print");
 //   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-//   var messageData = {"text": `busRouteId: ${busRouteId} stId: ${stID}`};
+//   var messageData = {"text": `busRouteId: ${busRouteId} stId: ${stId}`};
 //   api.sendResponse(event, messageData);
 // }
 
