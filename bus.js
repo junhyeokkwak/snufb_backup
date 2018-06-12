@@ -5,6 +5,7 @@ var api = require('./apiCalls');
 var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
+var convert = require('xml-js');
 
 //XML to json
 // var querystring = require('querystring');
@@ -45,9 +46,54 @@ var busTest = function(event) {
     if (stName == "연세대앞" || "연대앞") stId = 112000012;
     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
 
+    getBusArriveInfo(busRouteId, stID);
   } else {
     console.log('INVALID busTest INPUT');
   }
+};
+
+var getBusArriveInfo = function(busRouteId, stID) {
+  console.log("RUN getBusArriveInfo");
+  var ord = getArrInfoByRouteAll(busRouteId, stID);
+}
+
+var getArrInfoByRouteAll = function(busRouteId, stID) {
+  console.log("RUN getArrInfoByRouteAll");
+  // NOTE: pseudo!!
+  var serviceKey = process.env.BUS_SERVICE_KEY;
+  var options = {
+      method: 'GET',
+      url : 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll',
+      qs : {
+        ServiceKey : serviceKey,
+        busRouteId : busRouteId,
+      }
+  };
+  var ord;
+  var task = [
+    function(callback) {
+      request(options, function (error, response, body) {
+        var err;
+        if (error) throw new Error(error);
+        // console.log("XML: " + body);
+        var xmlData = body;
+        var jsonData = convert.xml2json(xmlData, {compact: true, spaces: 4});
+        //console.log(JSON.parse(body));
+        console.log("TESTING ITEM 1:" + jsonData.ServiceResult.msgBody.itemList[0]);
+        jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
+          if (item.stId === stId) ord = item.staOrd;
+        });
+        callback(null, err);
+      });
+    },
+    function(err, callback) {
+      console.log("ORD: " + ord);
+      callback(null);
+    },
+  ];
+  async.waterfall(task);
+  if (ord != null) return ord;
+  return null;
 }
 
 // var busConv_1_Number = function(event) {
