@@ -7,6 +7,7 @@ var async = require('async');
 var mysql = require("mysql");
 var convert = require('xml-js');
 
+const BUS_SERVICE_KEY = process.env.BUS_SERVICE_KEY;
 //XML to json
 // var querystring = require('querystring');
 // var parseString = require('xml2js').parseString;
@@ -60,12 +61,11 @@ var getBusArriveInfo = function(busRouteId, stId) {
 var getArrInfoByRouteAll = function(busRouteId, stId) {
   console.log("RUN getArrInfoByRouteAll");
   // NOTE: pseudo!!
-  var serviceKey = process.env.BUS_SERVICE_KEY;
   var options = {
       method: 'GET',
       url : 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll',
       qs : {
-        ServiceKey : serviceKey,
+        ServiceKey : 'oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D',
         busRouteId : busRouteId,
       }
   };
@@ -80,6 +80,11 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         var jsonData = convert.xml2json(xmlData, {compact: true, spaces: 4});
         //console.log(JSON.parse(body));
         console.log("TESTING JSON DATA:" + jsonData);
+        console.log("HEADERMSG: " + jsonData.ServiceResult.msgHeader.headerMsg._text);
+        if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
+          console.log("인증실패");
+        }
+
         console.log("TESTING ITEM 1:" + jsonData.ServiceResult.msgBody.itemList[0]);
         jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
           if (item.stId === stId) ord = item.staOrd;
