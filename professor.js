@@ -37,7 +37,7 @@ function profName(event) {
       connection.query('SELECT email FROM ewhaProf WHERE name=\'' + event.message.text + '\'', function(err, result, fields) {
         if (err) throw err;
 
-        api.sendResponse(event, {"text": result[0].email + " 이야"});
+        api.sendResponse(event, {"text": result[0].email + " 이야!"});
       });
       callback(null);
     }
