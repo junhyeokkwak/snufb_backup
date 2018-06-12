@@ -6,6 +6,9 @@ body {
 	background-position: center;
 }
 
+.sweet-alert { margin: auto; transform: translateX(-50%); }
+.sweet-alert.sweetalert-lg { width: 800px; }
+
 .login-page{
 /*	width: 360px;*/
 	width: 1080px;
@@ -38,7 +41,7 @@ body {
 	box-sizing: border-box;
 	color: black;
 /*	font-size: 14px;*/
-	text-align: center; 
+	text-align: center;
 	font-size: 40px;
 }
 
@@ -52,7 +55,7 @@ body {
 	padding: 30px;
 	color: #FFFFFF;
 /*	font-size: 14px;*/
-	font-size: 40px;	
+	font-size: 40px;
 }
 
 .form button {

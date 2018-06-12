@@ -5,6 +5,7 @@ var api = require('./apiCalls');
 var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
+const isImageUrl = require('is-image-url');
 
 //XML to json
 // var querystring = require('querystring');
@@ -48,7 +49,19 @@ var initRestaurantRecommendation = function(event) {
     async.waterfall(task);
   } else if (event.message.text == "아니") {
     console.log("USER SELECT : NO in initRestaurantConv");
-
+    var task = [
+      function(callback){
+        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+        callback(null, 'done');
+      },
+      function(err, callback){
+        var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
+        var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
+         api.sendResponse(event, messageData);
+        callback(null);
+      },
+    ];
+    async.waterfall(task);
   } else {
     console.log("USER SELECT : UNEXPECTED RESPONSE in initRestaurantConv");
   }
@@ -58,15 +71,16 @@ var restaurantRecommendation_1 = function(event) {
   console.log("RUN: restaurantRecommendation_1");
   if (event.message.text == "한식" ||  "중식" || "일식" || "양식" || "분식") {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_1");
-    var search = "신촌" + event.message.text;
+    var search = "신촌 맛집 " + event.message.text;
     console.log('SEARCH: ' + search);
   } else {
     console.log('UNVERIFIED SEARCH');
   }
   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
-  var naverClientSecrete = 'EjgVHFWgzo';
-  var options = { method: 'GET',
-       // url: 'https://openapi.naver.com/v1/search/local.json'+'?query='+search+'&display=10&start=1&sort=sim',
+  var naverClientSecret = 'EjgVHFWgzo';
+  var options = {
+      method: 'GET',
+      // url : 'https://openapi.naver.com/v1/search/shop.json',
       url : 'https://openapi.naver.com/v1/search/local.json',
       qs : {
         query : search,
@@ -76,10 +90,9 @@ var restaurantRecommendation_1 = function(event) {
       },
       headers: {
         'X-Naver-Client-Id':naverClientID,
-        'X-Naver-Client-Secret': naverClientSecrete,
+        'X-Naver-Client-Secret': naverClientSecret,
       },
   };
-
   var task = [
     function(callback){
       var err;
@@ -87,7 +100,9 @@ var restaurantRecommendation_1 = function(event) {
       callback(null, err);
     },
     function(err, callback){
+      var body;
       request(options, function (error, response, body) {
+        var body = body;
         if (error) throw new Error(error);
         //console.log(JSON.parse(body));
         console.log(JSON.parse(body).items);
@@ -96,19 +111,46 @@ var restaurantRecommendation_1 = function(event) {
         console.log("RECO RES CATEGORY: " + JSON.parse(body).items[0].category);
         var title = JSON.parse(body).items[0].title;
         var url = JSON.parse(body).items[0].link;
-        var category = JSON.parse(body).items[0].category;
-        var titleMessage = "TITLE MESSAGE";
-        var buttonMessage = "BUTTONMESSAGE";
-        api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + " 어때??"});
-        if (url == '') {
-          console.log('RESTAURANT URL DNE');
-          url = 'http://www.example.com/'
-          api.handleRestaurantWebview(event, titleMessage, url, buttonMessage);
-        } else {
-          console.log('RESTAURANT URL EXISTS');
-          api.handleRestaurantWebview(event, titleMessage, url, buttonMessage);
-        }
-        api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + Josa(title, "가") +" 괜찮데:)"});
+        var image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
+        var category = JSON.parse(body).items[0].category.split('>')[1];
+        // var category = "[임시카테고리]";
+        var titleMessage = title;
+        var buttonMessage = title + " 사이트 바로가기!";
+        var innertask = [
+          function(callback) {
+            var innerErr;
+            api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + category + " 어때??"});
+            callback(null,innerErr);
+          },
+          function(innerErr, callback) {
+            setTimeout(function() {
+              callback(null, innerErr);
+            },1000);
+          },
+          function(innerErr, callback) {
+            if (url == '') {
+              console.log('RESTAURANT URL DNE');
+              url = 'http://www.example.com/'
+              if (JSON.parse(body).items[0].link != "" && isImageUrl(JSON.parse(body).items[0].link)) {
+                var imageURL = JSON.parse(body).items[0].link;
+              }
+              api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
+              callback(null, innerErr);
+            } else {
+              console.log('RESTAURANT URL EXISTS');
+              if (JSON.parse(body).items[0].link != "" && isImageUrl(JSON.parse(body).items[0].link)) {
+                var imageURL = JSON.parse(body).items[0].link;
+              }
+              api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
+              callback(null, innerErr);
+            }
+          },
+          function(innerErr, callback) {
+            api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + Josa(title, "가") +" 괜찮데:)"});
+            callback(null);
+          },
+        ];
+        async.waterfall(innertask);
       });
       callback(null);
     },
@@ -149,3 +191,81 @@ module.exports = {
     "restaurantRecommendation_1" : restaurantRecommendation_1,
   }
 };
+
+
+// var restaurantRecommendation_1 = function(event) {
+//   console.log("RUN: restaurantRecommendation_1");
+//   if (event.message.text == "한식" ||  "중식" || "일식" || "양식" || "분식") {
+//     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_1");
+//     var search = "신촌 맛집 " + event.message.text;
+//     console.log('SEARCH: ' + search);
+//   } else {
+//     console.log('UNVERIFIED SEARCH');
+//   }
+//   var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
+//   var naverClientSecrete = 'EjgVHFWgzo';
+//   var options = { method: 'GET',
+//       // url : 'https://openapi.naver.com/v1/search/shop.json',
+//       url : 'https://openapi.naver.com/v1/search/local.json',
+//       qs : {
+//         query : search,
+//         display : 1,
+//         start : 1,
+//         sort : "comment" // 리뷰 개수 순
+//       },
+//       headers: {
+//         'X-Naver-Client-Id':naverClientID,
+//         'X-Naver-Client-Secret': naverClientSecrete,
+//       },
+//   };
+//   var task = [
+//     function(callback){
+//       var err;
+//       connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+//       callback(null, err);
+//     },
+//     function(err, callback){
+//       var body;
+//       request(options, function (error, response, body) {
+//         var body = body;
+//         if (error) throw new Error(error);
+//         //console.log(JSON.parse(body));
+//         console.log(JSON.parse(body).items);
+//         console.log("RECO RES TITLE: " + JSON.parse(body).items[0].title);
+//         console.log("RECO RES LINK: " + JSON.parse(body).items[0].link);
+//         // console.log("RECO RES CATEGORY: " + JSON.parse(body).items[0].category);
+//         var title = JSON.parse(body).items[0].title;
+//         var url = JSON.parse(body).items[0].link;
+//         var image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
+//         // var category = JSON.parse(body).items[0].category;
+//         var category = "[임시카테고리]";
+//         var titleMessage = title;
+//         var buttonMessage = title + " 사이트 바로가기!";
+//         api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + JSON.parse(body).items[0].category + " 어때??"});
+//         callback(body, title, url, image_url, category, titleMessage, buttonMessage);
+//       });
+//     },
+//     function(body, title, url, image_url, category, titleMessage, buttonMessage, callback) {
+//       if (url == '') {
+//         console.log('RESTAURANT URL DNE');
+//         url = 'http://www.example.com/'
+//         if (JSON.parse(body).items[0].link != "" && isImageUrl(JSON.parse(body).items[0].link)) {
+//           var imageURL = JSON.parse(body).items[0].link;
+//         }
+//         api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
+//       } else {
+//         console.log('RESTAURANT URL EXISTS');
+//         if (JSON.parse(body).items[0].link != "" && isImageUrl(JSON.parse(body).items[0].link)) {
+//           var imageURL = JSON.parse(body).items[0].link;
+//         }
+//         api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
+//       }
+//       callback(body, title, url, image_url, category, titleMessage, buttonMessage)
+//     },
+//     function(body, title, url, image_url, category, titleMessage, buttonMessage, callback) {
+//       api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + Josa(title, "가") +" 괜찮데:)"});
+//       callback(null);
+//     },
+//   ];
+//   async.waterfall(task);
+// };

@@ -6,6 +6,7 @@ var api = require('./apiCalls')
 var async = require('async');
 var mysql = require('mysql');
 var path = require('path')
+
 const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
@@ -168,8 +169,6 @@ app.get('/register', function(req, res){
 app.post('/register/new_user', function(req, res){
     console.log("REGISTRATION NEW: ");
     console.log(req.body);
-    // update SQL database
-  //  req.body.newMajor
     connection.query('UPDATE Users SET college_major="' + req.body.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
     connection.query('UPDATE Users SET student_number="' + req.body.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
     res.status(200).end();
@@ -178,10 +177,8 @@ app.post('/register/new_user', function(req, res){
 app.post('/register/re_user', function(req, res){
     console.log("REGISTRATION RE: ");
     console.log(req.body);
-
     connection.query('UPDATE Users SET college_major="' + req.body.reRegiMajor + '" WHERE user_id=' + req.body.user_psid);
     connection.query('UPDATE Users SET student_number="' + req.body.reRegiClass + '" WHERE user_id=' + req.body.user_psid);
-
     res.status(200).end();
     // res.render('register-success', {data = req.body});
 });
