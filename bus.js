@@ -79,6 +79,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         var xmlData = body;
         var jsonData = convert.xml2json(xmlData, {compact: true, spaces: 4});
         //console.log(JSON.parse(body));
+        console.log("TESTING JSON DATA:" + jsonData);
         console.log("TESTING ITEM 1:" + jsonData.ServiceResult.msgBody.itemList[0]);
         jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
           if (item.stId === stId) ord = item.staOrd;
