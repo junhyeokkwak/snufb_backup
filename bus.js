@@ -78,11 +78,12 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         // console.log("XML: " + body);
         var xmlData = body;
         var jsonData = convert.xml2json(xmlData, {compact: true, spaces: 4});
+        var jsonObjData = JSON.parse(jsonData);
         //console.log(JSON.parse(body));
         console.log("TESTING JSON DATA:" + jsonData);
-        console.log("SERVICE RESULT: " + jsonData.ServiceResult);
-        console.log("HEADERMSG: " + jsonData.ServiceResult.msgHeader.headerMsg._text);
-        if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
+        console.log("SERVICE RESULT: " + jsonObjData.ServiceResult);
+        console.log("HEADERMSG: " + jsonObjData.ServiceResult.msgHeader.headerMsg._text);
+        if (jsonObjData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
           console.log("인증실패");
         }
 
