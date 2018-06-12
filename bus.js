@@ -62,6 +62,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
   console.log("RUN getArrInfoByRouteAll");
   // NOTE: pseudo!!
   var options = 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?busRouteId=100100032&ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D';
+  // var options = 
   // {
   //   method: 'GET',
   //   url: 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll',
@@ -80,8 +81,8 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         if (error) throw new Error(error);
         // console.log("XML: " + body);
         var xmlData = body;
-        var jsonStrData = convert.xml2json(xmlData, {compact: true, spaces: 4});
-        var jsonData = JSON.parse(jsonStrData);
+        var jsonData = convert.xml2json(xmlData, {compact: true, spaces: 4});
+        // var jsonData = JSON.parse(jsonStrData);
         //console.log(JSON.parse(body));
         console.log("TESTING JSON DATA:" + jsonData);
         console.log("SERVICE RESULT: " + jsonData.ServiceResult);
