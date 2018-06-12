@@ -86,17 +86,20 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         // var jsonData = JSON.parse(jsonStrData);
         //console.log(JSON.parse(body));
 
-        console.log("TESTING JSON DATA:" + jsonData);
+        // console.log("TESTING JSON DATA:" + jsonData);
         // console.log("SERVICE RESULT: " + jsonData.ServiceResult);
         // console.log("HEADERMSG: " + jsonData.ServiceResult.msgHeader.headerMsg._text);
         // if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
         //   console.log("인증실패: data.go.kr ");
         // } else {
         //   console.log("인증성공: data.go.kr");
-        //   console.log("TESTING ITEM 1:" + jsonData.ServiceResult.msgBody.itemList[0]);
-        //   jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
-        //     if (item.stId === stId) ord = item.staOrd;
-        //   });
+          console.log("TESTING ITEM 1:" + jsonData.ServiceResult.msgBody.itemList[0]);
+          jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
+            if (item.stId === stId) {
+              ord = item.staOrd;
+              console.log("ORD FOUND: " + ord);
+            }
+          });
         // }
         callback(null, err);
       });
