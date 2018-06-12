@@ -82,8 +82,8 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         if (error) throw new Error(error);
         // console.log("XML: " + body);
         var xmlData = body;
-        var jsonData = convert.xml2json(xmlData, {compact: true, spaces: 4});
-        // var jsonData = JSON.parse(jsonStrData);
+        var jsonStrData = convert.xml2json(xmlData, {compact: true, spaces: 4});
+        var jsonData = JSON.parse(jsonStrData);
         //console.log(JSON.parse(body));
 
         // console.log("TESTING JSON DATA:" + jsonData);
