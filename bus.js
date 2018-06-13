@@ -9,9 +9,6 @@ var convert = require('xml-js');
 const fs = require('fs');
 
 const BUS_SERVICE_KEY = process.env.BUS_SERVICE_KEY;
-//XML to json
-// var querystring = require('querystring');
-// var parseString = require('xml2js').parseString;
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -25,8 +22,6 @@ var initBusConv = function(event) {
     },
     function(err, callback){
       var messageData = {"text": "몇번 버스? 어느 정류장?"};
-      // var qrBusRoute = qr.generateQuickReplies(["153번", "160", "162", "171", "172"]);
-      // var messageData = {"text": "몇번 버스??", "quick_replies": qrBusRoute};
       api.sendResponse(event, messageData);
       callback(null);
     }
@@ -46,13 +41,11 @@ var busTest = function(event) {
 
     if (busNum == "153" || "153번") busRouteId = 100100032;
     if (stName == "연세대앞" || "연대앞") stId = 112000012;
+    getBusArriveInfo(busRouteId, stId);
     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
 
     // var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
     // api.sendResponse(event, messageData);
-
-    getBusArriveInfo(event, busRouteId, stId);
-
 
   } else {
     console.log('INVALID busTest INPUT');
@@ -73,20 +66,8 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
     var stId_target = stId.toString();
   }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
-  // NOTE: pseudo!!
   var options = 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?busRouteId=100100032&ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D';
-  // var options =
-  // {
-  //   method: 'GET',
-  //   url: 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll',
-  //   qs: {
-  //     busRouteId: '100100032',
-  //     ServiceKey: 'oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D'
-  //   },
-  //   headers:
-  //    { 'Postman-Token': 'ac0bcd25-9858-4f0e-b95c-abf41565c675',
-  //      'Cache-Control': 'no-cache' }
-  // };
+
   var ord;
   var task = [
     function(callback) {
@@ -118,11 +99,11 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
               ord = item.staOrd._text;
               console.log("ORD FOUND: " + ord);
               // return ord;
-              callback(null, err, ord);
+              // callback(null, err, ord);
             }
           });
         }
-        callback(null, err, "ORD NOTFOUND");
+        callback(null, err, ord);
       });
     },
     function(err, ord, callback) {
