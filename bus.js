@@ -56,11 +56,15 @@ var busTest = function(event) {
 
 var getBusArriveInfo = function(busRouteId, stId) {
   console.log("RUN getBusArriveInfo");
-  var staOrd = getArrInfoByRouteAll(busRouteId, stId);
-  console.log(`staOrd: ${staOrd} TYPE: ${typeof staOrd}`);
+  getArrInfoByRouteAll(busRouteId, stId, function(res){
+    console.log(res);
+  });
+
+  // var staOrd = getArrInfoByRouteAll(busRouteId, stId);
+  // console.log(`staOrd: ${staOrd} TYPE: ${typeof staOrd}`);
 }
 
-var getArrInfoByRouteAll = function(busRouteId, stId) {
+var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
   console.log("STID: " + stId);
   console.log("RUN getArrInfoByRouteAll");
   if (typeof stId != "string") {
@@ -75,18 +79,12 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
       request(options, function (error, response, body) {
         var err;
         if (error) throw new Error(error);
-        // console.log("XML: " + body);
         var xmlData = body;
         var jsonStrData_Compact = convert.xml2json(xmlData, {compact: true, spaces: 4});
         var jsonData = JSON.parse(jsonStrData_Compact);
         console.log("typeof jsonData: " + typeof jsonData);
         var nth = 0;
-        // console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm._text)}`); // "북한산우이역"
         console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm._text}`); // 북한산우이역
-        // console.log(typeof JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm._text)); // stringify
-        // console.log(typeof JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm)); //string
-        // console.log(typeof jsonData.ServiceResult.msgBody.itemList[nth].stNm._text);  //string
-        // console.log(typeof jsonData.ServiceResult.msgBody.itemList[nth].stNm); //object
         console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
         console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
         if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
@@ -94,13 +92,9 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         } else {
           console.log("인증성공: data.go.kr");
           jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
-            // console.log("ITEM: " + JSON.stringify(item));
-            // console.log("ITEM STAORD: " + item.stId._text + " TYPE: " + (typeof item.stId._text));
-            if (item.stId._text == "112000012") {
+              if (item.stId._text == "112000012") {
               ord = item.staOrd._text;
               console.log("ORD FOUND: " + ord);
-              // return ord;
-              // callback(null, err, ord);
             }
           });
         }
@@ -109,12 +103,58 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
     },
     function(err, ord, callback) {
       console.log("ORD: " + ord);
-      return ord;
       callback(null);
     },
   ];
   async.waterfall(task);
-  // return ord;
+  callback(ord);
+
+  // var task = [
+  //   function(callback) {
+  //     request(options, function (error, response, body) {
+  //       var err;
+  //       if (error) throw new Error(error);
+  //       // console.log("XML: " + body);
+  //       var xmlData = body;
+  //       var jsonStrData_Compact = convert.xml2json(xmlData, {compact: true, spaces: 4});
+  //       var jsonData = JSON.parse(jsonStrData_Compact);
+  //       console.log("typeof jsonData: " + typeof jsonData);
+  //       var nth = 0;
+  //       // console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm._text)}`); // "북한산우이역"
+  //       console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm._text}`); // 북한산우이역
+  //       // console.log(typeof JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm._text)); // stringify
+  //       // console.log(typeof JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm)); //string
+  //       // console.log(typeof jsonData.ServiceResult.msgBody.itemList[nth].stNm._text);  //string
+  //       // console.log(typeof jsonData.ServiceResult.msgBody.itemList[nth].stNm); //object
+  //       console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
+  //       console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
+  //       if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
+  //         console.log("인증실패: data.go.kr ");
+  //       } else {
+  //         console.log("인증성공: data.go.kr");
+  //         jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
+  //           // console.log("ITEM: " + JSON.stringify(item));
+  //           // console.log("ITEM STAORD: " + item.stId._text + " TYPE: " + (typeof item.stId._text));
+  //           if (item.stId._text == "112000012") {
+  //             ord = item.staOrd._text;
+  //             console.log("ORD FOUND: " + ord);
+  //             // return ord;
+  //             // callback(null, err, ord);
+  //           }
+  //         });
+  //       }
+  //       callback(null, err, ord);
+  //     });
+  //   },
+  //   function(err, ord, callback) {
+  //     console.log("ORD: " + ord);
+  //     return ord;
+  //     callback(null);
+  //   },
+  // ];
+  // async.waterfall(task);
+  // callback(ord)
+
 }
 
 // var busConv_1_Number = function(event) {
