@@ -48,7 +48,8 @@ var busTest = function(event) {
     if (stName == "연세대앞" || "연대앞") stId = 112000012;
     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
 
-    getBusArriveInfo(busRouteId, stId);
+    var ord = getBusArriveInfo(busRouteId, stId);
+    console.log("ORD: " + ord);
   } else {
     console.log('INVALID busTest INPUT');
   }
@@ -61,6 +62,12 @@ var getBusArriveInfo = function(busRouteId, stId) {
 
 var getArrInfoByRouteAll = function(busRouteId, stId) {
   console.log("RUN getArrInfoByRouteAll");
+  var messageData = {"text": "버스 정보 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
+  // var qrBusRoute = qr.generateQuickReplies(["153번", "160", "162", "171", "172"]);
+  // var messageData = {"text": "몇번 버스??", "quick_replies": qrBusRoute};
+  api.sendResponse(event, messageData);
+  callback(null);
+
   if (typeof stId === "number") var stId = stId.toString();
   // NOTE: pseudo!!
   var options = 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?busRouteId=100100032&ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D';
@@ -102,7 +109,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
           console.log("인증성공: data.go.kr");
           jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
             // console.log("ITEM: " + JSON.stringify(item));
-            console.log("ITEM STAORD: " + item.stId._text + " TYPE: " + (typeof item.stId._text));
+            // console.log("ITEM STAORD: " + item.stId._text + " TYPE: " + (typeof item.stId._text));
             if (item.stId._text === stId) {
               ord = item.staOrd._text;
               console.log("ORD FOUND: " + ord);
