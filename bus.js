@@ -62,19 +62,19 @@ var getBusArriveInfo = function(busRouteId, stId) {
 var getArrInfoByRouteAll = function(busRouteId, stId) {
   console.log("RUN getArrInfoByRouteAll");
   // NOTE: pseudo!!
-  // var options = 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?busRouteId=100100032&ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D';
-  var options =
-  {
-    method: 'GET',
-    url: 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll',
-    qs: {
-      busRouteId: '100100032',
-      ServiceKey: 'oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D'
-    },
-    // headers:
-    //  { 'Postman-Token': 'ac0bcd25-9858-4f0e-b95c-abf41565c675',
-    //    'Cache-Control': 'no-cache' }
-  };
+  var options = 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?busRouteId=100100032&ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D';
+  // var options =
+  // {
+  //   method: 'GET',
+  //   url: 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll',
+  //   qs: {
+  //     busRouteId: '100100032',
+  //     ServiceKey: 'oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D'
+  //   },
+  //   headers:
+  //    { 'Postman-Token': 'ac0bcd25-9858-4f0e-b95c-abf41565c675',
+  //      'Cache-Control': 'no-cache' }
+  // };
   var ord;
   var task = [
     function(callback) {
