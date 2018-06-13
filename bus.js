@@ -69,6 +69,7 @@ var getBusArriveInfo = function(busRouteId, stId) {
 var getArrInfoByRouteAll = function(busRouteId, stId) {
   console.log("RUN getArrInfoByRouteAll");
   if (typeof stId === "number") var stId = stId.toString();
+  console.log(`STID: ${stId} TYPE of STID: ${typeof stId}`);
   // NOTE: pseudo!!
   var options = 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?busRouteId=100100032&ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D';
   // var options =
@@ -113,14 +114,14 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
             if (item.stId._text === stId) {
               ord = item.staOrd._text;
               console.log("ORD FOUND: " + ord);
-              return ord;
+              callback(null, err, ord);
             }
           });
         }
-        callback(null, err);
+        callback(null, err, "ORD NOTFOUND");
       });
     },
-    function(err, callback) {
+    function(err, ord, callback) {
       console.log("ORD: " + ord);
       return ord;
       callback(null);
