@@ -63,12 +63,15 @@ var busTest = function(event) {
 
 var getBusArriveInfo = function(busRouteId, stId) {
   console.log("RUN getBusArriveInfo");
-  var ord = getArrInfoByRouteAll(busRouteId, stId);
+  var staOrd = getArrInfoByRouteAll(busRouteId, stId);
 }
 
 var getArrInfoByRouteAll = function(busRouteId, stId) {
+  console.log("STID: " + stId);
   console.log("RUN getArrInfoByRouteAll");
-  if (typeof stId === "number") var stId_target = stId.toString();
+  if (typeof stId != "string") {
+    var stId_target = stId.toString();
+  }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
   // NOTE: pseudo!!
   var options = 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?busRouteId=100100032&ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D';
@@ -111,7 +114,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
           jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
             // console.log("ITEM: " + JSON.stringify(item));
             console.log("ITEM STAORD: " + item.stId._text + " TYPE: " + (typeof item.stId._text));
-            if (item.stId._text === stId_target) {
+            if (item.stId._text === "112000012") {
               ord = item.staOrd._text;
               console.log("ORD FOUND: " + ord);
               return ord;
