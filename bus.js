@@ -90,10 +90,12 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
 
         var jsonData = JSON.parse(jsonStrData);
         console.log("typeof jsonData: " + typeof jsonData);
+        console.log(jsonData);
         // console.log(`${nth}th item's ${nth} station NAME: ${testData.ServiceResult.msgBody.itemList[nth].stNm} ID: ${testData.ServiceResult.msgBody.itemList[nth].stId} first arr: ${testData.ServiceResult.msgBody.itemList[nth].arrmsg1}`);
         var nth = 0;
-        console.log(`${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm.toString()}`);
+        console.log(`${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm}`);
 
+        // NOTE: TESTER
         var testData = {
           "ServiceResult": {
             "msgHeader": {
@@ -11997,7 +11999,6 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
             }
           }
         }
-
         console.log(typeof testData);
         var nth = 0;
         console.log(`${nth}th item's ${nth} station NAME: ${testData.ServiceResult.msgBody.itemList[nth].stNm} ID: ${testData.ServiceResult.msgBody.itemList[nth].stId} first arr: ${testData.ServiceResult.msgBody.itemList[nth].arrmsg1}`);
