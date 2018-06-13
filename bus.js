@@ -86,7 +86,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         var jsonStrData = convert.xml2json(xmlData, {compact: true, spaces: 4});
         // console.log("jsonStrData: " + jsonStrData);
         console.log("typeof jsonStrData: " + typeof jsonStrData);
-        fs.writeFileSync('busRoute-data.json', jsonStrData);
+        // fs.writeFileSync('busRoute-data.json', jsonStrData);
 
         var jsonData = JSON.parse(jsonStrData);
         console.log("typeof jsonData: " + typeof jsonData);
