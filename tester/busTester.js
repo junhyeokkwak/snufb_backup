@@ -11902,5 +11902,6 @@ var testData = {
   }
 }
 
+console.log(typeof testData);
 var nth = 0;
 console.log(`${nth}th item's ${nth} station NAME: ${testData.ServiceResult.msgBody.itemList[nth].stNm} ID: ${testData.ServiceResult.msgBody.itemList[nth].stId} first arr: ${testData.ServiceResult.msgBody.itemList[nth].arrmsg1}`);

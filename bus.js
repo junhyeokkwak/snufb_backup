@@ -6,7 +6,6 @@ var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
 var convert = require('xml-js');
-
 const fs = require('fs');
 
 const BUS_SERVICE_KEY = process.env.BUS_SERVICE_KEY;
@@ -86,11 +85,11 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         var xmlData = body;
         var jsonStrData = convert.xml2json(xmlData, {compact: true, spaces: 4});
         // console.log("jsonStrData: " + jsonStrData);
-        console.log(typeof jsonStrData);
-        fs.writeFileSync('busRoute-data.json', JSON.stringify(jsonStrData));
+        console.log("typeof jsonStrData: " + typeof jsonStrData);
+        fs.writeFileSync('busRoute-data.json', jsonStrData);
 
-        // var jsonData = JSON.parse(jsonStrData);
-        //console.log(JSON.parse(body));
+        var jsonData = JSON.parse(jsonStrData);
+        console.log("typeof jsonData: " + typeof jsonData);
 
         // console.log("TESTING JSON DATA:" + jsonData);
         // console.log("SERVICE RESULT: " + jsonData.ServiceResult);
