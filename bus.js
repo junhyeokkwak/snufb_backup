@@ -99,15 +99,15 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         console.log(jsonData_NonCompact);
         // console.log(`${nth}th item's ${nth} station NAME: ${testData.ServiceResult.msgBody.itemList[nth].stNm} ID: ${testData.ServiceResult.msgBody.itemList[nth].stId} first arr: ${testData.ServiceResult.msgBody.itemList[nth].arrmsg1}`);
         var nth = 0;
-        console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm)}`);
-        console.log(`NONCOMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData_NonCompact.ServiceResult.msgBody.itemList[nth].stNm)}`);
+        console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm)._text}`);
+        // console.log(`NONCOMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData_NonCompact.ServiceResult.msgBody.itemList[nth].stNm)}`);
         // console.log(`${nth}th item's ${nth} station NAME: ${jsonData_NonCompact.ServiceResult.msgBody.itemList[nth].stNm}`);
 
 
         // console.log("TESTING JSON DATA:" + jsonData);
         // console.log("SERVICE RESULT: " + jsonData.ServiceResult);
 
-        // console.log("HEADERMSG: " + jsonData.ServiceResult.msgHeader.headerMsg._text);
+        console.log("HEADERMSG: " + JSON.stringify(jsonData_Compact.ServiceResult.msgHeader.headerMsg._text));
         // if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
         //   console.log("인증실패: data.go.kr ");
         // } else {
