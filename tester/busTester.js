@@ -11907,3 +11907,42 @@ var testStrData = JSON.stringify(testStrData);
 console.log(typeof testStrData);
 var nth = 0;
 console.log(`${nth}th item's ${nth} station NAME: ${testData.ServiceResult.msgBody.itemList[nth].stNm} ID: ${testData.ServiceResult.msgBody.itemList[nth].stId} first arr: ${testData.ServiceResult.msgBody.itemList[nth].arrmsg1}`);
+
+var options =
+{
+  method: 'GET',
+  url: 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll',
+  qs: {
+    busRouteId: '100100033',
+    ServiceKey: 'oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D'
+  },
+  // headers:
+  //  { 'Postman-Token': 'ac0bcd25-9858-4f0e-b95c-abf41565c675',
+  //    'Cache-Control': 'no-cache' }
+};
+
+// console.log(JSON.stringify(options));
+
+// var xmlData = body;
+// var jsonStrData_Compact = convert.xml2json(xmlData, {compact: true, spaces: 4});
+// var jsonStrData_NonCompact = convert.xml2json(xmlData, {compact: false, spaces: 4});
+//
+//
+// console.log("typeof jsonStrData_Compact: " + typeof jsonStrData_Compact);
+// console.log("typeof jsonStrData_NonCompact: " + typeof jsonStrData_Compact);
+// // fs.writeFileSync('busRoute-data.json', jsonStrData);
+//
+// var jsonData_Compact = JSON.parse(jsonStrData_Compact);
+// var jsonData_NonCompact = JSON.parse(jsonStrData_NonCompact);
+// console.log("typeof jsonData_Compact: " + typeof jsonData_Compact);
+// console.log("typeof jsonData_NonCompact: " + typeof jsonData_NonCompact);
+// console.log(jsonData_Compact);
+// console.log(jsonData_NonCompact);
+// // console.log(`${nth}th item's ${nth} station NAME: ${testData.ServiceResult.msgBody.itemList[nth].stNm} ID: ${testData.ServiceResult.msgBody.itemList[nth].stId} first arr: ${testData.ServiceResult.msgBody.itemList[nth].arrmsg1}`);
+// var nth = 0;
+// console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text)}`); // "북한산우이역"
+// console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text}`); // 북한산우이역
+// console.log(typeof JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text)); // stringify
+// console.log(typeof JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm)); //string
+// console.log(typeof jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text);  //string
+// console.log(typeof jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm); //object
