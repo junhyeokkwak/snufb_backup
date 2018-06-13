@@ -57,7 +57,7 @@ var busTest = function(event) {
 var getBusArriveInfo = function(busRouteId, stId) {
   console.log("RUN getBusArriveInfo");
   var staOrd = getArrInfoByRouteAll(busRouteId, stId);
-  console.log(`staOrd: ${staOrd} TYPE: ${typeod staOrd}`);
+  console.log(`staOrd: ${staOrd} TYPE: ${typeof staOrd}`);
 }
 
 var getArrInfoByRouteAll = function(busRouteId, stId) {
