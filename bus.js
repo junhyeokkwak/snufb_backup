@@ -75,10 +75,22 @@ var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
   }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
   var options, ord;
-  var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll`;
-  var options_busRouteId = `?busRouteId=${busRouteId}`;
-  var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`
-  options = options_url + options_busRouteId + options_ServiceKey;
+  // var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll`;
+  // var options_busRouteId = `?busRouteId=${busRouteId}`;
+  // var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`
+  // options = options_url + options_busRouteId + options_ServiceKey;
+
+  options =
+
+  { method: 'GET',
+  url: 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll',
+  qs:
+   { busRouteId: '100100032',
+     ServiceKey: 'oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D' },
+  headers:
+   { 'Postman-Token': '3b69b786-e7d9-47dc-a531-28052dc777cd',
+     'Cache-Control': 'no-cache' } };
+
   request(options, function (error, response, body) {
     var err;
     if (error) throw new Error(error);
