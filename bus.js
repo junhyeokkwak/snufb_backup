@@ -84,47 +84,29 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         // console.log("XML: " + body);
         var xmlData = body;
         var jsonStrData_Compact = convert.xml2json(xmlData, {compact: true, spaces: 4});
-        var jsonStrData_NonCompact = convert.xml2json(xmlData, {compact: false, spaces: 4});
-
-
-        console.log("typeof jsonStrData_Compact: " + typeof jsonStrData_Compact);
-        console.log("typeof jsonStrData_NonCompact: " + typeof jsonStrData_Compact);
-        // fs.writeFileSync('busRoute-data.json', jsonStrData);
-
-        var jsonData_Compact = JSON.parse(jsonStrData_Compact);
-        var jsonData_NonCompact = JSON.parse(jsonStrData_NonCompact);
-        console.log("typeof jsonData_Compact: " + typeof jsonData_Compact);
-        console.log("typeof jsonData_NonCompact: " + typeof jsonData_NonCompact);
-        console.log(jsonData_Compact);
-        console.log(jsonData_NonCompact);
-        // console.log(`${nth}th item's ${nth} station NAME: ${testData.ServiceResult.msgBody.itemList[nth].stNm} ID: ${testData.ServiceResult.msgBody.itemList[nth].stId} first arr: ${testData.ServiceResult.msgBody.itemList[nth].arrmsg1}`);
+        var jsonData = JSON.parse(jsonStrData_Compact);
+        console.log("typeof jsonData: " + typeof jsonData);
         var nth = 0;
-        console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text)}`);
-        console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text}`);
-        console.log(typeof JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text)); // stringify
-        console.log(typeof JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm)); //string
-        console.log(typeof jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text);  //string
-        console.log(typeof jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm); //object
-        // console.log(`NONCOMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData_NonCompact.ServiceResult.msgBody.itemList[nth].stNm)}`);
-        // console.log(`${nth}th item's ${nth} station NAME: ${jsonData_NonCompact.ServiceResult.msgBody.itemList[nth].stNm}`);
-
-
-        // console.log("TESTING JSON DATA:" + jsonData);
-        // console.log("SERVICE RESULT: " + jsonData.ServiceResult);
-
-        console.log("HEADERMSG: " + JSON.stringify(jsonData_Compact.ServiceResult.msgHeader.headerMsg._text));
-        // if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
-        //   console.log("인증실패: data.go.kr ");
-        // } else {
-        //   console.log("인증성공: data.go.kr");
-          // console.log("TESTING ITEM 1:" + jsonData.ServiceResult.msgBody.itemList[0]);
-          // jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
-          //   if (item.stId === stId) {
-          //     ord = item.staOrd;
-          //     console.log("ORD FOUND: " + ord);
-          //   }
-          // });
-        // }
+        // console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm._text)}`); // "북한산우이역"
+        console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm._text}`); // 북한산우이역
+        // console.log(typeof JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm._text)); // stringify
+        // console.log(typeof JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm)); //string
+        // console.log(typeof jsonData.ServiceResult.msgBody.itemList[nth].stNm._text);  //string
+        // console.log(typeof jsonData.ServiceResult.msgBody.itemList[nth].stNm); //object
+        console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
+        console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
+        if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
+          console.log("인증실패: data.go.kr ");
+        } else {
+          console.log("인증성공: data.go.kr");
+          jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
+            console.log("ITEM: " + JSON.stringify(item));
+            if (item.stId._text === stId) {
+              ord = item.staOrd._text;
+              console.log("ORD FOUND: " + ord);
+            }
+          });
+        }
         callback(null, err);
       });
     },
