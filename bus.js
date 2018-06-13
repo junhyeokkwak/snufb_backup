@@ -48,16 +48,16 @@ var busTest = function(event) {
     if (stName == "연세대앞" || "연대앞") stId = 112000012;
     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
 
-    var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
-    api.sendResponse(event, messageData);
+    // var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
+    // api.sendResponse(event, messageData);
 
     getBusArriveInfo(event, busRouteId, stId);
 
 
   } else {
     console.log('INVALID busTest INPUT');
-    var messageData = {"text": "아직 데이터 베이스에 없는 버스번호/정류장 이름이야!"};
-    api.sendResponse(event, messageData);
+    // var messageData = {"text": "아직 데이터 베이스에 없는 버스번호/정류장 이름이야!"};
+    // api.sendResponse(event, messageData);
   }
 };
 
@@ -114,10 +114,10 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
           jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
             // console.log("ITEM: " + JSON.stringify(item));
             console.log("ITEM STAORD: " + item.stId._text + " TYPE: " + (typeof item.stId._text));
-            if (item.stId._text === "112000012") {
+            if (item.stId._text == "112000012") {
               ord = item.staOrd._text;
               console.log("ORD FOUND: " + ord);
-              return ord;
+              // return ord;
               callback(null, err, ord);
             }
           });
@@ -127,12 +127,12 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
     },
     function(err, ord, callback) {
       console.log("ORD: " + ord);
-      return ord;
+      // return ord;
       callback(null);
     },
   ];
   async.waterfall(task);
-  return ord;
+  // return ord;
 }
 
 // var busConv_1_Number = function(event) {
