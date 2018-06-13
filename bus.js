@@ -64,7 +64,6 @@ var busTest = function(event) {
 var getBusArriveInfo = function(busRouteId, stId) {
   console.log("RUN getBusArriveInfo");
   var ord = getArrInfoByRouteAll(busRouteId, stId);
-  console.log("ORD: " + ord);
 }
 
 var getArrInfoByRouteAll = function(busRouteId, stId) {
@@ -114,6 +113,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
             if (item.stId._text === stId) {
               ord = item.staOrd._text;
               console.log("ORD FOUND: " + ord);
+              return ord;
             }
           });
         }
@@ -122,12 +122,11 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
     },
     function(err, callback) {
       console.log("ORD: " + ord);
+      return ord;
       callback(null);
     },
   ];
   async.waterfall(task);
-  if (ord != null) return ord;
-  return null;
 }
 
 // var busConv_1_Number = function(event) {
