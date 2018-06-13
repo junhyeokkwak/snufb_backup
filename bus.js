@@ -83,17 +83,25 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         if (error) throw new Error(error);
         // console.log("XML: " + body);
         var xmlData = body;
-        var jsonStrData = convert.xml2json(xmlData, {compact: true, spaces: 4});
-        // console.log("jsonStrData: " + jsonStrData);
-        console.log("typeof jsonStrData: " + typeof jsonStrData);
+        var jsonStrData_Compact = convert.xml2json(xmlData, {compact: true, spaces: 4});
+        var jsonStrData_NonCompact = convert.xml2json(xmlData, {compact: false, spaces: 4});
+
+
+        console.log("typeof jsonStrData_Compact: " + typeof jsonStrData_Compact);
+        console.log("typeof jsonStrData_NonCompact: " + typeof jsonStrData_Compact);
         // fs.writeFileSync('busRoute-data.json', jsonStrData);
 
-        var jsonData = JSON.parse(jsonStrData);
-        console.log("typeof jsonData: " + typeof jsonData);
-        console.log(jsonData);
+        var jsonData_Compact = JSON.parse(jsonStrData_Compact);
+        var jsonData_NonCompact = JSON.parse(jsonStrData_NonCompact);
+        console.log("typeof jsonData_Compact: " + typeof jsonData_Compact);
+        console.log("typeof jsonData_NonCompact: " + typeof jsonData_NonCompact);
+        console.log(jsonData_Compact);
+        console.log(jsonData_NonCompact);
         // console.log(`${nth}th item's ${nth} station NAME: ${testData.ServiceResult.msgBody.itemList[nth].stNm} ID: ${testData.ServiceResult.msgBody.itemList[nth].stId} first arr: ${testData.ServiceResult.msgBody.itemList[nth].arrmsg1}`);
         var nth = 0;
-        console.log(`${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm}`);
+        console.log(`${nth}th item's ${nth} station NAME: ${jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm}`);
+        console.log(`${nth}th item's ${nth} station NAME: ${jsonData_NonCompact.ServiceResult.msgBody.itemList[nth].stNm}`);
+
 
         // NOTE: TESTER
         var testData = {
