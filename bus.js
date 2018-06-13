@@ -99,7 +99,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         console.log(jsonData_NonCompact);
         // console.log(`${nth}th item's ${nth} station NAME: ${testData.ServiceResult.msgBody.itemList[nth].stNm} ID: ${testData.ServiceResult.msgBody.itemList[nth].stId} first arr: ${testData.ServiceResult.msgBody.itemList[nth].arrmsg1}`);
         var nth = 0;
-        console.log(`${nth}th item's ${nth} station NAME: ${JSON.stringfy(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm)}`);
+        console.log(`${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm)}`);
         // console.log(`${nth}th item's ${nth} station NAME: ${jsonData_NonCompact.ServiceResult.msgBody.itemList[nth].stNm}`);
 
 
