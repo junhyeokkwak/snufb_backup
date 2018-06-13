@@ -100,10 +100,11 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
         // console.log(`${nth}th item's ${nth} station NAME: ${testData.ServiceResult.msgBody.itemList[nth].stNm} ID: ${testData.ServiceResult.msgBody.itemList[nth].stId} first arr: ${testData.ServiceResult.msgBody.itemList[nth].arrmsg1}`);
         var nth = 0;
         console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text)}`);
-        console.log(typeof JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text));
-        console.log(typeof JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm));
-        console.log(typeof jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text);
-        console.log(typeof jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm);
+        console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text}`);
+        console.log(typeof JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text)); // stringify
+        console.log(typeof JSON.stringify(jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm)); //string
+        console.log(typeof jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm._text);  //string
+        console.log(typeof jsonData_Compact.ServiceResult.msgBody.itemList[nth].stNm); //object
         // console.log(`NONCOMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData_NonCompact.ServiceResult.msgBody.itemList[nth].stNm)}`);
         // console.log(`${nth}th item's ${nth} station NAME: ${jsonData_NonCompact.ServiceResult.msgBody.itemList[nth].stNm}`);
 
