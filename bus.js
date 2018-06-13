@@ -56,8 +56,10 @@ var busTest = function(event) {
 
 var getBusArriveInfo = function(busRouteId, stId) {
   console.log("RUN getBusArriveInfo");
+  var staOrd;
   getArrInfoByRouteAll(busRouteId, stId, function(res){
-    console.log(res);
+    console.log("staOrd:" + res);
+    staOrd = res;
   });
 
   // var staOrd = getArrInfoByRouteAll(busRouteId, stId);
@@ -67,12 +69,16 @@ var getBusArriveInfo = function(busRouteId, stId) {
 var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
   console.log("STID: " + stId);
   console.log("RUN getArrInfoByRouteAll");
+  var stId_target = stId;
   if (typeof stId != "string") {
-    var stId_target = stId.toString();
+    stId_target = stId.toString();
   }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
-  var options = 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?busRouteId=100100032&ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D';
-  var ord;
+  var options, ord;
+  var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll`;
+  var options_busRouteId = `?busRouteId=${busRouteId}`;
+  var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`
+  options = options_url + options_busRouteId + options_ServiceKey;
   request(options, function (error, response, body) {
     var err;
     if (error) throw new Error(error);
