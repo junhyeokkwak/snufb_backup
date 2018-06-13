@@ -57,6 +57,7 @@ var busTest = function(event) {
 var getBusArriveInfo = function(busRouteId, stId) {
   console.log("RUN getBusArriveInfo");
   var staOrd = getArrInfoByRouteAll(busRouteId, stId);
+  console.log(`staOrd: ${staOrd} TYPE: ${typeod staOrd}`);
 }
 
 var getArrInfoByRouteAll = function(busRouteId, stId) {
@@ -94,7 +95,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
           console.log("인증성공: data.go.kr");
           jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
             // console.log("ITEM: " + JSON.stringify(item));
-            console.log("ITEM STAORD: " + item.stId._text + " TYPE: " + (typeof item.stId._text));
+            // console.log("ITEM STAORD: " + item.stId._text + " TYPE: " + (typeof item.stId._text));
             if (item.stId._text == "112000012") {
               ord = item.staOrd._text;
               console.log("ORD FOUND: " + ord);
@@ -108,7 +109,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
     },
     function(err, ord, callback) {
       console.log("ORD: " + ord);
-      // return ord;
+      return ord;
       callback(null);
     },
   ];
