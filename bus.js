@@ -68,8 +68,8 @@ var getBusArriveInfo = function(busRouteId, stId) {
 
 var getArrInfoByRouteAll = function(busRouteId, stId) {
   console.log("RUN getArrInfoByRouteAll");
-  if (typeof stId === "number") var stId = stId.toString();
-  console.log(`STID: ${stId} TYPE of STID: ${typeof stId}`);
+  if (typeof stId === "number") var stId_target = stId.toString();
+  console.log(`STID: ${stId_targe} TYPE of STID: ${typeof stId_targe}`);
   // NOTE: pseudo!!
   var options = 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?busRouteId=100100032&ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D';
   // var options =
@@ -111,9 +111,10 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
           jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
             // console.log("ITEM: " + JSON.stringify(item));
             console.log("ITEM STAORD: " + item.stId._text + " TYPE: " + (typeof item.stId._text));
-            if (item.stId._text === stId) {
+            if (item.stId._text === stId_targe) {
               ord = item.staOrd._text;
               console.log("ORD FOUND: " + ord);
+              return ord;
               callback(null, err, ord);
             }
           });
@@ -128,6 +129,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId) {
     },
   ];
   async.waterfall(task);
+  return ord;
 }
 
 // var busConv_1_Number = function(event) {
