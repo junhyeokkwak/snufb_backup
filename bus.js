@@ -48,8 +48,8 @@ var busTest = function(event) {
     if (stName == "연세대앞" || "연대앞") stId = 112000012;
     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
 
-    var ord = getBusArriveInfo(busRouteId, stId);
-    console.log("ORD: " + ord);
+    getBusArriveInfo(busRouteId, stId);
+
   } else {
     console.log('INVALID busTest INPUT');
   }
@@ -58,11 +58,12 @@ var busTest = function(event) {
 var getBusArriveInfo = function(busRouteId, stId) {
   console.log("RUN getBusArriveInfo");
   var ord = getArrInfoByRouteAll(busRouteId, stId);
+  console.log("ORD: " + ord);
 }
 
 var getArrInfoByRouteAll = function(busRouteId, stId) {
   console.log("RUN getArrInfoByRouteAll");
-  var messageData = {"text": "버스 정보 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
+  var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
   // var qrBusRoute = qr.generateQuickReplies(["153번", "160", "162", "171", "172"]);
   // var messageData = {"text": "몇번 버스??", "quick_replies": qrBusRoute};
   api.sendResponse(event, messageData);
