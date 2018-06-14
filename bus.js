@@ -62,7 +62,7 @@ var busTest = function(event) {
         arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
       }
       var entiremsg_final = `${stName}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
-      entiremsg_final = entiremsg_final.replaceAll("^\"|\"$", "");
+      entiremsg_final = entiremsg_final.replace (/(^")|("$)/g, '');
       var messageData = {"text": entiremsg_final};
       api.sendResponse(event, messageData);
     });
