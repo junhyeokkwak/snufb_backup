@@ -79,8 +79,9 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
       var jsonStrData_Compact = convert.xml2json(xmlData, {compact: true, spaces: 4});
       var jsonData = JSON.parse(jsonStrData_Compact);
       console.log("typeof jsonData: " + typeof jsonData);
-      console.log("JSON TEST: " + JSON.stringify(jsonData));
+      console.log("JSON TEST for getBusArriveInfo: " + JSON.stringify(jsonData));
       console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
+      console.log("arrmsg1: " +JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg1._text));
       // console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
       // if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
       //   console.log("인증실패: data.go.kr ");
