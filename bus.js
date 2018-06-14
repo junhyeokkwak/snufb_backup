@@ -49,7 +49,7 @@ var busTest = function(event) {
       console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
       // console.log("in busTest arrmsg1: " + resultData.arrmsg1);
       var arrmsg1_final, arrmsg2_final, extramsg;
-      if (resultData.arrmsg1 == "곧 도착") {
+      if (resultData.arrmsg1.indexOf("곧") > -1) {
         arrmsg1_final = '곧 도착하구';
         extramsg = '얼른 뛰어가!!'
       } else {
@@ -62,8 +62,7 @@ var busTest = function(event) {
         arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
       }
       var entiremsg_final = `${stName}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
-      entiremsg_final = entiremsg_final.replace (/(^")|("$)/g, '');
-      var messageData = {"text": entiremsg_final};
+      var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
       api.sendResponse(event, messageData);
     });
 

@@ -11912,6 +11912,10 @@ var num = 1000;
 console.log(typeof num);
 console.log(typeof num.toString());
 
+var astr = ` "AFDads""" dsfsa "asd" `;
+console.log(astr.replace(/['"]+/g, ''));
+
+
 var options =
 {
   method: 'GET',
