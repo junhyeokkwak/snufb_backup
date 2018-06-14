@@ -46,7 +46,9 @@ var busTest = function(event) {
     api.sendResponse(event, messageData);
 
     getBusArriveInfo(busRouteId, stId, function(res) {
-        console.log("RESULT of getBusArriveInfo: " + res);
+      console.log("RESULT of getBusArriveInfo: " + res);
+      var messageData = {"text": `${stName}으로 오는 ${busNum} 버스 말하는거지? ${res}`};
+      api.sendResponse(event, messageData);
     });
 
   } else {
@@ -58,19 +60,20 @@ var busTest = function(event) {
 
 var getBusArriveInfo = function(busRouteId, stId, callback) {
   console.log("RUN getBusArriveInfo");
-  var staOrd, options;
+  var staOrd, options, arrmsg1, arrmsg2;
   getArrInfoByRouteAll(busRouteId, stId, function(res){
     console.log("staOrd:" + res);
     staOrd = res;
 
     console.log(`getBusArriveInfo busRouteId:[${busRouteId}] stId:[${stId}] staOrd:[${staOrd}]`);
     var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute`;
-    var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`;
-    var options_busRouteId = `?busRouteId=${busRouteId}`;
-    var options_ord = `?ord=${staOrd}`;
-    options = options_url + options_busRouteId + options_ord + options_ServiceKey;
+    var options_ServiceKey = `?ServiceKey=${process.env.BUS_SERVICE_KEY}`;
+    var options_busRouteId = `&busRouteId=${busRouteId}`;
+    var options_stId = `&stId=${stId}`
+    var options_ord = `&ord=${staOrd}`;
+    options = options_url + options_ServiceKey + options_busRouteId + options_stId + options_ord;
     console.log("OPTIONS URL: " + options);
-    options = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute?ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D&busRouteId=100100032&stId=112000012&ord=47`;
+    // options = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute?ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D&busRouteId=100100032&stId=112000012&ord=47`;
 
     request(options, function (error, response, body) {
       var err;
@@ -81,20 +84,16 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
       console.log("typeof jsonData: " + typeof jsonData);
       console.log("JSON TEST for getBusArriveInfo: " + JSON.stringify(jsonData));
       console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
-      console.log("arrmsg1: " +JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg1._text));
-      // console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
-      // if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
-      //   console.log("인증실패: data.go.kr ");
-      // } else {
-      //   console.log("인증성공: data.go.kr");
-      //   jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
-      //     if (item.stId._text == "112000012") {
-      //       ord = item.staOrd._text;
-      //       console.log("ORD FOUND: " + ord);
-      //       callback(ord);
-      //     }
-      //   });
-      // }
+      if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
+        console.log("인증실패: data.go.kr ");
+      } else {
+        console.log("인증성공: data.go.kr");
+        console.log("arrmsg1: " + JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg1._text));
+        console.log("arrmsg2: " + JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg2._text));
+        arrmsg1 = JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg1._text);
+        arrmsg2 = JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg2._text)
+        callback(`첫번째 버스는 ${arrmsg1}에 도착하고, 두번째 버스는 ${arrmgs2}에 도착해!` );
+      }
     });
 
   });
