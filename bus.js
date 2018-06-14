@@ -135,7 +135,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
       console.log();
       for (var i = 0; i < itemListSize; i++) {
           if (jsonData.ServiceResult.msgBody.itemList[i].stId._text == stId_target) {
-            ord = item.staOrd._text;
+            ord = jsonData.ServiceResult.msgBody.itemList[i].staOrd._text;
             console.log("ORD FOUND: " + ord);
             callback(ord);
           } else if (i >= itemListSize) {
