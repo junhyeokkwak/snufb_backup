@@ -63,6 +63,7 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
     console.log("staOrd:" + res);
     staOrd = res;
   });
+  console.log(`getBusArriveInfo busRouteId:[${busRouteId}] stId:[${stId}] staOrd:[${staOrd}]`);
   var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute`;
   var options_busRouteId = `?busRouteId=${busRouteId}`;
   var options_ord = `?ord=${staOrd}`;
@@ -126,19 +127,33 @@ var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
     console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
     // console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
     if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
-      console.log("인증실패: data.go.kr ");
+      console.log("인증실패: data.go.kr");
+      callback("인증실패: data.go.kr");
     } else {
       console.log("인증성공: data.go.kr");
-      jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
-        if (item.stId._text == "112000012") {
-          ord = item.staOrd._text;
-          console.log("ORD FOUND: " + ord);
-          callback(ord);
-        }
-      });
+      var itemListSize = jsonData.ServiceResult.msgBody.itemList.length;
+      console.log();
+      for (var i = 0; i < itemListSize; i++) {
+          if (jsonData.ServiceResult.msgBody.itemList[i].stId._text == stId_target) {
+            ord = item.staOrd._text;
+            console.log("ORD FOUND: " + ord);
+            callback(ord);
+          } else if (i >= itemListSize) {
+            callback("STAORD NOTFOUND");
+          }
+      }
+
+      // jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
+      //   if (item.stId._text == "112000012") {
+      //     ord = item.staOrd._text;
+      //     console.log("ORD FOUND: " + ord);
+      //     callback(ord);
+      //   }
+      // });
+
     }
   });
-  callback("ORD NOTFOUND");
+  // callback("ORD NOTFOUND");
 }
 
 // var busConv_1_Number = function(event) {
