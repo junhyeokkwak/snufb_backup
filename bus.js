@@ -45,10 +45,11 @@ var busTest = function(event) {
     var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
     api.sendResponse(event, messageData);
 
-    getBusArriveInfo(busRouteId, stId, function(res) {
-      console.log("RESULT of getBusArriveInfo: " + res);
-      var messageData = {"text": `${stName}으로 오는 ${busNum} 버스 말하는거지? ${res}`};
-      api.sendResponse(event, messageData);
+    getBusArriveInfo(busRouteId, stId, function(resultData) {
+      console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
+      console.log("in busTest arrmsg1: " + resultData.arrmsg1);
+      // var messageData = {"text": `${stName}으로 오는 ${busNum} 버스 말하는거지? ${res}`};
+      // api.sendResponse(event, messageData);
     });
 
   } else {
@@ -60,7 +61,7 @@ var busTest = function(event) {
 
 var getBusArriveInfo = function(busRouteId, stId, callback) {
   console.log("RUN getBusArriveInfo");
-  var staOrd, options, arrmsg1, arrmsg2;
+  var staOrd, options, arrmsg1, arrmsg2, resultData;
   getArrInfoByRouteAll(busRouteId, stId, function(res){
     console.log("staOrd:" + res);
     staOrd = res;
@@ -93,13 +94,17 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
         console.log("arrmsg2: " + JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg2._text));
         arrmsg1 = JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg1._text);
         arrmsg2 = JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg2._text)
-        callback(`첫번째 버스는 ${arrmsg1}에 도착하고, 두번째 버스는 ${arrmsg2}에 도착해!` );
+        resultData = {
+          "arrmsg1" : arrmsg1,
+          "arrmsg2" : arrmgs2,
+        }
+        callback(resultData);
+        //`첫번째 버스는 ${arrmsg1}에 도착하고, 두번째 버스는 ${arrmsg2}에 도착해!`
       }
     });
 
   });
-
-  callback("options URL: " + options);
+  // callback("options URL: " + options);
 
   // var staOrd = getArrInfoByRouteAll(busRouteId, stId);
   // console.log(`staOrd: ${staOrd} TYPE: ${typeof staOrd}`);
