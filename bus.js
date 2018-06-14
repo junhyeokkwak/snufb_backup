@@ -63,10 +63,36 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
     console.log("staOrd:" + res);
     staOrd = res;
   });
-  var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll`;
+  var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute`;
   var options_busRouteId = `?busRouteId=${busRouteId}`;
-  var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`
-  options = options_url + options_busRouteId + options_ServiceKey;
+  var options_ord = `?ord=${staOrd}`;
+  var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`;
+  options = options_url + options_busRouteId + options_ord + options_ServiceKey;
+
+  request(options, function (error, response, body) {
+    var err;
+    if (error) throw new Error(error);
+    var xmlData = body;
+    var jsonStrData_Compact = convert.xml2json(xmlData, {compact: true, spaces: 4});
+    var jsonData = JSON.parse(jsonStrData_Compact);
+    console.log("typeof jsonData: " + typeof jsonData);
+    console.log("JSON TEST: " + JSON.stringify(jsonData));
+    console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
+    // console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
+    // if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
+    //   console.log("인증실패: data.go.kr ");
+    // } else {
+    //   console.log("인증성공: data.go.kr");
+    //   jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
+    //     if (item.stId._text == "112000012") {
+    //       ord = item.staOrd._text;
+    //       console.log("ORD FOUND: " + ord);
+    //       callback(ord);
+    //     }
+    //   });
+    // }
+  });
+
   callback("options URL: " + options);
 
   // var staOrd = getArrInfoByRouteAll(busRouteId, stId);
@@ -95,7 +121,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
     var jsonStrData_Compact = convert.xml2json(xmlData, {compact: true, spaces: 4});
     var jsonData = JSON.parse(jsonStrData_Compact);
     console.log("typeof jsonData: " + typeof jsonData);
-    var nth = 0;
+    // var nth = 0;
     // console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm._text}`); // 북한산우이역
     console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
     // console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
