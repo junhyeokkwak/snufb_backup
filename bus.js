@@ -96,7 +96,7 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
         arrmsg2 = JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg2._text)
         resultData = {
           "arrmsg1" : arrmsg1,
-          "arrmsg2" : arrmgs2,
+          "arrmsg2" : arrmsg2,
         }
         callback(resultData);
         //`첫번째 버스는 ${arrmsg1}에 도착하고, 두번째 버스는 ${arrmsg2}에 도착해!`
