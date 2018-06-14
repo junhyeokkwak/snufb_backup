@@ -75,21 +75,11 @@ var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
   }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
   var options, ord;
-  // var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll`;
-  // var options_busRouteId = `?busRouteId=${busRouteId}`;
-  // var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`
-  // options = options_url + options_busRouteId + options_ServiceKey;
+  var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll`;
+  var options_busRouteId = `?busRouteId=${busRouteId}`;
+  var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`
 
-  options =
-
-  { method: 'GET',
-  url: 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll',
-  qs:
-   { busRouteId: '100100032',
-     ServiceKey: 'oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D' },
-  headers:
-   { 'Postman-Token': '3b69b786-e7d9-47dc-a531-28052dc777cd',
-     'Cache-Control': 'no-cache' } };
+  options = options_url + options_busRouteId + options_ServiceKey;
 
   request(options, function (error, response, body) {
     var err;
@@ -99,7 +89,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
     var jsonData = JSON.parse(jsonStrData_Compact);
     console.log("typeof jsonData: " + typeof jsonData);
     var nth = 0;
-    console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm._text}`); // 북한산우이역
+    // console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm._text}`); // 북한산우이역
     console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
     console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
     if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
@@ -116,54 +106,6 @@ var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
     }
   });
   callback("ORD NOTFOUND");
-
-
-  // var task = [
-  //   function(callback) {
-  //     request(options, function (error, response, body) {
-  //       var err;
-  //       if (error) throw new Error(error);
-  //       // console.log("XML: " + body);
-  //       var xmlData = body;
-  //       var jsonStrData_Compact = convert.xml2json(xmlData, {compact: true, spaces: 4});
-  //       var jsonData = JSON.parse(jsonStrData_Compact);
-  //       console.log("typeof jsonData: " + typeof jsonData);
-  //       var nth = 0;
-  //       // console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm._text)}`); // "북한산우이역"
-  //       console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm._text}`); // 북한산우이역
-  //       // console.log(typeof JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm._text)); // stringify
-  //       // console.log(typeof JSON.stringify(jsonData.ServiceResult.msgBody.itemList[nth].stNm)); //string
-  //       // console.log(typeof jsonData.ServiceResult.msgBody.itemList[nth].stNm._text);  //string
-  //       // console.log(typeof jsonData.ServiceResult.msgBody.itemList[nth].stNm); //object
-  //       console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
-  //       console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
-  //       if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
-  //         console.log("인증실패: data.go.kr ");
-  //       } else {
-  //         console.log("인증성공: data.go.kr");
-  //         jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
-  //           // console.log("ITEM: " + JSON.stringify(item));
-  //           // console.log("ITEM STAORD: " + item.stId._text + " TYPE: " + (typeof item.stId._text));
-  //           if (item.stId._text == "112000012") {
-  //             ord = item.staOrd._text;
-  //             console.log("ORD FOUND: " + ord);
-  //             // return ord;
-  //             // callback(null, err, ord);
-  //           }
-  //         });
-  //       }
-  //       callback(null, err, ord);
-  //     });
-  //   },
-  //   function(err, ord, callback) {
-  //     console.log("ORD: " + ord);
-  //     return ord;
-  //     callback(null);
-  //   },
-  // ];
-  // async.waterfall(task);
-  // callback(ord)
-
 }
 
 // var busConv_1_Number = function(event) {
