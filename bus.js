@@ -41,26 +41,37 @@ var busTest = function(event) {
 
     if (busNum == "153" || "153번") busRouteId = 100100032;
     if (stName == "연세대앞" || "연대앞") stId = 112000012;
-    getBusArriveInfo(busRouteId, stId);
     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
+    var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
+    api.sendResponse(event, messageData);
 
-    // var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
-    // api.sendResponse(event, messageData);
+    getBusArriveInfo(busRouteId, stId, function(res) {
+        console.log("RESULT of getBusArriveInfo: " + res);
+    });
 
   } else {
     console.log('INVALID busTest INPUT');
-    // var messageData = {"text": "아직 데이터 베이스에 없는 버스번호/정류장 이름이야!"};
-    // api.sendResponse(event, messageData);
+    var messageData = {"text": "아직 데이터 베이스에 없는 버스번호/정류장 이름이야!"};
+    api.sendResponse(event, messageData);
   }
 };
 
 var getBusArriveInfo = function(busRouteId, stId) {
   console.log("RUN getBusArriveInfo");
-  var staOrd;
+  var staOrd, options;
+
   getArrInfoByRouteAll(busRouteId, stId, function(res){
     console.log("staOrd:" + res);
     staOrd = res;
   });
+
+  var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll`;
+  var options_busRouteId = `?busRouteId=${busRouteId}`;
+  var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`
+
+  options = options_url + options_busRouteId + options_ServiceKey;
+
+  callback("NOTYET");
 
   // var staOrd = getArrInfoByRouteAll(busRouteId, stId);
   // console.log(`staOrd: ${staOrd} TYPE: ${typeof staOrd}`);
@@ -69,12 +80,12 @@ var getBusArriveInfo = function(busRouteId, stId) {
 var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
   console.log("STID: " + stId);
   console.log("RUN getArrInfoByRouteAll");
+  var options, ord;
   var stId_target = stId;
   if (typeof stId != "string") {
     stId_target = stId.toString();
   }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
-  var options, ord;
   var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll`;
   var options_busRouteId = `?busRouteId=${busRouteId}`;
   var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`
@@ -91,7 +102,7 @@ var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
     var nth = 0;
     // console.log(`COMPACT::: ${nth}th item's ${nth} station NAME: ${jsonData.ServiceResult.msgBody.itemList[nth].stNm._text}`); // 북한산우이역
     console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
-    console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
+    // console.log("TESTING ITEM 1:" + JSON.stringify(jsonData.ServiceResult.msgBody.itemList[0]));
     if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
       console.log("인증실패: data.go.kr ");
     } else {
