@@ -56,22 +56,18 @@ var busTest = function(event) {
   }
 };
 
-var getBusArriveInfo = function(busRouteId, stId) {
+var getBusArriveInfo = function(busRouteId, stId, callback) {
   console.log("RUN getBusArriveInfo");
   var staOrd, options;
-
   getArrInfoByRouteAll(busRouteId, stId, function(res){
     console.log("staOrd:" + res);
     staOrd = res;
   });
-
   var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll`;
   var options_busRouteId = `?busRouteId=${busRouteId}`;
   var options_ServiceKey = `&ServiceKey=${process.env.BUS_SERVICE_KEY}`
-
   options = options_url + options_busRouteId + options_ServiceKey;
-
-  callback("NOTYET");
+  callback("options URL: " + options);
 
   // var staOrd = getArrInfoByRouteAll(busRouteId, stId);
   // console.log(`staOrd: ${staOrd} TYPE: ${typeof staOrd}`);
