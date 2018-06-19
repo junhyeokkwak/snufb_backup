@@ -46,7 +46,7 @@ function registerUser(event) {
           function (first_name, callback) {
           //  api.sendResponse(event, {"text": "에이 요 와썹"});
             api.sendResponse(event, {"text":"안녕! 난 설대봇이라고 해. 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
-            callback(null);
+            callback(null, 'done'); // need to edit in the future.
           },
           function(err, callback){
             api.sendOnlineImage(event, "https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/11406841_1456462501330433_4226271548300377992_n.png?_nc_cat=0&oh=8785ba7bf0bd75c4ffa828b2ff3af167&oe=5BA7D701");
