@@ -166,7 +166,7 @@ function callSendAPI(messageData) {
 
 function sendOnlineImage(event, image_url) {
   console.log("SEND ONLINE IMAGE");
-  console.log("image_url")
+  console.log(image_url)
   var senderID = event.sender.id;
     let messageData;
     messageData = {
