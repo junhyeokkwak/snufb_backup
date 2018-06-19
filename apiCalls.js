@@ -164,6 +164,35 @@ function callSendAPI(messageData) {
   });
 }
 
+function sendOnlineImage(event, image_url) {
+  console.log("SEND ONLINE IMAGE");
+  console.log("image_url")
+  var senderID = event.sender.id;
+    let messageData;
+    messageData = {
+      recipient: {
+        id: senderID
+      },
+      message: {
+        "attachment": {
+          "type": "image",
+          "payload": {
+             // "template_type": "media",
+             "url":image_url
+             // "elements": [
+             //    {
+             //       "media_type": "video",
+             //       "url": "https://www.facebook.com/afreecaTV.korea/videos/1742057972505275/"
+             //    }
+             // ]
+          }
+        }
+      }
+    };
+    callSendAPI(messageData);
+}
+
+
 module.exports.handleRestaurantWebview = handleRestaurantWebview;
 module.exports.handlePostback = handlePostback;
 module.exports.sendResponse = sendResponse;
