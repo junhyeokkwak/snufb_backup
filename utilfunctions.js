@@ -57,6 +57,27 @@ function testWebview(event){
 
 function sayhi(targetString, arr, criterion, number) {
   console.log("HI");
+  var stringSimilarity = require('string-similarity');
+  if (typeof targetString != "string" || typeof arr != "object" || typeof (criterion && number) != "number" || number > arr.length) {
+    console.log("INVALID INPUTTYPE for findSimilarStrings");
+  } else {
+    console.log("VALID INPUTTYPE for findSimilarStrings");
+    var possibleStringsArr = [] , resultArr = [], count = 0;
+    for (var i = 0; i < arr.length; i++) {
+      if (stringSimilarity.compareTwoStrings(targetString, arr[i]) >= criterion) {
+        count++;
+        var item;
+        item = { "_text" : arr[i], "similarity" : stringSimilarity.compareTwoStrings(targetString, arr[i])}
+        possibleStringsArr.push(item);
+      }
+    } // terminate for loop
+    console.log(count);
+    possibleStringsArr.sort((a, b) => b.similarity - a.similarity)
+    // console.log(possibleStringsArr);
+    resultArr = possibleStringsArr.slice(0,number);
+    console.log("resultArr: " + resultArr);
+    return(resultArr);
+  }
 }
 
 var stringSimilarity = require('string-similarity');
