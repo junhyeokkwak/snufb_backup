@@ -83,7 +83,7 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
   var staOrd, options, arrmsg1, arrmsg2, resultData;
   getStaOrd_fromInside(busRouteId, stId, function(res){
     console.log("IN getBusArriveInfo staOrd:" + res);
-    staOrd = res[0];
+    staOrd = res;
     console.log(`getBusArriveInfo busRouteId:[${busRouteId}] stId:[${stId}] staOrd:[${staOrd}]`);
     var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute`;
     var options_ServiceKey = `?ServiceKey=${process.env.BUS_SERVICE_KEY}`;
@@ -137,16 +137,11 @@ var getStaOrd_fromInside = function(busRouteId, stId, callback) {
   var itemListSize = jsonData.busRouteId_stId_staOrd.length;
   console.log(itemListSize)
   for (var i = 0; i < itemListSize; i++) {
-      if (jsonData.busRouteId_stId_staOrd[i].stId == stId && jsonData.busRouteId_stId_staOrd[i].busRouteId == busRouteId) {
-        ord = jsonData.busRouteId_stId_staOrd[i].staOrd;
-        console.log("ORD FOUND: " + ord);
-        staOrdArr.push(ord);
-      }
-      if (i = itemListSize - 1) {
-        // callback("STAORD NOTFOUND");
-        console.log("staOrd NOT FOUND");
-        callback(staOrdArr);
-      }
+    if (jsonData.busRouteId_stId_staOrd[i].stId == stId && jsonData.busRouteId_stId_staOrd[i].busRouteId == busRouteId) {
+      ord = jsonData.busRouteId_stId_staOrd[i].staOrd;
+      console.log("ORD FOUND: " + ord);
+      callback(ord);
+    }
   }
 }
 
