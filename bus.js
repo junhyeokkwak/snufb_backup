@@ -53,6 +53,7 @@ var bus_stNmORbusNum = function(event) {
   var msg = event.message.text;
   console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]));
   var stNmORbusNum = stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target;
+  console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating + (typeof stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating));
   if (stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating == 0){
     console.log("MSG UNVARIFIED");
     connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
