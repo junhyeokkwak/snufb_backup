@@ -97,9 +97,12 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
       console.log("typeof jsonData: " + typeof jsonData);
       // console.log("JSON TEST for getBusArriveInfo: " + JSON.stringify(jsonData));
       console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
-      if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
+      if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > -1) {
         console.log("인증실패: data.go.kr ");
         callback("인증실패: data.go.kr ");
+      } else if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("결과가 없습니다.") > -1) {
+
+      }
       } else {
         console.log("인증성공: data.go.kr");
         console.log("arrmsg1: " + JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg1._text));
