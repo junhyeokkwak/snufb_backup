@@ -64,7 +64,7 @@ function findSimilarStrings(targetString, arr, criterion, number) {
     console.log("VALID INPUTTYPE for findSimilarStrings");
     var possibleStringsArr = [] , resultArr = [], count = 0;
     for (var i = 0; i < arr.length; i++) {
-      if (stringSimilarity.compareTwoStrings(targetString, arr[i]) > criterion) {
+      if (stringSimilarity.compareTwoStrings(targetString, arr[i]) >= criterion) {
         count++;
         var item;
         item = { "_text" : arr[i], "similarity" : stringSimilarity.compareTwoStrings(targetString, arr[i])}
