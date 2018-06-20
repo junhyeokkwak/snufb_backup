@@ -7,28 +7,57 @@ var async = require('async');
 var mysql = require("mysql");
 var convert = require('xml-js');
 var bodyparser=require('body-parser');
+var stringSimilarity = require('string-similarity');
 const fs = require('fs');
 
 const BUS_SERVICE_KEY = process.env.BUS_SERVICE_KEY;
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
+// var initBusConv = function(event) {
+//   console.log('RUN initBusConv');
+//   var task = [
+//     function(callback){
+//       var err;
+//       connection.query('UPDATE Users SET conv_context="bus_stNmORbusN" WHERE user_id=' + event.sender.id);
+//       callback(null, err);
+//     },
+//     function(err, callback){
+//       var messageData = {"text": "정류장 이름으로 찾을래? 아니면 버스 번호로 찾을래?"};
+//       api.sendResponse(event, messageData);
+//       callback(null);
+//     }
+//   ];
+//   async.waterfall(task);
+// };
+
 var initBusConv = function(event) {
   console.log('RUN initBusConv');
   var task = [
     function(callback){
       var err;
-      connection.query('UPDATE Users SET conv_context="busTest" WHERE user_id=' + event.sender.id);
+      connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
       callback(null, err);
     },
     function(err, callback){
-      var messageData = {"text": "몇번 버스? 어느 정류장?"};
+      var messageData = {"text": "정류장 이름으로 찾을래? 아니면 버스 번호로 찾을래?"};
       api.sendResponse(event, messageData);
       callback(null);
     }
   ];
   async.waterfall(task);
 };
+
+var bus_stNmORbusNum = function(event) {
+  console.log("RUN bus_stNmORbusNum");
+  var msg = event.message.text;
+  console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]));
+  if (stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target == "번호") {
+    console.log("번호시발");
+  }
+
+
+}
 
 var busTest = function(event) {
   console.log('TEST busTest');
@@ -254,6 +283,7 @@ module.exports = {
   functionMatch: {
     "버스": initBusConv,
     "busTest" : busTest,
+    "bus_stNmORbusNum" : bus_stNmORbusNum,
     // "busConv_1_Number" : busConv_1_Number,
     // "busConv_2_Station" : busConv_2_Station,
     // "busConv_3_Print" : busConv_3_Print,
