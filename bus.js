@@ -52,10 +52,17 @@ var bus_stNmORbusNum = function(event) {
   console.log("RUN bus_stNmORbusNum");
   var msg = event.message.text;
   console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]));
-  if (stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target == "번호") {
-    console.log("번호시발");
-  }
+  var stNmORbusNum = stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target;
+  // if (stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target == "번호") {
+  //   console.log("번호");
+  // } else if (stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target == "정류장") {
+  //
+  // }
+  if (stNmORbusNum == "번호") {
+    console.log("번호");
+  } else if (stNmORbusNum == "정류장") {
 
+  }
 
 }
 
