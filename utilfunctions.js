@@ -47,7 +47,7 @@ function Josa(txt, josa){
     return txt + josaResult;
   }
 }
-//module.exports.Josa = Josa;
+module.exports.Josa = Josa;
 
 function testWebview(event){
   console.log("RUN testWebview");
@@ -55,6 +55,29 @@ function testWebview(event){
   var url = process.env.HEROKU_URL + '/register';
   var size = "compact";
   api.handleWebview(event, title, url, size)
+}
+
+module.exports.findSimilarStrings = function(targetString, arr, criterion, number, callback) {
+  if (typeof targetString != "string" || typeof arr != "object" || typeof (criterion && number) != "number" || number > arr.length) {
+    console.log("INVALID INPUTTYPE for findSimilarStrings");
+  } else {
+    console.log("VALID INPUTTYPE for findSimilarStrings");
+    var possibleStringsArr = [] , resultArr = [], count = 0;
+    for (var i = 0; i < arr.length; i++) {
+      if (stringSimilarity.compareTwoStrings(targetString, arr[i]) > criterion) {
+        count++;
+        var item;
+        item = { "_text" : arr[i], "similarity" : stringSimilarity.compareTwoStrings(targetString, arr[i])}
+        possibleStringsArr.push(item);
+      }
+    } // terminate for loop
+    console.log(count);
+    possibleStringsArr.sort((a, b) => b.similarity - a.similarity)
+    // console.log(possibleStringsArr);
+    resultArr = possibleStringsArr.slice(0,number);
+    console.log("resultArr: " + resultArr);
+    callback(resultArr);
+  }
 }
 
 module.exports = {

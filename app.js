@@ -83,7 +83,6 @@ app.post('/webhook', function (req, res) {
               if (result[0].conv_context != "none") {
                 if (event.message.text == 'RESET') {
                   callback(null, functionSheet["RESET"]);
-                  console.log('Conv Context: ' + result[0].conv_context);
                 } else if (event.message.text == 'TEST REGI'){
                   console.log('SET CONV CONT: register1');
                   connection.query('UPDATE Users SET conv_context="register1" WHERE user_id=' + event.sender.id);
