@@ -46,6 +46,7 @@ var busTest = function(event) {
     api.sendResponse(event, messageData);
 
     getBusArriveInfo(busRouteId, stId, function(resultData) {
+      console.log("resultData"+resultData);
       if (resultData == ("결과없음"&&"인증실패")) {
         console.log("FUCK IT");
       } else {
