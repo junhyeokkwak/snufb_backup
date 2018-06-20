@@ -84,6 +84,7 @@ function findSimilarStrings(targetString, arr, criterion, number) {
 module.exports = {
     stringSimilarity : stringSimilarity,
     functionMatch: {
+        "SIM" : findSimilarStrings,
         "RESET" : reset,
         "generateQuickReplies" : generateQuickReplies,
         "TEST WEBVIEW" : testWebview,
