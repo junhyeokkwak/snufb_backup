@@ -141,9 +141,10 @@ var getStaOrd_fromInside = function(busRouteId, stId, callback) {
         ord = jsonData.busRouteId_stId_staOrd[i].staOrd;
         console.log("ORD FOUND: " + ord);
         staOrdArr.push(ord);
-      } else if (i >= itemListSize) {
+      }
+      if (i = itemListSize - 1) {
         // callback("STAORD NOTFOUND");
-        console.log("STAORDARR: "+ staOrdArr);
+        console.log("staOrd NOT FOUND");
         callback(staOrdArr);
       }
   }
