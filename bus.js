@@ -130,19 +130,14 @@ var getStaOrd_fromInside = function(busRouteId, stId, callback) {
   var options, ord, staOrdArr = [];
   var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
   var jsonData=JSON.parse(data);
-  var stId_target = stId;
   if (typeof stId != "string") {
     stId_target = stId.toString();
   }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
   var itemListSize = jsonData.busRouteId_stId_staOrd.length;
   console.log(itemListSize)
-  // var findStaOrd_loop = function() {
-  //   returnStaOrd()
-  // }
-  // var returnStaOrd = function()
   for (var i = 0; i < itemListSize; i++) {
-      if (jsonData.busRouteId_stId_staOrd[i].stId == stId_target) {
+      if (jsonData.busRouteId_stId_staOrd[i].stId == stId && jsonData.busRouteId_stId_staOrd[i].busRouteId == busRouteId) {
         ord = jsonData.busRouteId_stId_staOrd[i].staOrd;
         console.log("ORD FOUND: " + ord);
         staOrdArr.push(ord);
