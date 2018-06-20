@@ -6,6 +6,7 @@ var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
 var convert = require('xml-js');
+var bodyparser=require('body-parser');
 const fs = require('fs');
 
 const BUS_SERVICE_KEY = process.env.BUS_SERVICE_KEY;
@@ -38,7 +39,6 @@ var busTest = function(event) {
     busNum = txt.split("/")[0].replace(" ","");
     stName =txt.split("/")[1].replace(" ","");
     console.log(`busNum: [${busNum}] stName: [${stName}]`);
-
     if (busNum == "153" || "153번") busRouteId = 100100032;
     if (stName == "연세대앞" || "연대앞") stId = 112000012;
     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
@@ -65,7 +65,6 @@ var busTest = function(event) {
       var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
       api.sendResponse(event, messageData);
     });
-
   } else {
     console.log('INVALID busTest INPUT');
     var messageData = {"text": "아직 데이터 베이스에 없는 버스번호/정류장 이름이야!"};
@@ -73,19 +72,13 @@ var busTest = function(event) {
   }
 };
 
-// var handleArrmsg = function(arrmsg, callBack) {
-//   if (resultData.arrmsg1 == "곧 도착") {
-//     arrmsg1
-//   }
-// }
 
 var getBusArriveInfo = function(busRouteId, stId, callback) {
   console.log("RUN getBusArriveInfo");
   var staOrd, options, arrmsg1, arrmsg2, resultData;
-  getArrInfoByRouteAll(busRouteId, stId, function(res){
+  getStaOrd_fromInside(busRouteId, stId, function(res){
     console.log("staOrd:" + res);
     staOrd = res;
-
     console.log(`getBusArriveInfo busRouteId:[${busRouteId}] stId:[${stId}] staOrd:[${staOrd}]`);
     var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute`;
     var options_ServiceKey = `?ServiceKey=${process.env.BUS_SERVICE_KEY}`;
@@ -95,7 +88,6 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
     options = options_url + options_ServiceKey + options_busRouteId + options_stId + options_ord;
     console.log("OPTIONS URL: " + options);
     // options = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute?ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D&busRouteId=100100032&stId=112000012&ord=47`;
-
     request(options, function (error, response, body) {
       var err;
       if (error) throw new Error(error);
@@ -123,15 +115,35 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
     });
 
   });
-  // callback("options URL: " + options);
-
-  // var staOrd = getArrInfoByRouteAll(busRouteId, stId);
-  // console.log(`staOrd: ${staOrd} TYPE: ${typeof staOrd}`);
 }
 
-var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
+var getStaOrd_fromInside = function(busRouteId, stId, callback) {
+  console.log("RUN getArrInfoByRouteAll_fromOutside");
+  var options, ord;
+  var data=fs.readFileSync('/jsondata/busRouteJsonData.json', 'utf8');
+  var jsonData=JSON.parse(data);
+  var stId_target = stId;
+  if (typeof stId != "string") {
+    stId_target = stId.toString();
+  }
+  console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
+  var itemListSize = jsonData.busRouteId_stId_staOrd.length;
+  console.log(itemListSize)
+  for (var i = 0; i < itemListSize; i++) {
+      if (jsonData.busRouteId_stId_staOrd[i].stId == stId_target) {
+        ord = jsonData.busRouteId_stId_staOrd[i].staOrd;
+        console.log("ORD FOUND: " + ord);
+        callback(ord);
+      } else if (i >= itemListSize) {
+        callback("STAORD NOTFOUND");
+      }
+  }
+}
+
+
+var getStaOrd_fromOutside = function(busRouteId, stId, callback) {
   // console.log("STID: " + stId);
-  console.log("RUN getArrInfoByRouteAll");
+  console.log("RUN getArrInfoByRouteAll_fromOutside");
   var options, ord;
   var stId_target = stId;
   if (typeof stId != "string") {
@@ -171,18 +183,8 @@ var getArrInfoByRouteAll = function(busRouteId, stId, callback) {
             callback("STAORD NOTFOUND");
           }
       }
-
-      // jsonData.ServiceResult.msgBody.itemList.forEach((item) => {
-      //   if (item.stId._text == "112000012") {
-      //     ord = item.staOrd._text;
-      //     console.log("ORD FOUND: " + ord);
-      //     callback(ord);
-      //   }
-      // });
-
     }
   });
-  // callback("ORD NOTFOUND");
 }
 
 // var busConv_1_Number = function(event) {
