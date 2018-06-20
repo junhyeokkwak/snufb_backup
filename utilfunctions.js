@@ -55,11 +55,11 @@ function testWebview(event){
   api.handleWebview(event, title, url, size)
 }
 
-function sayhi(event) {
+function sayhi(targetString, arr, criterion, number) {
   console.log("HI");
 }
 
-var stringSimilarity = require('string-similarity');
+// var stringSimilarity = require('string-similarity');
 function findSimilarStrings(targetString, arr, criterion, number) {
   if (typeof targetString != "string" || typeof arr != "object" || typeof (criterion && number) != "number" || number > arr.length) {
     console.log("INVALID INPUTTYPE for findSimilarStrings");

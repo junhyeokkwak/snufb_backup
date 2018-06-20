@@ -67,8 +67,8 @@ var bus_stNmORbusNum = function(event) {
   //   console.log("정류장");
   //   connection.query('UPDATE Users SET conv_context="bus_stNm" WHERE user_id=' + event.sender.id);
   // }
-
-  util.sayhi(event);
+  var targetString = "hi", arr = [], criterion = 0, number = 0;
+  util.sayhi(targetString, arr, criterion, number);
 
   // console.log("RUN bus_stNmORbusNum");
   // var msg = event.message.text;
