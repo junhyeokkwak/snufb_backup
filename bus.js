@@ -68,12 +68,12 @@ var bus_stNmORbusNum = function(event) {
   //   connection.query('UPDATE Users SET conv_context="bus_stNm" WHERE user_id=' + event.sender.id);
   // }
 
-  util.sayhi(event);
+  // util.sayhi(event);
 
-  // console.log("RUN bus_stNmORbusNum");
-  // var msg = event.message.text;
-  // console.log(util.findSimilarStrings(msg, ["번호", "정류장"],0, 2));
-  // var stNmORbusNum = util.findSimilarStrings(msg, ["번호", "정류장"],-1, 2)._text;
+  console.log("RUN bus_stNmORbusNum");
+  var msg = event.message.text;
+  console.log(util.findSimilarStrings(msg, ["번호", "정류장"],0, 2));
+  var stNmORbusNum = util.findSimilarStrings(msg, ["번호", "정류장"],-1, 2)._text;
 }
 
 
