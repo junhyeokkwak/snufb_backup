@@ -57,7 +57,7 @@ function testWebview(event){
   api.handleWebview(event, title, url, size)
 }
 
-function findSimilarStrings(targetString, arr, criterion, number, callback) {
+function findSimilarStrings(targetString, arr, criterion, number) {
   if (typeof targetString != "string" || typeof arr != "object" || typeof (criterion && number) != "number" || number > arr.length) {
     console.log("INVALID INPUTTYPE for findSimilarStrings");
   } else {
@@ -76,7 +76,7 @@ function findSimilarStrings(targetString, arr, criterion, number, callback) {
     // console.log(possibleStringsArr);
     resultArr = possibleStringsArr.slice(0,number);
     console.log("resultArr: " + resultArr);
-    callback(resultArr);
+    return(resultArr);
   }
 }
 module.exports.findSimilarStrings = findSimilarStrings;
