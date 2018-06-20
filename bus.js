@@ -99,7 +99,7 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
       console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
       if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > 0) {
         console.log("인증실패: data.go.kr ");
-        callback("인증실패: data.go.kr");
+        callback("인증실패: data.go.kr ");
       } else {
         console.log("인증성공: data.go.kr");
         console.log("arrmsg1: " + JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg1._text));
@@ -118,9 +118,9 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
 }
 
 var getStaOrd_fromInside = function(busRouteId, stId, callback) {
-  console.log("RUN getArrInfoByRouteAll_fromOutside");
+  console.log("RUN getArrInfoByRouteAll_fromInside");
   var options, ord;
-  var data=fs.readFileSync('/jsondata/busRouteJsonData.json', 'utf8');
+  var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
   var jsonData=JSON.parse(data);
   var stId_target = stId;
   if (typeof stId != "string") {
