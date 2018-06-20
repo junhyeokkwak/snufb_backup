@@ -57,7 +57,7 @@ function testWebview(event){
   api.handleWebview(event, title, url, size)
 }
 
-module.exports.findSimilarStrings = function(targetString, arr, criterion, number, callback) {
+function findSimilarStrings(targetString, arr, criterion, number, callback) {
   if (typeof targetString != "string" || typeof arr != "object" || typeof (criterion && number) != "number" || number > arr.length) {
     console.log("INVALID INPUTTYPE for findSimilarStrings");
   } else {
@@ -79,6 +79,7 @@ module.exports.findSimilarStrings = function(targetString, arr, criterion, numbe
     callback(resultArr);
   }
 }
+module.exports.findSimilarStrings = findSimilarStrings;
 
 module.exports = {
     functionMatch: {
