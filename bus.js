@@ -46,24 +46,28 @@ var busTest = function(event) {
     api.sendResponse(event, messageData);
 
     getBusArriveInfo(busRouteId, stId, function(resultData) {
-      console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
-      // console.log("in busTest arrmsg1: " + resultData.arrmsg1);
-      var arrmsg1_final, arrmsg2_final, extramsg;
-      if (resultData.arrmsg1.indexOf("곧") > -1) {
-        arrmsg1_final = '곧 도착하구';
-        extramsg = '얼른 뛰어가!!'
+      if (resultData == ("결과없음"&&"인증실패")) {
+        console.log("FUCK IT");
       } else {
-        arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
-        extramsg = '서둘러 가는게 좋겠지??'
+        console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
+        // console.log("in busTest arrmsg1: " + resultData.arrmsg1);
+        var arrmsg1_final, arrmsg2_final, extramsg;
+        if (resultData.arrmsg1.indexOf("곧") > -1) {
+          arrmsg1_final = '곧 도착하구';
+          extramsg = '얼른 뛰어가!!'
+        } else {
+          arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
+          extramsg = '서둘러 가는게 좋겠지??'
+        }
+        if (resultData.arrmsg2 == "곧 도착") {
+          arrmsg2_final = '곧 도착해!!';
+        } else {
+          arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
+        }
+        var entiremsg_final = `${stName}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
+        var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
+        api.sendResponse(event, messageData);
       }
-      if (resultData.arrmsg2 == "곧 도착") {
-        arrmsg2_final = '곧 도착해!!';
-      } else {
-        arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
-      }
-      var entiremsg_final = `${stName}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
-      var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
-      api.sendResponse(event, messageData);
     });
   } else {
     console.log('INVALID busTest INPUT');
@@ -98,11 +102,11 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
       // console.log("JSON TEST for getBusArriveInfo: " + JSON.stringify(jsonData));
       console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
       if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > -1) {
-        console.log("인증실패: data.go.kr ");
-        callback("인증실패: data.go.kr ");
+        console.log("인증실패");
+        callback("인증실패");
       } else if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("결과가 없습니다.") > -1) {
-        console.log("결과 없음: ");
-        callback("결과 없음: ");
+        console.log("결과없음");
+        callback("결과없음");
       } else {
         console.log("인증성공: data.go.kr");
         console.log("arrmsg1: " + JSON.stringify(jsonData.ServiceResult.msgBody.itemList.arrmsg1._text));
