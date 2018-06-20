@@ -56,7 +56,7 @@ function testWebview(event){
 }
 
 function sayhi(targetString, arr, criterion, number) {
-  console.log("HI");
+  console.log("HIiiii");
   var stringSimilarity = require('string-similarity');
   if (typeof targetString != "string" || typeof arr != "object" || typeof (criterion && number) != "number" || number > arr.length) {
     console.log("INVALID INPUTTYPE for findSimilarStrings");
