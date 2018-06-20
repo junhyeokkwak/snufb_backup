@@ -58,7 +58,6 @@ function testWebview(event){
 function sayhi(event) {
   console.log("HI");
 }
-module.exports.sayhi = sayhi;
 
 // var stringSimilarity = require('string-similarity');
 // function findSimilarStrings(targetString, arr, criterion, number) {
@@ -85,6 +84,7 @@ module.exports.sayhi = sayhi;
 // }
 
 module.exports = {
+    sayhi : sayhi,
     functionMatch: {
         "RESET" : reset,
         "generateQuickReplies" : generateQuickReplies,
