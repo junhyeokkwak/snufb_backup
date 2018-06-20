@@ -88,7 +88,6 @@ module.exports.sayhi = sayhi;
 
 module.exports = {
     functionMatch: {
-        "SIM" : findSimilarStrings,
         "RESET" : reset,
         "generateQuickReplies" : generateQuickReplies,
         "TEST WEBVIEW" : testWebview,
