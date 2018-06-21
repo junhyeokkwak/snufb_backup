@@ -49,12 +49,12 @@ var initBusConv = function(event) {
 };
 
 var bus_stNmORbusNum = function(event) {
-  // console.log("RUN bus_stNmORbusNum");
-  // var msg = event.message.text;
-  // console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]));
-  // var stNmORbusNum = stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target;
-  // console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch);
-  // // console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating + (typeof stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating));
+  console.log("RUN bus_stNmORbusNum");
+  var msg = event.message.text;
+  console.log(util.sayhi(msg,  ["번호", "정류장"], -1, 2));
+  var stNmORbusNum = util.sayhi(msg,  ["번호", "정류장"], -1, 2)._text;
+  console.log("stNmORbusNum: "+stNmORbusNum);
+  // console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating + (typeof stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating));
   // if (stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating == 0){
   //   console.log("MSG UNVARIFIED");
   //   connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
@@ -67,8 +67,7 @@ var bus_stNmORbusNum = function(event) {
   //   console.log("정류장");
   //   connection.query('UPDATE Users SET conv_context="bus_stNm" WHERE user_id=' + event.sender.id);
   // }
-  var targetString = "hi", arr = [], criterion = 0, number = 0;
-  util.sayhi(targetString, arr, criterion, number);
+
 
   // console.log("RUN bus_stNmORbusNum");
   // var msg = event.message.text;

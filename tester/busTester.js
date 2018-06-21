@@ -5,6 +5,7 @@ var stringSimilarity = require('string-similarity');
 var data=fs.readFileSync('../jsondata/busRouteJsonData.json', 'utf8');
 var jsonData=JSON.parse(data);
 
+console.log(stringSimilarity.findBestMatch("연세대학교", ["연대", "고대"]));
 console.log(stringSimilarity.findBestMatch("yonsei university", ["yonsei dae", "koryeo dae"]));
 
 var findSimilarStrings = function(targetString, arr, criterion, number, callback) {
