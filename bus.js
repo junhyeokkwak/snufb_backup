@@ -54,7 +54,7 @@ var bus_stNmORbusNum = function(event) {
   console.log(util.sayHi(msg,  ["번호", "정류장"], -1, 2));
   var stNmORbusNum = util.sayHi(msg,  ["번호", "정류장"], -1, 2)[0]._text;
   // console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating + (typeof stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating));
-  if (sutil.findSimilarStrings(msg,  ["번호", "정류장"], -1, 2)[0].similarity == 0){
+  if (util.sayHi(msg,  ["번호", "정류장"], -1, 2)[0].similarity == 0){
     console.log("MSG UNVARIFIED");
     connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
     var messageData = {"text": "미안ㅠㅠ무슨 말인지 모르겠어..조금 다르게 다시 말해 줄 수 있어?"};
