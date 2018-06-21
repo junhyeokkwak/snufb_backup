@@ -14,22 +14,6 @@ const BUS_SERVICE_KEY = process.env.BUS_SERVICE_KEY;
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
-// var initBusConv = function(event) {
-//   console.log('RUN initBusConv');
-//   var task = [
-//     function(callback){
-//       var err;
-//       connection.query('UPDATE Users SET conv_context="bus_stNmORbusN" WHERE user_id=' + event.sender.id);
-//       callback(null, err);
-//     },
-//     function(err, callback){
-//       var messageData = {"text": "정류장 이름으로 찾을래? 아니면 버스 번호로 찾을래?"};
-//       api.sendResponse(event, messageData);
-//       callback(null);
-//     }
-//   ];
-//   async.waterfall(task);
-// };
 
 var initBusConv = function(event) {
   console.log('RUN initBusConv');
@@ -61,16 +45,48 @@ var bus_stNmORbusNum = function(event) {
     api.sendResponse(event, messageData);
   } else if (stNmORbusNum == "번호") {
     console.log("번호");
-    connection.query('UPDATE Users SET conv_context="bus_busNum" WHERE user_id=' + event.sender.id);
+    var messageData = {"text": "ㅋㅋ알겠어! 몇번 버스야??"};
+    api.sendResponse(event, messageData);
+    connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
   } else if (stNmORbusNum == "정류장") {
     console.log("정류장");
-    connection.query('UPDATE Users SET conv_context="bus_stNm" WHERE user_id=' + event.sender.id);
+    var messageData = {"text": "ㅋㅋ알겠어! 어느정류장이야??"};
+    api.sendResponse(event, messageData);
+    connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
   }
+}
 
+var bus_askBusNum = function(event) {
+  console.log("RUN bus_askBusNum");
+  var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
+  var jsonData=JSON.parse(data);
+  var msg = event.message.text;
+  var busNum;
+  console.log(util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
+  task = [
+    function(callback) {
+      callback(util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
+    },
+    function(possibleBusArr, callback) {
+      if (possibleBusArr[0].similarity == 0) {
+        connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
+        var messageData = {"text": "몇번인지 모르겠어:( 다시 말해 줄 수 있어?"};
+        api.sendResponse(event, messageData);
+        callback(null);
+      } else {
+        connection.query('UPDATE Users SET conv_context="bus_confirmBusNum" WHERE user_id=' + event.sender.id);
+        busNum = possibleBusArr[0]._text;
+        var messageData = {"text": `${busNum}번 버스 맞아??`};
+        api.sendResponse(event, messageData);
+        callback(null);
+      }
+    },
+  ]
+  async.waterfall(task);
+}
 
-  // console.log("RUN bus_stNmORbusNum");
-  // var msg = event.message.text;
-  // console.log(util.findSimilarStrings(msg, ["번호", "정류장"],0, 2));
+var bus_confirmBusNum = function(event) {
+  console.log("RUN bus_confirmBusNum");
 }
 
 
@@ -166,7 +182,6 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
         callback(resultData);
       }
     });
-
   });
 }
 
@@ -237,69 +252,14 @@ var getStaOrd_fromOutside = function(busRouteId, stId, callback) {
   });
 }
 
-// var busConv_1_Number = function(event) {
-//   console.log('RUN busConv_1_Number');
-//   if (event.message.text == "153번" || "160번" || "162번" || "171번" || "172번") {
-//     var busRouteId;
-//     var task = [
-//       function(callback) {
-//         var err;
-//         console.log('VALID BUSNUM');
-//         connection.query('UPDATE Users SET conv_context="busConv_2_Station" WHERE user_id=' + event.sender.id);
-//         //put butRouteId in mysql
-//         callback(null, err);
-//       },
-//       function(err, callback) {
-//         var qrBusStation = qr.generateQuickReplies(["연세대앞", "신촌기차역", "신촌역2호선", "신촌로터리"]);
-//         var messageData = {"text": "어느 정류장??", "quick_replies": qrBusStation};
-//         api.sendResponse(event, messageData);
-//         callback(null);
-//       }
-//     ];
-//     async.waterfall(task);
-//   } else {
-//     console.log('INVALID BUSNUM');
-//     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-//   }
-// };
-//
-// var busConv_2_Station = function(event) {
-//   console.log('RUN busConv_2_Station');
-//   if (event.message.text == "연세대앞" || "신촌기차역" || "신촌역2호선" || "신촌로터리") {
-//     var stId;
-//     var task = [
-//       function(callback) {
-//         var err;
-//         console.log('VALID stId');
-//         connection.query('UPDATE Users SET conv_context="busConv_3_Print" WHERE user_id=' + event.sender.id);
-//         //put stId in mysql
-//         callback(null, err);
-//       },
-//       function(err, callback) {
-//         var messageData = {"text": `busRouteId: ${busRouteId} stId: ${stId}`};
-//         api.sendResponse(event, messageData);
-//         callback(null);
-//       }
-//     ];
-//     async.waterfall(task);
-//   } else {
-//     console.log('INVALID stId');
-//     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-//   }
-// };
-//
-// var busConv_3_Print = function(event) {
-//   console.log("RUN busConv_3_Print");
-//   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-//   var messageData = {"text": `busRouteId: ${busRouteId} stId: ${stId}`};
-//   api.sendResponse(event, messageData);
-// }
 
 module.exports = {
   functionMatch: {
     "버스": initBusConv,
     "busTest" : busTest,
     "bus_stNmORbusNum" : bus_stNmORbusNum,
+    "bus_askBusNum" : bus_askBusNum,
+    "bus_confirmBusNum" : bus_confirmBusNum,
     // "busConv_1_Number" : busConv_1_Number,
     // "busConv_2_Station" : busConv_2_Station,
     // "busConv_3_Print" : busConv_3_Print,

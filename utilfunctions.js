@@ -79,6 +79,8 @@ function getSimilarStrings(targetString, arr, criterion, number) {
   }
 }
 
+
+
 module.exports = {
     getSimilarStrings : getSimilarStrings,
     functionMatch: {
