@@ -55,8 +55,8 @@ function testWebview(event){
   api.handleWebview(event, title, url, size)
 }
 
-function sayhi(targetString, arr, criterion, number) {
-  console.log("HIiiii");
+function sayHi(targetString, arr, criterion, number) {
+  console.log("RUN findSimilarStrings");
   var stringSimilarity = require('string-similarity');
   if (typeof targetString != "string" || typeof arr != "object" || typeof (criterion && number) != "number" || number > arr.length) {
     console.log("INVALID INPUTTYPE for findSimilarStrings");
@@ -73,7 +73,6 @@ function sayhi(targetString, arr, criterion, number) {
     } // terminate for loop
     console.log(count);
     possibleStringsArr.sort((a, b) => b.similarity - a.similarity)
-    // console.log(possibleStringsArr);
     resultArr = possibleStringsArr.slice(0,number);
     console.log("resultArr: " + resultArr);
     return(resultArr);
@@ -81,7 +80,7 @@ function sayhi(targetString, arr, criterion, number) {
 }
 
 module.exports = {
-    sayhi : sayhi,
+    sayHi : sayHi,
     functionMatch: {
         "RESET" : reset,
         "generateQuickReplies" : generateQuickReplies,

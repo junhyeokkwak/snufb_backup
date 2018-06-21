@@ -51,8 +51,8 @@ var initBusConv = function(event) {
 var bus_stNmORbusNum = function(event) {
   console.log("RUN bus_stNmORbusNum");
   var msg = event.message.text;
-  console.log(util.findSimilarStrings(msg,  ["번호", "정류장"], -1, 2));
-  var stNmORbusNum = util.findSimilarStrings(msg,  ["번호", "정류장"], -1, 2)[0]._text;
+  console.log(util.sayHi(msg,  ["번호", "정류장"], -1, 2));
+  var stNmORbusNum = util.sayHi(msg,  ["번호", "정류장"], -1, 2)[0]._text;
   // console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating + (typeof stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating));
   if (sutil.findSimilarStrings(msg,  ["번호", "정류장"], -1, 2)[0].similarity == 0){
     console.log("MSG UNVARIFIED");
