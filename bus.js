@@ -51,22 +51,21 @@ var initBusConv = function(event) {
 var bus_stNmORbusNum = function(event) {
   console.log("RUN bus_stNmORbusNum");
   var msg = event.message.text;
-  console.log(util.sayhi(msg,  ["번호", "정류장"], -1, 2));
-  var stNmORbusNum = util.sayhi(msg,  ["번호", "정류장"], -1, 2)._text;
-  console.log("stNmORbusNum: "+stNmORbusNum);
+  console.log(util.findSimilarStrings(msg,  ["번호", "정류장"], -1, 2));
+  var stNmORbusNum = util.findSimilarStrings(msg,  ["번호", "정류장"], -1, 2)[0]._text;
   // console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating + (typeof stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating));
-  // if (stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating == 0){
-  //   console.log("MSG UNVARIFIED");
-  //   connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
-  //   var messageData = {"text": "미안ㅠㅠ무슨 말인지 모르겠어..조금 다르게 다시 말해 줄 수 있어?"};
-  //   api.sendResponse(event, messageData);
-  // } else if (stNmORbusNum == "번호") {
-  //   console.log("번호");
-  //   connection.query('UPDATE Users SET conv_context="bus_busNum" WHERE user_id=' + event.sender.id);
-  // } else if (stNmORbusNum == "정류장") {
-  //   console.log("정류장");
-  //   connection.query('UPDATE Users SET conv_context="bus_stNm" WHERE user_id=' + event.sender.id);
-  // }
+  if (sutil.findSimilarStrings(msg,  ["번호", "정류장"], -1, 2)[0].similarity == 0){
+    console.log("MSG UNVARIFIED");
+    connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
+    var messageData = {"text": "미안ㅠㅠ무슨 말인지 모르겠어..조금 다르게 다시 말해 줄 수 있어?"};
+    api.sendResponse(event, messageData);
+  } else if (stNmORbusNum == "번호") {
+    console.log("번호");
+    connection.query('UPDATE Users SET conv_context="bus_busNum" WHERE user_id=' + event.sender.id);
+  } else if (stNmORbusNum == "정류장") {
+    console.log("정류장");
+    connection.query('UPDATE Users SET conv_context="bus_stNm" WHERE user_id=' + event.sender.id);
+  }
 
 
   // console.log("RUN bus_stNmORbusNum");
