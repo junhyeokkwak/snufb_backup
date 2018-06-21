@@ -55,7 +55,7 @@ function testWebview(event){
   api.handleWebview(event, title, url, size)
 }
 
-function sayHi(targetString, arr, criterion, number) {
+function getSimilarStrings(targetString, arr, criterion, number) {
   console.log("RUN findSimilarStrings");
   var stringSimilarity = require('string-similarity');
   if (typeof targetString != "string" || typeof arr != "object" || typeof (criterion && number) != "number" || number > arr.length) {
@@ -80,7 +80,7 @@ function sayHi(targetString, arr, criterion, number) {
 }
 
 module.exports = {
-    sayHi : sayHi,
+    getSimilarStrings : getSimilarStrings,
     functionMatch: {
         "RESET" : reset,
         "generateQuickReplies" : generateQuickReplies,
