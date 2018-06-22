@@ -191,7 +191,7 @@ var bus_confirmStNm = function(event) {
       console.log("agreementArr: "+agreementArr);
       if (agreementArr[0].similarity == 0) {
         if (util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length)[0].similarity == 0) {
-          connection.query('UPDATE Users SET conv_context="bus_askStNum" WHERE user_id=' + event.sender.id);
+          connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
           connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
           var messageData = {"text": "미안ㅋㅋ큐ㅠ 그럼 무슨 정류장이야?아마 내가 모르는 걸 수도 있어"};
           api.sendResponse(event, messageData);
