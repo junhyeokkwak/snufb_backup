@@ -142,9 +142,10 @@ var bus_askStNm = function(event) {
           // NOTE: if there is confirmed busNum, search only the stations which the bus go through
           for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
             if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) {
-              console.log(jsonData.busRouteId_stId_staOrd[i].stNm);
+              // console.log(jsonData.busRouteId_stId_staOrd[i].stNm);
               stNameArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);
-              if (i == (jsonData.busRouteId_stId_staOrd.length-1)) {
+              console.log(i);
+              if (i >= (jsonData.busRouteId_stId_staOrd.length-1)) {
                 console.log("stNameArr: "+stNameArr);
                 callback(null, stNameArr);
               }
