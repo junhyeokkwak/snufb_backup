@@ -221,37 +221,11 @@ var bus_confirmStNm = function(event) {
               if (possibleStArr.length >= 2) { console.log("FUCKCKCKCKCKKCKC");}
               stId = possibleStArr[0].stId;
               console.log("busRouteId: " + busRouteId + " stId: " + stId);
-
               // NOTE: SEND API REQUEST
-              getBusArriveInfo(busRouteId, stId, function(resultData) {
-                console.log("resultData"+resultData);
-                if (resultData == ("결과없음"&&"인증실패")) {
-                  console.log("resultData: " + resultData);
-                  callback(null);
-                } else {
-                  console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
-                  var arrmsg1_final, arrmsg2_final, extramsg;
-                  if (resultData.arrmsg1.indexOf("곧") > -1) {
-                    arrmsg1_final = '곧 도착하구';
-                    extramsg = '얼른 뛰어가!!'
-                  } else {
-                    arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
-                    extramsg = '서둘러 가는게 좋겠지??'
-                  }
-                  if (resultData.arrmsg2 == "곧 도착") {
-                    arrmsg2_final = '곧 도착해!!';
-                  } else {
-                    arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
-                  }
-                  var entiremsg_final = `${stNm}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
-                  var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
-                  api.sendResponse(event, messageData);
-                  callback(null)
-                }
-              });
-            }
-          }
-        });
+              sendArriveMsg(busRouteId, stId);
+            }//if
+          }//for loop
+        }); //query
         // NOTE: if USER already confirmed stNm
       }
     },
@@ -259,6 +233,78 @@ var bus_confirmStNm = function(event) {
   async.waterfall(task);
 }
 
+var sendArriveMsg = function(busRouteId, stId, callback) {
+  console.log('TEST busTest');
+  var busNum, stNm;
+  var task = [
+    function(callback){
+      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+        if (err) throw err;
+        busNum = (result[0].busNum).toString();
+        stNm = (result[0].stNm).toString();
+        callback(null, busNum, stNm);
+      });
+    },
+    function(busNum, stNm, callback){
+      console.log(`busNum: [${busNum}] stNm: [${stNm}] busRouteId: [${busRouteId}] stId: [${stId}]`);
+      var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
+      api.sendResponse(event, messageData);
+      var handleArrMsg = function(arrmsg) {
+        var arrmsg_final, extramsg;
+        if (arrmsg.indexOf("곧") > -1) {
+          arrmsg_final = '곧 도착하구';
+          extramsg = '얼른 뛰어가!!'
+          callback(arrmsg_final, extramsg);
+        } else if (arrmsg.indexOf("출발대기") > -1) {
+          arrmsg_final = '차고에서 대기중이고';
+          extramsg = '얼른 뛰어가!!'
+          callback(arrmsg_final, extramsg);
+        } else {
+          arrmsg_final = arrmsg + '에 도착하구';
+          extramsg = '서둘러 가는게 좋겠지??'
+          callback(arrmsg_final, extramsg);
+        }
+      }
+      getBusArriveInfo(busRouteId, stId, function(resultData) {
+        console.log("resultData:" + resultData);
+        if (resultData == ("결과없음"&&"인증실패")) {
+          console.log("FUCK IT");
+        } else {
+          console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
+          var arrmsg1_final, arrmsg2_final, extramsg_final;
+          // if (resultData.arrmsg1.indexOf("곧") > -1) {
+          //   arrmsg1_final = '곧 도착하구';
+          //   extramsg = '얼른 뛰어가!!'
+          // } else if (resultData.arrmsg1.indexOf("출발대기") > -1) {
+          //   arrmsg1_final = '차고에서 대기중이고';
+          //   extramsg = '얼른 뛰어가!!'
+          // } else {
+          //   arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
+          //   extramsg = '서둘러 가는게 좋겠지??'
+          // }
+          // if (resultData.arrmsg2 == "곧 도착") {
+          //   arrmsg2_final = '곧 도착해!!';
+          // } else {
+          //   arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
+          // }
+          handleArrMsg(resultData.arrmsg1, function(arrmsg1, extramsg) {
+            arrmsg1_final = arrmsg_final;
+            extramsg_final = extramsg_final;
+            handleArrMsg(resultData.arrmsg1, function(arrmsg2, extramsg) {
+              arrmsg2_final = arrmsg_final
+              var entiremsg_final = `${stNm}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg_final}`;
+              var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
+              console.log(entiremsg_final);
+              // callback( entiremsg_final.replace(/['"]+/g, '') );
+              api.sendResponse(event, messageData);
+            });
+          });
+        }
+      });
+    }
+  ]
+  async.waterfall(task);
+}
 
 var busTest = function(event) {
   console.log('TEST busTest');
@@ -306,7 +352,6 @@ var busTest = function(event) {
     api.sendResponse(event, messageData);
   }
 };
-
 
 var getBusArriveInfo = function(busRouteId, stId, callback) {
   console.log("RUN getBusArriveInfo");
