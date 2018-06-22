@@ -148,7 +148,7 @@ var bus_askStNm = function(event) {
             }
             if (i === jsonData.busRouteId_stId_staOrd.length-1) {
               console.log("stNameArr: "+stNameArr);
-              callback(null, stNameArr);
+              callback(null, util.getSimilarStrings(msg, stNameArr, -1, stNameArr.length));
             }
           }
         } else {
