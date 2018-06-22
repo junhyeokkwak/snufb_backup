@@ -221,7 +221,7 @@ var bus_confirmStNm = function(event) {
               if (possibleStArr.length >= 2) { console.log("FUCKCKCKCKCKKCKC");}
               stId = possibleStArr[0].stId;
               console.log("busRouteId: " + busRouteId + " stId: " + stId);
-              NOTE: SEND API REQUEST
+              // NOTE: SEND API REQUEST
               getBusArriveInfo(busRouteId, stId, function(resultData) {
                 console.log("resultData"+resultData);
                 if (resultData == ("결과없음"&&"인증실패")) {
