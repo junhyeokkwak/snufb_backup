@@ -218,7 +218,9 @@ var bus_confirmStNm = function(event) {
               possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
             }
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
-              console.log("busRouteId: " + busRouteId + "stId: " + stId);
+              if (possibleStArr.length >= 2) { console.log("FUCKCKCKCKCKKCKC");}
+              stId = possibleStArr[0].stId;
+              console.log("busRouteId: " + busRouteId + " stId: " + stId);
               callback(null);
             }
           }
