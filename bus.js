@@ -130,10 +130,32 @@ var bus_confirmBusNum = function(event) {
 var bus_askStNm = function(event) {
   console.log("RUN bus_askBusNum");
   var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
-  var jsonData=JSON.parse(data), msg = event.message.text, stNm;
+  var jsonData=JSON.parse(data), msg = event.message.text, stNameArr = [], stNm;
+
   task = [
     function(callback) {
-      callback(null, util.getSimilarStrings(msg,  jsonData.stNameArr, -1, jsonData.stNameArr.length));
+      // NOTE: check if User already confirmed busNm
+      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+        if (err) throw err;
+        console.log("BUSNUM that user chose:" + result[0].busNum);
+        if (result[0].busNum != ("none" && "")) {
+          // NOTE: if there is confirmed busNum, search only the stations which the bus go through
+          for (var i = 0, i < jsonData.busRouteId_stId_staOrd.length; i++) {
+            if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) {
+              console.log(jsonData.busRouteId_stId_staOrd[i].stNm);
+              stNameArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);
+              if (i == (jsonData.busRouteId_stId_staOrd.length-1)) {
+                console.log("stNameArr: "+stNameArr);
+                callback(null, stNameArr);
+              }
+            }
+          }
+        } else {
+          // NOTE: if there is no confirmed busNum, search all the stations
+          callback(null, util.getSimilarStrings(msg,  jsonData.stNameArr, -1, jsonData.stNameArr.length));
+        }
+      });
+
     },
     function(possibleStArr, callback) {
       // console.log("possibleBusArr: "+possibleBusArr);
@@ -156,7 +178,7 @@ var bus_askStNm = function(event) {
 }
 
 var bus_confirmStNm = function(event) {
-  console.log("RUN bus_confirmBusNum");
+  console.log("RUN bus_confirmStNm");
   var data=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
   var jsonData=JSON.parse(data);
   var msg = event.message.text;
@@ -189,31 +211,32 @@ var bus_confirmStNm = function(event) {
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
           api.sendResponse(event, messageData);
           // NOTE: SEND API REQUEST
-          getBusArriveInfo(busRouteId, stId, function(resultData) {
-            console.log("resultData"+resultData);
-            if (resultData == ("결과없음"&&"인증실패")) {
-              console.log("FUCK IT");
-            } else {
-              console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
-              // console.log("in busTest arrmsg1: " + resultData.arrmsg1);
-              var arrmsg1_final, arrmsg2_final, extramsg;
-              if (resultData.arrmsg1.indexOf("곧") > -1) {
-                arrmsg1_final = '곧 도착하구';
-                extramsg = '얼른 뛰어가!!'
-              } else {
-                arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
-                extramsg = '서둘러 가는게 좋겠지??'
-              }
-              if (resultData.arrmsg2 == "곧 도착") {
-                arrmsg2_final = '곧 도착해!!';
-              } else {
-                arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
-              }
-              var entiremsg_final = `${stName}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
-              var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
-              api.sendResponse(event, messageData);
-            }
-          });
+          // getBusArriveInfo(busRouteId, stId, function(resultData) {
+          //   console.log("resultData"+resultData);
+          //   if (resultData == ("결과없음"&&"인증실패")) {
+          //     console.log("FUCK IT");
+          //   } else {
+          //     console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
+          //     // console.log("in busTest arrmsg1: " + resultData.arrmsg1);
+          //     var arrmsg1_final, arrmsg2_final, extramsg;
+          //     if (resultData.arrmsg1.indexOf("곧") > -1) {
+          //       arrmsg1_final = '곧 도착하구';
+          //       extramsg = '얼른 뛰어가!!'
+          //     } else {
+          //       arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
+          //       extramsg = '서둘러 가는게 좋겠지??'
+          //     }
+          //     if (resultData.arrmsg2 == "곧 도착") {
+          //       arrmsg2_final = '곧 도착해!!';
+          //     } else {
+          //       arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
+          //     }
+          //     var entiremsg_final = `${stName}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
+          //     var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
+          //     api.sendResponse(event, messageData);
+          //   }
+          // });
+
           callback(null);
         });
         // NOTE: if USER already confirmed stNm
