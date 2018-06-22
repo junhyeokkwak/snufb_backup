@@ -145,10 +145,10 @@ var bus_askStNm = function(event) {
               // console.log(jsonData.busRouteId_stId_staOrd[i].stNm);
               stNameArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);
               console.log(i);
-              if (i >= (jsonData.busRouteId_stId_staOrd.length-2)) {
-                console.log("stNameArr: "+stNameArr);
-                callback(null, stNameArr);
-              }
+            }
+            if (i === jsonData.busRouteId_stId_staOrd.length-1) {
+              console.log("stNameArr: "+stNameArr);
+              callback(null, stNameArr);
             }
           }
         } else {
