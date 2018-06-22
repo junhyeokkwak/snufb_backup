@@ -74,7 +74,7 @@ function getSimilarStrings(targetString, arr, criterion, number) {
     console.log(count);
     possibleStringsArr.sort((a, b) => b.similarity - a.similarity)
     resultArr = possibleStringsArr.slice(0,number);
-    console.log("resultArr: " + resultArr);
+    // console.log("resultArr: " + resultArr);
     return(resultArr);
   }
 }

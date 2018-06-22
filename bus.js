@@ -68,7 +68,7 @@ var bus_askBusNum = function(event) {
       callback(util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
     },
     function(possibleBusArr, callback) {
-      console.log(possibleBusArr);
+      console.log("possibleBusArr: "+possibleBusArr);
       if (possibleBusArr[0].similarity == 0) {
         connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
         var messageData = {"text": "몇번인지 모르겠어:( 다시 말해 줄 수 있어?"};
