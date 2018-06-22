@@ -128,7 +128,73 @@ var bus_confirmBusNum = function(event) {
 }
 
 var bus_askStNm = function(event) {
-  console.log("RUN bus_askStNm");
+  console.log("RUN bus_askBusNum");
+  var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
+  var jsonData=JSON.parse(data), msg = event.message.text, stNm;
+  task = [
+    function(callback) {
+      callback(null, util.getSimilarStrings(msg,  jsonData.stNameArr, -1, jsonData.stNameArr.length));
+    },
+    function(possibleBusArr, callback) {
+      // console.log("possibleBusArr: "+possibleBusArr);
+      if (possibleBusArr[0].similarity == 0) {
+        connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
+        var messageData = {"text": "무슨 정류장인지 모르겠어:( 다시 말해 줄 수 있어?"};
+        api.sendResponse(event, messageData);
+        callback(null);
+      } else {
+        stNm = possibleStArr[0]._text;
+        connection.query('UPDATE Users SET conv_context="bus_confirmStNm" WHERE user_id=' + event.sender.id);
+        connection.query(`UPDATE Users SET stNm="${stNm}" WHERE user_id=` + event.sender.id);
+        var messageData = {"text": `${stNameArr} 정류장 맞아??`};
+        api.sendResponse(event, messageData);
+        callback(null);
+      }
+    },
+  ]
+  async.waterfall(task);
+}
+
+var bus_confirmStNm = function(event) {
+  console.log("RUN bus_confirmBusNum");
+  var data=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
+  var jsonData=JSON.parse(data);
+  var msg = event.message.text;
+  task = [
+    function(callback) {
+      callback(null, util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length));
+    },
+    function(agreementArr, callback) {
+      console.log("agreementArr: "+agreementArr);
+      if (agreementArr[0].similarity == 0) {
+        if (util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length)[0].similarity == 0) {
+          connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
+          connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
+          var messageData = {"text": "미안ㅋㅋ큐ㅠ 그럼 무슨 정류장이야?아마 내가 모르는 걸 수도 있어"};
+          api.sendResponse(event, messageData);
+          callback(null);
+        } else {
+          connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+          connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
+          var messageData = {"text": "ㅋㅋㅋㅋ어쩌라는거지;"};
+          api.sendResponse(event, messageData);
+          callback(null);
+        }
+      } else {
+        // NOTE: if there is no info in stNm in User
+        connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
+        connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+          if (err) throw err;
+          console.log(result[0].busNum);
+          var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
+          api.sendResponse(event, messageData);
+          callback(null);
+        });
+        // NOTE: if USER already confirmed stNm
+      }
+    },
+  ]
+  async.waterfall(task);
 }
 
 
@@ -301,6 +367,7 @@ module.exports = {
     "bus_askBusNum" : bus_askBusNum,
     "bus_confirmBusNum" : bus_confirmBusNum,
     "bus_askStNm" : bus_askStNm,
+    "bus_confirmStNm" : bus_confirmStNm,
     // "busConv_1_Number" : busConv_1_Number,
     // "busConv_2_Station" : busConv_2_Station,
     // "busConv_3_Print" : busConv_3_Print,
