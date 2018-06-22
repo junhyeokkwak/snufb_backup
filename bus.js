@@ -87,7 +87,9 @@ var bus_askBusNum = function(event) {
 var bus_confirmBusNum = function(event) {
   console.log("RUN bus_confirmBusNum");
   var data=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
-  var jsonData=JSON.parse(data), msg = event.message.text, busNum;
+  var jsonData=JSON.parse(data),
+  var msg = event.message.text;
+  var busNum;
   task = [
     function(callback) {
       callback(null, util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length));
