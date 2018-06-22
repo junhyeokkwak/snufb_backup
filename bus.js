@@ -156,10 +156,9 @@ var bus_askStNm = function(event) {
           callback(null, util.getSimilarStrings(msg,  jsonData.stNameArr, -1, jsonData.stNameArr.length));
         }
       });
-
     },
     function(possibleStArr, callback) {
-      // console.log("possibleBusArr: "+possibleBusArr);
+      console.log("possibleBusArr: "+possibleBusArr[0]);
       if (possibleStArr[0].similarity == 0) {
         connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
         var messageData = {"text": "무슨 정류장인지 모르겠어:( 다시 말해 줄 수 있어?"};
@@ -211,7 +210,7 @@ var bus_confirmStNm = function(event) {
           console.log(result[0].busNum);
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
           api.sendResponse(event, messageData);
-          // var busNum = 
+          // var busNum =
           var busRouteId = jsonData.busNum_busRouteId[result[0].busNum];
           console.log("busRouteId: " + busRouteId + "stId: " + stId );
           // NOTE: SEND API REQUEST
