@@ -59,26 +59,22 @@ var bus_stNmORbusNum = function(event) {
 var bus_askBusNum = function(event) {
   console.log("RUN bus_askBusNum");
   var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
-  var jsonData=JSON.parse(data);
-  var msg = event.message.text;
-  var busNum;
-  // console.log(util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
+  var jsonData=JSON.parse(data), msg = event.message.text, busNum;
   task = [
     function(callback) {
-      // var arr = util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length);
-      // console.log("arr: " + util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
       callback(null, util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
     },
     function(possibleBusArr, callback) {
-      console.log("possibleBusArr: "+possibleBusArr);
+      // console.log("possibleBusArr: "+possibleBusArr);
       if (possibleBusArr[0].similarity == 0) {
         connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
         var messageData = {"text": "몇번인지 모르겠어:( 다시 말해 줄 수 있어?"};
         api.sendResponse(event, messageData);
         callback(null);
       } else {
-        connection.query('UPDATE Users SET conv_context="bus_confirmBusNum" WHERE user_id=' + event.sender.id);
         busNum = possibleBusArr[0]._text;
+        connection.query('UPDATE Users SET conv_context="bus_confirmBusNum" WHERE user_id=' + event.sender.id);
+        connection.query(`UPDATE Users SET busNum="${busNum}" WHERE user_id=` + event.sender.id);
         var messageData = {"text": `${busNum}번 버스 맞아??`};
         api.sendResponse(event, messageData);
         callback(null);
@@ -90,8 +86,48 @@ var bus_askBusNum = function(event) {
 
 var bus_confirmBusNum = function(event) {
   console.log("RUN bus_confirmBusNum");
+  var data=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
+  var jsonData=JSON.parse(data), msg = event.message.text, busNum;
+  task = [
+    function(callback) {
+      callback(null, util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length));
+    },
+    function(agreementArr, callback) {
+      console.log("agreementArr: "+agreementArr);
+      if (agreementArr[0].similarity == 0) {
+        if (util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length)[0].similarity == 0) {
+          connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
+          connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
+          var messageData = {"text": "미안ㅋㅋ큐ㅠ 그럼 몇번이야?아마 내가 모르는 걸 수도 있어"};
+          api.sendResponse(event, messageData);
+          callback(null);
+        } else {
+          connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+          connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
+          var messageData = {"text": "ㅋㅋㅋㅋ어쩌라는거지;"};
+          api.sendResponse(event, messageData);
+          callback(null);
+        }
+      } else {
+        // NOTE: if there is no info in stNm in User
+        connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
+        connection.query('SELECT busNum FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+          if (err) throw err;
+          console.log(result[0].busNum);
+          var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스로 찾아줄게! 정류장은 어디야?`;
+          api.sendResponse(event, messageData);
+          callback(null);
+        });
+        // NOTE: if USER already confirmed stNm
+      }
+    },
+  ]
+  async.waterfall(task);
 }
 
+var bus_askStNm = function(event) {
+  console.log("RUN bus_askStNm");
+}
 
 
 var busTest = function(event) {
@@ -208,7 +244,6 @@ var getStaOrd_fromInside = function(busRouteId, stId, callback) {
   }
 }
 
-
 var getStaOrd_fromOutside = function(busRouteId, stId, callback) {
   // console.log("STID: " + stId);
   console.log("RUN getArrInfoByRouteAll_fromOutside");
@@ -263,6 +298,7 @@ module.exports = {
     "bus_stNmORbusNum" : bus_stNmORbusNum,
     "bus_askBusNum" : bus_askBusNum,
     "bus_confirmBusNum" : bus_confirmBusNum,
+    "bus_askStNm" : bus_askStNm,
     // "busConv_1_Number" : busConv_1_Number,
     // "busConv_2_Station" : busConv_2_Station,
     // "busConv_3_Print" : busConv_3_Print,
