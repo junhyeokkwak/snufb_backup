@@ -30,6 +30,8 @@ var findSimilarStrings = function(targetString, arr, criterion, number, callback
     callback(resultArr);
   }
 }
+
+console.log(jsonData.busNum_busRouteId[`163`]);
 //
 // findSimilarStrings("153번", jsonData.busNumArr, 0, 5, function(resultArr) {
 //   console.log(resultArr);
