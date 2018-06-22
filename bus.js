@@ -146,7 +146,7 @@ var bus_askStNm = function(event) {
         stNm = possibleStArr[0]._text;
         connection.query('UPDATE Users SET conv_context="bus_confirmStNm" WHERE user_id=' + event.sender.id);
         connection.query(`UPDATE Users SET stNm="${stNm}" WHERE user_id=` + event.sender.id);
-        var messageData = {"text": `${stNameArr} 정류장 맞아??`};
+        var messageData = {"text": `${stNm} 정류장 맞아??`};
         api.sendResponse(event, messageData);
         callback(null);
       }
