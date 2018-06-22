@@ -140,6 +140,7 @@ var bus_askStNm = function(event) {
         console.log("BUSNUM that user chose:" + result[0].busNum);
         if (result[0].busNum != ("none" && "")) {
           // NOTE: if there is confirmed busNum, search only the stations which the bus go through
+          console.log("USER DID NOT CONFIRED busNum YET");
           for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
             if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) {
               // console.log(jsonData.busRouteId_stId_staOrd[i].stNm);
@@ -153,6 +154,7 @@ var bus_askStNm = function(event) {
           }
         } else {
           // NOTE: if there is no confirmed busNum, search all the stations
+          console.log("USER ALREADY CONFIRED busNum");
           callback(null, util.getSimilarStrings(msg,  jsonData.stNameArr, -1, jsonData.stNameArr.length));
         }
       });
