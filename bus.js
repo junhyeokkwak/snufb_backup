@@ -130,7 +130,7 @@ var bus_confirmBusNum = function(event) {
 var bus_askStNm = function(event) {
   console.log("RUN bus_askBusNum");
   var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
-  var jsonData=JSON.parse(data), msg = event.message.text, stNameArr = [], stNm;
+  var jsonData=JSON.parse(data), msg = event.message.text, stNmArr = [], stNm;
 
   task = [
     function(callback) {
@@ -142,16 +142,16 @@ var bus_askStNm = function(event) {
           // NOTE: if there is confirmed busNum, search only the stations which the bus go through
           console.log("USER DID NOT CONFIRED busNum YET");
           for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
-            if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) { stNameArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);}
+            if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) { stNmArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);}
             if (i === jsonData.busRouteId_stId_staOrd.length-1) {
-              console.log("stNameArr: "+stNameArr);
-              callback(null, util.getSimilarStrings(msg, stNameArr, -1, stNameArr.length));
+              console.log("stNmArr: "+stNmArr);
+              callback(null, util.getSimilarStrings(msg, stNmArr, -1, stNmArr.length));
             }
           }
         } else {
           // NOTE: if there is no confirmed busNum, search all the stations
           console.log("USER ALREADY CONFIRED busNum");
-          callback(null, util.getSimilarStrings(msg,  jsonData.stNameArr, -1, jsonData.stNameArr.length));
+          callback(null, util.getSimilarStrings(msg,  jsonData.stNmArr, -1, jsonData.stNmArr.length));
         }
       });
     },
@@ -243,7 +243,7 @@ var bus_confirmStNm = function(event) {
                   } else {
                     arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
                   }
-                  var entiremsg_final = `${stName}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
+                  var entiremsg_final = `${stNm}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
                   var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
                   api.sendResponse(event, messageData);
                   callback(null)
@@ -265,12 +265,12 @@ var busTest = function(event) {
   if (event.message.text.indexOf('/') > -1) {
     console.log('VALID busTest INPUT');
     var txt = event.message.text;
-    var busNum, stName, busRouteId, stId;
+    var busNum, stNm, busRouteId, stId;
     busNum = txt.split("/")[0].replace(" ","");
-    stName =txt.split("/")[1].replace(" ","");
-    console.log(`busNum: [${busNum}] stName: [${stName}]`);
+    stNm =txt.split("/")[1].replace(" ","");
+    console.log(`busNum: [${busNum}] stNm: [${stNm}]`);
     if (busNum == "153" || "153번") busRouteId = 100100032;
-    if (stName == "연세대앞" || "연대앞") stId = 112000012;
+    if (stNm == "연세대앞" || "연대앞") stId = 112000012;
     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
     var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
     api.sendResponse(event, messageData);
@@ -295,7 +295,7 @@ var busTest = function(event) {
         } else {
           arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
         }
-        var entiremsg_final = `${stName}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
+        var entiremsg_final = `${stNm}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
         var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
         api.sendResponse(event, messageData);
       }
