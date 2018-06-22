@@ -213,7 +213,7 @@ var bus_confirmStNm = function(event) {
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
           api.sendResponse(event, messageData);
           // var busNum =
-          var busRouteId = jsonData.busNum_busRouteId[result[0].busNum];
+          var busRouteId = jsonData.busNum_busRouteId[result[0].busNum.toString()];
           console.log("busRouteId: " + busRouteId + "stId: " + stId );
           // NOTE: SEND API REQUEST
           // getBusArriveInfo(busRouteId, stId, function(resultData) {
