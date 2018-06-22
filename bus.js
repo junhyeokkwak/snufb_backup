@@ -65,9 +65,9 @@ var bus_askBusNum = function(event) {
   // console.log(util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
   task = [
     function(callback) {
-      var arr = util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length);
-      console.log("arr: " + util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
-      callback(null, arr);
+      // var arr = util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length);
+      // console.log("arr: " + util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
+      callback(null, util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
     },
     function(possibleBusArr, callback) {
       console.log("possibleBusArr: "+possibleBusArr);
