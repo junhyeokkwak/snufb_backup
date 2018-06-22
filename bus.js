@@ -221,6 +221,7 @@ var bus_confirmStNm = function(event) {
               if (possibleStArr.length >= 2) { console.log("FUCKCKCKCKCKKCKC");}
               stId = possibleStArr[0].stId;
               console.log("busRouteId: " + busRouteId + " stId: " + stId);
+
               // NOTE: SEND API REQUEST
               getBusArriveInfo(busRouteId, stId, function(resultData) {
                 console.log("resultData"+resultData);
@@ -355,17 +356,17 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
 
 var getStaOrd_fromInside = function(busRouteId, stId, callback) {
   console.log("RUN getArrInfoByRouteAll_fromInside");
-  var options, ord, staOrdArr = [];
+  var options, ord, staOrdArr = [], stId_target = stId;
   var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
   var jsonData=JSON.parse(data);
-  if (typeof stId != "string") {
+  if (typeof stId_target != "string") {
     stId_target = stId.toString();
   }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
   var itemListSize = jsonData.busRouteId_stId_staOrd.length;
   console.log(itemListSize)
   for (var i = 0; i < itemListSize; i++) {
-    if (jsonData.busRouteId_stId_staOrd[i].stId == stId && jsonData.busRouteId_stId_staOrd[i].busRouteId == busRouteId) {
+    if (jsonData.busRouteId_stId_staOrd[i].stId == stId_target && jsonData.busRouteId_stId_staOrd[i].busRouteId == busRouteId) {
       ord = jsonData.busRouteId_stId_staOrd[i].staOrd;
       console.log("ORD FOUND: " + ord);
       callback(ord);
@@ -378,7 +379,7 @@ var getStaOrd_fromOutside = function(busRouteId, stId, callback) {
   console.log("RUN getArrInfoByRouteAll_fromOutside");
   var options, ord;
   var stId_target = stId;
-  if (typeof stId != "string") {
+  if (typeof stId_target != "string") {
     stId_target = stId.toString();
   }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
