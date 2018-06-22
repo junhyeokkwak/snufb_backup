@@ -114,7 +114,7 @@ var bus_confirmBusNum = function(event) {
         connection.query('SELECT busNum FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
           if (err) throw err;
           console.log(result[0].busNum);
-          var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스로 찾아줄게! 정류장은 어디야?`;
+          var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스로 찾아줄게! 정류장은 어디야?`};
           api.sendResponse(event, messageData);
           callback(null);
         });
