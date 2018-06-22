@@ -144,7 +144,7 @@ var bus_askStNm = function(event) {
           for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
             if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) { stNameArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);}
             if (i === jsonData.busRouteId_stId_staOrd.length-1) {
-              // console.log("stNameArr: "+stNameArr);
+              console.log("stNameArr: "+stNameArr);
               callback(null, util.getSimilarStrings(msg, stNameArr, -1, stNameArr.length));
             }
           }
