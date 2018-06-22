@@ -142,13 +142,9 @@ var bus_askStNm = function(event) {
           // NOTE: if there is confirmed busNum, search only the stations which the bus go through
           console.log("USER DID NOT CONFIRED busNum YET");
           for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
-            if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) {
-              // console.log(jsonData.busRouteId_stId_staOrd[i].stNm);
-              stNameArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);
-              console.log(i);
-            }
+            if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) { stNameArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);}
             if (i === jsonData.busRouteId_stId_staOrd.length-1) {
-              console.log("stNameArr: "+stNameArr);
+              // console.log("stNameArr: "+stNameArr);
               callback(null, util.getSimilarStrings(msg, stNameArr, -1, stNameArr.length));
             }
           }
@@ -181,17 +177,18 @@ var bus_askStNm = function(event) {
 
 var bus_confirmStNm = function(event) {
   console.log("RUN bus_confirmStNm");
-  var data=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
-  var jsonData=JSON.parse(data);
-  var msg = event.message.text, stNm, stId, busNum, busRouteId;
+  var basicConvFile=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
+  var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
+  var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile);
+  var msg = event.message.text, stNm, stId, busNum, busRouteId, possibleStArr = [];
   task = [
     function(callback) {
-      callback(null, util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length));
+      callback(null, util.getSimilarStrings(msg,  basicConv.agreementArr, -1, basicConv.agreementArr.length));
     },
     function(agreementArr, callback) {
       console.log("agreementArr: "+agreementArr);
       if (agreementArr[0].similarity == 0) {
-        if (util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length)[0].similarity == 0) {
+        if (util.getSimilarStrings(msg,  basicConv.agreementArr, -1, basicConv.agreementArr.length)[0].similarity == 0) {
           connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
           connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
           var messageData = {"text": "미안ㅋㅋ큐ㅠ 그럼 무슨 정류장이야?아마 내가 모르는 걸 수도 있어"};
@@ -212,9 +209,20 @@ var bus_confirmStNm = function(event) {
           console.log(result[0].busNum);
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
           api.sendResponse(event, messageData);
-          // var busNum =
-          var busRouteId = jsonData.busNum_busRouteId[result[0].busNum.toString()];
-          console.log("busRouteId: " + busRouteId + "stId: " + stId );
+          console.log(busRouteJsonData.busNum_busRouteId);
+          busNum = (result[0].busNum).toString();
+          busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
+          for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
+            if ((busRouteJsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) && (busRouteJsonData.busRouteId_stId_staOrd[i].stNm = result[0].stNm)) {
+              console.log("possibleSt: " + busRouteJsonData.busRouteId_stId_staOrd[i]);
+              possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
+            }
+            if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
+              console.log("busRouteId: " + busRouteId + "stId: " + stId);
+              callback(null);
+            }
+          }
+          // console.log("busRouteId: " + busRouteId + "stId: " + stId );
           // NOTE: SEND API REQUEST
           // getBusArriveInfo(busRouteId, stId, function(resultData) {
           //   console.log("resultData"+resultData);
@@ -242,7 +250,7 @@ var bus_confirmStNm = function(event) {
           //   }
           // });
 
-          callback(null);
+          // callback(null);
         });
         // NOTE: if USER already confirmed stNm
       }
