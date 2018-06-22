@@ -222,7 +222,7 @@ var bus_confirmStNm = function(event) {
               stId = possibleStArr[0].stId;
               console.log("busRouteId: " + busRouteId + " stId: " + stId);
               // NOTE: SEND API REQUEST
-              sendArriveMsg(busRouteId, stId);
+              sendArriveMsg(event, busRouteId, stId);
             }//if
           }//for loop
         }); //query
@@ -233,7 +233,7 @@ var bus_confirmStNm = function(event) {
   async.waterfall(task);
 }
 
-var sendArriveMsg = function(busRouteId, stId, callback) {
+var sendArriveMsg = function(event, busRouteId, stId, callback) {
   console.log('TEST busTest');
   var busNum, stNm;
   var task = [
