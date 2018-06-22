@@ -269,7 +269,7 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
           if (resultData.arrmsg2 == "곧 도착") {
             arrmsg2_final = '곧 도착해!!';
           } else if (resultData.arrmsg1.indexOf("대기") > -1) {
-            arrmsg1_final = '차고에서 대기중이야!'
+            arrmsg2_final = '차고에서 대기중이야!'
           } else {
             arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
           }
