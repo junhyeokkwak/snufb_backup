@@ -272,29 +272,16 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
         } else {
           console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
           var arrmsg1_final, arrmsg2_final, extramsg_final;
-          // if (resultData.arrmsg1.indexOf("곧") > -1) {
-          //   arrmsg1_final = '곧 도착하구';
-          //   extramsg = '얼른 뛰어가!!'
-          // } else if (resultData.arrmsg1.indexOf("출발대기") > -1) {
-          //   arrmsg1_final = '차고에서 대기중이고';
-          //   extramsg = '얼른 뛰어가!!'
-          // } else {
-          //   arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
-          //   extramsg = '서둘러 가는게 좋겠지??'
-          // }
-          // if (resultData.arrmsg2 == "곧 도착") {
-          //   arrmsg2_final = '곧 도착해!!';
-          // } else {
-          //   arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
-          // }
           handleArrMsg(resultData.arrmsg1, function(arrmsg1, extramsg) {
+            console.log("HANDLEARRMSG1");
             arrmsg1_final = arrmsg_final;
-            extramsg_final = extramsg_final;
+            extramsg_final = extramsg;
             handleArrMsg(resultData.arrmsg1, function(arrmsg2, extramsg) {
+              console.log("HANDLEARRMSG1");
               arrmsg2_final = arrmsg_final
               var entiremsg_final = `${stNm}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg_final}`;
               var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
-              console.log(entiremsg_final);
+              console.log("entiremsg_final: " + entiremsg_final);
               // callback( entiremsg_final.replace(/['"]+/g, '') );
               api.sendResponse(event, messageData);
             });
