@@ -182,7 +182,7 @@ var bus_confirmStNm = function(event) {
   console.log("RUN bus_confirmStNm");
   var data=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
   var jsonData=JSON.parse(data);
-  var msg = event.message.text;
+  var msg = event.message.text, stNm, stId, busNum, busRouteId;
   task = [
     function(callback) {
       callback(null, util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length));
@@ -211,8 +211,8 @@ var bus_confirmStNm = function(event) {
           console.log(result[0].busNum);
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
           api.sendResponse(event, messageData);
-          var busRouteId = jsonData.busNum_busRouteId.result[0].busNum;
-          var stId;
+          // var busNum = 
+          var busRouteId = jsonData.busNum_busRouteId[result[0].busNum];
           console.log("busRouteId: " + busRouteId + "stId: " + stId );
           // NOTE: SEND API REQUEST
           // getBusArriveInfo(busRouteId, stId, function(resultData) {
