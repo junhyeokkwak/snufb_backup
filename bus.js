@@ -66,8 +66,8 @@ var bus_askBusNum = function(event) {
   task = [
     function(callback) {
       var arr = util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length);
-      console.log(util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
-      callback(arr);
+      console.log("arr: " + util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
+      callback(null, arr);
     },
     function(possibleBusArr, callback) {
       console.log("possibleBusArr: "+possibleBusArr);
