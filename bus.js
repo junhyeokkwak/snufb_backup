@@ -211,6 +211,9 @@ var bus_confirmStNm = function(event) {
           console.log(result[0].busNum);
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
           api.sendResponse(event, messageData);
+          var busRouteId = jsonData.busNum_busRouteId.(result[0].busNum);
+          var stId;
+          console.log("busRouteId: " + busRouteId + "stId: " + stId );
           // NOTE: SEND API REQUEST
           // getBusArriveInfo(busRouteId, stId, function(resultData) {
           //   console.log("resultData"+resultData);
