@@ -242,9 +242,9 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("RUN handleMultipleStNm");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "TEST";
-  var url = process.env.HEROKU_URL + '/busRoute';
+  var testPos = '/xpos=126.9348325761&ypos=37.5540291075'
+  var url = process.env.HEROKU_URL + '/busRoute'+ testPos;
   var size = "compact";
-  var testPos = 'xpos=126.9348325761&ypos=37.5540291075'
   app.busStMapHelper(event, testPos);
 
   // var pos1 = [{

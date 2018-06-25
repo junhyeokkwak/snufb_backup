@@ -188,7 +188,7 @@ app.post('/register/re_user', function(req, res){
 });
 
 var busStMapHelper = function(event, testPos) {
-  app.get('/busRoute/'+ testPos, function(req, res){
+  app.get('/busRoute'+ testPos, function(req, res){
     res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
   });
 }
