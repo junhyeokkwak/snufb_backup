@@ -268,8 +268,8 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   }
   stringData = stringData.substring(1,stringData.length-1)
   console.log(stringData);
-  
-  // var url = process.env.HEROKU_URL + '/busRoute/'+ stringData;
+
+  var url = process.env.HEROKU_URL + '/busRoute'+ stringData;
   var size = "compact";
   app.busStMapHelper(event, stringData);
 
@@ -290,8 +290,6 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   //   const content = await rawResponse.json();
   //   console.log(content);
   // })();
-
-  var xpos = 126.9348325761;
 
   let messageData = {
     recipient: {
