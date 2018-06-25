@@ -237,7 +237,7 @@ var bus_confirmStNm = function(event) {
   async.waterfall(task);
 }
 
-var function externalFileFunction() {
+var externalFileFunction = function{
   var externalFileVarialbe = 'Hello';
   alert('Impoty External Script Complete');
 }
