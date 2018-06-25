@@ -237,6 +237,36 @@ var bus_confirmStNm = function(event) {
   async.waterfall(task);
 }
 
+var handleMultipleStNm = function() {
+  console.log("RUN handleMultipleStNm");
+  var title = "TEST";
+  var url = process.env.HEROKU_URL + '/busRoute';
+  var size = "compact";
+
+  let messageData = {
+    recipient: {
+      id: event.sender.id
+    },
+    message: {
+      "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text":"Try the URL button!",
+        "buttons":[
+          {
+            "type":"web_url",
+            "url": url,
+            "title":"URL Button",
+            "webview_height_ratio": "compact"
+          }
+        ]
+      }//payload
+      }//attachment
+    }//message
+  };//messageDat
+  api.callSendAPI(messageData)
+}
 
 var sendArriveMsg = function(event, busRouteId, stId, callback) {
   console.log('TEST busTest');
@@ -457,6 +487,7 @@ module.exports = {
     "bus_confirmBusNum" : bus_confirmBusNum,
     "bus_askStNm" : bus_askStNm,
     "bus_confirmStNm" : bus_confirmStNm,
+    "handleMultipleStNm" : handleMultipleStNm
     // "busConv_1_Number" : busConv_1_Number,
     // "busConv_2_Station" : busConv_2_Station,
     // "busConv_3_Print" : busConv_3_Print,

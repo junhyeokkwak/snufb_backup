@@ -105,7 +105,7 @@ function handleWebview(event, title, url, size) {
               //"item_url": url,
               //"webview_height_ratio": size,
               //"subtitle":"let's go!",
-              "title":"밑의 주소로 들어가서 등록해줘!"
+              "title":""
             }],
             "template_type":"generic"
           },
