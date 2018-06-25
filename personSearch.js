@@ -43,9 +43,16 @@ function askProfileURL(event) {
   console.log('====ASKING FOR PROFILE URL====');
   console.log('text is: ' + event.message.text);
   var urlResponse = event.message.text;
-  var substring1 = "http";
-  if (urlResponse.indexOf(substring1) !== -1) {
-    api.sendResponse(event, {"text": "GOOD!"});
+  var substring1 = "https://www.facebook.com";
+  var substring2 = "id=";
+  if (urlResponse.indexOf(substring1) !== -1) { // It is a valid facebook URL
+    var startIndex = urlResponse.indexOf(substring2); // starting index of 'id='
+    if (startIndex !== -1) {
+      var strlen = urlResponse.length;
+      var imptInfo = urlResponse.substring((startIndex + 3), strlen);
+      console.log(imptInfo);
+    }
+    // api.sendResponse(event, {"text": "GOOD!"});
   }
 };
 
