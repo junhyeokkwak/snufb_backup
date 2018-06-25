@@ -1,3 +1,4 @@
+var app = require("./app");
 var request = require("request");
 var https = require('https');
 var qr = require('./quick_replies');
@@ -243,25 +244,26 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   var title = "TEST";
   var url = process.env.HEROKU_URL + '/busRoute';
   var size = "compact";
+  var testPost = 'xpos=126.9348325761&ypos=37.5540291075'
+  app.busStMapHelper(event, testPos);
 
   // var pos1 = [{
   //   "xpos" = 126.9348325761,
   //   "ypos" = 37.5540291075,
   // }]
 
-  (async () => {
-    const rawResponse = await fetch(url + '/busRoute', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({a: 1, b: 'Textual content'})
-    });
-    const content = await rawResponse.json();
-
-    console.log(content);
-  })();
+  // (async () => {
+  //   const rawResponse = await fetch(url + '/busRoute', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({a: 1, b: 'Textual content'})
+  //   });
+  //   const content = await rawResponse.json();
+  //   console.log(content);
+  // })();
 
   var xpos = 126.9348325761;
 

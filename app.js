@@ -187,10 +187,12 @@ app.post('/register/re_user', function(req, res){
     // res.render('register-success', {data = req.body});
 });
 
-app.get('/busRoute', function(req, res){
-  res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
-});
-
+var busStMapHelper = function(event, testPos) {
+  app.get('/busRoute/'+ testPos, function(req, res){
+    res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
+  });
+}
+module.exports.busStMapHelper = busStMapHelper;
 
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
