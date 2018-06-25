@@ -206,15 +206,16 @@ var bus_confirmStNm = function(event) {
         connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
         connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
           if (err) throw err;
-          console.log(result[0].busNum);
+          // console.log(result[0].busNum);
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
           api.sendResponse(event, messageData);
-          console.log(busRouteJsonData.busNum_busRouteId);
+          // console.log(busRouteJsonData.busNum_busRouteId);
           busNum = (result[0].busNum).toString();
           busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
           for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
             if ((busRouteJsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) && (busRouteJsonData.busRouteId_stId_staOrd[i].stNm = result[0].stNm)) {
-              console.log("possibleSt: " + busRouteJsonData.busRouteId_stId_staOrd[i]);
+              console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
+              console.log("INININ");
               possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
             }
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
