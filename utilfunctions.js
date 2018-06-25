@@ -50,7 +50,7 @@ module.exports.Josa = Josa;
 function testWebview(event){
   console.log("RUN testWebview");
   var title = "TEST";
-  var url = process.env.HEROKU_URL + '/register';
+  var url = process.env.HEROKU_URL + '/busRoute';
   var size = "compact";
   api.handleWebview(event, title, url, size)
 }
