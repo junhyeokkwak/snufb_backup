@@ -43,7 +43,7 @@ function askProfileURL(event) {
   console.log('====ASKING FOR PROFILE URL====');
   var urlResponse = event.messege.text;
   var substring1 = "http";
-  if (urlResponse.indexOf(substring1) !== -1;) {
+  if (urlResponse.indexOf(substring1) !== -1) {
     api.sendResponse(event, {"text": "GOOD!"});
   }
 };
