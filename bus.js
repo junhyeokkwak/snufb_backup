@@ -237,11 +237,6 @@ var bus_confirmStNm = function(event) {
   async.waterfall(task);
 }
 
-var externalFileFunction = function() {
-  var externalFileVarialbe = 'Hello';
-  alert('Impoty External Script Complete');
-}
-
 var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("RUN handleMultipleStNm");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
@@ -254,17 +249,21 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   //   "ypos" = 37.5540291075,
   // }]
 
+  (async () => {
+    const rawResponse = await fetch(url + '/busRoute', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({a: 1, b: 'Textual content'})
+    });
+    const content = await rawResponse.json();
+
+    console.log(content);
+  })();
+
   var xpos = 126.9348325761;
-  var test = document.getElementById(test);
-  test.addEventListener('click', function(){
-    console.log(document.getElementById(test).value);
-    alert(document.getElementById(test).value)
-  })
-
-
-  function getPositions() {
-    return xpos;
-  }
 
   let messageData = {
     recipient: {
