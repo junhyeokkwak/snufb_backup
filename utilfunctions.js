@@ -48,6 +48,7 @@ function Josa(txt, josa){
 module.exports.Josa = Josa;
 
 function testWebview(event){
+  var api = require('./apiCalls')
   console.log("RUN testWebview");
   var title = "TEST";
   var url = process.env.HEROKU_URL + '/busRoute';
