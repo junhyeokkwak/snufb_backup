@@ -220,7 +220,7 @@ var bus_confirmStNm = function(event) {
             }
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
               if (possibleStArr.length >= 2) {
-                handleMultipleStNm(event);
+                bus_handleMultipleStNm(event, possibleStArr);
                 console.log("ALERT: There are two or more stations with the same stNm.");
               }
               stId = possibleStArr[0].stId;
@@ -237,11 +237,23 @@ var bus_confirmStNm = function(event) {
   async.waterfall(task);
 }
 
-var handleMultipleStNm = function(event) {
+var bus_handleMultipleStNm = function(event) {
   console.log("RUN handleMultipleStNm");
+  console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "TEST";
   var url = process.env.HEROKU_URL + '/busRoute';
   var size = "compact";
+
+  // var pos1 = [{
+  //   "xpos" = 126.9348325761,
+  //   "ypos" = 37.5540291075,
+  // }]
+
+  var xpos = 126.9348325761;
+
+  function getPositions() {
+    return xpos;
+  }
 
   let messageData = {
     recipient: {
@@ -265,6 +277,7 @@ var handleMultipleStNm = function(event) {
       }//attachment
     }//message
   };//messageDat
+
   api.callSendAPI(messageData);
 }
 
@@ -487,7 +500,7 @@ module.exports = {
     "bus_confirmBusNum" : bus_confirmBusNum,
     "bus_askStNm" : bus_askStNm,
     "bus_confirmStNm" : bus_confirmStNm,
-    "handleMultipleStNm" : handleMultipleStNm
+    "bus_handleMultipleStNm" : bus_handleMultipleStNm,
     // "busConv_1_Number" : busConv_1_Number,
     // "busConv_2_Station" : busConv_2_Station,
     // "busConv_3_Print" : busConv_3_Print,

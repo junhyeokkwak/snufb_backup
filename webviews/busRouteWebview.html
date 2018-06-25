@@ -18,8 +18,14 @@ var mapOptions = {
 };
 
 var map = new naver.maps.Map('map', mapOptions);
+var xpos;
 
-var position1 = new naver.maps.LatLng(a, b);
+window.onload = function() {
+  xpos = getPositions();
+  alert("xpos: " + xpos);
+}
+
+var position1 = new naver.maps.LatLng(37.5540291075, xpos);
 var position2 = new naver.maps.LatLng(37.5540511998, 126.9356825619);
 
 var marker1 = new naver.maps.Marker({
