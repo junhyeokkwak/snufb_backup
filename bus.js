@@ -238,6 +238,7 @@ var bus_confirmStNm = function(event) {
 }
 
 var bus_handleMultipleStNm = function(event, possibleStArr) {
+  var doc = require("./webview/busRouteWebview.html"); 
   console.log("RUN handleMultipleStNm");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "TEST";
