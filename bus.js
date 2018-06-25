@@ -214,9 +214,8 @@ var bus_confirmStNm = function(event) {
           busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
           console.log(`busNum: ${result[0].busNum} stNm: ${result[0].stNm}`);
           for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
-            if ((busRouteJsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) && (busRouteJsonData.busRouteId_stId_staOrd[i].stNm = result[0].stNm)) {
+            if ((busRouteJsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) && (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == result[0].stNm)) {
               console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
-              console.log("INININ");
               possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
             }
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
