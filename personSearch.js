@@ -21,8 +21,8 @@ var startPersonSearch = function(event) {
           connection.query('UPDATE Users SET conv_context="askProfileURL" WHERE user_id=' + event.sender.id);
           api.sendResponse(event, {"text": "이 기능을 처음 사용하는구나! 먼저 너 프로필을 등록해야 하는데 이건 너의 도움이 조금 필요해!\n페이스북 앱에 들어가서 너 프로필 링크를 복사해줄 수 있어?\n사진을 참고해서 링크를 복사하고 여기에 붙여넣기 해줘!"});
         };
-        callback(null,'done');
       });
+      callback(null,'done');
     },
     function(err, callback) {
         if (result[0].uid != 0)
