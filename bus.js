@@ -190,13 +190,13 @@ var bus_confirmStNm = function(event) {
       if (agreementArr[0].similarity == 0) {
         if (util.getSimilarStrings(msg,  basicConv.agreementArr, -1, basicConv.agreementArr.length)[0].similarity == 0) {
           connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
-          connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
+          connection.query(`UPDATE Users SET stNm="none" WHERE user_id=` + event.sender.id);
           var messageData = {"text": "미안ㅋㅋ큐ㅠ 그럼 무슨 정류장이야?아마 내가 모르는 걸 수도 있어"};
           api.sendResponse(event, messageData);
           callback(null);
         } else {
           connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-          connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
+          connection.query(`UPDATE Users SET stNm="none" WHERE user_id=` + event.sender.id);
           var messageData = {"text": "ㅋㅋㅋㅋ어쩌라는거지;"};
           api.sendResponse(event, messageData);
           callback(null);
