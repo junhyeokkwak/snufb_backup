@@ -261,7 +261,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
       }
     ]
   }
-  var stringData = "/";
+  var stringData;
   for(var i = 0; i < testData.positions.length; i++) {
     var str = `xpos${i}=${testData.positions[i].xpos}&ypos${i}=${testData.positions[i].xpos}&`;
     stringData+=str;
@@ -269,9 +269,9 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   stringData = stringData.substring(1,stringData.length-1)
   console.log(stringData);
 
-  var url = process.env.HEROKU_URL + '/busRoute'+ stringData;
+  var url = process.env.HEROKU_URL + '/busRoute'+ "/" + stringData;
   var size = "compact";
-  app.busStMapHelper(event, stringData);
+  app.busStMapHelper(event, "/"+stringData);
 
   // var pos1 = [{
   //   "xpos" = 126.9348325761,
