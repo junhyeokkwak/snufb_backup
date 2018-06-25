@@ -35,6 +35,8 @@ function registerUser(event) {
             var first_name = bodyObj.first_name;
             var last_name = bodyObj.last_name;
             var gender = bodyObj.gender;
+            var profile_pic = bodyObj.profile_pic;
+            console.log("PROFILE_PIC URL: " + profile_pic);
             connection.query('SELECT * FROM Users WHERE user_id=' + senderID, function(err, result, fields) {
               if (result.length == 0){
                 //set conv_context as register1
