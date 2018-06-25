@@ -22,7 +22,7 @@ function registerUser(event) {
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN,
         locale: "ko_KR",
-        fields: "first_name,last_name,gender"
+        fields: "first_name,last_name,gender,profile_pic"
       },
       method: "GET"
     }, function(error, response, body) {
