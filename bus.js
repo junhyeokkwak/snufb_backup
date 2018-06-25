@@ -212,6 +212,7 @@ var bus_confirmStNm = function(event) {
           // console.log(busRouteJsonData.busNum_busRouteId);
           busNum = (result[0].busNum).toString();
           busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
+          console.log(`busNum: ${result[0].busNum} stNm: ${result[0].stNm}`);
           for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
             if ((busRouteJsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) && (busRouteJsonData.busRouteId_stId_staOrd[i].stNm = result[0].stNm)) {
               console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
