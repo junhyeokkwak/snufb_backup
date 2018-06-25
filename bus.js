@@ -265,7 +265,7 @@ var handleMultipleStNm = function(event) {
       }//attachment
     }//message
   };//messageDat
-  api.callSendAPI(messageData)
+  api.callSendAPI(messageData);
 }
 
 var sendArriveMsg = function(event, busRouteId, stId, callback) {

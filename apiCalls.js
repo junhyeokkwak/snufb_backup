@@ -168,3 +168,4 @@ module.exports.handlePostback = handlePostback;
 module.exports.sendResponse = sendResponse;
 module.exports.handleWebview = handleWebview;
 module.exports.sendMessage = sendMessage;
+module.exports.callSendAPI = callSendAPI;
