@@ -220,7 +220,7 @@ var bus_confirmStNm = function(event) {
             }
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
               if (possibleStArr.length >= 2) {
-                handleMultipleStNm();
+                handleMultipleStNm(event);
                 console.log("ALERT: There are two or more stations with the same stNm.");
               }
               stId = possibleStArr[0].stId;
@@ -237,7 +237,7 @@ var bus_confirmStNm = function(event) {
   async.waterfall(task);
 }
 
-var handleMultipleStNm = function() {
+var handleMultipleStNm = function(event) {
   console.log("RUN handleMultipleStNm");
   var title = "TEST";
   var url = process.env.HEROKU_URL + '/busRoute';

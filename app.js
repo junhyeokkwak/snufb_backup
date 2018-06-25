@@ -88,9 +88,9 @@ app.post('/webhook', function (req, res) {
                   connection.query('UPDATE Users SET conv_context="register1" WHERE user_id=' + event.sender.id);
                   console.log('Conv Context: ' + result[0].conv_context);
                   callback(null, functionSheet[result[0].conv_context]);
-                } else if (event.message.text == 'TEST WEBVIEW') {
+                } else if (event.message.text == 'TEST BUS') {
                   console.log("TEST BUS WEBVIEW");
-                  callback(null, functionSheet["TEST WEBVIEW"]);
+                  callback(null, functionSheet["handleMultipleStNm"]);
                 }
                 // else if ((event.message.text.length > 12) && (event.message.text.substr(0,12) == 'SET CONV CON:')) {
                 //   var newConvContext = event.message.text.substr(12,event.message.text.length);
