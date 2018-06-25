@@ -45,7 +45,8 @@ var test = function(stringData) {
       // })
     },
     function(posJson, callback) {
-      var position2 = new naver.maps.LatLng(JSON.stringify(posJson.ypos1), JSON.stringify(posJson.xpos1));
+      var position2 = new naver.maps.LatLng(JSON.stringify(posJson.ypos0), JSON.stringify(posJson.xpos0));
+      alert("pos:" + JSON.stringify(posJson.ypos0) + JSON.stringify(posJson.xpos0));
       var marker2 = new naver.maps.Marker({
           position: position2,
           map: map
