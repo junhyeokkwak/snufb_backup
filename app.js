@@ -90,6 +90,7 @@ app.post('/webhook', function (req, res) {
                   callback(null, functionSheet[result[0].conv_context]);
                 } else if (event.message.text == 'TEST BUS') {
                   console.log("TEST BUS WEBVIEW");
+                  connection.query('UPDATE Users SET conv_context="handleMultipleStNm" WHERE user_id=' + event.sender.id);
                   callback(null, functionSheet["handleMultipleStNm"]);
                 }
                 // else if ((event.message.text.length > 12) && (event.message.text.substr(0,12) == 'SET CONV CON:')) {
