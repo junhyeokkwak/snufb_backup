@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>간단한 지도 표시하기</title>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=mSdY16Cdgy3tfbILEmSN&callback=initMap"></script>
-    <script type="text/javascript" src="../bus.js"></script>
+    <!-- <script type="text/javascript" src="../bus.js"></script> -->
 
 </head>
 <body>
@@ -17,8 +17,9 @@ var mapOptions = {
     center: new naver.maps.LatLng(37.5597025524, 126.9351196694),
     zoom: 10
 };
-
 var map = new naver.maps.Map('map', mapOptions);
+
+
 // var xpos;
 
 // window.onload = function() {
@@ -26,13 +27,14 @@ var map = new naver.maps.Map('map', mapOptions);
 //   alert("xpos: " + xpos);
 // }
 
-var position1 = new naver.maps.LatLng(37.5540291075, xpos);
+// var position1 = new naver.maps.LatLng(37.5540291075, xpos);
+
 var position2 = new naver.maps.LatLng(37.5540511998, 126.9356825619);
 
-var marker1 = new naver.maps.Marker({
-    position: position1,
-    map: map
-});
+// var marker1 = new naver.maps.Marker({
+//     position: position1,
+//     map: map
+// });
 
 var marker2 = new naver.maps.Marker({
     position: position2,

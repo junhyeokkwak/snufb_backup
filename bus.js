@@ -237,8 +237,12 @@ var bus_confirmStNm = function(event) {
   async.waterfall(task);
 }
 
+var function externalFileFunction() {
+  var externalFileVarialbe = 'Hello';
+  alert('Impoty External Script Complete');
+}
+
 var bus_handleMultipleStNm = function(event, possibleStArr) {
-  var doc = require("./webview/busRouteWebview.html"); 
   console.log("RUN handleMultipleStNm");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "TEST";
