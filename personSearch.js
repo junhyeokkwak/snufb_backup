@@ -15,7 +15,7 @@ var startPersonSearch = function(event) {
       connection.query('SELECT uid FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
         if (err) throw err;
         // console.log(result[0].uid);
-        if (result[0].uid == 'null')
+        if (result[0].uid == 0)
         {
           console.log('Need to ask for profile URL');
         };
