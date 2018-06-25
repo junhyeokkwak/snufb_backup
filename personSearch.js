@@ -16,7 +16,7 @@ var startPersonSearch = function(event) {
         if (err) throw err;
         if (result[0].uid == 'NULL')
         {
-          console.log('Need to ask for profile URL');
+          console.log(result[0].uid);
         };
         callback(null,'done');
       })
