@@ -242,10 +242,33 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("RUN handleMultipleStNm");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "TEST";
+  // var testData = {
+  //   "xpos" : 126.9348325761,
+  //   "ypos" : 37.5540291075,
+  // }
+  // let urlParameters = Object.entries(testData).map(e => e.join('=')).join('&');
+  // console.log(urlParameters);
+  // var url =process.env.HEROKU_URL + '/busRoute/' + testData;
   var testPos = '/xpos=126.9348325761&ypos=37.5540291075'
-  var url = process.env.HEROKU_URL + '/busRoute'+ testPos;
+
+  var testData = {
+    positions : [
+      {
+        "xpos" : 126.9348325761,
+        "ypos" : 37.5540291075
+      },
+      {
+      "xpos" : 126.9348325761,
+      "ypos" : 37.5540291075
+      }
+    ]
+  }
+  var stringData = "/" + JSON.stringify(testData);
+  console.log(stringData);
+
+  // var url = process.env.HEROKU_URL + '/busRoute/'+ stringData;
   var size = "compact";
-  app.busStMapHelper(event, testPos);
+  app.busStMapHelper(event, stringData);
 
   // var pos1 = [{
   //   "xpos" = 126.9348325761,
