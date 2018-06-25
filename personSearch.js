@@ -35,6 +35,6 @@ var startPersonSearch = function(event) {
 module.exports = {
   functionMatch: {
     "사람찾기": startPersonSearch,
-    "askProfileURL": askProfileURL,
+  //  "askProfileURL": askProfileURL,
   }
 };
