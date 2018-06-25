@@ -12,7 +12,7 @@ function registerUser(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfPostback = event.timestamp;
-
+  console.log(event.sender.uid);
   if (process.env.DATABASE_URL==null) {
     console.log('ERR: THERE IS NO DATABASE CONNECTED TO THE SERVER');
   } else if (process.env.DATABASE_URL.indexOf('temporary123!')>-1){
