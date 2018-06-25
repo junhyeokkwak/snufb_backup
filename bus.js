@@ -237,7 +237,7 @@ var bus_confirmStNm = function(event) {
   async.waterfall(task);
 }
 
-var bus_handleMultipleStNm = function(event) {
+var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("RUN handleMultipleStNm");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "TEST";
