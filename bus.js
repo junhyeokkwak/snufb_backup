@@ -249,8 +249,6 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   // let urlParameters = Object.entries(testData).map(e => e.join('=')).join('&');
   // console.log(urlParameters);
   // var url =process.env.HEROKU_URL + '/busRoute/' + testData;
-  var testPos = '/xpos=126.9348325761&ypos=37.5540291075'
-
   var testData = {
     positions : [
       {
@@ -263,9 +261,14 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
       }
     ]
   }
-  var stringData = "/" + JSON.stringify(testData);
+  var stringData = "/";
+  for(var i = 0; i < testData.positions.length; i++) {
+    var str = `xpos${i}=${testData.positions[i].xpos}&ypos${i}=${testData.positions[i].xpos}&`;
+    stringData+=str;
+  }
+  stringData = stringData.substring(1,stringData.length-1)
   console.log(stringData);
-
+  
   // var url = process.env.HEROKU_URL + '/busRoute/'+ stringData;
   var size = "compact";
   app.busStMapHelper(event, stringData);

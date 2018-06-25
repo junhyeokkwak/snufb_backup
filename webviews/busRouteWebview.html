@@ -24,10 +24,14 @@ var marker2 = new naver.maps.Marker({
     map: map
 });
 
+
 console.log("current location: " + window.location.href);
-var test = function(pos) {
-  console.log(JSON.parse(pos));
-  console.log(JSON.parse(pos).positions[0].xpos);
+var test = function(stringData) {
+  var posJson = {};
+  stringData.split('&').forEach(item => {
+    posJson[item.split("=")[0]] = item.split("=")[1];
+    console.log(JSON.stringify(posJson));
+  })
 }
 console.log(window.location.href.split("/busRoute/")[1]);
 test(window.location.href.split("/busRoute/")[1])
