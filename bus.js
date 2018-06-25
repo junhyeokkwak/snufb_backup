@@ -220,6 +220,7 @@ var bus_confirmStNm = function(event) {
             }
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
               if (possibleStArr.length >= 2) {
+                handleMultipleStNm();
                 console.log("ALERT: There are two or more stations with the same stNm.");
               }
               stId = possibleStArr[0].stId;
@@ -235,6 +236,7 @@ var bus_confirmStNm = function(event) {
   ]
   async.waterfall(task);
 }
+
 
 var sendArriveMsg = function(event, busRouteId, stId, callback) {
   console.log('TEST busTest');

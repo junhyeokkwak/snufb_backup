@@ -12,11 +12,26 @@
 
 <script>
 var mapOptions = {
-    center: new naver.maps.LatLng(37.3595704, 127.105399),
+    center: new naver.maps.LatLng(37.5597025524, 126.9351196694),
     zoom: 10
 };
 
 var map = new naver.maps.Map('map', mapOptions);
+
+var markerOptions = {
+    position: map.getCenter(),
+    map: map
+};
+
+var marker = new naver.maps.Marker(markerOptions);
+
+var listener = naver.maps.Event.addListener(marker, 'click', function() {
+    map.setZoom(8);
+    map.setCenter(marker.getPosition());
+
+    naver.maps.Event.removeListener(listener);
+});
+
 </script>
 </body>
 </html>
