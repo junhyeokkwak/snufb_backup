@@ -41,7 +41,7 @@ var startPersonSearch = function(event) {
 
 function askProfileURL(event) {
   console.log('====ASKING FOR PROFILE URL====');
-  console.log(event.messege.text);
+  console.log('text is: ' + event.messege.text);
   var urlResponse = event.messege.text;
   var substring1 = "http";
   if (urlResponse.indexOf(substring1) !== -1) {
