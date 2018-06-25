@@ -250,7 +250,12 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   // }]
 
   var xpos = 126.9348325761;
-  document.getElementById("xpos").value = getPositions();
+  var test = document.getElementById(test);
+  test.addEventListener('click', function(){
+    console.log(document.getElementById(test).value);
+    alert(document.getElementById(test).value)
+  })
+
 
   function getPositions() {
     return xpos;
