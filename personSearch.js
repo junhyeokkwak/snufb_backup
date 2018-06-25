@@ -49,9 +49,9 @@ function askProfileURL(event) {
     var startIndex = urlResponse.indexOf(substring2); // starting index of 'id='
     if (startIndex !== -1) {
       var strlen = urlResponse.length;
-      var imptInfo = urlResponse.substring((startIndex + 3), strlen);
-      console.log(imptInfo);
-    }
+      var imptInfo = urlResponse.substring((startIndex + 3), strlen); // facebook user id
+      console.log("User Data is: " + imptInfo);
+      connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
     // api.sendResponse(event, {"text": "GOOD!"});
   }
 };
