@@ -42,11 +42,11 @@ var startPersonSearch = function(event) {
 function askProfileURL(event) {
   console.log('====ASKING FOR PROFILE URL====');
   console.log('text is: ' + event.message.text);
-  // var urlResponse = event.message.text;
-  // var substring1 = "http";
-  // if (urlResponse.indexOf(substring1) !== -1) {
-  //   api.sendResponse(event, {"text": "GOOD!"});
-  // }
+  var urlResponse = event.message.text;
+  var substring1 = "http";
+  if (urlResponse.indexOf(substring1) !== -1) {
+    api.sendResponse(event, {"text": "GOOD!"});
+  }
 };
 
 
