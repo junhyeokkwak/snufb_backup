@@ -331,8 +331,8 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
     },
     function(busNum, stNm, callback){
       console.log(`busNum: [${busNum}] stNm: [${stNm}] busRouteId: [${busRouteId}] stId: [${stId}]`);
-      var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
-      api.sendResponse(event, messageData);
+      // var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
+      // api.sendResponse(event, messageData);
       getBusArriveInfo(busRouteId, stId, function(resultData) {
         console.log("resultData:" + resultData);
         if (resultData == ("결과없음"&&"인증실패")) {
