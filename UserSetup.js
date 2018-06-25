@@ -12,7 +12,6 @@ function registerUser(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfPostback = event.timestamp;
-  console.log(event.sender.uid);
   if (process.env.DATABASE_URL==null) {
     console.log('ERR: THERE IS NO DATABASE CONNECTED TO THE SERVER');
   } else if (process.env.DATABASE_URL.indexOf('temporary123!')>-1){
@@ -37,7 +36,7 @@ function registerUser(event) {
             var gender = bodyObj.gender;
             var profile_pic = bodyObj.profile_pic;
             console.log("first_name: " + first_name);
-            console.log("PROFILE_PIC URL: " + profile_pic);
+            //console.log("PROFILE_PIC URL: " + profile_pic);
             connection.query('SELECT * FROM Users WHERE user_id=' + senderID, function(err, result, fields) {
               if (result.length == 0){
                 //set conv_context as register1
