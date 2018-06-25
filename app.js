@@ -182,6 +182,9 @@ app.post('/register/re_user', function(req, res){
     // res.render('register-success', {data = req.body});
 });
 
+app.get('/busRoute', function(req, res){
+  res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
+});
 
 
 app.listen(app.get('port'), function () {

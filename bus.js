@@ -219,7 +219,9 @@ var bus_confirmStNm = function(event) {
               possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
             }
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
-              if (possibleStArr.length >= 2) { console.log("FUCKCKCKCKCKKCKC");}
+              if (possibleStArr.length >= 2) {
+                console.log("ALERT: There are two or more stations with the same stNm.");
+              }
               stId = possibleStArr[0].stId;
               console.log("busRouteId: " + busRouteId + " stId: " + stId);
               // NOTE: SEND API REQUEST
