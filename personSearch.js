@@ -9,26 +9,20 @@ var mysql = require("mysql");
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
 var startPersonSearch = function(event) {
-  console.log('START JOKE');
-  var jokeContent = {
-    method: 'GET',
-    url : 'http://api.yomomma.info/'
-  //  qs :
-  }
+  console.log('START PERSON SEARCH');
   var task = [
     function(callback) {
-      var err;
-      callback(null, 'done');
+      connection.query('SELECT uid FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+        if (err) throw err;
+        if (result[0].uid == NULL)
+        {
+          console.log('Need to ask for profile URL');
+        };
+        callback(null,'done');
+      })
     },
     function(err, callback) {
-      request(jokeContent, function(error, response, body) {
-        if (error) throw new Error(error);
-        var jokeString = JSON.parse(body).joke;
-        console.log(jokeString);
-        api.sendResponse(event, {'text' : jokeString});
-      //  api.sendResponse(event, {'text' : })
-
-    });
+      
     callback(null);
     }
   ];
