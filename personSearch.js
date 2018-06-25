@@ -53,7 +53,7 @@ function askProfileURL(event) {
       console.log("User Data is: " + imptInfo);
       connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
     // api.sendResponse(event, {"text": "GOOD!"});
-  }
+  }}
 };
 
 
