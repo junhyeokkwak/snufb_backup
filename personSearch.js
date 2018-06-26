@@ -146,9 +146,9 @@ function personSearch_alum(event) {
       connection.query('SELECT uid FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
         if (err) throw err;
         uid = result[0].uid;
-        api.sendResponse(event, {"text": uid});
+        // api.sendResponse(event, {"text": uid});
+        callback(null, 'done');
       });
-      callback(null, 'done');
     },
     function(err, callback) {
       api.sendResponse(event, {"text": uid});
