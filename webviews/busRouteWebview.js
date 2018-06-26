@@ -30,7 +30,7 @@ window.onload=function(){
         document.getElementById("getTest").innerHTML = this.responseText;
       }
     };
-    xhttp.open("GET", "./registration.html", true);
+    xhttp.open("GET", "test.txt", true);
     xhttp.send();
   }
 
