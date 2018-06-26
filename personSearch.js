@@ -102,10 +102,47 @@ function askProfileURL(event) {
   async.waterfall(task);
 };
 
+function personSearch_mainMenu(event) {
+  var inputText = event.message.text;
+  console.log('Person to find: ' + inputText);
+    switch (inputText) {
+      case "선후배":
+          var task = [
+            function(callback) {
+              connection.query('UPDATE Users SET conv_context="personSearch_alum" WHERE user_id=' + event.sender.id);
+              callback(null, 'done');
+            },
+            function(err, callback) {
+              api.sendResponse(event, {"text": "무슨 학과?"});
+              callback(null);
+            }
+          ]
+          async.waterfall(task);
+          break;
+      default:
+          var task = [
+            function(callback) {
+              connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+              callback(null, 'done');
+            },
+            function(err, callback) {
+              api.sendResponse(event, {"text": "기타는 무슨 기타야... 우리 저커버그형한테나 메세지 보내ㅋㅋㅋ"});
+              callback(null, 'done');
+            },
+            function(err, callback) {
+              api.sendResponse(event, {"text": "m.me/4"});
+              callback(null);
+            }
+          ]
+          async.waterfall(task);
+    }
+
+};
 
 module.exports = {
   functionMatch: {
     "사람찾기": startPersonSearch,
    "askProfileURL": askProfileURL,
+   "personSearch_mainMenu": personSearch_mainMenu,
   }
 };
