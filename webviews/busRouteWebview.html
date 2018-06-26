@@ -19,7 +19,7 @@
 <button class="GET" id="getTest" onclick='loadDoc()'>GET</button>
 <div class="result"></div>
 
-<form action="/busRoute/test">
+<form action="/busRoute/test" method="get">
 </form>
 
 <script>
@@ -39,7 +39,7 @@
         this.responseText;
       }
     };
-    xhttp.open("GET", "./test.txt", true);
+    xhttp.open("GET", "/busRoute/test", true);
     xhttp.send();
   }
 
