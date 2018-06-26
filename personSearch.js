@@ -104,7 +104,6 @@ function askProfileURL(event) {
 
 function personSearch_mainMenu(event) {
   var inputText = event.message.text;
-  console.log('Person to find: ' + inputText);
     switch (inputText) {
       case "선배나 후배!":
           var task = [
@@ -139,10 +138,30 @@ function personSearch_mainMenu(event) {
 
 };
 
+function personSearch_alum(event) {
+  var inputText = event.message.text;
+  var uid = 0;
+  var task = [
+    function(callback) {
+      connection.query('SELECT uid FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
+        if (err) throw err;
+        uid = result[0].uid;
+      });
+      callback(null, 'done');
+    },
+    function(err, callback) {
+      api.sendResponse(event, {"text": uid});
+      callback(null, 'done');
+    }
+  ]
+  async.waterfall(task);  
+};
+
 module.exports = {
   functionMatch: {
     "사람찾기": startPersonSearch,
    "askProfileURL": askProfileURL,
    "personSearch_mainMenu": personSearch_mainMenu,
+   "personSearch_alum": personSearch_alum,
   }
 };
