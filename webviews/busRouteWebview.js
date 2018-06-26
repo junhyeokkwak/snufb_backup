@@ -12,13 +12,16 @@
 //     map: map
 // });
 alert("sex");
+window.onload=function(){
+  var as = document.getElementById('ajaxsend');
+  as.addEventListener('click', function(){
+  // 입력값 위치를 찾아 변수에 담고
+  var inputdata = document.forms[0].elements[0].value;
+  // sendAjax 함수를 만들고 URL과 data를 전달
+  sendAjax('https://cb-practice.herokuapp.com/busRoute/send_result', inputdata)
+  });
 
-document.getElementById('ajaxsend').addEventListener('click', function(){
-// 입력값 위치를 찾아 변수에 담고
-var inputdata = document.forms[0].elements[0].value;
-// sendAjax 함수를 만들고 URL과 data를 전달
-sendAjax('https://cb-practice.herokuapp.com/busRoute/send_result', inputdata)
-})
+}
 
 function sendAjax(url, data){
   // 입력값을 변수에 담고 문자열 형태로 변환
