@@ -151,9 +151,15 @@ function personSearch_alum(event) {
     },
     function(err, callback) {
       if(uid) {
-          api.sendResponse(event, {"text": "이 친구한테 연락해봐!"});
-          api.sendResponse(event, {"text": "프로필은 www.facebook.com/" + uid + " 이고"});
-          api.sendResponse(event, {"text": "이 링크를 눌러서 페메 보내봐!\nm.me/" + uid});
+        api.sendResponse(event, {"text": "삐빅- 검색완료!"});
+        callback(null, 'done');
+      }
+    },
+    function(err, callback) {
+      if(uid) {
+          console.log(_.isString(uid));
+          api.sendResponse(event, {"text": "www.facebook.com/" + uid});
+          api.sendResponse(event, {"text": "이 링크를 누르면 직접 페메를 보낼 수 있어!\nm.me/" + uid});
 
         // else --> string 일떄
       }
