@@ -11,6 +11,8 @@
 //     position: position2,
 //     map: map
 // });
+
+
 alert("sex");
 window.onload=function(){
   var as = document.getElementById('ajaxsend');
@@ -20,6 +22,18 @@ window.onload=function(){
   // sendAjax 함수를 만들고 URL과 data를 전달
   sendAjax('https://cb-practice.herokuapp.com/busRoute/send_result', inputdata)
   });
+
+  function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("getTest").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "./registration.html", true);
+    xhttp.send();
+  }
+
 
 }
 
