@@ -241,55 +241,10 @@ var bus_confirmStNm = function(event) {
 var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("RUN handleMultipleStNm!");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
-  var title = "TEST";
-  // var testData = {
-  //   "xpos" : 126.9348325761,
-  //   "ypos" : 37.5540291075,
-  // }
-  // let urlParameters = Object.entries(testData).map(e => e.join('=')).join('&');
-  // console.log(urlParameters);
-  // var url =process.env.HEROKU_URL + '/busRoute/' + testData;
-  var testData = {
-    positions : [
-      {
-        "xpos" : 126.9348325761,
-        "ypos" : 37.5540291075
-      },
-      {
-      "xpos" : 126.9348325761,
-      "ypos" : 37.5540291075
-      }
-    ]
-  }
-  var stringData;
-  for(var i = 0; i < testData.positions.length; i++) {
-    var str = `xpos${i}=${testData.positions[i].xpos}&ypos${i}=${testData.positions[i].xpos}&`;
-    stringData+=str;
-  }
-  stringData = stringData.substring(1,stringData.length-1)
-  console.log(stringData);
 
-  var url = process.env.HEROKU_URL + '/busRoute'+ "/" + stringData;
+
+  var url = process.env.HEROKU_URL + '/busRoute';
   var size = "compact";
-  app.busStMapHelper(event, "/"+stringData);
-
-  // var pos1 = [{
-  //   "xpos" = 126.9348325761,
-  //   "ypos" = 37.5540291075,
-  // }]
-
-  // (async () => {
-  //   const rawResponse = await fetch(url + '/busRoute', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({a: 1, b: 'Textual content'})
-  //   });
-  //   const content = await rawResponse.json();
-  //   console.log(content);
-  // })();
 
   let messageData = {
     recipient: {
@@ -542,3 +497,83 @@ module.exports = {
     // "busConv_3_Print" : busConv_3_Print,
   }
 };
+
+
+// var bus_handleMultipleStNm = function(event, possibleStArr) {
+//   console.log("RUN handleMultipleStNm!");
+//   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
+//   var title = "TEST";
+//   // var testData = {
+//   //   "xpos" : 126.9348325761,
+//   //   "ypos" : 37.5540291075,
+//   // }
+//   // let urlParameters = Object.entries(testData).map(e => e.join('=')).join('&');
+//   // console.log(urlParameters);
+//   // var url =process.env.HEROKU_URL + '/busRoute/' + testData;
+//   var testData = {
+//     positions : [
+//       {
+//         "xpos" : 126.9348325761,
+//         "ypos" : 37.5540291075
+//       },
+//       {
+//       "xpos" : 126.9348325761,
+//       "ypos" : 37.5540291075
+//       }
+//     ]
+//   }
+//   var stringData;
+//   for(var i = 0; i < testData.positions.length; i++) {
+//     var str = `xpos${i}=${testData.positions[i].xpos}&ypos${i}=${testData.positions[i].xpos}&`;
+//     stringData+=str;
+//   }
+//   stringData = stringData.substring(1,stringData.length-1)
+//   console.log(stringData);
+//
+//   var url = process.env.HEROKU_URL + '/busRoute'+ "/" + stringData;
+//   var size = "compact";
+//   app.busStMapHelper(event, "/"+stringData);
+//
+//   // var pos1 = [{
+//   //   "xpos" = 126.9348325761,
+//   //   "ypos" = 37.5540291075,
+//   // }]
+//
+//   // (async () => {
+//   //   const rawResponse = await fetch(url + '/busRoute', {
+//   //     method: 'POST',
+//   //     headers: {
+//   //       'Accept': 'application/json',
+//   //       'Content-Type': 'application/json'
+//   //     },
+//   //     body: JSON.stringify({a: 1, b: 'Textual content'})
+//   //   });
+//   //   const content = await rawResponse.json();
+//   //   console.log(content);
+//   // })();
+//
+//   let messageData = {
+//     recipient: {
+//       id: event.sender.id
+//     },
+//     message: {
+//       "attachment":{
+//       "type":"template",
+//       "payload":{
+//         "template_type":"button",
+//         "text":"Try the URL button!",
+//         "buttons":[
+//           {
+//             "type":"web_url",
+//             "url": url,
+//             "title":"URL Button",
+//             "webview_height_ratio": "compact"
+//           }
+//         ]
+//       }//payload
+//       }//attachment
+//     }//message
+//   };//messageDat
+//
+//   api.callSendAPI(messageData);
+// }

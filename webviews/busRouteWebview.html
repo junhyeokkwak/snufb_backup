@@ -3,74 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"> -->
     <title>간단한 지도 표시하기</title>
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=mSdY16Cdgy3tfbILEmSN&callback=initMap"></script>
-    <!-- <script type="text/javascript" src="../bus.js"></script> -->
+    <!-- <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=mSdY16Cdgy3tfbILEmSN&callback=initMap"></script> -->
 </head>
 <body>
-<div id="map" style="width:100%;height:400px;"></div>
-<input type="test" name="test" id="test" value = "testValue" />
+<!-- <div id="map" style="width:100%;height:400px;"></div> -->
+<!-- <input type="test" name="test" id="test" value = "testValue" /> -->
+<button class="ajaxsend">ajaxsend</button>
 <script>
-var mapOptions = {
-    center: new naver.maps.LatLng(37.5597025524, 126.9351196694),
-    zoom: 10
-};
-var map = new naver.maps.Map('map', mapOptions);
-// var position1 = new naver.maps.LatLng(37.5540291075, xpos);
-// var position2 = new naver.maps.LatLng(37.5540511998, 126.9356825619);
-// var marker2 = new naver.maps.Marker({
-//     position: position2,
-//     map: map
-// });
+  // var mapOptions = {
+  //     center: new naver.maps.LatLng(37.5597025524, 126.9351196694),
+  //     zoom: 10
+  // };
+  // var map = new naver.maps.Map('map', mapOptions);
 
-console.log("current location: " + window.location.href);
-var test = function(stringData) {
-  var async = require('async');
-  var task = [
-    function(callback) {
-      var posJson = {};
-      var tempArr = stringData.split('&');
-      for (var i = 0; i < tempArr.length; i++) {
-        var item = tempArr[i];
-        posJson[item.split("=")[0]] = item.split("=")[1];
-        if(i == tempArr.length-1) {
-          console.log(posJson);
-          callback(null, posJson);
-        }
-      }
-      // stringData.split('&').forEach(item => {
-      //   posJson[item.split("=")[0]] = item.split("=")[1];
-      //   console.log(JSON.stringify(posJson));
-      // })
-    },
-    function(posJson, callback) {
-      var position2 = new naver.maps.LatLng(JSON.stringify(posJson.ypos0), JSON.stringify(posJson.xpos0));
-      alert("pos:" + JSON.stringify(posJson.ypos0) + JSON.stringify(posJson.xpos0));
-      var marker2 = new naver.maps.Marker({
-          position: position2,
-          map: map
-      });
-    }
-  ]
+  // var position1 = new naver.maps.LatLng(37.5540291075, xpos);
+  // var position2 = new naver.maps.LatLng(37.5540511998, 126.9356825619);
+  // var marker2 = new naver.maps.Marker({
+  //     position: position2,
+  //     map: map
+  // });
 
-}
-console.log(window.location.href.split("/busRoute/")[1]);
-test(window.location.href.split("/busRoute/")[1])
-
-// var markerOptions = {
-//     position: map.getCenter(),
-//     map: map
-// };
-//
-// var marker = new naver.maps.Marker(markerOptions);
-//
-// var listener = naver.maps.Event.addListener(marker, 'click', function() {
-//     map.setZoom(8);
-//     map.setCenter(marker.getPosition());
-//
-//     naver.maps.Event.removeListener(listener);
-// });
+  document.querySelector('.ajaxsend').addEventListener('click', function(){
+      // 입력값 위치를 찾아 변수에 담고
+      // var inputdata = document.forms[0].elements[0].value;
+      var inputdata = "hi";
+      // sendAjax 함수를 만들고 URL과 data를 전달
+      alert(process.env.HEROKU_URL+"/busRoute/result");
+      sendAjax(process.env.HEROKU_URL+"/busRoute/result", inputdata)
+  })
 
 </script>
 </body>

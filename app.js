@@ -18,6 +18,8 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(express.static('public'))
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 app.set('port', (process.env.PORT || 5000));
 
@@ -187,12 +189,21 @@ app.post('/register/re_user', function(req, res){
     // res.render('register-success', {data = req.body});
 });
 
+// app.get('/busRoute'+ testPos, function(req, res){
+//   res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
+// });
+
 var busStMapHelper = function(event, testPos) {
-  app.get('/busRoute'+ testPos, function(req, res){
+  app.get('/busRoute', function(req, res){
     res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
   });
+  app.post('/busRoute'+ "/result", function(req,res){
+    console.log(req.body)
+    // res.send("welcome! " + req.body)
+  })
 }
 module.exports.busStMapHelper = busStMapHelper;
+
 
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
