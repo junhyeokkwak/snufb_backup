@@ -45,7 +45,8 @@ function askProfileURL(event) {
   var urlResponse = event.message.text;
   var substring1 = "www.facebook.com/";
   var substring2 = "id=";
-  var isProper = 1; // boolean value for whether proper data is submitted
+  var imptInfo = 0;
+  var isProper = 0; // boolean value for whether proper data is submitted
 
   var task = [
     function(callback) {
@@ -54,19 +55,18 @@ function askProfileURL(event) {
         var startIndex = urlResponse.indexOf(substring2); // starting index of 'id='
         if (startIndex !== -1) { // CASE 1. when it is "id=xxxxxx"
           var strlen = urlResponse.length;
-          var imptInfo = urlResponse.substring((startIndex + 3), strlen); // facebook user id
+          imptInfo = urlResponse.substring((startIndex + 3), strlen); // facebook user id
           console.log("User Data is: " + imptInfo);
-          connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
+          // connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
           isProper = 1;
         // api.sendResponse(event, {"text": "GOOD!"});
       } else { // CASE 2. when it is www.facebook.com/xxxxx
         if (urlResponse.length < 300) { // check to see if it is not too long.
           var startIndex2 = urlResponse.indexOf(substring1);
-          var imptInfo2 = urlResponse.substring((startIndex2 + 17), strlen); // facebook user id
-          console.log("User Data is " + imptInfo2);
-          connection.query('UPDATE Users SET uid=' + imptInfo2 + ' WHERE user_id=' + event.sender.id);
-
-        //  isProper = 1;
+          imptInfo = urlResponse.substring((startIndex2 + 17), strlen); // facebook user id
+          console.log("User Data is " + imptInfo);
+          // connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
+          isProper = 1;
         } else {
           console.log("Something Wrong");
         }
@@ -76,6 +76,10 @@ function askProfileURL(event) {
       }
       callback(null, 'done');
 
+    },
+    function(err, callback) {
+      connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
+      callback(null, 'done');
     },
     function(err, callback) {
       if (isProper) {
