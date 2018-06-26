@@ -19,19 +19,69 @@
 <button class="GET" id="getTest" onclick='loadDoc()'>GET</button>
 <div class="result"></div>
 
-<div id="getPositionData" onload="loadData()">
+<div id="getPositionData">
 <button type="button" onclick="loadData()">Change Content</button>
 </div>
 <div id="map" style="width:100%;height:400px;"></div>
+<script>
+  window.fbAsyncInit = function() {
+     FB.init({
+       appId      : '2169355909963830',
+       xfbml      : true,
+       version    : 'v2.11'
+     });
+     FB.AppEvents.logPageView();
+   };
+  var user_psid;
+ (function(d, s, id){
+   var js, fjs = d.getElementsByTagName(s)[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement(s); js.id = id;
+   js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+   fjs.parentNode.insertBefore(js, fjs);
+ }(document, 'script', 'Messenger'));
 
-<iframe style="display:none" onload="loadData()"></iframe>
+ window.extAsyncInit = function () {
+     var isSupported = MessengerExtensions.isInExtension();
+     MessengerExtensions.getContext('2169355909963830',
+       function success(result){
+         user_psid = result.psid;
+         initInput(user_psid);
+         console.log("Success: "+ result.psid);
+       },
+       function error(result){
+         swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ\n 혹시 컴퓨터로 접속했니?", "error")
+         console.log("FAIL: " + JSON.stringify(result));
+       }
+     );
+   };
+
+ function closeWindow() {
+   MessengerExtensions.requestCloseBrowser(function success() {
+       console.log("closing success");
+   }, function error(err) {
+       console.log("closing failure");
+       console.log(err);
+   });
+  window.open('','_self',''); window.close(); // _parent
+ }
+ module.exports.closeWindow = closeWindow;
+
+ function initInput(user_psid) {
+   alert(user_psid);
+ }
+</script>
+
 <script>
   var mapOptions = {
       center: new naver.maps.LatLng(37.3595704, 127.105399),
       zoom: 10
   };
-
   var map = new naver.maps.Map('map', mapOptions);
+
+  window.onload = function() {
+    loadData();
+  }
 
   var positionData;
   document.getElementById('ajaxsend').addEventListener('click', function(){
