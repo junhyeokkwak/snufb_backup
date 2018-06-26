@@ -9,7 +9,7 @@
     <script type="text/javascript" src="busRouteWebview.js"></script>
 </head>
 <body>
-<div id="map" style="width:100%;height:400px;"></div>
+
 
 <form action="/busRoute/result"  method="post">
   email : <input type="text" name="email">
@@ -22,7 +22,9 @@
 <div id="getPositionData" onload="loadData()">
 <button type="button" onclick="loadData()">Change Content</button>
 </div>
+<div id="map" style="width:100%;height:400px;"></div>
 
+<iframe style="display:none" onload="loadData()"></iframe>
 <script>
   var mapOptions = {
       center: new naver.maps.LatLng(37.3595704, 127.105399),
@@ -51,7 +53,7 @@
       }
     };
     xhttp.open("GET", "/busRoute/test", true);
-    // xhttp.send();
+    xhttp.send();
   }
 
   function sendAjax(url, data){
