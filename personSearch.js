@@ -146,12 +146,18 @@ function personSearch_alum(event) {
       connection.query('SELECT uid FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
         if (err) throw err;
         uid = result[0].uid;
-        // api.sendResponse(event, {"text": uid});
-        callback(null, 'done');
+        callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
       });
     },
     function(err, callback) {
-      api.sendResponse(event, {"text": uid});
+      if(uid) {
+        if(typeof uid == "number") {
+          api.sendResponse(event, {"text": "이 친구한테 연락해봐!"});
+          api.sendResponse(event, {"text": "프로필은 www.facebook.com/" + uid + " 이고"});
+          api.sendResponse(event, {"text": "이 링크를 눌러서 페메 보내봐!\nm.me/" + uid});
+        }
+        // else --> string 일떄
+      }
       callback(null, 'done');
     }
   ]
