@@ -301,7 +301,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
     ]
   }
 
-  app.bus_busRouteWebviewHelper(event, reposnseData);
+  app.bus_busRouteWebviewHelper(event, responseData);
 
   let messageData = {
     recipient: {
