@@ -190,7 +190,7 @@ app.post('/register/re_user', function(req, res){
 });
 
 app.get('/busRoute', function(req, res){
-  res.send("<h1>안녕하세요</h1>")
+  // res.send("<h1>안녕하세요</h1>")
   res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
 });
 app.post('/busRoute/result', function(req,res){
