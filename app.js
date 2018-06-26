@@ -5,7 +5,7 @@ var functionSheet = require('./functionSheet');
 var api = require('./apiCalls')
 var async = require('async');
 var mysql = require('mysql');
-var path = require('path')
+var path = require('path');
 
 const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -189,20 +189,31 @@ app.post('/register/re_user', function(req, res){
     // res.render('register-success', {data = req.body});
 });
 
-// app.get('/busRoute'+ testPos, function(req, res){
-//   res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
-// });
+app.get('/busRoute', function(req, res){
+  res.send("<h1>안녕하세요</h1>")
+  res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
+});
+app.post('/busRoute/result', function(req,res){
+  console.log(req.body)
+  res.send("welcome! " + req.body.email)
+})
+app.post('/busRoute/send_result', function(req, res){
+  console.log(req.body.email);
+  var responseData = {'result' : 'ok', 'email' : req.body.email}
+  res.json(responseData);
+  // 서버에서는 JSON.stringify 필요없음
+})
 
-var busStMapHelper = function(event, testPos) {
-  app.get('/busRoute', function(req, res){
-    res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
-  });
-  app.post('/busRoute'+ "/result", function(req,res){
-    console.log(req.body)
-    // res.send("welcome! " + req.body)
-  })
-}
-module.exports.busStMapHelper = busStMapHelper;
+// var busStMapHelper = function(event, testPos) {
+//   app.get('/busRoute', function(req, res){
+//     res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
+//   });
+//   app.post('/busRoute'+ "/result", function(req,res){
+//     console.log(req.body)
+//     // res.send("welcome! " + req.body)
+//   })
+// }
+// module.exports.busStMapHelper = busStMapHelper;
 
 
 app.listen(app.get('port'), function () {
