@@ -151,11 +151,10 @@ function personSearch_alum(event) {
     },
     function(err, callback) {
       if(uid) {
-        if(typeof uid == "number") {
           api.sendResponse(event, {"text": "이 친구한테 연락해봐!"});
           api.sendResponse(event, {"text": "프로필은 www.facebook.com/" + uid + " 이고"});
           api.sendResponse(event, {"text": "이 링크를 눌러서 페메 보내봐!\nm.me/" + uid});
-        }
+
         // else --> string 일떄
       }
       callback(null, 'done');
