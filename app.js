@@ -203,6 +203,13 @@ app.post('/busRoute/send_result', function(req, res){
   res.json(responseData);
   // 서버에서는 JSON.stringify 필요없음
 })
+app.post('/test', function(req, res){
+  console.log('TEST');
+  // console.log(req.body.email);
+  // var responseData = {'result' : 'ok', 'email' : req.body.email}
+  // res.json(responseData);
+  res.send("TEST")
+})
 
 // var busStMapHelper = function(event, testPos) {
 //   app.get('/busRoute', function(req, res){
