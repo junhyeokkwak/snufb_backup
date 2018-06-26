@@ -276,6 +276,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("RUN handleMultipleStNm!");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "TEST";
+  var url = process.env.HEROKU_URL + '/busRoute';
   var responseData = {
     "busRouteId_stId_staOrd":  [
       {
