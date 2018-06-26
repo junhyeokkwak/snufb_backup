@@ -57,7 +57,7 @@ function askProfileURL(event) {
                   var strlen = urlResponse.length;
                   imptInfo = urlResponse.substring((startIndex + 3), strlen); // facebook user id
                   console.log("User Data is: " + imptInfo);
-                  // connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
+                  connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
                   isProper = 1;
                 // api.sendResponse(event, {"text": "GOOD!"});
               } else { // CASE 2. when it is www.facebook.com/xxxxx
@@ -65,7 +65,7 @@ function askProfileURL(event) {
                       var startIndex2 = urlResponse.indexOf(substring1);
                       imptInfo = urlResponse.substring((startIndex2 + 17), strlen); // facebook user id
                       console.log("User Data is " + imptInfo);
-                      // connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
+                      connection.query('UPDATE Users SET uid=\'' + imptInfo + '\'' + ' WHERE user_id=' + event.sender.id);
                       isProper = 1;
                     }
                     else {
@@ -79,10 +79,10 @@ function askProfileURL(event) {
       callback(null, 'done');
 
     },
-    function(err, callback) {
-      connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
-      callback(null, 'done');
-    },
+    // function(err, callback) {
+    //   connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
+    //   callback(null, 'done');
+    // },
     function(err, callback) {
       if (isProper) {
         connection.query('UPDATE Users SET conv_context="personSearch_mainMenu" WHERE user_id=' + event.sender.id);
