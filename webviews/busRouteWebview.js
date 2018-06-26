@@ -11,6 +11,7 @@
 //     position: position2,
 //     map: map
 // });
+alert("sex");
 
 document.querySelector('.ajaxsend').addEventListener('click', function(){
 // 입력값 위치를 찾아 변수에 담고
