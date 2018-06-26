@@ -302,7 +302,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   //   ]
   // }
 
-  app.bus_busRouteWebviewHelper(event, possdibleStArr);
+  app.bus_busRouteWebviewHelper(event, possibleStArr);
 
   let messageData = {
     recipient: {
