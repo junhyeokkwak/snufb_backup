@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>간단한 지도 표시하기</title>
-    <!-- <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=mSdY16Cdgy3tfbILEmSN&callback=initMap"></script> -->
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=mSdY16Cdgy3tfbILEmSN&callback=initMap"></script>
     <script type="text/javascript" src="busRouteWebview.js"></script>
 </head>
 <body>
-<!-- <div id="map" style="width:100%;height:400px;"></div> -->
+<div id="map" style="width:100%;height:400px;"></div>
 
 <form action="/busRoute/result"  method="post">
   email : <input type="text" name="email">
@@ -19,11 +19,18 @@
 <button class="GET" id="getTest" onclick='loadDoc()'>GET</button>
 <div class="result"></div>
 
-<div id="demo" onload="loadData()">
-<button type="button" onclick="loadDoc()">Change Content</button>
+<div id="getPositionData" onload="loadData()">
+<button type="button" onclick="loadData()">Change Content</button>
 </div>
 
 <script>
+  var mapOptions = {
+      center: new naver.maps.LatLng(37.3595704, 127.105399),
+      zoom: 10
+  };
+
+  var map = new naver.maps.Map('map', mapOptions);
+
   var positionData;
   document.getElementById('ajaxsend').addEventListener('click', function(){
     // 입력값 위치를 찾아 변수에 담고
@@ -32,19 +39,19 @@
     sendAjax('https://cb-practice.herokuapp.com/busRoute/send_result', inputdata)
   });
 
-  function loadDoc() {
+  function loadData() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("demo").innerHTML =
-        this.responseText;
+        // document.getElementById("getPositionData").innerHTML =
+        // this.responseText;
         alert(this.responseText);
         positionData = this.responseTest;
         alert(typeof positionData);
       }
     };
     xhttp.open("GET", "/busRoute/test", true);
-    xhttp.send();
+    // xhttp.send();
   }
 
   function sendAjax(url, data){

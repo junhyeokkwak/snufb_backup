@@ -235,7 +235,7 @@ var bus_busRouteWebviewHelper = function(event, responseData) {
     //     }
     //   ]
     // }
-    res.send(responseData);
+    // res.send(responseData);
     res.json(responseData);
   })
 }
