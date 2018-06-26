@@ -45,7 +45,7 @@ function askProfileURL(event) {
   var urlResponse = event.message.text;
   var substring1 = "www.facebook.com/";
   var substring2 = "id=";
-  var isProper = 0; // boolean value for whether proper data is submitted
+  var isProper = 1; // boolean value for whether proper data is submitted
 
   var task = [
     function(callback) {
@@ -65,7 +65,8 @@ function askProfileURL(event) {
           var imptInfo2 = urlResponse.substring((startIndex2 + 17), strlen); // facebook user id
           console.log("User Data is " + imptInfo2);
           connection.query('UPDATE Users SET uid=' + imptInfo2 + ' WHERE user_id=' + event.sender.id);
-          isProper = 1;
+
+        //  isProper = 1;
         } else {
           console.log("Something Wrong");
         }
