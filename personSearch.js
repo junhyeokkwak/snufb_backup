@@ -53,24 +53,26 @@ function askProfileURL(event) {
 
       if (urlResponse.indexOf(substring1) !== -1) { // It is a valid facebook URL
         var startIndex = urlResponse.indexOf(substring2); // starting index of 'id='
-        if (startIndex !== -1) { // CASE 1. when it is "id=xxxxxx"
-          var strlen = urlResponse.length;
-          imptInfo = urlResponse.substring((startIndex + 3), strlen); // facebook user id
-          console.log("User Data is: " + imptInfo);
-          // connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
-          isProper = 1;
-        // api.sendResponse(event, {"text": "GOOD!"});
-      } else { // CASE 2. when it is www.facebook.com/xxxxx
-        if (urlResponse.length < 300) { // check to see if it is not too long.
-          var startIndex2 = urlResponse.indexOf(substring1);
-          imptInfo = urlResponse.substring((startIndex2 + 17), strlen); // facebook user id
-          console.log("User Data is " + imptInfo);
-          // connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
-          isProper = 1;
-        } else {
-          console.log("Something Wrong");
-        }
-      }}
+                if (startIndex !== -1) { // CASE 1. when it is "id=xxxxxx"
+                  var strlen = urlResponse.length;
+                  imptInfo = urlResponse.substring((startIndex + 3), strlen); // facebook user id
+                  console.log("User Data is: " + imptInfo);
+                  // connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
+                  isProper = 1;
+                // api.sendResponse(event, {"text": "GOOD!"});
+              } else { // CASE 2. when it is www.facebook.com/xxxxx
+                    if (urlResponse.length < 300) { // check to see if it is not too long.
+                      var startIndex2 = urlResponse.indexOf(substring1);
+                      imptInfo = urlResponse.substring((startIndex2 + 17), strlen); // facebook user id
+                      console.log("User Data is " + imptInfo);
+                      // connection.query('UPDATE Users SET uid=' + imptInfo + ' WHERE user_id=' + event.sender.id);
+                      isProper = 1;
+                    }
+                    else {
+                        console.log("Something Wrong");
+                      }
+                    }
+    }
       else {
         console.log("NOT A VALID INPUT");
       }
@@ -89,7 +91,7 @@ function askProfileURL(event) {
     },
     function(err, callback) {
       if (isProper) {
-        api.sendResponse(event, {"text": "입력해줘서 고마워! 그럼 누구 찾아줄까?", "quick_replies": qr.reply.arrays["personSearchOptions"]});
+        api.sendResponse(event, {"text": "입력해줘서 고마워! 그럼 누구 찾아줄까?", "quick_replies": qr.reply_arrays["personSearchOptions"]});
       }
       else {
         api.sendResponse(event, {"text": "제대로 입력이 안됐어ㅠㅠ 다시 한번 시도해줄래??"});
