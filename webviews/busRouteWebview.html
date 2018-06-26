@@ -96,7 +96,6 @@
   //   sendAjax('/busRoute/send_result', inputdata)
   // });
 
-  var positionData;
   function loadData() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -104,12 +103,17 @@
         // document.getElementById("getPositionData").innerHTML =
         // this.responseText;
         alert(this.responseText);
-        positionData = this.responseTest;
+        
       }
     };
     xhttp.open("GET", "/busRoute/positiondata", true);
     xhttp.send();
   }
+
+  var handleMultipleSt = function(positionData) {
+
+  }
+
 
   // function sendAjax(url, data){
   //   // 입력값을 변수에 담고 문자열 형태로 변환
