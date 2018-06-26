@@ -10,19 +10,17 @@
 </head>
 <body>
 
-
 <form action="/busRoute/result"  method="post">
   email : <input type="text" name="email">
   <input type="submit">
 </form>
 <button class="ajaxsend" id="ajaxsend">ajaxsend</button>
-<button class="GET" id="getTest" onclick='loadDoc()'>GET</button>
-<div class="result"></div>
 
-<div id="getPositionData">
-<button type="button" onclick="loadData()">Change Content</button>
-</div>
+<button type="button" onclick="createMarker()">Change Content</button>
+
 <div id="map" style="width:100%;height:400px;"></div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
   window.fbAsyncInit = function() {
      FB.init({
@@ -73,21 +71,27 @@
 </script>
 
 <script>
+  window.onload = function() {
+    loadData();
+    //set map center
+  }
+
   var mapOptions = {
-      center: new naver.maps.LatLng(37.3595704, 127.105399),
+      center: new naver.maps.LatLng(37.5540291075, 126.9348325761),
       zoom: 10
   };
   var map = new naver.maps.Map('map', mapOptions);
 
-  window.onload = function() {
-    loadData();
+  var createMarker = function(){
+    var marker = new naver.maps.Marker({
+      position: new naver.maps.LatLng(37.5540291075, 126.9348325761),
+      map: map
+    });
   }
 
   var positionData;
   document.getElementById('ajaxsend').addEventListener('click', function(){
-    // 입력값 위치를 찾아 변수에 담고
     var inputdata = document.forms[0].elements[0].value;
-    // sendAjax 함수를 만들고 URL과 data를 전달
     sendAjax('/busRoute/send_result', inputdata)
   });
 
@@ -102,7 +106,7 @@
         alert(typeof positionData);
       }
     };
-    xhttp.open("GET", "/busRoute/test", true);
+    xhttp.open("GET", "/busRoute/positiondata", true);
     xhttp.send();
   }
 

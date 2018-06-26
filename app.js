@@ -206,37 +206,9 @@ app.post('/busRoute/send_result', function(req, res){
 
 var bus_busRouteWebviewHelper = function(event, responseData) {
   console.log('RUN bus_busRouteWebviewHelper1');
-  app.get('/busRoute/test', function(req, res){
+  app.get('/busRoute/positiondata', function(req, res){
     console.log('RUN bus_busRouteWebviewHelper2');
     console.log("responseData: " +JSON.stringify(responseData));
-    // console.log(req.body.email);
-    // var responseData = {'result' : 'ok', 'email' : req.body.email}
-    // res.json(responseData);
-    // var responseData = {
-    //   "busRouteId_stId_staOrd":  [
-    //     {
-    //         "busRouteId": "100100124",
-    //         "plainNo": "0017",
-    //         "staOrd": "1",
-    //         "stNm": "청암자이아파트",
-    //         "xpos": "126.9465552752",
-    //         "ypos": "37.5345469961",
-    //         "stId": "102000271",
-    //         "stNum": "03689"
-    //     },
-    //     {
-    //         "busRouteId": "100100124",
-    //         "plainNo": "0017",
-    //         "staOrd": "2",
-    //         "stNm": "청암동강변삼성아파트",
-    //         "xpos": "126.9493177472",
-    //         "ypos": "37.5339679073",
-    //         "stId": "102000204",
-    //         "stNum": "03298"
-    //     }
-    //   ]
-    // }
-    // res.send(responseData);
     res.json(responseData);
   })
 }
