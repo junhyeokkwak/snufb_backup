@@ -203,7 +203,7 @@ app.post('/busRoute/send_result', function(req, res){
   res.json(responseData);
   // 서버에서는 JSON.stringify 필요없음
 })
-app.post('/test', function(req, res){
+app.post('/busRoute/test', function(req, res){
   console.log('TEST');
   // console.log(req.body.email);
   // var responseData = {'result' : 'ok', 'email' : req.body.email}
