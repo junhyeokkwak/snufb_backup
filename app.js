@@ -239,7 +239,7 @@ var bus_busRouteWebviewHelper = function(event, responseData) {
     res.json(responseData);
   })
 }
-module.exports.bus_busRouteWebviewHelpe = bus_busRouteWebviewHelpe;
+module.exports.bus_busRouteWebviewHelper = bus_busRouteWebviewHelper;
 
 
 app.listen(app.get('port'), function () {
