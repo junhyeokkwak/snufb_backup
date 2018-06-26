@@ -25,8 +25,8 @@
 </div>
 
 <script>
-  var as = document.getElementById('ajaxsend');
-  as.addEventListener('click', function(){
+  var positionData;
+  document.getElementById('ajaxsend').addEventListener('click', function(){
     // 입력값 위치를 찾아 변수에 담고
     var inputdata = document.forms[0].elements[0].value;
     // sendAjax 함수를 만들고 URL과 data를 전달
@@ -37,8 +37,11 @@
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("demo").innerHTML =
-        this.responseText;
+        // document.getElementById("demo").innerHTML =
+        // this.responseText;
+        console.log(this.responseText);
+        positionData = this.responseTest;
+        console.log(typeof positionData);
       }
     };
     xhttp.open("GET", "/busRoute/test", true);
