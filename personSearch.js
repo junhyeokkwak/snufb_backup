@@ -106,7 +106,7 @@ function personSearch_mainMenu(event) {
   var inputText = event.message.text;
   console.log('Person to find: ' + inputText);
     switch (inputText) {
-      case "선후배":
+      case "선배나 후배!":
           var task = [
             function(callback) {
               connection.query('UPDATE Users SET conv_context="personSearch_alum" WHERE user_id=' + event.sender.id);
