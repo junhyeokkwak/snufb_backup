@@ -205,8 +205,9 @@ app.post('/busRoute/send_result', function(req, res){
 })
 
 var bus_busRouteWebviewHelper = function(event, responseData) {
+  console.log('RUN bus_busRouteWebviewHelper1');
   app.get('/busRoute/test', function(req, res){
-    console.log('TEST');
+    console.log('RUN bus_busRouteWebviewHelper2');
     console.log("responseData: " +JSON.stringify(responseData));
     // console.log(req.body.email);
     // var responseData = {'result' : 'ok', 'email' : req.body.email}
