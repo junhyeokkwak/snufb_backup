@@ -26,7 +26,7 @@ var startPersonSearch = function(event) {
         {
           console.log('No need to ask for profile URL');
           connection.query('UPDATE Users SET conv_context="personSearch_mainMenu" WHERE user_id=' + event.sender.id);
-          api.sendResponse(event, {"text": "누구 찾아줄까?", "quick_replies": qr.reply.arrays["personSearchOptions"]});
+          api.sendResponse(event, {"text": "누구 찾아줄까?", "quick_replies": qr.reply_arrays["personSearchOptions"]});
         }
       });
       callback(null,'done');
