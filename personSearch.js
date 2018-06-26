@@ -146,6 +146,7 @@ function personSearch_alum(event) {
       connection.query('SELECT uid FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
         if (err) throw err;
         uid = result[0].uid;
+        api.sendResponse(event, {"text": uid});
       });
       callback(null, 'done');
     },
@@ -154,7 +155,7 @@ function personSearch_alum(event) {
       callback(null, 'done');
     }
   ]
-  async.waterfall(task);  
+  async.waterfall(task);
 };
 
 module.exports = {
