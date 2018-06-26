@@ -203,49 +203,43 @@ app.post('/busRoute/send_result', function(req, res){
   res.json(responseData);
   // 서버에서는 JSON.stringify 필요없음
 })
-app.get('/busRoute/test', function(req, res){
-  console.log('TEST');
-  // console.log(req.body.email);
-  // var responseData = {'result' : 'ok', 'email' : req.body.email}
-  // res.json(responseData);
-  var responseData = {
-    "busRouteId_stId_staOrd":  [
-      {
-          "busRouteId": "100100124",
-          "plainNo": "0017",
-          "staOrd": "1",
-          "stNm": "청암자이아파트",
-          "xpos": "126.9465552752",
-          "ypos": "37.5345469961",
-          "stId": "102000271",
-          "stNum": "03689"
-      },
-      {
-          "busRouteId": "100100124",
-          "plainNo": "0017",
-          "staOrd": "2",
-          "stNm": "청암동강변삼성아파트",
-          "xpos": "126.9493177472",
-          "ypos": "37.5339679073",
-          "stId": "102000204",
-          "stNum": "03298"
-      }
-    ]
-  }
-  res.send(responseData);
-  res.json(responseData);
-})
 
-// var busStMapHelper = function(event, testPos) {
-//   app.get('/busRoute', function(req, res){
-//     res.sendFile(path.join(__dirname + '/webviews/busRouteWebview.html'));
-//   });
-//   app.post('/busRoute'+ "/result", function(req,res){
-//     console.log(req.body)
-//     // res.send("welcome! " + req.body)
-//   })
-// }
-// module.exports.busStMapHelper = busStMapHelper;
+var bus_busRouteWebviewHelper = function(event, responseData) {
+  app.get('/busRoute/test', function(req, res){
+    console.log('TEST');
+    console.log("responseData: " +JSON.stringify(responseData));
+    // console.log(req.body.email);
+    // var responseData = {'result' : 'ok', 'email' : req.body.email}
+    // res.json(responseData);
+    // var responseData = {
+    //   "busRouteId_stId_staOrd":  [
+    //     {
+    //         "busRouteId": "100100124",
+    //         "plainNo": "0017",
+    //         "staOrd": "1",
+    //         "stNm": "청암자이아파트",
+    //         "xpos": "126.9465552752",
+    //         "ypos": "37.5345469961",
+    //         "stId": "102000271",
+    //         "stNum": "03689"
+    //     },
+    //     {
+    //         "busRouteId": "100100124",
+    //         "plainNo": "0017",
+    //         "staOrd": "2",
+    //         "stNm": "청암동강변삼성아파트",
+    //         "xpos": "126.9493177472",
+    //         "ypos": "37.5339679073",
+    //         "stId": "102000204",
+    //         "stNum": "03298"
+    //     }
+    //   ]
+    // }
+    res.send(responseData);
+    res.json(responseData);
+  })
+}
+module.exports.bus_busRouteWebviewHelpe = bus_busRouteWebviewHelpe;
 
 
 app.listen(app.get('port'), function () {
