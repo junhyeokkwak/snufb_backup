@@ -152,16 +152,15 @@ function personSearch_alum(event) {
     function(err, callback) {
       if(uid) {
         api.sendResponse(event, {"text": "삐빅- 검색완료!"});
-        callback(null, 'done');
+        setTimeout(function () {
+          callback(null, 'done');
+        }, 1000);
       }
     },
     function(err, callback) {
       if(uid) {
-          console.log(uid.length);
           api.sendResponse(event, {"text": "페이스북 프로필은 www.facebook.com/" + uid + " 고"});
           api.sendResponse(event, {"text": "이 링크를 누르면 직접 페메를 보낼 수 있어!\nm.me/" + uid});
-
-        // else --> string 일떄
       }
       callback(null, 'done');
     }
