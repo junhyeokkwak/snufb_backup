@@ -120,13 +120,18 @@
       sumYpos += Number(positionData[i].ypos);
       sendAjax('/busRoute/send_result', sumXpos + "/" +sumYpos);
       // markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
+      if(i == positionData.length-1) {
+        sendAjax('/busRoute/send_result', (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length) );
+        var center = new naver.maps.LatLng((sumXpos/positionData.length), (sumYpos/positionData.length));
+        map.setCenter(center);
+      }
     }
-    // markerArr.push(generateMarker("A", positionData[0].xpos, positionData[0].ypos));
-    // markerArr.push(generateMarker("B",positionData[1].xpos, positionData[1].ypos));
+    markerArr.push(generateMarker("A", positionData[0].xpos, positionData[0].ypos));
+    markerArr.push(generateMarker("B",positionData[1].xpos, positionData[1].ypos));
   }
 
   var setMap = function(xpos, ypos) {
-    map
+
   }
 
   var generateMarker = function(key ,xpos, ypos){
