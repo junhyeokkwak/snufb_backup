@@ -128,8 +128,22 @@
       }
     }
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
-    marker2 = generateMarker(positionData[1].stId,positionData[1].xpos, positionData[1].ypos);
+    marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
   }
+
+  var marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(126.9425311318,37.5586548162),
+    map: map,
+    title: "marker3",
+    clickable: true
+  });
+
+  var marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(126.9400304329,37.5562422457),
+    map: map,
+    title: "marker4",
+    clickable: true
+  });
 
   var setMap = function(xpos, ypos) {
 
@@ -154,6 +168,14 @@
 
   naver.maps.Event.addListener(marker2, 'click', function() {
     sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker2.title);
+  });
+
+  naver.maps.Event.addListener(marker3, 'click', function() {
+    sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker3.title);
+  });
+
+  naver.maps.Event.addListener(marker4, 'click', function() {
+    sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker4.title);
   });
 
   function sendAjax(url, data){
