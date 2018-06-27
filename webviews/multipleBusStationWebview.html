@@ -104,15 +104,12 @@
     var sumXpos = 0, sumYpos = 0, count = 0;
     for(var i = 0; i < positionData.length; i++) {
       sendAjax('/busRoute/send_result', i);
-      // markerArr.push({"xpos": positionData[i].xpos, "ypos": positionData[i].ypos});
       sumXpos += Number(positionData[i].xpos);
       sumYpos += Number(positionData[i].ypos);
-      // sendAjax('/busRoute/send_result', sumXpos + "/" +sumYpos);
-      // markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
       if(i == positionData.length-1) {
         sendAjax('/busRoute/send_result', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
         var center = new naver.maps.LatLng((sumYpos/positionData.length), (sumXpos/positionData.length));
-        map.setCenter(center);
+        // map.setCenter(center);
       }
     }
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
@@ -167,7 +164,7 @@
   // });
 
   var marker = new naver.maps.Marker({
-    position: map.getCenter(),
+    position: new naver.maps.LatLng(37.5586548162, 126.9425311318),
     map: map,
     clickable: true
   });
