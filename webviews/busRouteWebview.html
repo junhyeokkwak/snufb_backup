@@ -119,6 +119,16 @@
     //   sendAjax('/busRoute/send_result', `xpos: ${positionData[i].xpos} ypos: ${positionData[i].ypos} count: ${count}`);
     //   generateMarker(count, positionData[i].xpos, positionData[i].ypos);
     // }
+    for (var i = 0; i < 5; i++) {
+      tempMarker = 0;
+      eval(`var marker${i} = ${tempMarker};` );
+      if (i == 4) {
+        console.log(marker0);
+        console.log(marker1);
+        console.log(marker3);
+        console.log(marker4);
+      }
+    }
     generateMarker(1, positionData[0].xpos, positionData[0].ypos);
     generateMarker(2, positionData[1].xpos, positionData[1].ypos);
   }

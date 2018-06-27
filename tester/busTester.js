@@ -81,12 +81,13 @@ handleMultipleSt(positionData_str);
 //   });
 // }
 
-// for (var i = 0; i < 5; i++) {
-//   tempMarker = 0;
-//   eval(`var marker${i} = ${tempMarker};` );
-//   if (i == 4) {
-//     console.log(marker0);
-//   }
-// }
-//
-// console.log(pareseInt(3));
+for (var i = 0; i < 5; i++) {
+  tempMarker = 0;
+  eval(`var marker${i} = ${tempMarker};` );
+  if (i == 4) {
+    console.log(marker0);
+    console.log(marker1);
+    console.log(marker3);
+    console.log(marker4);
+  }
+}
