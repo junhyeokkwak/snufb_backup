@@ -125,16 +125,16 @@
     }
   }
 
-  var marker1, marker2, marker3, marker4, marker5;
-  var markerArr = [];
   var generateMarker = function(num, xpos, ypos){
+    sendAjax('/busRoute/send_result', "RUN generateMarker");
     if (typeof xpos != number) xpos = pareseInt(xpos);
     if (typeof ypos != number) ypos = pareseInt(ypos);
-    var tempMarker = new naver.maps.Marker({
-      position: new naver.maps.LatLng(ypos, xpos),
-      map: map
-    });
-    eval(`var marker${i+1} = ${tempMarker};` );
+    eval(`var marker${i} = ${
+      new naver.maps.Marker({
+        position: new naver.maps.LatLng(ypos, xpos),
+        map: map
+      })
+    };`);
   }
 
 
