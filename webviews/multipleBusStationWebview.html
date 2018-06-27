@@ -126,7 +126,9 @@
     return new naver.maps.Marker({
       position: new naver.maps.LatLng(ypos, xpos),
       map: map,
-      title: key
+      clickable: true,
+      title: key,
+      cursor: key,
     });
   }
 
