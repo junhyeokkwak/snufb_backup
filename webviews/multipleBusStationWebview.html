@@ -73,18 +73,6 @@
 
   var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
-  // var createMarker = function(){
-  //   var marker = new naver.maps.Marker({
-  //     position: new naver.maps.LatLng(37.5540291075, 126.9348325761),
-  //     map: map
-  //   });
-  // }
-
-  // document.getElementById('ajaxsend').addEventListener('click', function(){
-  //   var inputdata = document.forms[0].elements[0].value;
-  //   sendAjax('/busRoute/send_result', inputdata)
-  // });
-
   function loadData() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -116,10 +104,10 @@
     var sumXpos = 0, sumYpos = 0, count = 0;
     for(var i = 0; i < positionData.length; i++) {
       sendAjax('/busRoute/send_result', i);
-      markerArr.push({"xpos": positionData[i].xpos, "ypos": positionData[i].ypos});
+      // markerArr.push({"xpos": positionData[i].xpos, "ypos": positionData[i].ypos});
       sumXpos += Number(positionData[i].xpos);
       sumYpos += Number(positionData[i].ypos);
-      sendAjax('/busRoute/send_result', sumXpos + "/" +sumYpos);
+      // sendAjax('/busRoute/send_result', sumXpos + "/" +sumYpos);
       // markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
       if(i == positionData.length-1) {
         sendAjax('/busRoute/send_result', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
@@ -131,19 +119,19 @@
     marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
   }
 
-  var marker3 = new naver.maps.Marker({
-    position: new naver.maps.LatLng(37.5586548162, 126.9425311318),
-    map: map,
-    title: "marker3",
-    clickable: true
-  });
-
-  var marker4 = new naver.maps.Marker({
-    position: new naver.maps.LatLng(37.5562422457, 126.9400304329),
-    map: map,
-    title: "marker4",
-    clickable: true
-  });
+  // var marker3 = new naver.maps.Marker({
+  //   position: new naver.maps.LatLng(37.5586548162, 126.9425311318),
+  //   map: map,
+  //   title: "marker3",
+  //   clickable: true
+  // });
+  //
+  // var marker4 = new naver.maps.Marker({
+  //   position: new naver.maps.LatLng(37.5562422457, 126.9400304329),
+  //   map: map,
+  //   title: "marker4",
+  //   clickable: true
+  // });
 
   var setMap = function(xpos, ypos) {
 
@@ -162,40 +150,40 @@
     });
   }
 
-  naver.maps.Event.addListener(marker1, 'click', function() {
-    sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker1.title);
-  });
-
-  naver.maps.Event.addListener(marker2, 'click', function() {
-    sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker2.title);
-  });
-
-  naver.maps.Event.addListener(marker3, 'click', function() {
-    sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker3.title);
-  });
-
-  naver.maps.Event.addListener(marker4, 'click', function() {
-    sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker4.title);
-  });
+  // naver.maps.Event.addListener(marker1, 'click', function() {
+  //   sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker1.title);
+  // });
+  //
+  // naver.maps.Event.addListener(marker2, 'click', function() {
+  //   sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker2.title);
+  // });
+  //
+  // naver.maps.Event.addListener(marker3, 'click', function() {
+  //   sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker3.title);
+  // });
+  //
+  // naver.maps.Event.addListener(marker4, 'click', function() {
+  //   sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker4.title);
+  // });
 
   var marker = new naver.maps.Marker({
-    position: new naver.maps.LatLng(37.3614483, 127.1114883),
+    position: map.getCenter(),
     map: map,
     clickable: true
-});
+  });
 
-naver.maps.Event.addListener(marker, 'click', function() {
-    var delta = 0,
-        zoom = map.getZoom();
+  naver.maps.Event.addListener(marker, 'click', function() {
+      var delta = 0,
+          zoom = map.getZoom();
 
-    if (zoom < 12) {
-        delta = 12 - zoom;
-    } else {
-        delta = 5 - zoom;
-    }
+      if (zoom < 12) {
+          delta = 12 - zoom;
+      } else {
+          delta = 5 - zoom;
+      }
 
-    map.zoomBy(delta, marker.getPosition(), true);
-});
+      map.zoomBy(delta, marker.getPosition(), true);
+  });
 
   function sendAjax(url, data){
     // 입력값을 변수에 담고 문자열 형태로 변환
