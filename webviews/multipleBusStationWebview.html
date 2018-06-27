@@ -178,6 +178,25 @@
     sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker4.title);
   });
 
+  var marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(37.3614483, 127.1114883),
+    map: map,
+    clickable: true
+});
+
+naver.maps.Event.addListener(marker, 'click', function() {
+    var delta = 0,
+        zoom = map.getZoom();
+
+    if (zoom < 12) {
+        delta = 12 - zoom;
+    } else {
+        delta = 5 - zoom;
+    }
+
+    map.zoomBy(delta, marker.getPosition(), true);
+});
+
   function sendAjax(url, data){
     // 입력값을 변수에 담고 문자열 형태로 변환
     var data = {'email' : data};
