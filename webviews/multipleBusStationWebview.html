@@ -121,13 +121,13 @@
       sendAjax('/busRoute/send_result', sumXpos + "/" +sumYpos);
       // markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
       if(i == positionData.length-1) {
-        sendAjax('/busRoute/send_result', (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length) );
+        sendAjax('/busRoute/send_result', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
         var center = new naver.maps.LatLng((sumYpos/positionData.length), (sumXpos/positionData.length));
         map.setCenter(center);
       }
     }
-    markerArr.push(generateMarker("A", positionData[0].xpos, positionData[0].ypos));
-    markerArr.push(generateMarker("B",positionData[1].xpos, positionData[1].ypos));
+    marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos));
+    marker2 = generateMarker(positionData[1].stId,positionData[1].xpos, positionData[1].ypos));
   }
 
   var setMap = function(xpos, ypos) {
@@ -147,6 +147,13 @@
     });
   }
 
+  naver.maps.Event.addListener(marker1, 'click', function() {
+    sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker1.title);
+  });
+
+  naver.maps.Event.addListener(marker2, 'click', function() {
+    sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker2.title);
+  });
 
   function sendAjax(url, data){
     // 입력값을 변수에 담고 문자열 형태로 변환
