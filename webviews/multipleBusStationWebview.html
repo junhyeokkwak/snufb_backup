@@ -116,8 +116,8 @@
     for(var i = 0; i < positionData.length; i++) {
       sendAjax('/busRoute/send_result', i);
       markerArr.push({"xpos": positionData[i].xpos, "ypos": positionData[i].ypos});
-      sumXpos += positionData[i].xpos;
-      sumYpos += positionData[i].ypos;
+      sumXpos += Number(positionData[i].xpos);
+      sumYpos += Number(positionData[i].ypos);
       sendAjax('/busRoute/send_result', sumXpos + "/" +sumYpos);
       // markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
     }
