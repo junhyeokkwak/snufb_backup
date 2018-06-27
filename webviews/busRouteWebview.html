@@ -119,24 +119,22 @@
     //   sendAjax('/busRoute/send_result', `xpos: ${positionData[i].xpos} ypos: ${positionData[i].ypos} count: ${count}`);
     //   generateMarker(count, positionData[i].xpos, positionData[i].ypos);
     // }
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 2; i++) {
       tempMarker = 0;
-      eval(`var marker${i} = ${tempMarker};` );
-      if (i == 4) {
-        console.log(marker0);
-        console.log(marker1);
-        console.log(marker3);
-        console.log(marker4);
+      eval(`var marker${i} = ${generateMarker(1, positionData[i].xpos, positionData[i].ypos)};` );
+      if (i == 1) {
+        alert("END");
       }
     }
-    generateMarker(1, positionData[0].xpos, positionData[0].ypos);
-    generateMarker(2, positionData[1].xpos, positionData[1].ypos);
+    // generateMarker(1, positionData[0].xpos, positionData[0].ypos);
+    // generateMarker(2, positionData[1].xpos, positionData[1].ypos);
   }
 
   var generateMarker = function(num, xpos, ypos){
     sendAjax('/busRoute/send_result', "RUN generateMarker");
     sendAjax('/busRoute/send_result', `xpos: ${xpos} ypos: ${ypos} count: ${num}`);
     // eval(`var marker${num} = ${new naver.maps.Marker({position: new naver.maps.LatLng(ypos, xpos),map: map})};`);
+    return new naver.maps.Marker({position: new naver.maps.LatLng(ypos, xpos),map: map});
   }
 
 
