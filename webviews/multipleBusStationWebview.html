@@ -102,7 +102,7 @@
       if(i == positionData.length-1) {
         sendAjax('/busRoute/send_result', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
         var center = new naver.maps.LatLng((sumYpos/positionData.length), (sumXpos/positionData.length));
-        map.setCenter(new naver.maps.LatLng(33.3590628, 126.534361));
+        map.setCenter(new naver.maps.LatLng(37.5540291075, 126.9400304329));
       }
     }
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
