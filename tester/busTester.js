@@ -2,41 +2,76 @@ var fs=require('fs');
 var bodyparser=require('body-parser');
 var stringSimilarity = require('string-similarity');
 
-
-// /xpos=126.9348325761&ypos=37.5540291075
-var testData = {
-  positions : [
+var positionData = [
     {
-      "xpos" : 126.9348325761,
-      "ypos" : 37.5540291075
+        "busRouteId": "100100124",
+        "plainNo": "0017",
+        "staOrd": "1",
+        "stNm": "청암자이아파트",
+        "xpos": "126.9465552752",
+        "ypos": "37.5345469961",
+        "stId": "102000271",
+        "stNum": "03689"
     },
     {
-      "xpos" : 126.9348325761,
-      "ypos" : 37.5540291075
+        "busRouteId": "100100124",
+        "plainNo": "0017",
+        "staOrd": "2",
+        "stNm": "청암동강변삼성아파트",
+        "xpos": "126.9493177472",
+        "ypos": "37.5339679073",
+        "stId": "102000204",
+        "stNum": "03298"
+    },
+    {
+        "busRouteId": "100100124",
+        "plainNo": "0017",
+        "staOrd": "3",
+        "stNm": "청심경로당",
+        "xpos": "126.9505603371",
+        "ypos": "37.5337062146",
+        "stId": "102000227",
+        "stNum": "03321"
+    },
+    {
+        "busRouteId": "100100124",
+        "plainNo": "0017",
+
+
+        "staOrd": "4",
+        "stNm": "원효2동주민센터",
+        "xpos": "126.9509503798",
+        "ypos": "37.5342145962",
+        "stId": "102000210",
+        "stNum": "03304"
+    },
+    {
+        "busRouteId": "100100124",
+        "plainNo": "0017",
+        "staOrd": "5",
+        "stNm": "산천동",
+        "xpos": "126.9540093495",
+        "ypos": "37.5353394953",
+        "stId": "102000212",
+        "stNum": "03306"
     }
-  ]
+]
+
+var handleMultipleSt = function(positionData) {
+  for(var i = 0; i < positionData.length; i++) {
+    console.log(positionData[i].xpos);
+    console.log(positionData[i].ypos);
+    // createMarker()
+  }
 }
 
-var stringData = "/";
-for(var i = 0; i < testData.positions.length; i++) {
-  var str = `xpos${i}=${testData.positions[i].xpos}&ypos${i}=${testData.positions[i].xpos}&`;
-  stringData+=str;
+handleMultipleSt(positionData);
+
+var createMarker = function(num, xpos, ypos){
+  if (typeof xpos != number) xpos = pareseInt(xpos);
+  if (typeof ypos != number) ypos = pareseInt(ypos);
+  return new naver.maps.Marker({
+    position: new naver.maps.LatLng(ypos, xpos),
+    map: map
+  });
 }
-console.log(stringData.substring(1,stringData.length-1));
-stringData = stringData.substring(1,stringData.length-1)
-
-var emptyJson = {};
-stringData.split('&').forEach(item => {
-  emptyJson[item.split("=")[0]] = item.split("=")[1];
-})
-console.log(emptyJson);
-
-// console.log(typeof testData);
-// console.log(JSON.stringify(testData));
-// console.log(typeof JSON.stringify(testData));
-// var stringData = JSON.stringify(testData);
-
-// console.log(JSON.parse(stringData));
-// console.log(JSON.parse(stringData).positions[0].xpos);
-
-// 'https://cb-practice.herokuapp.com/busRoute/xpos=126.9348325761&ypos=37.5540291075'
