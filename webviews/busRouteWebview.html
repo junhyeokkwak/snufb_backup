@@ -115,11 +115,11 @@
     // var positionData = JSON.parse(positionData_str);
     sendAjax('/busRoute/send_result', "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
     var count = 0;
-    for(var i = 0; i < positionData.length; i++) {
-      markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
-    }
-    // generateMarker(1, positionData[0].xpos, positionData[0].ypos);
-    // generateMarker(2, positionData[1].xpos, positionData[1].ypos);
+    // for(var i = 0; i < positionData.length; i++) {
+    //   markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
+    // }
+    markerArr.push(generateMarker(positionData[0].xpos, positionData[0].ypos));
+    markerArr.push(generateMarker(positionData[1].xpos, positionData[1].ypos));
   }
 
   var generateMarker = function(xpos, ypos){
