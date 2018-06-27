@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>간단한 지도 표시하기</title>
+    <title>정류장을 선택해줘!</title>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=mSdY16Cdgy3tfbILEmSN&callback=initMap"></script>
     <script type="text/javascript" src="busRouteWebview.js"></script>
 </head>
@@ -70,7 +70,8 @@
       center: new naver.maps.LatLng(37.5540291075, 126.9348325761),
       zoom: 10
   };
-  var map = new naver.maps.Map('map', mapOptions);
+
+  var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
   // var createMarker = function(){
   //   var marker = new naver.maps.Marker({
@@ -111,12 +112,21 @@
     // var positionData_str = '[{"busRouteId":"100100032","plainNo":"153","staOrd":"50","stNm":"신촌로터리","xpos":"126.9348325761","ypos":"37.5540291075","stId":"113000113","stNum":"14204"},{"busRouteId":"100100032","plainNo":"153","staOrd":"79","stNm":"신촌로터리","xpos":"126.9356825619","ypos":"37.5540511998","stId":"113000114","stNum":"14205"}] ';
     // var positionData = JSON.parse(positionData_str);
     sendAjax('/busRoute/send_result', "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
-    var count = 0;
-    // for(var i = 0; i < positionData.length; i++) {
-    //   markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
-    // }
-    markerArr.push(generateMarker("A", positionData[0].xpos, positionData[0].ypos));
-    markerArr.push(generateMarker("B",positionData[1].xpos, positionData[1].ypos));
+    var sumXpos = 0, sumYpos = 0, count = 0;
+    for(var i = 0; i < positionData.length; i++) {
+      sendAjax('/busRoute/send_result', i);
+      markerArr.push({"xpos": positionData[i].xpos, "ypos": positionData[i].ypos});
+      sumXpos += positionData[i].xpos;
+      sumYpos += positionData[i].ypos;
+      sendAjax('/busRoute/send_result', sumXpos + "/" +sumYpos);
+      // markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
+    }
+    // markerArr.push(generateMarker("A", positionData[0].xpos, positionData[0].ypos));
+    // markerArr.push(generateMarker("B",positionData[1].xpos, positionData[1].ypos));
+  }
+
+  var setMap = function(xpos, ypos) {
+    map
   }
 
   var generateMarker = function(key ,xpos, ypos){
