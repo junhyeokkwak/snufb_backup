@@ -83,3 +83,5 @@ for (var i = 0; i < 5; i++) {
     console.log(marker0);
   }
 }
+
+console.log(pareseInt(3));
