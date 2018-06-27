@@ -114,9 +114,11 @@
     //   sendAjax('/busRoute/send_result', `xpos: ${positionData[i].xpos} ypos: ${positionData[i].ypos}`);
     //   generateMarker(i, positionData[i].xpos, positionData[i].ypos);
     // }
+    var count = 0;
     positionData.forEach(item => {
+      count++;
       sendAjax('/busRoute/send_result', `xpos: ${item.xpos} ypos: ${item.ypos}`);
-      generateMarker(i, item.xpos, item.ypos);
+      generateMarker(count, item.xpos, item.ypos);
     })
   }
 
@@ -127,7 +129,7 @@
     eval(`var marker${num} = ${
       new naver.maps.Marker({
         // position: new naver.maps.LatLng(ypos, xpos),
-        position: new naver.maps.LatLng(xpos, ypos),
+        position: new naver.maps.LatLng(ypos, xpos),
         map: map
       })
     };`);
