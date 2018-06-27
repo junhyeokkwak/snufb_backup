@@ -121,17 +121,20 @@
     sendAjax('/busRoute/send_result', "handleMultipleSt " + JSON.stringify(positionData));
     for(var i = 0; i < positionData.length; i++) {
       sendAjax('/busRoute/send_result', `xpos: ${positionData[i].xpos} ypos: ${positionData[i].ypos}`);
-      createMarker(i+1, positionData[i].xpos, positionData[i].ypos);
+      generateMarker(i+1, positionData[i].xpos, positionData[i].ypos);
     }
   }
 
-  var createMarker = function(num, xpos, ypos){
+  var marker1, marker2, marker3, marker4, marker5;
+  var markerArr = [];
+  var generateMarker = function(num, xpos, ypos){
     if (typeof xpos != number) xpos = pareseInt(xpos);
     if (typeof ypos != number) ypos = pareseInt(ypos);
-    return new naver.maps.Marker({
+    var tempMarker = new naver.maps.Marker({
       position: new naver.maps.LatLng(ypos, xpos),
       map: map
     });
+    eval(`var marker${i+1} = ${tempMarker};` );
   }
 
 

@@ -75,3 +75,11 @@ var createMarker = function(num, xpos, ypos){
     map: map
   });
 }
+
+for (var i = 0; i < 5; i++) {
+  tempMarker = 0;
+  eval(`var marker${i} = ${tempMarker};` );
+  if (i == 4) {
+    console.log(marker0);
+  }
+}
