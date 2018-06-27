@@ -313,7 +313,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
       "type":"template",
       "payload":{
         "template_type":"button",
-        "text":"Try the URL button!",
+        "text": title,
         "buttons":[
           {
             "type":"web_url",

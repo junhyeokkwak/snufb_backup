@@ -115,8 +115,8 @@
     // for(var i = 0; i < positionData.length; i++) {
     //   markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
     // }
-    markerArr.push(generateMarker(positionData[0].stNm, positionData[0].xpos, positionData[0].ypos));
-    markerArr.push(generateMarker(positionData[1].stNm, positionData[1].ypos));
+    markerArr.push(generateMarker("A", positionData[0].xpos, positionData[0].ypos));
+    markerArr.push(generateMarker("B",positionData[1].xpos, positionData[1].ypos));
   }
 
   var generateMarker = function(key ,xpos, ypos){
