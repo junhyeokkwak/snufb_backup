@@ -113,7 +113,29 @@
       }
     }
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
+    naver.maps.Event.addListener(marker1, 'click', function() {
+        var delta = 0,
+            zoom = map.getZoom();
+        if (zoom < 12) {
+            delta = 12 - zoom;
+        } else {
+            delta = 5 - zoom;
+        }
+        map.zoomBy(delta, marker.getPosition(), true);
+        sendAjax('/busRoute/send_result', {"selectedSTID" : marker.title});
+    });
     marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
+    naver.maps.Event.addListener(marker2, 'click', function() {
+        var delta = 0,
+            zoom = map.getZoom();
+        if (zoom < 12) {
+            delta = 12 - zoom;
+        } else {
+            delta = 5 - zoom;
+        }
+        map.zoomBy(delta, marker.getPosition(), true);
+        sendAjax('/busRoute/send_result', {"selectedSTID" : marker.title});
+    });
   }
 
   // var marker3 = new naver.maps.Marker({
@@ -138,17 +160,6 @@
     sendAjax('/busRoute/send_result', "RUN generateMarker");
     sendAjax('/busRoute/send_result', `xpos: ${xpos} ypos: ${ypos}`);
     // eval(`var marker${num} = ${new naver.maps.Marker({position: new naver.maps.LatLng(ypos, xpos),map: map})};`);
-    naver.maps.Event.addListener(key, 'click', function() {
-        var delta = 0,
-            zoom = map.getZoom();
-        if (zoom < 12) {
-            delta = 12 - zoom;
-        } else {
-            delta = 5 - zoom;
-        }
-        map.zoomBy(delta, marker.getPosition(), true);
-        sendAjax('/busRoute/send_result', "USER SELECTED STID: " + key);
-    });
     return new naver.maps.Marker({
       position: new naver.maps.LatLng(ypos, xpos),
       map: map,
@@ -158,25 +169,10 @@
     });
   }
 
-  // naver.maps.Event.addListener(marker1, 'click', function() {
-  //   sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker1.title);
-  // });
-  //
-  // naver.maps.Event.addListener(marker2, 'click', function() {
-  //   sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker2.title);
-  // });
-  //
-  // naver.maps.Event.addListener(marker3, 'click', function() {
-  //   sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker3.title);
-  // });
-  //
-  // naver.maps.Event.addListener(marker4, 'click', function() {
-  //   sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker4.title);
-  // });
-
   var marker = new naver.maps.Marker({
     position: new naver.maps.LatLng(37.5586548162, 126.9425311318),
     map: map,
+    title: 112000127,
     clickable: true
   });
 
@@ -189,7 +185,7 @@
           delta = 5 - zoom;
       }
       map.zoomBy(delta, marker.getPosition(), true);
-      sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker.title);
+      sendAjax('/busRoute/send_result', {"selectedSTID" : marker.title});
   });
 
   function sendAjax(url, data){
