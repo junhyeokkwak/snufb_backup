@@ -105,8 +105,8 @@
         // alert(this.responseText);
         // alert(this.responseText.length)
         sendAjax('/busRoute/send_result', this.responseText);
-        sendAjax('/busRoute/send_result', this.responseText.length);
-        if (this.responseText.length > 1) {
+        sendAjax('/busRoute/send_result', JSON.parse(this.responseText).length);
+        if (JSON.parse(this.responseText).length > 1) {
           //need to transform responseText into JSON obj in arr
           handleMultipleSt(JSON.parse(this.responseText));
         }
@@ -118,7 +118,7 @@
 
   var handleMultipleSt = function(positionData) {
     sendAjax('/busRoute/send_result', "RUN handleMultipleSt");
-    sendAjax('/busRoute/send_result', "handleMultipleSt " + typeof positionData);
+    sendAjax('/busRoute/send_result', "handleMultipleSt " + JSON.stringify(positionData));
     for(var i = 0; i < positionData.length; i++) {
       sendAjax('/busRoute/send_result', `xpos: ${positionData[i].xpos} ypos: ${positionData[i].ypos}`);
       createMarker(i+1, positionData[i].xpos, positionData[i].ypos);
