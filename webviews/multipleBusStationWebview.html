@@ -138,6 +138,17 @@
     sendAjax('/busRoute/send_result', "RUN generateMarker");
     sendAjax('/busRoute/send_result', `xpos: ${xpos} ypos: ${ypos}`);
     // eval(`var marker${num} = ${new naver.maps.Marker({position: new naver.maps.LatLng(ypos, xpos),map: map})};`);
+    naver.maps.Event.addListener(key, 'click', function() {
+        var delta = 0,
+            zoom = map.getZoom();
+        if (zoom < 12) {
+            delta = 12 - zoom;
+        } else {
+            delta = 5 - zoom;
+        }
+        map.zoomBy(delta, marker.getPosition(), true);
+        sendAjax('/busRoute/send_result', "USER SELECTED STID: " + key);
+    });
     return new naver.maps.Marker({
       position: new naver.maps.LatLng(ypos, xpos),
       map: map,
@@ -172,14 +183,13 @@
   naver.maps.Event.addListener(marker, 'click', function() {
       var delta = 0,
           zoom = map.getZoom();
-
       if (zoom < 12) {
           delta = 12 - zoom;
       } else {
           delta = 5 - zoom;
       }
-
       map.zoomBy(delta, marker.getPosition(), true);
+      sendAjax('/busRoute/send_result', "USER SELECTED STID: " + marker.title);
   });
 
   function sendAjax(url, data){
