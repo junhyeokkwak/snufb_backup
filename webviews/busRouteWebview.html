@@ -107,7 +107,9 @@
     xhttp.send();
   }
 
-  var handleMultipleSt = function(positionData) {
+  var handleMultipleSt = function(temp) {
+    var positionData_str = '[{"busRouteId":"100100032","plainNo":"153","staOrd":"50","stNm":"신촌로터리","xpos":"126.9348325761","ypos":"37.5540291075","stId":"113000113","stNum":"14204"},{"busRouteId":"100100032","plainNo":"153","staOrd":"79","stNm":"신촌로터리","xpos":"126.9356825619","ypos":"37.5540511998","stId":"113000114","stNum":"14205"}] ';
+    var positionData = JSON.parse(positionData_str);
     sendAjax('/busRoute/send_result', "RUN handleMultipleSt");
     sendAjax('/busRoute/send_result', "handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
     var count = 0;
