@@ -115,9 +115,9 @@
     var count = 0;
     for(var i = 0; i < 2; i++) {
       sendAjax('/busRoute/send_result', `TEST 시발 쫌 돌아가라ㅠㅠㅠ: ${i}`);
-      // count++;
-      // sendAjax('/busRoute/send_result', `xpos: ${positionData[i].xpos} ypos: ${positionData[i].ypos} count: ${count}`);
-      // generateMarker(count, positionData[i].xpos, positionData[i].ypos);
+      count++;
+      sendAjax('/busRoute/send_result', `xpos: ${positionData[i].xpos} ypos: ${positionData[i].ypos} count: ${count}`);
+      generateMarker(count, positionData[i].xpos, positionData[i].ypos);
     }
     // positionData.forEach(item => {
     //   count++;
@@ -127,6 +127,7 @@
   }
 
   var generateMarker = function(num, xpos, ypos){
+    if (error) alert(error);
     sendAjax('/busRoute/send_result', "RUN generateMarker");
     // if (typeof xpos != number) xpos = pareseInt(xpos);
     // if (typeof ypos != number) ypos = pareseInt(ypos);
