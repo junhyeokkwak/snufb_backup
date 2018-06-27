@@ -65,12 +65,10 @@
     loadData();
     //set map center
   }
-
   var mapOptions = {
       center: new naver.maps.LatLng(37.5540291075, 126.9348325761),
       zoom: 10
   };
-
   var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
   function loadData() {
@@ -95,11 +93,6 @@
 
   var marker1, marker2;
   var handleMultipleSt = function(positionData) {
-    // var marker1, marker2, marker3, marker4, marker5, marker6, marker7, marker8, marker9, marker10;
-    // var markerArr = [marker1, marker2, marker3, marker4, marker5, marker6, marker7, marker8, marker9, marker10];
-    var markerArr = []
-    // var positionData_str = '[{"busRouteId":"100100032","plainNo":"153","staOrd":"50","stNm":"신촌로터리","xpos":"126.9348325761","ypos":"37.5540291075","stId":"113000113","stNum":"14204"},{"busRouteId":"100100032","plainNo":"153","staOrd":"79","stNm":"신촌로터리","xpos":"126.9356825619","ypos":"37.5540511998","stId":"113000114","stNum":"14205"}] ';
-    // var positionData = JSON.parse(positionData_str);
     sendAjax('/busRoute/send_result', "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
     var sumXpos = 0, sumYpos = 0, count = 0;
     for(var i = 0; i < positionData.length; i++) {
@@ -109,7 +102,7 @@
       if(i == positionData.length-1) {
         sendAjax('/busRoute/send_result', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
         var center = new naver.maps.LatLng((sumYpos/positionData.length), (sumXpos/positionData.length));
-        // map.setCenter(center);
+        map.setCenter(new naver.maps.LatLng(33.3590628, 126.534361));
       }
     }
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
@@ -125,20 +118,6 @@
         sendAjax('/busRoute/send_result', {"selectedSTID" : marker.title});
     });
   }
-
-  // var marker3 = new naver.maps.Marker({
-  //   position: new naver.maps.LatLng(37.5586548162, 126.9425311318),
-  //   map: map,
-  //   title: "marker3",
-  //   clickable: true
-  // });
-  //
-  // var marker4 = new naver.maps.Marker({
-  //   position: new naver.maps.LatLng(37.5562422457, 126.9400304329),
-  //   map: map,
-  //   title: "marker4",
-  //   clickable: true
-  // });
 
   var setMap = function(xpos, ypos) {
 
@@ -157,25 +136,6 @@
     });
   }
 
-  var marker = new naver.maps.Marker({
-    position: new naver.maps.LatLng(37.5586548162, 126.9425311318),
-    map: map,
-    title: 112000127,
-    clickable: true
-  });
-
-  naver.maps.Event.addListener(marker, 'click', function() {
-      var delta = 0,
-          zoom = map.getZoom();
-      if (zoom < 12) {
-          delta = 12 - zoom;
-      } else {
-          delta = 5 - zoom;
-      }
-      map.zoomBy(delta, marker.getPosition(), true);
-      sendAjax('/busRoute/send_result', {"selectedSTID" : marker.title});
-  });
-
   function sendAjax(url, data){
     // 입력값을 변수에 담고 문자열 형태로 변환
     var data = {'email' : data};
@@ -190,7 +150,6 @@
       console.log(xhr.responseText);
     });
   }
-
 
 </script>
 
