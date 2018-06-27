@@ -112,18 +112,15 @@
     var positionData = JSON.parse(positionData_str);
     sendAjax('/busRoute/send_result', "RUN handleMultipleSt");
     sendAjax('/busRoute/send_result', "handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
-    var count = 0;
-    for(var i = 0; i < positionData.length; i++) {
-      sendAjax('/busRoute/send_result', `TEST 시발 쫌 돌아가라ㅠㅠㅠ: ${i}`);
-      count++;
-      sendAjax('/busRoute/send_result', `xpos: ${positionData[i].xpos} ypos: ${positionData[i].ypos} count: ${count}`);
-      generateMarker(count, positionData[i].xpos, positionData[i].ypos);
-    }
-    // positionData.forEach(item => {
+    // var count = 0;
+    // for(var i = 0; i < positionData.length; i++) {
+    //   sendAjax('/busRoute/send_result', `TEST 시발 쫌 돌아가라ㅠㅠㅠ: ${i}`);
     //   count++;
-    //   sendAjax('/busRoute/send_result', `xpos: ${item.xpos} ypos: ${item.ypos}`);
-    //   generateMarker(count, item.xpos, item.ypos);
-    // })
+    //   sendAjax('/busRoute/send_result', `xpos: ${positionData[i].xpos} ypos: ${positionData[i].ypos} count: ${count}`);
+    //   generateMarker(count, positionData[i].xpos, positionData[i].ypos);
+    // }
+    generateMarker(1, positionData[0].xpos, positionData[0].ypos);
+    generateMarker(2, positionData[1].xpos, positionData[1].ypos);
   }
 
   var generateMarker = function(num, xpos, ypos){
