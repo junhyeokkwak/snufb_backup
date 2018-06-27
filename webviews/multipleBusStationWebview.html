@@ -111,11 +111,12 @@
         sendAjax('/busRoute/send_result', {"selectedSTID" : marker.title});
         swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
     });
-    // marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
-    naver.maps.Event.addListener(generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos), 'click', function() {
+    marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
+    naver.maps.Event.addListener(marker2, 'click', function() {
         // map.zoomBy(delta, marker.getPosition(), true);
-        sendAjax('/busRoute/send_result', {"selectedSTID" : marker.title});
+
         swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+        sendAjax('/busRoute/send_result', {"selectedSTID" : marker.title});
     });
   }
 
