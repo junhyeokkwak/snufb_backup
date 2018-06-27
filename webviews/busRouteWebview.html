@@ -122,7 +122,8 @@
     if (typeof ypos != number) ypos = pareseInt(ypos);
     eval(`var marker${i} = ${
       new naver.maps.Marker({
-        position: new naver.maps.LatLng(ypos, xpos),
+        // position: new naver.maps.LatLng(ypos, xpos),
+        position: new naver.maps.LatLng(37.5540291075, 126.9348325761),
         map: map
       })
     };`);
