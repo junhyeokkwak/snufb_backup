@@ -125,9 +125,8 @@
 
   var generateMarker = function(num, xpos, ypos){
     sendAjax('/busRoute/send_result', "RUN generateMarker");
-    // if (typeof xpos != number) xpos = pareseInt(xpos);
-    // if (typeof ypos != number) ypos = pareseInt(ypos);
-    eval(`var marker${num} = ${new naver.maps.Marker({position: new naver.maps.LatLng(ypos, xpos),map: map})};`);
+    sendAjax('/busRoute/send_result', `xpos: ${xpos} ypos: ${ypos} count: ${num}`);
+    // eval(`var marker${num} = ${new naver.maps.Marker({position: new naver.maps.LatLng(ypos, xpos),map: map})};`);
   }
 
 
