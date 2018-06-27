@@ -122,7 +122,7 @@
       // markerArr.push(generateMarker(positionData[i].xpos, positionData[i].ypos));
       if(i == positionData.length-1) {
         sendAjax('/busRoute/send_result', (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length) );
-        var center = new naver.maps.LatLng((sumXpos/positionData.length), (sumYpos/positionData.length));
+        var center = new naver.maps.LatLng((sumYpos/positionData.length), (sumXpos/positionData.length));
         map.setCenter(center);
       }
     }
