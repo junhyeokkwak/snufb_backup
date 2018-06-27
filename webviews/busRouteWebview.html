@@ -120,7 +120,12 @@
     sendAjax('/busRoute/send_result', "RUN generateMarker");
     if (typeof xpos != number) xpos = pareseInt(xpos);
     if (typeof ypos != number) ypos = pareseInt(ypos);
-    eval(`var marker${i} = ${
+    var markerT = new naver.maps.Marker({
+        // position: new naver.maps.LatLng(ypos, xpos),
+        position: new naver.maps.LatLng(37.5599353521, 126.9357001425),
+        map: map
+    });
+    eval(`var marker${num} = ${
       new naver.maps.Marker({
         // position: new naver.maps.LatLng(ypos, xpos),
         position: new naver.maps.LatLng(37.5540291075, 126.9348325761),
