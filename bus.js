@@ -87,19 +87,19 @@ var bus_askBusNum = function(event) {
 
 var bus_confirmBusNum = function(event) {
   console.log("RUN bus_confirmBusNum");
-  var data=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
+  var basicConvFile=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
   var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
-  var jsonData=JSON.parse(data);
+  var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile);
   var msg = event.message.text;
   var busNum;
   task = [
     function(callback) {
-      callback(null, util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length));
+      callback(null, util.getSimilarStrings(msg,  basicConv.agreementArr, -1, basicConv.agreementArr.length));
     },
     function(agreementArr, callback) {
       // console.log("agreementArr: "+agreementArr);
       if (agreementArr[0].similarity == 0) {
-        if (util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length)[0].similarity == 0) {
+        if (util.getSimilarStrings(msg,  basicConv.agreementArr, -1, basicConv.agreementArr.length)[0].similarity == 0) {
           connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
           connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
           var messageData = {"text": "미안ㅋㅋ큐ㅠ 그럼 몇번이야?아마 내가 모르는 걸 수도 있어"};
