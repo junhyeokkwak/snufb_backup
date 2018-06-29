@@ -119,8 +119,8 @@ var bus_confirmBusNum = function(event) {
         connection.query('SELECT busNum FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
           if (err) throw err;
           // console.log(result[0].busNum);
-          var busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
-          connection.query(`UPDATE Users SET busRouteId="${busRouteId}" WHERE user_id=` + event.sender.id);
+          // var busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
+          connection.query(`UPDATE Users SET busRouteId="${busRouteJsonData.busNum_busRouteId[busNum]}" WHERE user_id=` + event.sender.id);
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스로 찾아줄게! 정류장은 어디야?`};
           api.sendResponse(event, messageData);
           callback(null);
@@ -247,17 +247,14 @@ var bus_confirmStNm = function(event) {
 var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("RUN handleMultipleStNm!");
   // NOTE:
-
   app.APP.get('/busRoute', function(req, res){
     res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
   });
-
   app.APP.post('/busRoute/send_log', function(req, res){
     console.log(req.body.data);
     var responseData = {'result' : 'ok', 'data' : req.body.data}
     res.json(responseData);
   })
-
   app.APP.post('/busRoute/send_result', function(req, res){
     console.log(req.body.data);
     var data = JSON.parse(req.body.data)
@@ -277,7 +274,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
     res.json(responseData);
   })
 
-  var bus_busRouteWebviewHelper = function(event, possibleStArr) {
+  var bus_busRouteWebviewHelper = function(event, responseData) {
     console.log('RUN bus_busRouteWebviewHelper1');
     app.APP.get('/busRoute/positiondata', function(req, res){
       console.log('RUN bus_busRouteWebviewHelper2');
