@@ -108,14 +108,14 @@
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
     naver.maps.Event.addListener(marker1, 'click', function() {
         // map.zoomBy(delta, marker.getPosition(), true);
+        // swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
         sendAjax('/busRoute/send_result', {"selectedSTID" : marker.title});
-        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
     });
     marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
     naver.maps.Event.addListener(marker2, 'click', function() {
         // map.zoomBy(delta, marker.getPosition(), true);
-
-        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+        // swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+        alert("hi")
         sendAjax('/busRoute/send_result', {"selectedSTID" : marker.title});
     });
   }
