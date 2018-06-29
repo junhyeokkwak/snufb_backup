@@ -1,5 +1,4 @@
 var app = require("./app");
-var
 var request = require("request");
 var https = require('https');
 var qr = require('./quick_replies');
@@ -224,11 +223,12 @@ var bus_confirmStNm = function(event) {
               if (possibleStArr.length >= 2) {
                 bus_handleMultipleStNm(event, possibleStArr);
                 console.log("ALERT: There are two or more stations with the same stNm.");
-              }
-              stId = possibleStArr[0].stId;
-              console.log("busRouteId: " + busRouteId + " stId: " + stId);
-              // NOTE: SEND API REQUEST
-              sendArriveMsg(event, busRouteId, stId);
+              } else {
+                stId = possibleStArr[0].stId;
+                console.log("busRouteId: " + busRouteId + " stId: " + stId);
+                // NOTE: SEND API REQUEST
+                sendArriveMsg(event, busRouteId, stId);
+              }//else
             }//if
           }//for loop
         }); //query
