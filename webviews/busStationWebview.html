@@ -36,6 +36,7 @@
        MessengerExtensions.getContext('2169355909963830',
          function success(result){
            user_psid = result.psid;
+           alert(user_psid);
            initInput(user_psid);
            console.log("Success: "+ result.psid);
          },
@@ -107,7 +108,7 @@
         sendAjax('/busRoute/send_result', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
         var avgXpos = sumXpos / positionData.length;
         var avgYpos = sumYpos / positionData.length;
-        map.setCenter(new naver.maps.LatLng(avgYpos, avgYpos));
+        map.setCenter(new naver.maps.LatLng(avgYpos, avgXpos));
       }
     }
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
