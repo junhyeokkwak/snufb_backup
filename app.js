@@ -15,7 +15,7 @@ var apiai = require('apiai');
 var nlpapp = apiai("542cfeef5714428193dc4478760de396");
 
 var app = express();
-module.export.APP = app; 
+module.exports.APP = app; 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
