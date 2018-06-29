@@ -133,7 +133,7 @@
   var generateMarkerListener = function(marker) {
     naver.maps.Event.addListener(marker, 'click', function() {
         var messageData = {
-          "responseType" : "busStationWebview STID",
+          "responseType" : "busStationWebview_STID",
           "user_psid" : user_psid,
           "selectedSTID" : marker.title,
         }
@@ -147,7 +147,8 @@
 
   function sendAjax(url, jsondata){
     // 입력값을 변수에 담고 문자열 형태로 변환
-    var data = JSON.stringify(jsondata);
+    var data = {'data' : data};
+    data = JSON.stringify(data);
     // content-type을 설정하고 데이터 송신
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url);
