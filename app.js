@@ -198,7 +198,10 @@ app.get('/busRoute', function(req, res){
 // })
 app.post('/busRoute/send_result', function(req, res){
   console.log("GET data : /busRoute/send_result");
-  console.log(req.body);
+  console.log(JSON.stringify(req.body));
+  if (req.body.responseType == 'busStationWebview_STID') {
+    console.log("selectedSTID: " + JSON.stringify(req.body.selectedSTID));
+  }
   // var responseData = {'result' : 'ok', 'email' : req.body.email}
   // res.json(responseData);
   // 서버에서는 JSON.stringify 필요없음
