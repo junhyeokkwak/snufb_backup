@@ -102,6 +102,7 @@
       sendAjax('/busRoute/send_result', i);
       sumXpos += Number(positionData[i].xpos);
       sumYpos += Number(positionData[i].ypos);
+      generateMarkerAndListener(positionData[i].stId, positionData[i].xpos, positionData[i].ypos);
       if(i == positionData.length-1) {
         sendAjax('/busRoute/send_result', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
         var avgXpos = sumXpos / positionData.length;
@@ -109,8 +110,8 @@
         map.setCenter(new naver.maps.LatLng(avgYpos, avgXpos));
       }
     }
-    generateMarkerAndListener(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
-    generateMarkerAndListener(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
+    // generateMarkerAndListener(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
+    // generateMarkerAndListener(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
   }
 
   var generateMarkerAndListener = function(key ,xpos, ypos) {
@@ -146,7 +147,7 @@
 
   function sendAjax(url, data){
     // 입력값을 변수에 담고 문자열 형태로 변환
-    var data = JSON.stringify(data);
+    // var data = JSON.stringify(data);
     // content-type을 설정하고 데이터 송신
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url);
