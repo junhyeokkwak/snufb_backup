@@ -132,7 +132,7 @@
   var generateMarkerListener = function(marker) {
     naver.maps.Event.addListener(marker, 'click', function() {
         var messageData = {
-          "responseType" : "busStationWebview STID"
+          "responseType" : "busStationWebview STID",
           "user_psid" : user_psid,
           "selectedSTID" : marker.title,
         }
