@@ -200,24 +200,24 @@ app.post('/busRoute/send_log', function(req, res){
   res.json(responseData);
 })
 
-app.post('/busRoute/send_result', function(req, res){
-  console.log(req.body.data);
-  var data = JSON.parse(req.body.data)
-  // console.log(data);
-  if (data.responseType == "busStationWebview_STID") {
-    console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
-    connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
-
-    connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-      var busRouteId = (result[0].busRouteId).toString();
-      bus.sendArriveMsg(event, busRouteId, data.selectedSTID);
-    });
-  } else {
-    console.log("ERR in /busRoute/send_result");
-  }
-  var responseData = {'result' : 'ok', 'data' : req.body.data}
-  res.json(responseData);
-})
+// app.post('/busRoute/send_result', function(req, res){
+//   console.log(req.body.data);
+//   var data = JSON.parse(req.body.data)
+//   // console.log(data);
+//   if (data.responseType == "busStationWebview_STID") {
+//     console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
+//     connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
+//
+//     connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+//       var busRouteId = (result[0].busRouteId).toString();
+//       bus.sendArriveMsg(event, busRouteId, data.selectedSTID);
+//     });
+//   } else {
+//     console.log("ERR in /busRoute/send_result");
+//   }
+//   var responseData = {'result' : 'ok', 'data' : req.body.data}
+//   res.json(responseData);
+// })
 
 var bus_busRouteWebviewHelper = function(event, responseData) {
   console.log('RUN bus_busRouteWebviewHelper1');
@@ -226,6 +226,26 @@ var bus_busRouteWebviewHelper = function(event, responseData) {
     console.log("responseData: " +JSON.stringify(responseData));
     res.json(responseData);
   })
+
+  app.post('/busRoute/send_result', function(req, res){
+    console.log(req.body.data);
+    var data = JSON.parse(req.body.data)
+    // console.log(data);
+    if (data.responseType == "busStationWebview_STID") {
+      console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
+      connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
+
+      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+        var busRouteId = (result[0].busRouteId).toString();
+        bus.sendArriveMsg(event, busRouteId, data.selectedSTID);
+      });
+    } else {
+      console.log("ERR in /busRoute/send_result");
+    }
+    var responseData = {'result' : 'ok', 'data' : req.body.data}
+    res.json(responseData);
+  })
+
 }
 module.exports.bus_busRouteWebviewHelper = bus_busRouteWebviewHelper;
 
