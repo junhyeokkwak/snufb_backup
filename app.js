@@ -196,6 +196,12 @@ app.get('/busRoute', function(req, res){
 //   console.log(req.body)
 //   res.send("welcome! " + req.body.email)
 // })
+app.post('/busRoute/send_log', function(req, res){
+  console.log("log from busStationWebview: " + req.body.data);
+  var responseData = {'result' : 'ok', 'data' : req.body.data}
+  res.json(responseData);
+})
+
 app.post('/busRoute/send_result', function(req, res){
   console.log("GET data : /busRoute/send_result");
   console.log(req.body.data);

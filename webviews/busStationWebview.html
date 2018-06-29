@@ -82,8 +82,8 @@
         // this.responseText;
         // alert(this.responseText);
         // alert(this.responseText.length)
-        sendAjax('/busRoute/send_result', this.responseText);
-        sendAjax('/busRoute/send_result', JSON.parse(this.responseText).length);
+        sendAjax('/busRoute/send_log', this.responseText);
+        sendAjax('/busRoute/send_log', JSON.parse(this.responseText).length);
         if (JSON.parse(this.responseText).length > 1) {
           //need to transform responseText into JSON obj in arr
           handleMultipleSt(JSON.parse(this.responseText));
@@ -96,15 +96,15 @@
 
   var marker1, marker2;
   var handleMultipleSt = function(positionData) {
-    sendAjax('/busRoute/send_result', "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
+    sendAjax('/busRoute/send_log', "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
     var sumXpos = 0, sumYpos = 0, count = 0;
     for(var i = 0; i < positionData.length; i++) {
-      sendAjax('/busRoute/send_result', i);
+      sendAjax('/busRoute/send_log', i);
       sumXpos += Number(positionData[i].xpos);
       sumYpos += Number(positionData[i].ypos);
       generateMarkerAndListener(positionData[i].stId, positionData[i].xpos, positionData[i].ypos);
       if(i == positionData.length-1) {
-        sendAjax('/busRoute/send_result', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
+        sendAjax('/busRoute/send_log', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
         var avgXpos = sumXpos / positionData.length;
         var avgYpos = sumYpos / positionData.length;
         map.setCenter(new naver.maps.LatLng(avgYpos, avgXpos));
@@ -119,8 +119,8 @@
   }
 
   var generateMarker = function(key ,xpos, ypos){
-    sendAjax('/busRoute/send_result', "RUN generateMarker");
-    sendAjax('/busRoute/send_result', `xpos: ${xpos} ypos: ${ypos}`);
+    sendAjax('/busRoute/send_log', "RUN generateMarker");
+    sendAjax('/busRoute/send_log', `xpos: ${xpos} ypos: ${ypos}`);
     return new naver.maps.Marker({
       position: new naver.maps.LatLng(ypos, xpos),
       map: map,
