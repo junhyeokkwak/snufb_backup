@@ -245,6 +245,47 @@ var bus_confirmStNm = function(event) {
 
 var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("RUN handleMultipleStNm!");
+  // NOTE:
+
+  app.get('/busRoute', function(req, res){
+    res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
+  });
+
+  app.post('/busRoute/send_log', function(req, res){
+    console.log(req.body.data);
+    var responseData = {'result' : 'ok', 'data' : req.body.data}
+    res.json(responseData);
+  })
+
+  app.post('/busRoute/send_result', function(req, res){
+    console.log(req.body.data);
+    var data = JSON.parse(req.body.data)
+    // console.log(data);
+    if (data.responseType == "busStationWebview_STID") {
+      console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
+      connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
+
+      // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+      //   var busRouteId = (result[0].busRouteId).toString();
+      //   bus.sendArriveMsg(event, busRouteId, data.selectedSTID);
+      // });
+    } else {
+      console.log("ERR in /busRoute/send_result");
+    }
+    var responseData = {'result' : 'ok', 'data' : req.body.data}
+    res.json(responseData);
+  })
+
+  var bus_busRouteWebviewHelper = function(event, responseData) {
+    console.log('RUN bus_busRouteWebviewHelper1');
+    app.APP.get('/busRoute/positiondata', function(req, res){
+      console.log('RUN bus_busRouteWebviewHelper2');
+      console.log("responseData: " +JSON.stringify(responseData));
+      res.json(responseData);
+    })
+  }
+
+  // NOTE:
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
   var url = process.env.HEROKU_URL + '/busRoute';
@@ -274,6 +315,44 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   };//messageDat
   api.callSendAPI(messageData);
 }
+
+
+
+// var bus_handleMultipleStNm = function(event, possibleStArr) {
+//   console.log("RUN handleMultipleStNm!");
+//   // NOTE:
+//
+//
+//   // NOTE:
+//   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
+//   var title = "같은 이름의 여러 정류장이 검색되었어!";
+//   var url = process.env.HEROKU_URL + '/busRoute';
+//   app.bus_busRouteWebviewHelper(event, possibleStArr);
+//   let messageData = {
+//     recipient: {
+//       id: event.sender.id
+//     },
+//     message: {
+//       "attachment":{
+//       "type":"template",
+//       "payload":{
+//         "template_type":"button",
+//         "text": title,
+//         "buttons":[
+//           {
+//             "type":"web_url",
+//             "url": url,
+//             "title":"지도를 보고 선택해줘!",
+//             "webview_height_ratio": "compact",
+//             "messenger_extensions": true,
+//           }
+//         ]
+//       }//payload
+//       }//attachment
+//     }//message
+//   };//messageDat
+//   api.callSendAPI(messageData);
+// }
 
 var sendArriveMsg = function(event, busRouteId, stId, callback) {
   console.log('TEST busTest');

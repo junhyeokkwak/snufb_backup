@@ -15,6 +15,7 @@ var apiai = require('apiai');
 var nlpapp = apiai("542cfeef5714428193dc4478760de396");
 
 var app = express();
+module.export.APP = app; 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
@@ -190,16 +191,16 @@ app.post('/register/re_user', function(req, res){
     // res.render('register-success', {data = req.body});
 });
 
-app.get('/busRoute', function(req, res){
-  res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
-});
-
-app.post('/busRoute/send_log', function(req, res){
-  console.log(req.body.data);
-  var responseData = {'result' : 'ok', 'data' : req.body.data}
-  res.json(responseData);
-})
-
+// app.get('/busRoute', function(req, res){
+//   res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
+// });
+//
+// app.post('/busRoute/send_log', function(req, res){
+//   console.log(req.body.data);
+//   var responseData = {'result' : 'ok', 'data' : req.body.data}
+//   res.json(responseData);
+// })
+//
 // app.post('/busRoute/send_result', function(req, res){
 //   console.log(req.body.data);
 //   var data = JSON.parse(req.body.data)
@@ -208,46 +209,26 @@ app.post('/busRoute/send_log', function(req, res){
 //     console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
 //     connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
 //
-//     connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-//       var busRouteId = (result[0].busRouteId).toString();
-//       bus.sendArriveMsg(event, busRouteId, data.selectedSTID);
-//     });
+//     // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+//     //   var busRouteId = (result[0].busRouteId).toString();
+//     //   bus.sendArriveMsg(event, busRouteId, data.selectedSTID);
+//     // });
 //   } else {
 //     console.log("ERR in /busRoute/send_result");
 //   }
 //   var responseData = {'result' : 'ok', 'data' : req.body.data}
 //   res.json(responseData);
 // })
-
-var bus_busRouteWebviewHelper = function(event, responseData) {
-  console.log('RUN bus_busRouteWebviewHelper1');
-  app.get('/busRoute/positiondata', function(req, res){
-    console.log('RUN bus_busRouteWebviewHelper2');
-    console.log("responseData: " +JSON.stringify(responseData));
-    res.json(responseData);
-  })
-
-  app.post('/busRoute/send_result', function(req, res){
-    console.log(req.body.data);
-    var data = JSON.parse(req.body.data)
-    // console.log(data);
-    if (data.responseType == "busStationWebview_STID") {
-      console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
-      connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
-
-      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-        var busRouteId = (result[0].busRouteId).toString();
-        bus.sendArriveMsg(event, busRouteId, data.selectedSTID);
-      });
-    } else {
-      console.log("ERR in /busRoute/send_result");
-    }
-    var responseData = {'result' : 'ok', 'data' : req.body.data}
-    res.json(responseData);
-  })
-
-}
-module.exports.bus_busRouteWebviewHelper = bus_busRouteWebviewHelper;
+//
+// var bus_busRouteWebviewHelper = function(event, responseData) {
+//   console.log('RUN bus_busRouteWebviewHelper1');
+//   app.get('/busRoute/positiondata', function(req, res){
+//     console.log('RUN bus_busRouteWebviewHelper2');
+//     console.log("responseData: " +JSON.stringify(responseData));
+//     res.json(responseData);
+//   })
+// }
+// module.exports.bus_busRouteWebviewHelper = bus_busRouteWebviewHelper;
 
 
 app.listen(app.get('port'), function () {
