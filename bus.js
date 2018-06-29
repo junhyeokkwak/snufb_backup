@@ -135,7 +135,7 @@ var bus_confirmBusNum = function(event) {
 var bus_askStNm = function(event) {
   console.log("RUN bus_askBusNum");
   var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
-  var jsonData=JSON.parse(data), msg = event.message.text, stNmArr = [], stNm;
+  var jsonData=JSON.parse(data), msg = event.message.text, stNameArr = [], stNm;
 
   task = [
     function(callback) {
@@ -147,16 +147,16 @@ var bus_askStNm = function(event) {
           // NOTE: if there is confirmed busNum, search only the stations which the bus go through
           console.log("USER ALREADY CONFIRED busNum");
           for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
-            if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) { stNmArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);}
+            if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) { stNameArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);}
             if (i === jsonData.busRouteId_stId_staOrd.length-1) {
-              // console.log("stNmArr: "+stNmArr);
-              callback(null, util.getSimilarStrings(msg, stNmArr, -1, stNmArr.length));
+              // console.log("stNameArr: "+stNameArr);
+              callback(null, util.getSimilarStrings(msg, stNameArr, -1, stNameArr.length));
             }
           }
         } else {
           // NOTE: if there is no confirmed busNum, search all the stations
           console.log("USER DID NOT CONFIRED busNum YET");
-          callback(null, util.getSimilarStrings(msg,  jsonData.stNmArr, -1, jsonData.stNmArr.length));
+          callback(null, util.getSimilarStrings(msg,  jsonData.stNameArr, -1, jsonData.stNameArr.length));
         }
       });
     },
