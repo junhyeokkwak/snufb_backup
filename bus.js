@@ -226,7 +226,7 @@ var bus_confirmStNm = function(event) {
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
               if (possibleStArr.length >= 2) {
                 // bus_handleMultipleStNm(event, possibleStArr);
-                console.log(bus_handleMultipleStNm(event, possibleStArr));
+                bus_handleMultipleStNm(event, possibleStArr);
                 console.log("ALERT: There are two or more stations with the same stNm.");
               } else {
                 stId = possibleStArr[0].stId;
@@ -263,8 +263,9 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
     if (data.responseType == "busStationWebview_STID") {
       console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
       connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
-      // sendArriveMsg(event, busRouteId, data.selectedSTID);
-      return data.selectedSTID;
+      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+        sendArriveMsg(event, result[0].busRouteId, data.selectedSTID);
+      });
     } else {
       // console.log("ERR in /busRoute/send_result");
       return "ERR in /busRoute/send_result";
