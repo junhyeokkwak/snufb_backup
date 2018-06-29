@@ -108,10 +108,12 @@
         map.setCenter(new naver.maps.LatLng(avgYpos, avgXpos));
       }
     }
-    marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
-    generateMarkerListener(marker1);
-    marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
-    generateMarkerListener(marker2);
+    generateMarkerListener(generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos));
+    generateMarkerListener(generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos));
+    // marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
+    // generateMarkerListener(marker1);
+    // marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
+    // generateMarkerListener(marker2);
   }
 
   var generateMarker = function(key ,xpos, ypos){
@@ -130,6 +132,7 @@
   var generateMarkerListener = function(marker) {
     naver.maps.Event.addListener(marker, 'click', function() {
         var messageData = {
+          "responseType" : "busStationWebview STID"
           "user_psid" : user_psid,
           "selectedSTID" : marker.title,
         }
