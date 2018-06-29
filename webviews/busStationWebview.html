@@ -34,7 +34,7 @@
        MessengerExtensions.getContext('2169355909963830',
          function success(result){
            user_psid = result.psid;
-           alert(user_psid);
+           // alert(user_psid);
            // initInput(user_psid);
            // console.log("Success: "+ result.psid);
          },
@@ -108,20 +108,26 @@
       }
     }
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
-    naver.maps.Event.addListener(marker1, 'click', function() {
-        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
-        sendAjax('/busRoute/send_result', {"selectedSTID" : marker1.title}).then((value) =>
-          {
-            if (!value) { closeWindow() }
-            else { closeWindow() }
-          }
-      );
-    });
+    generateMarkerListener(marker1);
+    // naver.maps.Event.addListener(marker1, 'click', function() {
+    //     swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
+    //     sendAjax('/busRoute/send_result', {"selectedSTID" : marker1.title}).then((value) =>
+    //       {
+    //         if (!value) { closeWindow() }
+    //         else { closeWindow() }
+    //       }
+    //   );
+    // });
     marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
-    naver.maps.Event.addListener(marker2, 'click', function() {
-        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
-        sendAjax('/busRoute/send_result', {"selectedSTID" : marker2.title});
-    });
+    generateMarkerListener(marker2);
+    // naver.maps.Event.addListener(marker2, 'click', function() {
+    //     var messageData = {
+    //       "user_psid" : user_psid,
+    //       "selectedSTID" : marker2.title,
+    //     }
+    //     swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
+    //     sendAjax('/busRoute/send_result', messageData);
+    // });
   }
 
   var generateMarker = function(key ,xpos, ypos){
@@ -134,6 +140,17 @@
       clickable: true,
       title: key,
       cursor: key,
+    });
+  }
+
+  var generateMarkerListener = function(marker) {
+    naver.maps.Event.addListener(marker, 'click', function() {
+        var messageData = {
+          "user_psid" : user_psid,
+          "selectedSTID" : marker.title,
+        }
+        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
+        sendAjax('/busRoute/send_result', messageData);
     });
   }
 
