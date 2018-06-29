@@ -18,10 +18,19 @@ var connection = mysql.createConnection(process.env.DATABASE_URL);
 
 var initBusConv = function(event) {
   console.log('RUN initBusConv');
+
   var task = [
     function(callback){
       var err;
       connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
+      var new_busSearch = JSON.stringify({
+        "busRouteId": null,
+        "busNum": null,
+        "staOrd": null,
+        "stNm": null,
+        "stId": null,
+      });
+      connection.query(`UPDATE Users SET busSearch="${new_busSearch}" WHERE user_id=` + event.sender.id);
       callback(null, err);
     },
     function(err, callback){
@@ -75,7 +84,13 @@ var bus_askBusNum = function(event) {
       } else {
         busNum = possibleBusArr[0]._text;
         connection.query('UPDATE Users SET conv_context="bus_confirmBusNum" WHERE user_id=' + event.sender.id);
-        connection.query(`UPDATE Users SET busNum="${busNum}" WHERE user_id=` + event.sender.id);
+        // connection.query(`UPDATE Users SET busNum="${busNum}" WHERE user_id=` + event.sender.id);
+        connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
+          console.log(result[0].busSearch);
+          new_busSearch = JSON.parse(result[0].busSearch);
+          new_busSearch.busNum = busNum;
+          connection.query(`UPDATE Users SET busSearch="${new_busSearch}" WHERE user_id=` + event.sender.id);
+        })
         var messageData = {"text": `${busNum}번 버스 맞아??`};
         api.sendResponse(event, messageData);
         callback(null);
@@ -221,7 +236,7 @@ var bus_confirmStNm = function(event) {
             }
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
               if (possibleStArr.length >= 2) {
-                sendArriveMsg(event, busRouteId, bus_handleMultipleStNm(event, possibleStArr));
+                bus_handleMultipleStNm(event, possibleStArr);
                 console.log("ALERT: There are two or more stations with the same stNm.");
               } else {
                 stId = possibleStArr[0].stId;
@@ -240,12 +255,12 @@ var bus_confirmStNm = function(event) {
 }
 
 
-var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
+var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("RUN handleMultipleStNm!");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
   var url = process.env.HEROKU_URL + '/busRoute';
-  return app.bus_busRouteWebviewHelper(event, possibleStArr);
+  app.bus_busRouteWebviewHelper(event, possibleStArr);
   let messageData = {
     recipient: {
       id: event.sender.id
@@ -489,5 +504,6 @@ module.exports = {
     "bus_askStNm" : bus_askStNm,
     "bus_confirmStNm" : bus_confirmStNm,
     "bus_handleMultipleStNm" : bus_handleMultipleStNm,
+
   }
 };
