@@ -189,31 +189,53 @@ app.post('/register/re_user', function(req, res){
     // res.render('register-success', {data = req.body});
 });
 
-app.get('/busRoute', function(req, res){
-  res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
-});
+// app.get('/busRoute', function(req, res){
+//   res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
+// });
 
-app.post('/busRoute/send_log', function(req, res){
-  console.log(req.body.data);
-  var responseData = {'result' : 'ok', 'data' : req.body.data}
-  res.json(responseData);
-})
-
-app.post('/busRoute/send_result', function(req, res){
-  console.log(req.body.data);
-  var data = JSON.parse(req.body.data)
-  console.log(data);
-  console.log(data.responseType + typeof data.responseType);
-  if (data.responseType == "busStationWebview_STID") {
-    console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
-  } else {
-    console.log("ERR in /busRoute/send_result");
-  }
-  var responseData = {'result' : 'ok', 'data' : req.body.data}
-  res.json(responseData);
-})
+// app.post('/busRoute/send_log', function(req, res){
+//   console.log(req.body.data);
+//   var responseData = {'result' : 'ok', 'data' : req.body.data}
+//   res.json(responseData);
+// })
+//
+// app.post('/busRoute/send_result', function(req, res){
+//   console.log(req.body.data);
+//   var data = JSON.parse(req.body.data)
+//   // console.log(data);
+//   if (data.responseType == "busStationWebview_STID") {
+//     console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
+//   } else {
+//     console.log("ERR in /busRoute/send_result");
+//   }
+//   var responseData = {'result' : 'ok', 'data' : req.body.data}
+//   res.json(responseData);
+// })
 
 var bus_busRouteWebviewHelper = function(event, responseData) {
+  app.get('/busRoute', function(req, res){
+    res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
+  });
+
+  app.post('/busRoute/send_log', function(req, res){
+    console.log(req.body.data);
+    var responseData = {'result' : 'ok', 'data' : req.body.data}
+    res.json(responseData);
+  })
+
+  app.post('/busRoute/send_result', function(req, res){
+    console.log(req.body.data);
+    var data = JSON.parse(req.body.data)
+    // console.log(data);
+    if (data.responseType == "busStationWebview_STID") {
+      console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
+    } else {
+      console.log("ERR in /busRoute/send_result");
+    }
+    var responseData = {'result' : 'ok', 'data' : req.body.data}
+    res.json(responseData);
+  })
+
   console.log('RUN bus_busRouteWebviewHelper1');
   app.get('/busRoute/positiondata', function(req, res){
     console.log('RUN bus_busRouteWebviewHelper2');
