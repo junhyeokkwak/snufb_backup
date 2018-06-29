@@ -143,9 +143,9 @@ var bus_askStNm = function(event) {
       connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
         if (err) throw err;
         console.log("BUSNUM that user chose:" + result[0].busNum);
-        if (result[0].busNum != ("none" && "")) {
+        if (result[0].busNum != ("none" && "" && null)) {
           // NOTE: if there is confirmed busNum, search only the stations which the bus go through
-          console.log("USER DID NOT CONFIRED busNum YET");
+          console.log("USER ALREADY CONFIRED busNum");
           for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
             if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) { stNmArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);}
             if (i === jsonData.busRouteId_stId_staOrd.length-1) {
@@ -155,7 +155,7 @@ var bus_askStNm = function(event) {
           }
         } else {
           // NOTE: if there is no confirmed busNum, search all the stations
-          console.log("USER ALREADY CONFIRED busNum");
+          console.log("USER DID NOT CONFIRED busNum YET");
           callback(null, util.getSimilarStrings(msg,  jsonData.stNmArr, -1, jsonData.stNmArr.length));
         }
       });
@@ -212,30 +212,54 @@ var bus_confirmStNm = function(event) {
         connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
           if (err) throw err;
           // console.log(result[0].busNum);
-          var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
-          api.sendResponse(event, messageData);
+          // var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
+          // api.sendResponse(event, messageData);
           // console.log(busRouteJsonData.busNum_busRouteId);
-          busNum = (result[0].busNum).toString();
-          busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
-          console.log(`busNum: ${result[0].busNum} stNm: ${result[0].stNm}`);
-          for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
-            if ((busRouteJsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) && (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == result[0].stNm)) {
-              console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
-              possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
-            }
-            if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
-              if (possibleStArr.length >= 2) {
-                // bus_handleMultipleStNm(event, possibleStArr);
-                bus_handleMultipleStNm(event, possibleStArr);
-                console.log("ALERT: There are two or more stations with the same stNm.");
-              } else {
-                stId = possibleStArr[0].stId;
-                console.log("busRouteId: " + busRouteId + " stId: " + stId);
-                // NOTE: SEND API REQUEST
-                sendArriveMsg(event, busRouteId, stId);
-              }//else
-            }//if
-          }//for loop
+          if (result[0].busNum != ("none" && "" && null)) {
+            busNum = (result[0].busNum).toString();
+            busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
+            console.log(`busNum: ${result[0].busNum} stNm: ${result[0].stNm}`);
+            for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
+              if ((busRouteJsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) && (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == result[0].stNm)) {
+                console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
+                possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
+              }
+              if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
+                if (possibleStArr.length >= 2) {
+                  // bus_handleMultipleStNm(event, possibleStArr);
+                  bus_handleMultipleStNm(event, possibleStArr);
+                  console.log("ALERT: There are two or more stations with the same stNm.");
+                } else {
+                  stId = possibleStArr[0].stId;
+                  console.log("busRouteId: " + busRouteId + " stId: " + stId);
+                  // NOTE: SEND API REQUEST
+                  sendArriveMsg(event, busRouteId, stId);
+                }//else
+              }//if
+            }//for loop
+          } else {
+            console.log("NO BUSNUM");
+            // console.log(`busNum: ${result[0].busNum} stNm: ${result[0].stNm}`);
+            for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
+              if (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == result[0].stNm) {
+                console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
+                possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
+              }
+              if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
+                if (possibleStArr.length >= 2) {
+                  // bus_handleMultipleStNm(event, possibleStArr);
+                  bus_handleMultipleStNm(event, possibleStArr);
+                  console.log("ALERT: There are two or more stations with the same stNm.");
+                } else {
+                  console.log("ONLY ONE STNM");
+                  stId = possibleStArr[0].stId;
+                  // console.log("busRouteId: " + busRouteId + " stId: " + stId);
+                  // // NOTE: SEND API REQUEST
+                  // sendArriveMsg(event, busRouteId, stId);
+                }//else
+              }//if
+            }//for loop
+          }
         }); //query
         // NOTE: if USER already confirmed stNm
       }
@@ -261,6 +285,9 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
     var data = JSON.parse(req.body.data)
     // console.log(data);
     if (data.responseType == "busStationWebview_STID") {
+      var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
+      api.sendResponse(event, messageData);
+
       console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
       connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
       connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
