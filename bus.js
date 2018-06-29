@@ -146,7 +146,7 @@ var bus_askStNm = function(event) {
         if (result[0].busNum != ("none" && "")) {
           // NOTE: if there is confirmed busNum, search only the stations which the bus go through
           console.log("USER DID NOT CONFIRED busNum YET");
-          for (var i = 0; i < jsonData._stId_staOrd.length; i++) {
+          for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
             if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) { stNmArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);}
             if (i === jsonData.busRouteId_stId_staOrd.length-1) {
               // console.log("stNmArr: "+stNmArr);
@@ -225,7 +225,7 @@ var bus_confirmStNm = function(event) {
             }
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
               if (possibleStArr.length >= 2) {
-                // bus_handleMultipleStNm(event, possibleStArr);
+                bus_handleMultipleStNm(event, possibleStArr);
                 console.log(bus_handleMultipleStNm(event, possibleStArr));
                 console.log("ALERT: There are two or more stations with the same stNm.");
               } else {
