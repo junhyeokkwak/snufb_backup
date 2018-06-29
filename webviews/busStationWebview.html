@@ -12,8 +12,6 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- NOTE: messengerSDK module : temporary closed -->
   <script>
-
-
     window.fbAsyncInit = function() {
        FB.init({
          appId      : '2169355909963830',
@@ -37,8 +35,8 @@
          function success(result){
            user_psid = result.psid;
            alert(user_psid);
-           initInput(user_psid);
-           console.log("Success: "+ result.psid);
+           // initInput(user_psid);
+           // console.log("Success: "+ result.psid);
          },
          function error(result){
            swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ\n 혹시 컴퓨터로 접속했니?", "error")
@@ -114,17 +112,16 @@
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
     naver.maps.Event.addListener(marker1, 'click', function() {
         swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
-        sendAjax('/busRoute/send_result', {"selectedSTID" : marker1.title});
+        sendAjax('/busRoute/send_result', {"selectedSTID" : marker1.title}).then((value) =>
+          if (!value) { closeWindow() }
+          else { closeWindow() }
+      );
     });
     marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
     naver.maps.Event.addListener(marker2, 'click', function() {
         swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
         sendAjax('/busRoute/send_result', {"selectedSTID" : marker2.title});
     });
-  }
-
-  var setMap = function(xpos, ypos) {
-
   }
 
   var generateMarker = function(key ,xpos, ypos){
@@ -142,8 +139,7 @@
 
   function sendAjax(url, data){
     // 입력값을 변수에 담고 문자열 형태로 변환
-    var data = {'email' : data};
-    data = JSON.stringify(data);
+    var data = JSON.stringify(data);
     // content-type을 설정하고 데이터 송신
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url);
