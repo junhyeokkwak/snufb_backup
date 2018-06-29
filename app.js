@@ -201,9 +201,11 @@ app.post('/busRoute/send_log', function(req, res){
 
 app.post('/busRoute/send_result', function(req, res){
   console.log(req.body.data);
-  console.log(req.body.data.responseType + typeof req.body.data.responseType);
-  if (req.body.data.responseType == "busStationWebview_STID") {
-    console.log("selectedSTID: " + JSON.stringify(req.body.data.selectedSTID));
+  var data = JSON.parse(req.body.data)
+  console.log(data);
+  console.log(data.responseType + typeof data.responseType);
+  if (data.responseType == "busStationWebview_STID") {
+    console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
   } else {
     console.log("ERR in /busRoute/send_result");
   }
