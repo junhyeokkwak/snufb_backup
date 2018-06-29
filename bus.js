@@ -246,33 +246,31 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   var url = process.env.HEROKU_URL + '/busRoute';
 
   app.bus_busRouteWebviewHelper(event, possibleStArr);
-  // api.handleWebview(event, title, url, "tall");
+  // api.handleWebview(event, title, url, size)
   let messageData = {
     recipient: {
       id: event.sender.id
     },
     message: {
       "attachment":{
-        "payload":{
-          "elements":[{
-            "buttons": [
-              {
-                "title":title,
-                "type":"web_url",
-                "url":url,
-                "webview_height_ratio": "tall",
-                "messenger_extensions" : true,
-              },
-            ],
-            "image_url" : './E_WebviewBGShd-01.jpg',
-            "title":""
-          }],
-          "template_type":"generic"
-        },
-        "type":"template"
-      }
-    }
-  };
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text": title,
+        "buttons":[
+          {
+            "type":"web_url",
+            "url": url,
+            "title":"지도를 보고 선택해줘!",
+            "webview_height_ratio": "tall",
+            "messenger_extensions": true,
+          }
+        ]
+      }//payload
+      }//attachment
+    }//message
+  };//messageDat
+
   api.callSendAPI(messageData);
 }
 
