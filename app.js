@@ -197,6 +197,7 @@ app.get('/busRoute', function(req, res){
 //   res.send("welcome! " + req.body.email)
 // })
 app.post('/busRoute/send_result', function(req, res){
+  console.log("GET data : /busRoute/send_result");
   console.log(req.body);
   // var responseData = {'result' : 'ok', 'email' : req.body.email}
   // res.json(responseData);
