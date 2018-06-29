@@ -18,19 +18,10 @@ var connection = mysql.createConnection(process.env.DATABASE_URL);
 
 var initBusConv = function(event) {
   console.log('RUN initBusConv');
-
   var task = [
     function(callback){
       var err;
       connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
-      var new_busSearch = JSON.stringify({
-        "busRouteId": null,
-        "busNum": null,
-        "staOrd": null,
-        "stNm": null,
-        "stId": null,
-      });
-      connection.query(`UPDATE Users SET busSearch="${new_busSearch}" WHERE user_id=` + event.sender.id);
       callback(null, err);
     },
     function(err, callback){
@@ -84,13 +75,7 @@ var bus_askBusNum = function(event) {
       } else {
         busNum = possibleBusArr[0]._text;
         connection.query('UPDATE Users SET conv_context="bus_confirmBusNum" WHERE user_id=' + event.sender.id);
-        // connection.query(`UPDATE Users SET busNum="${busNum}" WHERE user_id=` + event.sender.id);
-        connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function (err, result, fields) {
-          console.log(result[0].busSearch);
-          new_busSearch = JSON.parse(result[0].busSearch);
-          new_busSearch.busNum = busNum;
-          connection.query(`UPDATE Users SET busSearch="${new_busSearch}" WHERE user_id=` + event.sender.id);
-        })
+        connection.query(`UPDATE Users SET busNum="${busNum}" WHERE user_id=` + event.sender.id);
         var messageData = {"text": `${busNum}번 버스 맞아??`};
         api.sendResponse(event, messageData);
         callback(null);
@@ -103,6 +88,7 @@ var bus_askBusNum = function(event) {
 var bus_confirmBusNum = function(event) {
   console.log("RUN bus_confirmBusNum");
   var data=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
+  var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
   var jsonData=JSON.parse(data);
   var msg = event.message.text;
   var busNum;
@@ -132,6 +118,8 @@ var bus_confirmBusNum = function(event) {
         connection.query('SELECT busNum FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
           if (err) throw err;
           // console.log(result[0].busNum);
+          var busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
+          connection.query(`UPDATE Users SET busRouteId="${busRouteId}" WHERE user_id=` + event.sender.id);
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스로 찾아줄게! 정류장은 어디야?`};
           api.sendResponse(event, messageData);
           callback(null);
@@ -284,7 +272,6 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
       }//attachment
     }//message
   };//messageDat
-
   api.callSendAPI(messageData);
 }
 
@@ -335,6 +322,7 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
   ]
   async.waterfall(task);
 }
+module.exports.sendArriveMsg = sendArriveMsg;
 
 // var busTest = function(event) {
 //   console.log('TEST busTest');
@@ -504,6 +492,5 @@ module.exports = {
     "bus_askStNm" : bus_askStNm,
     "bus_confirmStNm" : bus_confirmStNm,
     "bus_handleMultipleStNm" : bus_handleMultipleStNm,
-
   }
 };
