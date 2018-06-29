@@ -110,25 +110,8 @@
     }
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
     generateMarkerListener(marker1);
-    // naver.maps.Event.addListener(marker1, 'click', function() {
-    //     swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
-    //     sendAjax('/busRoute/send_result', {"selectedSTID" : marker1.title}).then((value) =>
-    //       {
-    //         if (!value) { closeWindow() }
-    //         else { closeWindow() }
-    //       }
-    //   );
-    // });
     marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
     generateMarkerListener(marker2);
-    // naver.maps.Event.addListener(marker2, 'click', function() {
-    //     var messageData = {
-    //       "user_psid" : user_psid,
-    //       "selectedSTID" : marker2.title,
-    //     }
-    //     swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
-    //     sendAjax('/busRoute/send_result', messageData);
-    // });
   }
 
   var generateMarker = function(key ,xpos, ypos){
@@ -152,22 +135,9 @@
         }
         // swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
         sendAjax('/busRoute/send_result', messageData);
-        swal({
-            title: "Are you sure?",
-            text: "Do you want to change the dropdown?",
-            type: "success",
-            confirmButtonText: "Yes",
-            closeOnConfirm: true,
-        },
-        function(isConfirm) {
-            if (isConfirm) {
-                // e.preventDefault();
-                closeWindow()
-                return true;
-            } else {
-              // closeWindow()
-               return false;
-            }
+        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+        .then((value) => {
+          closeWindow();
         });
         // sendAjax('/busRoute/send_result', messageData);
     });
@@ -188,7 +158,16 @@
     });
   }
 
+  function swalTest() {
+    swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+    .then((value) => {
+      closeWindow();
+    });
+  }
+
 </script>
+
+<!-- <button onclick="swalTest()">TEST</button> -->
 
 </body>
 </html>
