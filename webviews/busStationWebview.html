@@ -11,7 +11,9 @@
 <body>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- NOTE: messengerSDK module : temporary closed -->
-  <!-- <script>
+  <script>
+
+
     window.fbAsyncInit = function() {
        FB.init({
          appId      : '2169355909963830',
@@ -55,10 +57,12 @@
    }
    module.exports.closeWindow = closeWindow;
 
-   function initInput(user_psid) {
-     alert(user_psid);
-   }
-  </script> -->
+   // function initInput(user_psid) {
+   //   alert(user_psid);
+   // }
+
+  </script>
+  <button onclick="closeWindow()">close this shit</button>
   <div id="map" style="width:100%;height:400px;"></div>
 <script>
   window.onload = function() {
@@ -101,21 +105,19 @@
       sumYpos += Number(positionData[i].ypos);
       if(i == positionData.length-1) {
         sendAjax('/busRoute/send_result', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
-        var center = new naver.maps.LatLng((sumYpos/positionData.length), (sumXpos/positionData.length));
-        map.setCenter(new naver.maps.LatLng(37.5540291075, 126.9400304329));
+        var avgXpos = sumXpos / positionData.length;
+        var avgYpos = sumYpos / positionData.length;
+        map.setCenter(new naver.maps.LatLng(avgYpos, avgYpos));
       }
     }
     marker1 = generateMarker(positionData[0].stId, positionData[0].xpos, positionData[0].ypos);
     naver.maps.Event.addListener(marker1, 'click', function() {
-        // map.zoomBy(delta, marker.getPosition(), true);
-        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
         sendAjax('/busRoute/send_result', {"selectedSTID" : marker1.title});
     });
     marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
     naver.maps.Event.addListener(marker2, 'click', function() {
-        // map.zoomBy(delta, marker.getPosition(), true);
-        // swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
-        alert("hi")
+        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
         sendAjax('/busRoute/send_result', {"selectedSTID" : marker2.title});
     });
   }
