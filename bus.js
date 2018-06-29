@@ -221,7 +221,7 @@ var bus_confirmStNm = function(event) {
             }
             if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
               if (possibleStArr.length >= 2) {
-                bus_handleMultipleStNm(event, possibleStArr);
+                sendArriveMsg(event, busRouteId, bus_handleMultipleStNm(event, possibleStArr));
                 console.log("ALERT: There are two or more stations with the same stNm.");
               } else {
                 stId = possibleStArr[0].stId;
@@ -240,12 +240,12 @@ var bus_confirmStNm = function(event) {
 }
 
 
-var bus_handleMultipleStNm = function(event, possibleStArr) {
+var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
   console.log("RUN handleMultipleStNm!");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
   var url = process.env.HEROKU_URL + '/busRoute';
-  app.bus_busRouteWebviewHelper(event, possibleStArr);
+  return app.bus_busRouteWebviewHelper(event, possibleStArr);
   let messageData = {
     recipient: {
       id: event.sender.id

@@ -212,10 +212,17 @@ app.post('/register/re_user', function(req, res){
 //   res.json(responseData);
 // })
 
-var bus_busRouteWebviewHelper = function(event, responseData) {
+var bus_busRouteWebviewHelper = function(event, responseData, callback) {
   app.get('/busRoute', function(req, res){
     res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
   });
+
+  console.log('RUN bus_busRouteWebviewHelper1');
+  app.get('/busRoute/positiondata', function(req, res){
+    console.log('RUN bus_busRouteWebviewHelper2');
+    console.log("responseData: " +JSON.stringify(responseData));
+    res.json(responseData);
+  })
 
   app.post('/busRoute/send_log', function(req, res){
     console.log(req.body.data);
@@ -229,17 +236,12 @@ var bus_busRouteWebviewHelper = function(event, responseData) {
     // console.log(data);
     if (data.responseType == "busStationWebview_STID") {
       console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
+      return data.selectedSTID;
     } else {
       console.log("ERR in /busRoute/send_result");
+      return false;
     }
     var responseData = {'result' : 'ok', 'data' : req.body.data}
-    res.json(responseData);
-  })
-
-  console.log('RUN bus_busRouteWebviewHelper1');
-  app.get('/busRoute/positiondata', function(req, res){
-    console.log('RUN bus_busRouteWebviewHelper2');
-    console.log("responseData: " +JSON.stringify(responseData));
     res.json(responseData);
   })
 }
