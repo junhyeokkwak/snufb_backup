@@ -203,6 +203,8 @@ app.post('/busRoute/send_result', function(req, res){
   console.log(req.body.data);
   if (req.body.data.responseType == 'busStationWebview_STID') {
     console.log("selectedSTID: " + JSON.stringify(req.body.data.selectedSTID));
+  } else {
+    console.log("ERR in /busRoute/send_result");
   }
   var responseData = {'result' : 'ok', 'data' : req.body.data}
   res.json(responseData);
