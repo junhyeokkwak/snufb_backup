@@ -120,7 +120,7 @@ var bus_confirmBusNum = function(event) {
           if (err) throw err;
           // console.log(result[0].busNum);
           // var busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
-          connection.query(`UPDATE Users SET busRouteId="${busRouteJsonData.busNum_busRouteId[busNum]}" WHERE user_id=` + event.sender.id);
+          connection.query(`UPDATE Users SET busRouteId="${busRouteJsonData.busNum_busRouteId[result[0].busNum]}" WHERE user_id=` + event.sender.id);
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스로 찾아줄게! 정류장은 어디야?`};
           api.sendResponse(event, messageData);
           callback(null);
@@ -146,7 +146,7 @@ var bus_askStNm = function(event) {
         if (result[0].busNum != ("none" && "")) {
           // NOTE: if there is confirmed busNum, search only the stations which the bus go through
           console.log("USER DID NOT CONFIRED busNum YET");
-          for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
+          for (var i = 0; i < jsonData._stId_staOrd.length; i++) {
             if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) { stNmArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);}
             if (i === jsonData.busRouteId_stId_staOrd.length-1) {
               // console.log("stNmArr: "+stNmArr);
@@ -262,11 +262,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
     if (data.responseType == "busStationWebview_STID") {
       console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
       connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
-
-      // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-      //   var busRouteId = (result[0].busRouteId).toString();
-      //   bus.sendArriveMsg(event, busRouteId, data.selectedSTID);
-      // });
+      sendArriveMsg(event, busRouteId, data.selectedSTID);
     } else {
       console.log("ERR in /busRoute/send_result");
     }
@@ -410,7 +406,7 @@ module.exports.sendArriveMsg = sendArriveMsg;
 //     busNum = txt.split("/")[0].replace(" ","");
 //     stNm =txt.split("/")[1].replace(" ","");
 //     console.log(`busNum: [${busNum}] stNm: [${stNm}]`);
-//     if (busNum == "153" || "153번") busRouteId = 100100032;
+//     if (busNum == "153" || "153번") send_log = 100100032;
 //     if (stNm == "연세대앞" || "연대앞") stId = 112000012;
 //     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
 //     var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
