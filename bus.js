@@ -482,15 +482,12 @@ var getStaOrd_fromOutside = function(busRouteId, stId, callback) {
 module.exports = {
   functionMatch: {
     "버스": initBusConv,
-    "busTest" : busTest,
+    // "busTest" : busTest,
     "bus_stNmORbusNum" : bus_stNmORbusNum,
     "bus_askBusNum" : bus_askBusNum,
     "bus_confirmBusNum" : bus_confirmBusNum,
     "bus_askStNm" : bus_askStNm,
     "bus_confirmStNm" : bus_confirmStNm,
     "bus_handleMultipleStNm" : bus_handleMultipleStNm,
-    // "busConv_1_Number" : busConv_1_Number,
-    // "busConv_2_Station" : busConv_2_Station,
-    // "busConv_3_Print" : busConv_3_Print,
   }
 };
