@@ -54,14 +54,12 @@
      });
     window.open('','_self',''); window.close(); // _parent
    }
-   module.exports.closeWindow = closeWindow;
-
    // function initInput(user_psid) {
    //   alert(user_psid);
    // }
 
   </script>
-  <button onclick="closeWindow()">close this shit</button>
+  <!-- <button onclick="closeWindow()">close this shit</button> -->
   <div id="map" style="width:100%;height:400px;"></div>
 <script>
   window.onload = function() {
@@ -113,8 +111,10 @@
     naver.maps.Event.addListener(marker1, 'click', function() {
         swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
         sendAjax('/busRoute/send_result', {"selectedSTID" : marker1.title}).then((value) =>
-          if (!value) { closeWindow() }
-          else { closeWindow() }
+          {
+            if (!value) { closeWindow() }
+            else { closeWindow() }
+          }
       );
     });
     marker2 = generateMarker(positionData[1].stId, positionData[1].xpos, positionData[1].ypos);
