@@ -193,18 +193,17 @@ app.get('/busRoute', function(req, res){
   res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
 });
 
-// app.post('/busRoute/send_log', function(req, res){
-//   console.log(req.body.data);
-//   var responseData = {'result' : 'ok', 'data' : req.body.data}
-//   res.json(responseData);
-// })
+app.post('/busRoute/send_log', function(req, res){
+  console.log(req.body.data);
+  var responseData = {'result' : 'ok', 'data' : req.body.data}
+  res.json(responseData);
+})
 
 app.post('/busRoute/send_result', function(req, res){
-  console.log("GET data : /busRoute/send_result");
   console.log(req.body.data);
-  // if (req.body.data.responseType == 'busStationWebview_STID') {
-  //   console.log("selectedSTID: " + JSON.stringify(req.body.data.selectedSTID));
-  // }
+  if (req.body.data.responseType == 'busStationWebview_STID') {
+    console.log("selectedSTID: " + JSON.stringify(req.body.data.selectedSTID));
+  }
   var responseData = {'result' : 'ok', 'data' : req.body.data}
   res.json(responseData);
 })

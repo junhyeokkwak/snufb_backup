@@ -1,4 +1,5 @@
 var app = require("./app");
+var
 var request = require("request");
 var https = require('https');
 var qr = require('./quick_replies');
@@ -45,12 +46,12 @@ var bus_stNmORbusNum = function(event) {
     var messageData = {"text": "미안ㅠㅠ무슨 말인지 모르겠어..조금 다르게 다시 말해 줄 수 있어?"};
     api.sendResponse(event, messageData);
   } else if (stNmORbusNum == "번호") {
-    console.log("번호");
+    console.log("START BUS ARR SEARCH with BUS_NUM");
     var messageData = {"text": "ㅋㅋ알겠어! 몇번 버스야??"};
     api.sendResponse(event, messageData);
     connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
   } else if (stNmORbusNum == "정류장") {
-    console.log("정류장");
+    console.log("START BUS ARR SEARCH with ST_NM");
     var messageData = {"text": "ㅋㅋ알겠어! 어느정류장이야??"};
     api.sendResponse(event, messageData);
     connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
@@ -96,7 +97,7 @@ var bus_confirmBusNum = function(event) {
       callback(null, util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length));
     },
     function(agreementArr, callback) {
-      console.log("agreementArr: "+agreementArr);
+      // console.log("agreementArr: "+agreementArr);
       if (agreementArr[0].similarity == 0) {
         if (util.getSimilarStrings(msg,  jsonData.agreementArr, -1, jsonData.agreementArr.length)[0].similarity == 0) {
           connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
@@ -116,7 +117,7 @@ var bus_confirmBusNum = function(event) {
         connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
         connection.query('SELECT busNum FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
           if (err) throw err;
-          console.log(result[0].busNum);
+          // console.log(result[0].busNum);
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스로 찾아줄게! 정류장은 어디야?`};
           api.sendResponse(event, messageData);
           callback(null);
@@ -145,7 +146,7 @@ var bus_askStNm = function(event) {
           for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
             if (jsonData.busRouteId_stId_staOrd[i].plainNo == result[0].busNum) { stNmArr.push(jsonData.busRouteId_stId_staOrd[i].stNm);}
             if (i === jsonData.busRouteId_stId_staOrd.length-1) {
-              console.log("stNmArr: "+stNmArr);
+              // console.log("stNmArr: "+stNmArr);
               callback(null, util.getSimilarStrings(msg, stNmArr, -1, stNmArr.length));
             }
           }
@@ -157,7 +158,7 @@ var bus_askStNm = function(event) {
       });
     },
     function(possibleStArr, callback) {
-      console.log("possibleBusArr: "+possibleStArr[0]);
+      // console.log("possibleBusArr: "+possibleStArr[0]);
       if (possibleStArr[0].similarity == 0) {
         connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
         var messageData = {"text": "무슨 정류장인지 모르겠어:( 다시 말해 줄 수 있어?"};
@@ -244,9 +245,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
   var url = process.env.HEROKU_URL + '/busRoute';
-
   app.bus_busRouteWebviewHelper(event, possibleStArr);
-  // api.handleWebview(event, title, url, size)
   let messageData = {
     recipient: {
       id: event.sender.id
@@ -288,12 +287,10 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
     },
     function(busNum, stNm, callback){
       console.log(`busNum: [${busNum}] stNm: [${stNm}] busRouteId: [${busRouteId}] stId: [${stId}]`);
-      // var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
-      // api.sendResponse(event, messageData);
       getBusArriveInfo(busRouteId, stId, function(resultData) {
         console.log("resultData:" + resultData);
         if (resultData == ("결과없음"&&"인증실패")) {
-          console.log("FUCK IT");
+          console.log("결과없음/인증실패");
         } else {
           console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
           var arrmsg1_final, arrmsg2_final, extramsg;
@@ -324,58 +321,57 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
   async.waterfall(task);
 }
 
-var busTest = function(event) {
-  console.log('TEST busTest');
-  if (event.message.text.indexOf('/') > -1) {
-    console.log('VALID busTest INPUT');
-    var txt = event.message.text;
-    var busNum, stNm, busRouteId, stId;
-    busNum = txt.split("/")[0].replace(" ","");
-    stNm =txt.split("/")[1].replace(" ","");
-    console.log(`busNum: [${busNum}] stNm: [${stNm}]`);
-    if (busNum == "153" || "153번") busRouteId = 100100032;
-    if (stNm == "연세대앞" || "연대앞") stId = 112000012;
-    console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
-    var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
-    api.sendResponse(event, messageData);
-
-    getBusArriveInfo(busRouteId, stId, function(resultData) {
-      console.log("resultData"+resultData);
-      if (resultData == ("결과없음"&&"인증실패")) {
-        console.log("FUCK IT");
-      } else {
-        console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
-        // console.log("in busTest arrmsg1: " + resultData.arrmsg1);
-        var arrmsg1_final, arrmsg2_final, extramsg;
-        if (resultData.arrmsg1.indexOf("곧") > -1) {
-          arrmsg1_final = '곧 도착하구';
-          extramsg = '얼른 뛰어가!!'
-        } else {
-          arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
-          extramsg = '서둘러 가는게 좋겠지??'
-        }
-        if (resultData.arrmsg2 == "곧 도착") {
-          arrmsg2_final = '곧 도착해!!';
-        } else {
-          arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
-        }
-        var entiremsg_final = `${stNm}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
-        var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
-        api.sendResponse(event, messageData);
-      }
-    });
-  } else {
-    console.log('INVALID busTest INPUT');
-    var messageData = {"text": "아직 데이터 베이스에 없는 버스번호/정류장 이름이야!"};
-    api.sendResponse(event, messageData);
-  }
-};
+// var busTest = function(event) {
+//   console.log('TEST busTest');
+//   if (event.message.text.indexOf('/') > -1) {
+//     console.log('VALID busTest INPUT');
+//     var txt = event.message.text;
+//     var busNum, stNm, busRouteId, stId;
+//     busNum = txt.split("/")[0].replace(" ","");
+//     stNm =txt.split("/")[1].replace(" ","");
+//     console.log(`busNum: [${busNum}] stNm: [${stNm}]`);
+//     if (busNum == "153" || "153번") busRouteId = 100100032;
+//     if (stNm == "연세대앞" || "연대앞") stId = 112000012;
+//     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
+//     var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
+//     api.sendResponse(event, messageData);
+//
+//     getBusArriveInfo(busRouteId, stId, function(resultData) {
+//       console.log("resultData"+resultData);
+//       if (resultData == ("결과없음"&&"인증실패")) {
+//         console.log("결과없음/인증실패");
+//       } else {
+//         console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
+//         var arrmsg1_final, arrmsg2_final, extramsg;
+//         if (resultData.arrmsg1.indexOf("곧") > -1) {
+//           arrmsg1_final = '곧 도착하구';
+//           extramsg = '얼른 뛰어가!!'
+//         } else {
+//           arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
+//           extramsg = '서둘러 가는게 좋겠지??'
+//         }
+//         if (resultData.arrmsg2 == "곧 도착") {
+//           arrmsg2_final = '곧 도착해!!';
+//         } else {
+//           arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
+//         }
+//         var entiremsg_final = `${stNm}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
+//         var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
+//         api.sendResponse(event, messageData);
+//       }
+//     });
+//   } else {
+//     console.log('INVALID busTest INPUT');
+//     var messageData = {"text": "아직 데이터 베이스에 없는 버스번호/정류장 이름이야!"};
+//     api.sendResponse(event, messageData);
+//   }
+// };
 
 var getBusArriveInfo = function(busRouteId, stId, callback) {
   console.log("RUN getBusArriveInfo");
   var staOrd, options, arrmsg1, arrmsg2, resultData;
   getStaOrd_fromInside(busRouteId, stId, function(res){
-    console.log("IN getBusArriveInfo staOrd:" + res);
+    // console.log("IN getBusArriveInfo staOrd:" + res);
     staOrd = res;
     console.log(`getBusArriveInfo busRouteId:[${busRouteId}] stId:[${stId}] staOrd:[${staOrd}]`);
     var options_url = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute`;
@@ -392,8 +388,7 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
       var xmlData = body;
       var jsonStrData_Compact = convert.xml2json(xmlData, {compact: true, spaces: 4});
       var jsonData = JSON.parse(jsonStrData_Compact);
-      console.log("typeof jsonData: " + typeof jsonData);
-      // console.log("JSON TEST for getBusArriveInfo: " + JSON.stringify(jsonData));
+      // console.log("typeof jsonData: " + typeof jsonData);
       console.log("HEADERMSG: " + JSON.stringify(jsonData.ServiceResult.msgHeader.headerMsg._text));
       if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > -1) {
         console.log("인증실패");
@@ -427,7 +422,7 @@ var getStaOrd_fromInside = function(busRouteId, stId, callback) {
   }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
   var itemListSize = jsonData.busRouteId_stId_staOrd.length;
-  console.log(itemListSize)
+  // console.log(itemListSize)
   for (var i = 0; i < itemListSize; i++) {
     if (jsonData.busRouteId_stId_staOrd[i].stId == stId_target && jsonData.busRouteId_stId_staOrd[i].busRouteId == busRouteId) {
       ord = jsonData.busRouteId_stId_staOrd[i].staOrd;
