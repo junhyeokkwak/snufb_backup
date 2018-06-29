@@ -238,69 +238,12 @@ var bus_confirmStNm = function(event) {
   async.waterfall(task);
 }
 
-// var bus_handleMultipleStNm = function(event, possibleStArr) {
-//   console.log("RUN handleMultipleStNm!");
-//   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
-//
-//
-//   var url = process.env.HEROKU_URL + '/busRoute';
-//   var size = "compact";
-//
-//   let messageData = {
-//     recipient: {
-//       id: event.sender.id
-//     },
-//     message: {
-//       "attachment":{
-//       "type":"template",
-//       "payload":{
-//         "template_type":"button",
-//         "text":"Try the URL button!",
-//         "buttons":[
-//           {
-//             "type":"web_url",
-//             "url": url,
-//             "title":"URL Button",
-//             "webview_height_ratio": "compact"
-//           }
-//         ]
-//       }//payload
-//       }//attachment
-//     }//message
-//   };//messageDat
-//
-//   api.callSendAPI(messageData);
-// }
 
 var bus_handleMultipleStNm = function(event, possibleStArr) {
   console.log("RUN handleMultipleStNm!");
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
   var url = process.env.HEROKU_URL + '/busRoute';
-  // var responseData = {
-  //   "busRouteId_stId_staOrd":  [
-  //     {
-  //         "busRouteId": "100100124",
-  //         "plainNo": "0017",
-  //         "staOrd": "1",
-  //         "stNm": "청암자이아파트",
-  //         "xpos": "126.9465552752",
-  //         "ypos": "37.5345469961",
-  //         "stId": "102000271",
-  //         "stNum": "03689"
-  //     },
-  //     {
-  //         "busRouteId": "100100124",
-  //         "plainNo": "0017",
-  //         "staOrd": "2",
-  //         "stNm": "청암동강변삼성아파트",
-  //         "xpos": "126.9493177472",
-  //         "ypos": "37.5339679073",
-  //         "stId": "102000204",
-  //         "stNum": "03298"
-  //     }
-  //   ]
-  // }
 
   app.bus_busRouteWebviewHelper(event, possibleStArr);
 
@@ -319,7 +262,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
             "type":"web_url",
             "url": url,
             "title":"지도를 보고 선택해줘!",
-            "webview_height_ratio": "compact"
+            "webview_height_ratio": "tall"
           }
         ]
       }//payload
