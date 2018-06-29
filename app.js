@@ -190,17 +190,16 @@ app.post('/register/re_user', function(req, res){
 });
 
 app.get('/busRoute', function(req, res){
-  // res.send("<h1>안녕하세요</h1>")
   res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
 });
-app.post('/busRoute/result', function(req,res){
-  console.log(req.body)
-  res.send("welcome! " + req.body.email)
-})
+// app.post('/busRoute/result', function(req,res){
+//   console.log(req.body)
+//   res.send("welcome! " + req.body.email)
+// })
 app.post('/busRoute/send_result', function(req, res){
-  console.log(req.body.email);
-  var responseData = {'result' : 'ok', 'email' : req.body.email}
-  res.json(responseData);
+  console.log(req.body);
+  // var responseData = {'result' : 'ok', 'email' : req.body.email}
+  // res.json(responseData);
   // 서버에서는 JSON.stringify 필요없음
 })
 
