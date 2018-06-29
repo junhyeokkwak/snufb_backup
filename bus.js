@@ -262,7 +262,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr) {
             "type":"web_url",
             "url": url,
             "title":"지도를 보고 선택해줘!",
-            "webview_height_ratio": "tall",
+            "webview_height_ratio": "compact",
             "messenger_extensions": true,
           }
         ]

@@ -60,7 +60,8 @@
 
   </script>
   <!-- <button onclick="closeWindow()">close this shit</button> -->
-  <div id="map" style="width:100%;height:400px;"></div>
+  <!-- <div id="map" style="width:100%;height:400px;"></div> -->
+  <div id="map" style="width:252px;height:400px;"></div>
 <script>
   window.onload = function() {
     loadData();
@@ -149,8 +150,30 @@
           "user_psid" : user_psid,
           "selectedSTID" : marker.title,
         }
-        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
+        // swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success");
         sendAjax('/busRoute/send_result', messageData);
+        return swal({
+            title: "Are you sure?",
+            text: "Do you want to change the dropdown?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+        function(isConfirm) {
+            if (isConfirm) {
+                e.preventDefault();
+                closeWindow()
+                return true;
+            } else {
+                // $(select).val(prev_val); // use select reference to reset value
+               return false;
+            }
+        });
+        // sendAjax('/busRoute/send_result', messageData);
     });
   }
 
