@@ -161,7 +161,7 @@ var bus_askStNm = function(event) {
       });
     },
     function(possibleStArr, callback) {
-      // console.log("possibleBusArr: "+possibleStArr[0]);
+      console.log("possibleBusArr: "+possibleStArr[0]);
       if (possibleStArr[0].similarity == 0) {
         connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
         var messageData = {"text": "무슨 정류장인지 모르겠어:( 다시 말해 줄 수 있어?"};
