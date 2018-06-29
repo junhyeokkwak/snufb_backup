@@ -143,7 +143,7 @@ var bus_askStNm = function(event) {
       connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
         if (err) throw err;
         console.log("BUSNUM that user chose:" + result[0].busNum);
-        if (result[0].busNum != ("none" && "" && null)) {
+        if (result[0].busNum != ("none" || "" || null)) {
           // NOTE: if there is confirmed busNum, search only the stations which the bus go through
           console.log("USER ALREADY CONFIRED busNum");
           for (var i = 0; i < jsonData.busRouteId_stId_staOrd.length; i++) {
@@ -215,7 +215,7 @@ var bus_confirmStNm = function(event) {
           // var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
           // api.sendResponse(event, messageData);
           // console.log(busRouteJsonData.busNum_busRouteId);
-          if (result[0].busNum != ("none" && "" && null)) {
+          if (result[0].busNum != ("none" || "" || null)) {
             busNum = (result[0].busNum).toString();
             busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
             console.log(`busNum: ${result[0].busNum} stNm: ${result[0].stNm}`);
