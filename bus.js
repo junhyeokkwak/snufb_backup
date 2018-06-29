@@ -22,7 +22,7 @@ var initBusConv = function(event) {
   var task = [
     function(callback){
       var err;
-      connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
+      connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
       callback(null, err);
     },
     function(err, callback){
