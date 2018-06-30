@@ -55,11 +55,23 @@ var Mentor_type = [{
   "payload": "query_demand1"
 }]
 
+
+var personSearchOptions = [{
+  "content_type": "text",
+  "title": "선배나 후배!",
+  "payload": "선후배"
+},{
+  "content_type": "text",
+  "title": "기타",
+  "payload": "기타"
+}]
+
 module.exports = {
   generateQuickReplies : generateQuickReplies,
   reply_arrays: {
     "YesOrNo": YesOrNo,
     "Menu" : Menu,
-    "Mentor_type": Mentor_type
+    "Mentor_type": Mentor_type,
+    "personSearchOptions": personSearchOptions
   }
 }

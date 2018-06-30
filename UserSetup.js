@@ -12,7 +12,6 @@ function registerUser(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfPostback = event.timestamp;
-
   if (process.env.DATABASE_URL==null) {
     console.log('ERR: THERE IS NO DATABASE CONNECTED TO THE SERVER');
   } else if (process.env.DATABASE_URL.indexOf('temporary123!')>-1){
@@ -22,7 +21,7 @@ function registerUser(event) {
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN,
         locale: "ko_KR",
-        fields: "first_name,last_name,gender"
+        fields: "first_name,last_name,gender,profile_pic"
       },
       method: "GET"
     }, function(error, response, body) {
@@ -35,6 +34,9 @@ function registerUser(event) {
             var first_name = bodyObj.first_name;
             var last_name = bodyObj.last_name;
             var gender = bodyObj.gender;
+            var profile_pic = bodyObj.profile_pic;
+            console.log("first_name: " + first_name);
+            //console.log("PROFILE_PIC URL: " + profile_pic);
             connection.query('SELECT * FROM Users WHERE user_id=' + senderID, function(err, result, fields) {
               if (result.length == 0){
                 //set conv_context as register1
@@ -46,8 +48,12 @@ function registerUser(event) {
           function (first_name, callback) {
           //  api.sendResponse(event, {"text": "에이 요 와썹"});
             api.sendResponse(event, {"text":"안녕! 난 설대봇이라고 해. 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
-            callback(null);
+            callback(null); // need to edit in the future.
           }
+          // function(err, callback){
+          //   api.sendOnlineImage(event, "https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/11406841_1456462501330433_4226271548300377992_n.png?_nc_cat=0&oh=8785ba7bf0bd75c4ffa828b2ff3af167&oe=5BA7D701");
+          //   callback(null);
+          // }
         ];
         async.waterfall(task);
       }
