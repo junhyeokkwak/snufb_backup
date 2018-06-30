@@ -32,7 +32,9 @@
     "querystring": "^0.2.0",
     "request": "^2.87.0",
     "save": "^2.3.2",
+    "string-similarity": "^1.2.0",
     "sweetalert": "^2.1.0",
-    "sweetalert2": "^7.22.2"
+    "sweetalert2": "^7.22.2",
+    "xml-js": "^1.6.4"
   }
 }

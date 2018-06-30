@@ -1,6 +1,4 @@
 var request = require("request");
-var api = require("./apiCalls");
-var async = require("async");
 var mysql = require("mysql");
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -47,7 +45,7 @@ function Josa(txt, josa){
     return txt + josaResult;
   }
 }
-//module.exports.Josa = Josa;
+module.exports.Josa = Josa;
 
 function testWebview(event){
   console.log("RUN testWebview");
@@ -57,7 +55,34 @@ function testWebview(event){
   api.handleWebview(event, title, url, size)
 }
 
+function getSimilarStrings(targetString, arr, criterion, number) {
+  console.log("RUN findSimilarStrings");
+  var stringSimilarity = require('string-similarity');
+  if (typeof targetString != "string" || typeof arr != "object" || typeof (criterion && number) != "number" || number > arr.length) {
+    console.log("INVALID INPUTTYPE for findSimilarStrings");
+  } else {
+    console.log("VALID INPUTTYPE for findSimilarStrings");
+    var possibleStringsArr = [] , resultArr = [], count = 0;
+    for (var i = 0; i < arr.length; i++) {
+      if (stringSimilarity.compareTwoStrings(targetString, arr[i]) >= criterion) {
+        count++;
+        var item;
+        item = { "_text" : arr[i], "similarity" : stringSimilarity.compareTwoStrings(targetString, arr[i])}
+        possibleStringsArr.push(item);
+      }
+    } // terminate for loop
+    console.log(count);
+    possibleStringsArr.sort((a, b) => b.similarity - a.similarity)
+    resultArr = possibleStringsArr.slice(0,number);
+    // console.log("resultArr: " + resultArr);
+    return(resultArr);
+  }
+}
+
+
+
 module.exports = {
+    getSimilarStrings : getSimilarStrings,
     functionMatch: {
         "RESET" : reset,
         "generateQuickReplies" : generateQuickReplies,
