@@ -60,11 +60,12 @@ var bus_stNmORbusNum = function(event) {
 
 var bus_askBusNum = function(event) {
   console.log("RUN bus_askBusNum");
-  var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
-  var jsonData=JSON.parse(data), msg = event.message.text, busNum;
+  var basicConvFile=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
+  var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
+  var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile), msg = event.message.text, busNum;
   task = [
     function(callback) {
-      callback(null, util.getSimilarStrings(msg,  jsonData.busNumArr, -1, jsonData.busNumArr.length));
+      callback(null, util.getSimilarStrings(msg, busRouteJsonData.busNumArr, -1, busRouteJsonData.busNumArr.length));
     },
     function(possibleBusArr, callback) {
       // console.log("possibleBusArr: "+possibleBusArr);
@@ -294,6 +295,9 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
           sendArriveMsg(event, result[0].busRouteId, data.selectedSTID);
         } else {
           connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
+          var busNums = qr.generateQuickReplies(busNumArr);
+          var messageData = {"text": "몇번 버스야??", "quick_replies": busNums};
+          api.sendResponse(event, messageData);
         }
       }); //query
     } else {
@@ -303,6 +307,20 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
     var responseData = {'result' : 'ok', 'data' : req.body.data}
     res.json(responseData);
   })
+
+  var bus_recommendBusNumByStNm = function (stId) {
+    var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
+    var busRouteJsonData = JSON.parse(busRouteFile), busNumArr = [];
+    for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
+      if ((busRouteJsonData.busRouteId_stId_staOrd[i].stId == stId) && !(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo in busNumArr)) {
+        busNumArr.push(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo);
+      }
+      if (i == busRouteJsonData.busRouteId_stId_staOrd.length-1) {
+        console.log("busNumArr: " + busNumArr);
+        return busNumArr;
+      }
+    }
+  }
 
   var bus_busRouteWebviewHelper = function(event, responseData) {
     console.log('RUN bus_busRouteWebviewHelper1');
@@ -345,42 +363,6 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
 }
 
 
-
-// var bus_handleMultipleStNm = function(event, possibleStArr) {
-//   console.log("RUN handleMultipleStNm!");
-//   // NOTE:
-//
-//
-//   // NOTE:
-//   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
-//   var title = "같은 이름의 여러 정류장이 검색되었어!";
-//   var url = process.env.HEROKU_URL + '/busRoute';
-//   app.bus_busRouteWebviewHelper(event, possibleStArr);
-//   let messageData = {
-//     recipient: {
-//       id: event.sender.id
-//     },
-//     message: {
-//       "attachment":{
-//       "type":"template",
-//       "payload":{
-//         "template_type":"button",
-//         "text": title,
-//         "buttons":[
-//           {
-//             "type":"web_url",
-//             "url": url,
-//             "title":"지도를 보고 선택해줘!",
-//             "webview_height_ratio": "compact",
-//             "messenger_extensions": true,
-//           }
-//         ]
-//       }//payload
-//       }//attachment
-//     }//message
-//   };//messageDat
-//   api.callSendAPI(messageData);
-// }
 
 var sendArriveMsg = function(event, busRouteId, stId, callback) {
   console.log('TEST busTest');
