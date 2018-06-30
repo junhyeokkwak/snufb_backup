@@ -313,6 +313,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
     var busRouteJsonData = JSON.parse(busRouteFile), busNumArr = [];
     for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
       if ((busRouteJsonData.busRouteId_stId_staOrd[i].stId == stId) && !(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo in busNumArr)) {
+        console.log(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo);
         busNumArr.push(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo);
       }
       if (i == busRouteJsonData.busRouteId_stId_staOrd.length-1) {
