@@ -285,23 +285,17 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
     var data = JSON.parse(req.body.data)
     // console.log(data);
     if (data.responseType == "busStationWebview_STID") {
+      console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
       connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
       connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-        if (result[0]!=("none" || "" || null)) {
+        if (result[0].busRouteId != ("none" || "" || null)) {
+          var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
+          api.sendResponse(event, messageData);
           sendArriveMsg(event, result[0].busRouteId, data.selectedSTID);
         } else {
           connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
         }
-      });
-
-      var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
-      api.sendResponse(event, messageData);
-
-      console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
-
-      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-        sendArriveMsg(event, result[0].busRouteId, data.selectedSTID);
-      });
+      }); //query
     } else {
       // console.log("ERR in /busRoute/send_result");
       return "ERR in /busRoute/send_result";
