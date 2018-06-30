@@ -79,13 +79,17 @@ var bus_askBusNum = function(event) {
         connection.query('UPDATE Users SET conv_context="bus_confirmBusNum" WHERE user_id=' + event.sender.id);
         connection.query(`UPDATE Users SET busNum="${busNum}" WHERE user_id=` + event.sender.id);
         console.log("similarity: " + util.getSimilarStrings(msg,  busRouteJsonData.busNumArr, -1, busRouteJsonData.busNumArr.length)[0].similarity);
-        if (util.getSimilarStrings(msg, busRouteJsonData.busNumArr, -1, busRouteJsonData.busNumArr.length)[0].similarity == 1) {
-          callback(null);
-        } else {
-          var messageData = {"text": `${busNum}번 버스 맞아??`};
-          api.sendResponse(event, messageData);
-          callback(null);
-        }
+        var messageData = {"text": `${busNum}번 버스 맞아??`};
+        api.sendResponse(event, messageData);
+        callback(null);
+
+        // if (util.getSimilarStrings(msg, busRouteJsonData.busNumArr, -1, busRouteJsonData.busNumArr.length)[0].similarity == 1) {
+        //   callback(null);
+        // } else {
+        //   var messageData = {"text": `${busNum}번 버스 맞아??`};
+        //   api.sendResponse(event, messageData);
+        //   callback(null);
+        // }
       }
     },
   ]
