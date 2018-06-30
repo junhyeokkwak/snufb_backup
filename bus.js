@@ -94,7 +94,7 @@ var bus_confirmBusNum = function(event) {
   var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile);
   var msg = event.message.text;
   var busNum;
-  connection.query('SELECT busNum FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+  connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     if (result[0].stId != ("none" || "null" || null || undefined)) {
       console.log("bus_confirmBusNum RESULT: " + JSON.stringify(result[0]));
