@@ -532,7 +532,7 @@ var getStaOrd_fromInside = function(busRouteId, stId, callback) {
   var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
   var jsonData=JSON.parse(data);
   if (typeof stId_target != "string") {
-    stId_target = stId.toString();
+    stId_target = String(stId);
   }
   console.log(`STID: ${stId_target} TYPE of STID: ${typeof stId_target}`);
   var itemListSize = jsonData.busRouteId_stId_staOrd.length;
