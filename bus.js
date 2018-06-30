@@ -295,7 +295,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
           sendArriveMsg(event, result[0].busRouteId, data.selectedSTID);
         } else {
           connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
-          var busNums = qr.generateQuickReplies(busNumArr);
+          var busNums = qr.generateQuickReplies(data.selectedSTID);
           var messageData = {"text": "몇번 버스야??", "quick_replies": busNums};
           api.sendResponse(event, messageData);
         }
