@@ -151,7 +151,6 @@ var bus_askStNm = function(event) {
   console.log("RUN bus_askBusNum");
   var data=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
   var jsonData=JSON.parse(data), msg = event.message.text, stNameArr = [], stNm;
-    sendArriveMsg(event, busRouteId, stId);
   task = [
     function(callback) {
       // NOTE: check if User already confirmed busNm
