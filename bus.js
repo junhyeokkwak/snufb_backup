@@ -99,7 +99,7 @@ var bus_confirmBusNum = function(event) {
     if (result[0].busRouteId != ("none" || "null" || null)) {
       var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
       api.sendResponse(event, messageData);
-      sendArriveMsg(event, busRouteId, stId);
+      sendArriveMsg(event, result[0].busRouteId, result[0].stId);
       connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
     } else {
       task = [
