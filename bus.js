@@ -97,10 +97,11 @@ var bus_confirmBusNum = function(event) {
   connection.query('SELECT busNum FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     if (result[0].busRouteId != ("none" || "null" || null)) {
+      console.log("bus_confirmBusNum RESULR: " + result[0]);
       var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
       api.sendResponse(event, messageData);
       sendArriveMsg(event, result[0].busRouteId, result[0].stId);
-      connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
+      // connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
     } else {
       task = [
         function(callback) {
@@ -249,7 +250,7 @@ var bus_confirmStNm = function(event) {
                   api.sendResponse(event, messageData);
                   console.log("busRouteId: " + busRouteId + " stId: " + stId);
                   sendArriveMsg(event, busRouteId, stId);
-                  connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
+                  // connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
                 }//else
               }//if
             }//for loop
@@ -312,7 +313,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
           var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
           api.sendResponse(event, messageData);
           sendArriveMsg(event, result[0].busRouteId, data.selectedSTID);
-          connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
+          // connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
         } else {
           connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
           var busNumArr = bus_recommendBusNumByStNm(data.selectedSTID)
