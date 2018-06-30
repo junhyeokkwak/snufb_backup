@@ -9,7 +9,7 @@ var mysql = require("mysql");
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
 var startPersonSearch = function(event) {
-  console.log('START PERSON SEARCH');
+  console.log('START PERSON SEARCH!');
   var task = [
     function(callback) {
       connection.query('SELECT uid FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
