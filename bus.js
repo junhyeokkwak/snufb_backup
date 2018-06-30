@@ -299,7 +299,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
           connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
           var busNumArr = bus_recommendBusNumByStNm(data.selectedSTID)
           var busNums = qr.generateQuickReplies(busNumArr);
-          var messageData = {"text": "몇번 버스야??", "quick_replies": busNums};
+          var messageData = {"text": `${result[0].stNm}을 지나가는 들이야! 이 중에 몇 번 버스야??`, "quick_replies": busNums};
           api.sendResponse(event, messageData);
         }
       }); //query
