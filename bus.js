@@ -96,8 +96,8 @@ var bus_confirmBusNum = function(event) {
   var busNum;
   connection.query('SELECT busNum FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
-    if (result[0].stId != ("none" || "null" || null)) {
-      console.log("bus_confirmBusNum RESULR: " + result[0]);
+    if (result[0].stId != ("none" || "null" || null || undefined)) {
+      console.log("bus_confirmBusNum RESULT: " + JSON.stringify(result[0]));
       var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
       api.sendResponse(event, messageData);
       sendArriveMsg(event, result[0].busRouteId, result[0].stId);
