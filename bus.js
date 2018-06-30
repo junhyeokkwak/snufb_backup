@@ -241,10 +241,12 @@ var bus_confirmStNm = function(event) {
           } else {
             console.log("NO BUSNUM");
             // console.log(`busNum: ${result[0].busNum} stNm: ${result[0].stNm}`);
+            var stIdArr = [];
             for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
-              if (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == result[0].stNm) {
+              if (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == result[0].stNm && !(busRouteJsonData.busRouteId_stId_staOrd[i].stId in stIdArr)) {
                 console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
                 possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
+                stIdArr.push(busRouteJsonData.busRouteId_stId_staOrd[i].stId)
               }
               if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
                 if (possibleStArr.length >= 2) {
@@ -295,7 +297,8 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
           sendArriveMsg(event, result[0].busRouteId, data.selectedSTID);
         } else {
           connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
-          var busNums = qr.generateQuickReplies(data.selectedSTID);
+          var busNumArr = bus_recommendBusNumByStNm(data.selectedSTID)
+          var busNums = qr.generateQuickReplies(busNumArr);
           var messageData = {"text": "몇번 버스야??", "quick_replies": busNums};
           api.sendResponse(event, messageData);
         }
