@@ -365,7 +365,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
 
 
   console.log('RUN bus_busRouteWebviewHelper1');
-  app.APP.get(`/busRoute/${event.sender.id}/positiondata`, function(req, res){
+  app.APP.post(`/busRoute/${event.sender.id}/positiondata`, function(req, res){
     console.log('RUN bus_busRouteWebviewHelper2');
     console.log("responseData: " +JSON.stringify(possibleStArr));
     res.json(possibleStArr);
