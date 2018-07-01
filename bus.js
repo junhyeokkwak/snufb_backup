@@ -295,7 +295,7 @@ var bus_confirmStNm = function(event) {
 var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
   console.log("RUN handleMultipleStNm!");
   // NOTE: app.APP is the express app in app.js
-  app.APP.get(`/busRoute/${event.sender.id}`, function(req, res){
+  app.APP.post(`/busRoute/${event.sender.id}`, function(req, res){
     res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
   });
   app.APP.post(`/busRoute/${event.sender.id}/send_log`, function(req, res){
