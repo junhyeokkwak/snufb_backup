@@ -83,6 +83,8 @@ var restaurantRecommendation_1 = function(event) {
   }
   var GOOGLE_API_KEY = 'AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003';
   var options = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${search}&key=${GOOGLE_API_KEY}`;
+  console.log(options);
+  options = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=korean+restaurants+in+Shinchon&key=AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0';
   request(options, function (error, response, body) {
     if (error) throw new Error(error);
     console.log(JSON.parse(body));
