@@ -357,10 +357,9 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
   }
 
   // NOTE:
-  console.log("possibleStArr1: " + JSON.stringify(possibleStArr));
+  console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
   var url = process.env.HEROKU_URL + `/busRoute/${event.sender.id}`;
-  console.log("possibleStArr1: " + JSON.stringify(possibleStArr));
   bus_busRouteWebviewHelper(event, possibleStArr);
   let messageData = {
     recipient: {
