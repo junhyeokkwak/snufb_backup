@@ -106,10 +106,12 @@ var bus_confirmBusNum = function(event) {
   connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     if (result[0].stId != ("none" || "null" || null || undefined)) {
+      console.log("busRouteId: " + busRouteJsonData.busNum_busRouteId[result[0].busNum]);
+      connection.query(`UPDATE Users SET busRouteId="${busRouteJsonData.busNum_busRouteId[result[0].busNum]}" WHERE user_id=` + event.sender.id);
       console.log("bus_confirmBusNum RESULT: " + JSON.stringify(result[0]));
       var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
       api.sendResponse(event, messageData);
-      sendArriveMsg(event, result[0].busRouteId, result[0].stId);
+      sendArriveMsg(event, busRouteJsonData.busNum_busRouteId[result[0].busNum], result[0].stId);
       // connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
     } else {
       task = [
