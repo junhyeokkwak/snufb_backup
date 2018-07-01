@@ -91,7 +91,7 @@ var restaurantRecommendation_1 = function(event) {
     console.log(jsonRestaurantData.result[0].name);
     var messageData = {"text": `${jsonRestaurantData.result[0].name} 어때?`};
     api.sendResponse(event, messageData);
-  }
+  });
   // var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
   // var naverClientSecret = 'EjgVHFWgzo';
   // var options = {
