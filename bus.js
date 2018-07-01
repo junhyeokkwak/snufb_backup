@@ -94,14 +94,16 @@ var bus_confirmBusNum = function(event) {
   var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
   var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile);
   var msg = event.message.text;
-  var busNum;
+  var busNum, busRouteId;
   connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     if (result[0].stId != ("none" || "null" || null || undefined)) {
+      var busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
+      connection.query(`UPDATE Users SET busRouteId="${busRouteId}" WHERE user_id=` + event.sender.id);
       console.log("bus_confirmBusNum RESULT: " + JSON.stringify(result[0]));
       var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
       api.sendResponse(event, messageData);
-      sendArriveMsg(event, result[0].busRouteId, result[0].stId);
+      sendArriveMsg(event, busRouteId, result[0].stId);
       // connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
     } else {
       task = [
@@ -349,7 +351,8 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
 
   var bus_busRouteWebviewHelper = function(event, responseData) {
     console.log('RUN bus_busRouteWebviewHelper1');
-    app.APP.get(`/busRoute/${event.sender.id}/positiondata`, function(req, res){
+    // app.APP.get(`/busRoute/${event.sender.id}/positiondata`, function(req, res){
+    app.APP.post(`/busRoute/${event.sender.id}/positiondata`, function(req, res){
       console.log('RUN bus_busRouteWebviewHelper2');
       console.log("responseData: " +JSON.stringify(responseData));
       res.json(responseData);
