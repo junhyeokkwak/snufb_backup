@@ -82,11 +82,10 @@ var restaurantRecommendation_1 = function(event) {
     console.log('UNVERIFIED SEARCH');
   }
   var GOOGLE_API_KEY = 'AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003';
-  var options = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${search}&key=${GOOGLE_API_KEY}&location=37.559768/126.94230800000003 `;
+  var options = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${search}&key=${GOOGLE_API_KEY}&location=37.559768/126.94230800000003&language=ko`;
   console.log("options: " + options);
-  // options_test = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=korean+restaurants+in+Shinchon&key=AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003';
-  var options_test = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=korean+restaurants+in+seoul&key=AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&language=ko`
-  request(options_test, function (error, response, body) {
+    // var options_test = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=korean+restaurants+in+shinchon&key=AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003&language=ko`
+  request(options, function (error, response, body) {
     if (error) throw new Error(error);
     console.log(typeof body + '/' + JSON.parse(body));
     var jsonRestaurantData = JSON.parse(body);
