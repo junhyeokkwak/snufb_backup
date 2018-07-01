@@ -347,30 +347,21 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
     }
   }
 
-  // var bus_busRouteWebviewHelper = function(event, responseData) {
-  //   console.log('RUN bus_busRouteWebviewHelper1');
-  //   app.APP.get(`/busRoute/${event.sender.id}/positiondata`, function(req, res){
-  //     console.log('RUN bus_busRouteWebviewHelper2');
-  //     console.log("responseData: " +JSON.stringify(responseData));
-  //     res.json(responseData);
-  //   })
-  // }
+  var bus_busRouteWebviewHelper = function(event, responseData) {
+    console.log('RUN bus_busRouteWebviewHelper1');
+    app.APP.get(`/busRoute/${event.sender.id}/positiondata`, function(req, res){
+      console.log('RUN bus_busRouteWebviewHelper2');
+      console.log("responseData: " +JSON.stringify(responseData));
+      res.json(responseData);
+    })
+  }
 
   // NOTE:
   console.log("possibleStArr1: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
   var url = process.env.HEROKU_URL + `/busRoute/${event.sender.id}`;
-  console.log("possibleStArr2: " + JSON.stringify(possibleStArr));
-  // bus_busRouteWebviewHelper(event, possibleStArr);
-
-
-  console.log('RUN bus_busRouteWebviewHelper1');
-  app.APP.get(`/busRoute/${event.sender.id}/positiondata`, function(req, res){
-    console.log('RUN bus_busRouteWebviewHelper2');
-    console.log("responseData: " +JSON.stringify(possibleStArr));
-    res.json(possibleStArr);
-  })
-
+  console.log("possibleStArr1: " + JSON.stringify(possibleStArr));
+  bus_busRouteWebviewHelper(event, possibleStArr);
   let messageData = {
     recipient: {
       id: event.sender.id
