@@ -87,6 +87,7 @@
         sendAjax(`/busRoute/${user_psid}/send_log`, JSON.parse(this.responseText).length);
         if (JSON.parse(this.responseText).length > 1) {
           //need to transform responseText into JSON obj in arr
+          alert(this.responseText);
           handleMultipleSt(JSON.parse(this.responseText));
         }
       }
