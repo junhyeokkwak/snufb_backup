@@ -91,7 +91,7 @@ var restaurantRecommendation_1 = function(event) {
     var jsonRestaurantData = JSON.parse(body);
     console.log(jsonRestaurantData.results);
     console.log(jsonRestaurantData.results[0].name);
-    var messageData = {"text": `${jsonRestaurantData.result[0].name} 어때?`};
+    var messageData = {"text": `${jsonRestaurantData.results[0].name} 어때?`};
     api.sendResponse(event, messageData);
   });
   // var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
