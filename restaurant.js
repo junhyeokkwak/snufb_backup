@@ -82,12 +82,12 @@ var restaurantRecommendation_1 = function(event) {
     console.log('UNVERIFIED SEARCH');
   }
   var GOOGLE_API_KEY = 'AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003';
-  var options = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${search}&key=${GOOGLE_API_KEY}`;
+  var options = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${search}&key=${GOOGLE_API_KEY}&location=37.559768/126.94230800000003 `;
   console.log("options: " + options);
-  optionss = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=korean+restaurants+in+Shinchon&key=AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0';
+  optionss = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=korean+restaurants+in+Shinchon&key=AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003';
   request(optionss, function (error, response, body) {
     if (error) throw new Error(error);
-    console.log(JSON.parse(body));
+    console.log(typeof body + '/' + JSON.parse(body));
     var jsonRestaurantData = JSON.parse(body);
     console.log(jsonRestaurantData.results);
     console.log(jsonRestaurantData.results[0].name);
