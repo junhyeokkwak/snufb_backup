@@ -78,7 +78,7 @@
   function loadData(user_psid) {
     var xhttp = new XMLHttpRequest();
     // xhttp.open("POST", `/busRoute/${user_psid}/positiondata`, true);
-    xhttp.open("POST", `/busRoute/${user_psid}/positiondata`);
+    xhttp.open("GET", `/busRoute/${user_psid}/positiondata`, true);
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         alert(this.responseText);
