@@ -305,18 +305,18 @@ var bus_confirmStNm = function(event) {
 var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
   console.log("RUN handleMultipleStNm!");
   // NOTE:
-  app.APP.get(`/busRoute/?user_psid=${event.sender.id}`, function(req, res){
+  app.APP.get(`/busRoute/user_psid=${event.sender.id}`, function(req, res){
     console.log('RUN bus_busRouteWebviewHelper2');
-    console.log("responseData: " +JSON.stringify(responseData));
-    res.json(responseData);
+    console.log("responseData: " +JSON.stringify(possibleStArr));
+    res.json(possibleStArr);
     res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
   });
-  app.APP.post(`/busRoute/send_log/?user_psid=${event.sender.id}`, function(req, res){
+  app.APP.post(`/busRoute/send_log/user_psid=${event.sender.id}`, function(req, res){
     console.log(req.body.data);
     var responseData = {'result' : 'ok', 'data' : req.body.data}
     res.json(responseData);
   })
-  app.APP.post(`/busRoute/send_result/?user_psid=${event.sender.id}`, function(req, res){
+  app.APP.post(`/busRoute/send_result/user_psid=${event.sender.id}`, function(req, res){
     console.log(req.body.data);
     var data = JSON.parse(req.body.data)
     // console.log(data);
@@ -362,7 +362,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
 
   // var bus_busRouteWebviewHelper = function(event, responseData) {
   //   console.log('RUN bus_busRouteWebviewHelper1');
-  //   app.APP.get(`/busRoute/positiondata/?user_psid=${event.sender.id}`, function(req, res){
+  //   app.APP.get(`/busRoute/positiondata/user_psid=${event.sender.id}`, function(req, res){
   //     console.log('RUN bus_busRouteWebviewHelper2');
   //     console.log("responseData: " +JSON.stringify(responseData));
   //     res.json(responseData);
@@ -374,7 +374,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
   // NOTE:
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
-  var url = process.env.HEROKU_URL + `/busRoute/?user_psid=${event.sender.id}`;
+  var url = process.env.HEROKU_URL + `/busRoute/user_psid=${event.sender.id}`;
   // bus_busRouteWebviewHelper(event, possibleStArr);
   let messageData = {
     recipient: {
