@@ -87,8 +87,8 @@ var restaurantRecommendation_1 = function(event) {
     if (error) throw new Error(error);
     console.log(JSON.parse(body));
     var jsonRestaurantData = JSON.parse(body);
-    console.log(jsonRestaurantData.result);
-    console.log(jsonRestaurantData.result[0].name);
+    console.log(jsonRestaurantData.results);
+    console.log(jsonRestaurantData.results[0].name);
     var messageData = {"text": `${jsonRestaurantData.result[0].name} 어때?`};
     api.sendResponse(event, messageData);
   });
