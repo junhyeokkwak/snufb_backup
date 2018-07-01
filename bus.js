@@ -82,6 +82,14 @@ var bus_askBusNum = function(event) {
         var messageData = {"text": `${busNum}번 버스 맞아??`};
         api.sendResponse(event, messageData);
         callback(null);
+
+        // if (util.getSimilarStrings(msg, busRouteJsonData.busNumArr, -1, busRouteJsonData.busNumArr.length)[0].similarity == 1) {
+        //   callback(null);
+        // } else {
+        //   var messageData = {"text": `${busNum}번 버스 맞아??`};
+        //   api.sendResponse(event, messageData);
+        //   callback(null);
+        // }
       }
     },
   ]
@@ -94,16 +102,14 @@ var bus_confirmBusNum = function(event) {
   var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
   var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile);
   var msg = event.message.text;
-  var busNum, busRouteId;
+  var busNum;
   connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     if (result[0].stId != ("none" || "null" || null || undefined)) {
-      var busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
-      connection.query(`UPDATE Users SET busRouteId="${busRouteId}" WHERE user_id=` + event.sender.id);
       console.log("bus_confirmBusNum RESULT: " + JSON.stringify(result[0]));
       var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
       api.sendResponse(event, messageData);
-      sendArriveMsg(event, busRouteId, result[0].stId);
+      sendArriveMsg(event, result[0].busRouteId, result[0].stId);
       // connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
     } else {
       task = [
@@ -296,16 +302,16 @@ var bus_confirmStNm = function(event) {
 
 var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
   console.log("RUN handleMultipleStNm!");
-  // NOTE: app.APP is the express app in app.js
-  app.APP.get(`/busRoute/${event.sender.id}`, function(req, res){
+  // NOTE:
+  app.APP.get('/busRoute', function(req, res){
     res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
   });
-  app.APP.post(`/busRoute/${event.sender.id}/send_log`, function(req, res){
+  app.APP.post('/busRoute/send_log', function(req, res){
     console.log(req.body.data);
     var responseData = {'result' : 'ok', 'data' : req.body.data}
     res.json(responseData);
   })
-  app.APP.post(`/busRoute/${event.sender.id}/send_result`, function(req, res){
+  app.APP.post('/busRoute/send_result', function(req, res){
     console.log(req.body.data);
     var data = JSON.parse(req.body.data)
     // console.log(data);
@@ -351,18 +357,19 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
 
   var bus_busRouteWebviewHelper = function(event, responseData) {
     console.log('RUN bus_busRouteWebviewHelper1');
-    // app.APP.get(`/busRoute/${event.sender.id}/positiondata`, function(req, res){
-    app.APP.get(`/busRoute/${event.sender.id}/positiondata`, function(req, res){
+    app.APP.get('/busRoute/positiondata', function(req, res){
       console.log('RUN bus_busRouteWebviewHelper2');
       console.log("responseData: " +JSON.stringify(responseData));
       res.json(responseData);
     })
   }
 
+  bus_busRouteWebviewHelper(event, possibleStArr);
+
   // NOTE:
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
-  var url = process.env.HEROKU_URL + `/busRoute/${event.sender.id}`;
+  var url = process.env.HEROKU_URL + '/busRoute';
   bus_busRouteWebviewHelper(event, possibleStArr);
   let messageData = {
     recipient: {
@@ -440,6 +447,52 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
   async.waterfall(task);
 }
 module.exports.sendArriveMsg = sendArriveMsg;
+
+// var busTest = function(event) {
+//   console.log('TEST busTest');
+//   if (event.message.text.indexOf('/') > -1) {
+//     console.log('VALID busTest INPUT');
+//     var txt = event.message.text;
+//     var busNum, stNm, busRouteId, stId;
+//     busNum = txt.split("/")[0].replace(" ","");
+//     stNm =txt.split("/")[1].replace(" ","");
+//     console.log(`busNum: [${busNum}] stNm: [${stNm}]`);
+//     if (busNum == "153" || "153번") send_log = 100100032;
+//     if (stNm == "연세대앞" || "연대앞") stId = 112000012;
+//     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
+//     var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
+//     api.sendResponse(event, messageData);
+//
+//     getBusArriveInfo(busRouteId, stId, function(resultData) {
+//       console.log("resultData"+resultData);
+//       if (resultData == ("결과없음"&&"인증실패")) {
+//         console.log("결과없음/인증실패");
+//       } else {
+//         console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
+//         var arrmsg1_final, arrmsg2_final, extramsg;
+//         if (resultData.arrmsg1.indexOf("곧") > -1) {
+//           arrmsg1_final = '곧 도착하구';
+//           extramsg = '얼른 뛰어가!!'
+//         } else {
+//           arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
+//           extramsg = '서둘러 가는게 좋겠지??'
+//         }
+//         if (resultData.arrmsg2 == "곧 도착") {
+//           arrmsg2_final = '곧 도착해!!';
+//         } else {
+//           arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
+//         }
+//         var entiremsg_final = `${stNm}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
+//         var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
+//         api.sendResponse(event, messageData);
+//       }
+//     });
+//   } else {
+//     console.log('INVALID busTest INPUT');
+//     var messageData = {"text": "아직 데이터 베이스에 없는 버스번호/정류장 이름이야!"};
+//     api.sendResponse(event, messageData);
+//   }
+// };
 
 var getBusArriveInfo = function(busRouteId, stId, callback) {
   console.log("RUN getBusArriveInfo");
