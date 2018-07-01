@@ -85,7 +85,7 @@ var restaurantRecommendation_1 = function(event) {
   var options = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${search}&key=${GOOGLE_API_KEY}&location=37.559768/126.94230800000003 `;
   console.log("options: " + options);
   // options_test = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=korean+restaurants+in+Shinchon&key=AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003';
-  var options_test = `https://maps.googleapis.com/maps/api/place/textsearch/xml?query=restaurants+in+Sydney&key=${GOOGLE_API_KEY}`
+  var options_test = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+Sydney&key=${GOOGLE_API_KEY}`
   request(options_test, function (error, response, body) {
     if (error) throw new Error(error);
     console.log(typeof body + '/' + JSON.parse(body));
