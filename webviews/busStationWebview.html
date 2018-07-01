@@ -78,28 +78,29 @@
         // this.responseText;
         // alert(this.responseText);
         // alert(this.responseText.length)
-        sendAjax('/busRoute/send_log', this.responseText);
-        sendAjax('/busRoute/send_log', JSON.parse(this.responseText).length);
+        sendAjax(`/busRoute/send_log/?user_psid=${user_psid}`, this.responseText);
+        sendAjax(`/busRoute/send_log/?user_psid=${user_psid}`, JSON.parse(this.responseText).length);
         if (JSON.parse(this.responseText).length > 1) {
           //need to transform responseText into JSON obj in arr
           handleMultipleSt(JSON.parse(this.responseText));
         }
       }
     };
-    xhttp.open("GET", "/busRoute/positiondata", true);
+    // xhttp.open("GET", "/busRoute/positiondata", true);
+    xhttp.open("GET", `/busRoute/?user_psid=${user_psid}`, true);
     xhttp.send();
   }
   var marker1, marker2;
   var handleMultipleSt = function(positionData) {
-    sendAjax('/busRoute/send_log', "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
+    sendAjax(`/busRoute/send_log/?user_psid=${user_psid}`, "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
     var sumXpos = 0, sumYpos = 0, count = 0;
     for(var i = 0; i < positionData.length; i++) {
-      sendAjax('/busRoute/send_log', i);
+      sendAjax(`/busRoute/send_log/?user_psid=${user_psid}`, i);
       sumXpos += Number(positionData[i].xpos);
       sumYpos += Number(positionData[i].ypos);
       generateMarkerAndListener(positionData[i].stId, positionData[i].xpos, positionData[i].ypos);
       if(i == positionData.length-1) {
-        sendAjax('/busRoute/send_log', "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
+        sendAjax(`/busRoute/send_log/?user_psid=${user_psid}`, "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
         var avgXpos = sumXpos / positionData.length;
         var avgYpos = sumYpos / positionData.length;
         map.setCenter(new naver.maps.LatLng(avgYpos, avgXpos));
@@ -110,8 +111,8 @@
     generateMarkerListener(generateMarker(key ,xpos, ypos));
   }
   var generateMarker = function(key ,xpos, ypos){
-    sendAjax('/busRoute/send_log', "RUN generateMarker");
-    sendAjax('/busRoute/send_log', `xpos: ${xpos} ypos: ${ypos}`);
+    sendAjax(`/busRoute/send_log/?user_psid=${user_psid}`, "RUN generateMarker");
+    sendAjax(`/busRoute/send_log/?user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
     return new naver.maps.Marker({
       position: new naver.maps.LatLng(ypos, xpos),
       map: map,
@@ -128,7 +129,7 @@
           "selectedSTID" : marker.title,
         }
         messageData = JSON.stringify(messageData)
-        sendAjax('/busRoute/send_result', messageData);
+        sendAjax(`/busRoute/send_result/?user_psid=${user_psid}`, messageData);
         swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
         .then((value) => {
           closeWindow();
