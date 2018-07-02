@@ -34,8 +34,6 @@
            user_psid = result.psid;
            alert(user_psid);
            loadData();
-           // initInput(user_psid);
-           // console.log("Success: "+ result.psid);
          },
          function error(result){
            swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ\n 혹시 컴퓨터로 접속했니?", "error")
@@ -85,7 +83,7 @@
       }
     };
     // xhttp.open("GET", "/busRoute/positiondata", true);
-    xhttp.open("POST", `/busRoute/positiondata/user_psid=${user_psid}`, true);
+    xhttp.open("POST", `/busRoute/positiondata/user_psid=${user_psid}`, false);
     xhttp.send();
   }
   var marker1, marker2;
