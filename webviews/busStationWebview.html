@@ -118,6 +118,7 @@
     });
   }
   var generateMarkerListener = function(marker) {
+    alert("generateMarkerListener")
     naver.maps.Event.addListener(marker, 'click', function() {
         var messageData = {
           "responseType" : "busStationWebview_STID",
