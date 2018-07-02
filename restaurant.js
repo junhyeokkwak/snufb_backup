@@ -98,7 +98,7 @@ var restaurantRecommendation_freeResponse = function(event) {
   if (event.message.text.length > 0 ) {
     // NOTE: need to compare string-similarity of text with those of items in the cusines Arr.
     console.log("VALID INPUT");
-    var messageData = {"text": `알았어!! 신촌 근처 ${event.message.text} 식당을 찾아볼게!`};
+    var messageData = {"text": `알았어!! 신촌 근처 ${event.message.text} 식당을 찾아봐줄게:)`};
     api.sendResponse(event, messageData);
 
     var radius = 5000, location_ShinchonStation = '37.559768,126.94230800000003';
