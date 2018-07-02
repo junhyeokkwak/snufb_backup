@@ -19,7 +19,7 @@
        });
        FB.AppEvents.logPageView();
      };
-    var user_psid;
+    var user_psid, current_url;
    (function(d, s, id){
      var js, fjs = d.getElementsByTagName(s)[0];
      if (d.getElementById(id)) {return;}
@@ -32,7 +32,9 @@
        MessengerExtensions.getContext('2169355909963830',
          function success(result){
            user_psid = result.psid;
+           current_url = window.location.href;
            alert(user_psid);
+           alert(current_url)
            loadData();
          },
          function error(result){
@@ -82,7 +84,7 @@
         }
       }
     };
-    // xhttp.open("GET", "/busRoute/positiondata", true);
+    // xhttp.open("POST", `/busRoute/positiondata/user_psid=${user_psid}`, true);
     xhttp.open("POST", `/busRoute/positiondata/user_psid=${user_psid}`, true);
     xhttp.send();
   }
@@ -107,8 +109,8 @@
     generateMarkerListener(generateMarker(key ,xpos, ypos));
   }
   var generateMarker = function(key ,xpos, ypos){
-    sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
-    sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
+    // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
+    // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
     return new naver.maps.Marker({
       position: new naver.maps.LatLng(ypos, xpos),
       map: map,
