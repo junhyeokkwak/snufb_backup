@@ -87,7 +87,7 @@ var restaurantRecommendation_1 = function(event) {
     url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
     qs:
      { location: location_ShinchonStation,
-       radius: '5000',
+       radius: radius,
        type: 'restaurant',
        key: process.env.GOOGLE_API_KEY,
        keyword: event.message.text,
