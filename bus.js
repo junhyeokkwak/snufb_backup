@@ -448,52 +448,6 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
 }
 module.exports.sendArriveMsg = sendArriveMsg;
 
-// var busTest = function(event) {
-//   console.log('TEST busTest');
-//   if (event.message.text.indexOf('/') > -1) {
-//     console.log('VALID busTest INPUT');
-//     var txt = event.message.text;
-//     var busNum, stNm, busRouteId, stId;
-//     busNum = txt.split("/")[0].replace(" ","");
-//     stNm =txt.split("/")[1].replace(" ","");
-//     console.log(`busNum: [${busNum}] stNm: [${stNm}]`);
-//     if (busNum == "153" || "153번") send_log = 100100032;
-//     if (stNm == "연세대앞" || "연대앞") stId = 112000012;
-//     console.log(`busRouteId: [${busRouteId}] stId: [${stId}]`);
-//     var messageData = {"text": "버스 노선 데이터를 받아오는데 시간이 조금걸려!ㅠㅠ 조금만 기다려줘"};
-//     api.sendResponse(event, messageData);
-//
-//     getBusArriveInfo(busRouteId, stId, function(resultData) {
-//       console.log("resultData"+resultData);
-//       if (resultData == ("결과없음"&&"인증실패")) {
-//         console.log("결과없음/인증실패");
-//       } else {
-//         console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
-//         var arrmsg1_final, arrmsg2_final, extramsg;
-//         if (resultData.arrmsg1.indexOf("곧") > -1) {
-//           arrmsg1_final = '곧 도착하구';
-//           extramsg = '얼른 뛰어가!!'
-//         } else {
-//           arrmsg1_final = resultData.arrmsg1 + '에 도착하구';
-//           extramsg = '서둘러 가는게 좋겠지??'
-//         }
-//         if (resultData.arrmsg2 == "곧 도착") {
-//           arrmsg2_final = '곧 도착해!!';
-//         } else {
-//           arrmsg2_final = resultData.arrmsg2 + '에 도착해!!';
-//         }
-//         var entiremsg_final = `${stNm}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
-//         var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
-//         api.sendResponse(event, messageData);
-//       }
-//     });
-//   } else {
-//     console.log('INVALID busTest INPUT');
-//     var messageData = {"text": "아직 데이터 베이스에 없는 버스번호/정류장 이름이야!"};
-//     api.sendResponse(event, messageData);
-//   }
-// };
-
 var getBusArriveInfo = function(busRouteId, stId, callback) {
   console.log("RUN getBusArriveInfo");
   var staOrd, options, arrmsg1, arrmsg2, resultData;
