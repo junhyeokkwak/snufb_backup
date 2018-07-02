@@ -81,99 +81,50 @@ var restaurantRecommendation_1 = function(event) {
   } else {
     console.log('UNVERIFIED SEARCH');
   }
-  var GOOGLE_API_KEY = 'AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003';
-  var options = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${search}&key=${GOOGLE_API_KEY}&location=37.559768/126.94230800000003&language=ko`;
-  console.log("options: " + options);
-    // var options_test = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=korean+restaurants+in+shinchon&key=AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003&language=ko`
+  // var GOOGLE_API_KEY = 'AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0';
+  // var options = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${search}&key=${GOOGLE_API_KEY}&location=37.559768/126.94230800000003&language=ko`;
+  // console.log("options: " + options);
+  // request(options, function (error, response, body) {
+  //   if (error) throw new Error(error);
+  //   console.log(typeof body + '/' + JSON.parse(body));
+  //   var jsonRestaurantData = JSON.parse(body);
+  //   console.log(jsonRestaurantData.results);
+  //   console.log(jsonRestaurantData.results[0].name);
+  //   var messageData = {"text": `${jsonRestaurantData.results[0].name} 어때?`};
+  //   api.sendResponse(event, messageData);
+  // });
+
+  var radius = 5000, location_ShinchonStation = '37.559768,126.94230800000003';
+  var options = { method: 'GET',
+    url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
+    qs:
+     { location: location_ShinchonStation,
+       radius: '5000',
+       type: 'restaurant',
+       key: process.env.GOOGLE_API_KEY,
+       keyword: event.message.text,
+       language: 'ko' },
+    headers:
+     { 'postman-token': 'eebafd36-b12d-e760-e7ca-aaf5a739ce02',
+       'cache-control': 'no-cache' } };
+
   request(options, function (error, response, body) {
     if (error) throw new Error(error);
-    console.log(typeof body + '/' + JSON.parse(body));
+    console.log(body);
     var jsonRestaurantData = JSON.parse(body);
-    console.log(jsonRestaurantData.results);
-    console.log(jsonRestaurantData.results[0].name);
-    var messageData = {"text": `${jsonRestaurantData.results[0].name} 어때?`};
-    api.sendResponse(event, messageData);
+    if (jsonRestaurantData.results.length > 0) {
+      console.log(jsonRestaurantData.results[0].name);
+      var messageData = {"text": `${jsonRestaurantData.results[0].name} 어때?`};
+      api.sendResponse(event, messageData);
+    } else {
+      console.log(jsonRestaurantData.status);
+    }
   });
-  // var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
-  // var naverClientSecret = 'EjgVHFWgzo';
-  // var options = {
-  //     method: 'GET',
-  //     // url : 'https://openapi.naver.com/v1/search/shop.json',
-  //     url : 'https://openapi.naver.com/v1/search/local.json',
-  //     qs : {
-  //       query : search,
-  //       display : 1,
-  //       start : 1,
-  //       sort : "comment" // 리뷰 개수 순
-  //     },
-  //     headers: {
-  //       'X-Naver-Client-Id':naverClientID,
-  //       'X-Naver-Client-Secret': naverClientSecret,
-  //     },
-  // };
-  // var task = [
-  //   function(callback){
-  //     var err;
-  //     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-  //     callback(null, err);
-  //   },
-  //   function(err, callback){
-  //     var body;
-  //     request(options, function (error, response, body) {
-  //       var body = body;
-  //       if (error) throw new Error(error);
-  //       //console.log(JSON.parse(body));
-  //       console.log(JSON.parse(body).items);
-  //       console.log("RECO RES TITLE: " + JSON.parse(body).items[0].title);
-  //       console.log("RECO RES LINK: " + JSON.parse(body).items[0].link);
-  //       console.log("RECO RES CATEGORY: " + JSON.parse(body).items[0].category);
-  //       var title = JSON.parse(body).items[0].title;
-  //       var url = JSON.parse(body).items[0].link;
-  //       var image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
-  //       var category = JSON.parse(body).items[0].category.split('>')[1];
-  //       // var category = "[임시카테고리]";
-  //       var titleMessage = title;
-  //       var buttonMessage = title + " 사이트 바로가기!";
-  //       var innertask = [
-  //         function(callback) {
-  //           var innerErr;
-  //           api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + category + " 어때??"});
-  //           callback(null,innerErr);
-  //         },
-  //         function(innerErr, callback) {
-  //           setTimeout(function() {
-  //             callback(null, innerErr);
-  //           },1000);
-  //         },
-  //         function(innerErr, callback) {
-  //           if (url == '') {
-  //             console.log('RESTAURANT URL DNE');
-  //             url = 'http://www.example.com/'
-  //             if (JSON.parse(body).items[0].link != "" && isImageUrl(JSON.parse(body).items[0].link)) {
-  //               var imageURL = JSON.parse(body).items[0].link;
-  //             }
-  //             api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
-  //             callback(null, innerErr);
-  //           } else {
-  //             console.log('RESTAURANT URL EXISTS');
-  //             if (JSON.parse(body).items[0].link != "" && isImageUrl(JSON.parse(body).items[0].link)) {
-  //               var imageURL = JSON.parse(body).items[0].link;
-  //             }
-  //             api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
-  //             callback(null, innerErr);
-  //           }
-  //         },
-  //         function(innerErr, callback) {
-  //           api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + Josa(title, "가") +" 괜찮데:)"});
-  //           callback(null);
-  //         },
-  //       ];
-  //       async.waterfall(innertask);
-  //     });
-  //     callback(null);
-  //   },
-  // ];
-  // async.waterfall(task);
+
+
+
+
+
 };
 
 module.exports = {
