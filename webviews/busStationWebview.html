@@ -107,7 +107,6 @@
     generateMarkerListener(generateMarker(key ,xpos, ypos));
   }
   var generateMarker = function(key ,xpos, ypos){
-    alert("RUN generateMarker");
     sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
     sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
     return new naver.maps.Marker({
