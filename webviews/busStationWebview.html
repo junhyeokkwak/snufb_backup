@@ -67,16 +67,17 @@
   var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
   //get positiondata from app.js bus_busRouteWebviewHelper
   function loadData() {
+    alert("loadData")
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         // document.getElementById("getPositionData").innerHTML =
         // this.responseText;
-        alert(getAllResponseHeaders());
-        alert(this.responseText);
-        alert(this.responseText.length)
-        // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, this.responseText);
-        // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, JSON.parse(this.responseText).length);
+        // alert(getAllResponseHeaders());
+        // alert(this.responseText);
+        // alert(this.responseText.length)
+        sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, this.responseText);
+        sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, JSON.parse(this.responseText).length);
         if (JSON.parse(this.responseText).length > 1) {
           //need to transform responseText into JSON obj in arr
           handleMultipleSt(JSON.parse(this.responseText));
