@@ -36,7 +36,9 @@ var startJoke = function(event) {
 };
 
 function deleteMe(event) {
-  connection.query('SET SQL_SAFE_UPDATES = 0; DELETE FROM cb_users_jun.Users WHERE user_id=' + event.sender.id + '; SET SQL_SAFE_UPDATES = 1;');
+  connection.query('SET SQL_SAFE_UPDATES = 0')
+  connection.query('DELETE FROM cb_users_jun.Users WHERE user_id=' + event.sender.id)
+  connection.query('SET SQL_SAFE_UPDATES = 1');
 }
 
 module.exports = {
