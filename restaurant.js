@@ -5,6 +5,7 @@ var api = require('./apiCalls');
 var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
+const fs = require('fs');
 const isImageUrl = require('is-image-url');
 
 var basicConvFile=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
