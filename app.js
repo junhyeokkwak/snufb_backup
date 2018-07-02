@@ -15,7 +15,7 @@ var apiai = require('apiai');
 var nlpapp = apiai("542cfeef5714428193dc4478760de396");
 
 var app = express();
-module.exports.APP = app;
+// module.exports.APP = app;
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
@@ -90,11 +90,6 @@ app.post('/webhook', function (req, res) {
                 } else if (event.message.text == 'TEST REGI'){
                   console.log('SET CONV CONT: register1');
                   connection.query('UPDATE Users SET conv_context="register1" WHERE user_id=' + event.sender.id);
-                  console.log('Conv Context: ' + result[0].conv_context);
-                  callback(null, functionSheet[result[0].conv_context]);
-                } else if (event.message.text == 'TEST BUS') {
-                  console.log("TEST BUS WEBVIEW");
-                  connection.query('UPDATE Users SET conv_context="handleMultipleStNm" WHERE user_id=' + event.sender.id);
                   console.log('Conv Context: ' + result[0].conv_context);
                   callback(null, functionSheet[result[0].conv_context]);
                 }
@@ -190,6 +185,8 @@ app.post('/register/re_user', function(req, res){
     res.status(200).end();
     // res.render('register-success', {data = req.body});
 });
+
+
 
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
