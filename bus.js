@@ -359,7 +359,7 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
 
   var bus_busRouteWebviewHelper = function(event, responseData) {
     console.log('RUN bus_busRouteWebviewHelper1');
-    app.APP.post(`/busRoute/positiondata/user_psid=${event.sender.id}`, function(req, res){
+    app.APP.get(`/busRoute/positiondata/user_psid=${event.sender.id}`, function(req, res){
       console.log('RUN bus_busRouteWebviewHelper2');
       console.log("responseData: " +JSON.stringify(responseData));
       res.json(responseData);
@@ -415,7 +415,7 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
       console.log(`busNum: [${busNum}] stNm: [${stNm}] busRouteId: [${busRouteId}] stId: [${stId}]`);
       getBusArriveInfo(busRouteId, stId, function(resultData) {
         console.log("resultData:" + resultData);
-        if (resultData.arrmsg1.indexOf("없" || "실패") > -1) {
+        if (resultData == ("결과없음"&&"인증실패")) {
           console.log("결과없음/인증실패");
         } else {
           console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));

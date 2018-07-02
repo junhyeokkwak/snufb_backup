@@ -9,7 +9,7 @@
 </head>
 <body>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <!-- NOTE: messengerSDK module -->
+  <!-- NOTE: messengerSDK module : temporary closed -->
   <script>
     window.fbAsyncInit = function() {
        FB.init({
@@ -19,7 +19,7 @@
        });
        FB.AppEvents.logPageView();
      };
-    var user_psid, current_url;
+    var user_psid;
    (function(d, s, id){
      var js, fjs = d.getElementsByTagName(s)[0];
      if (d.getElementById(id)) {return;}
@@ -32,9 +32,9 @@
        MessengerExtensions.getContext('2169355909963830',
          function success(result){
            user_psid = result.psid;
-           current_url = window.location.href;
            // alert(user_psid);
-           // alert(current_url)
+           // initInput(user_psid);
+           // console.log("Success: "+ result.psid);
          },
          function error(result){
            swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ\n 혹시 컴퓨터로 접속했니?", "error")
@@ -51,15 +51,18 @@
      });
     window.open('','_self',''); window.close(); // _parent
    }
+   // function initInput(user_psid) {
+   //   alert(user_psid);
+   // }
   </script>
-  <!-- <button type="button" onclick="loadData()">Request data</button> -->
+  <!-- <button onclick="closeWindow()">close this shit</button> -->
   <div id="map" style="width:100%;height:400px;"></div>
   <!-- <div id="map" style="width:100%;height:100%;"></div> -->
 <script>
   window.onload = function() {
     loadData();
+    //set map center
   }
-
   var mapOptions = {
       center: new naver.maps.LatLng(37.5540291075, 126.9348325761),
       zoom: 12
@@ -67,13 +70,11 @@
   var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
   //get positiondata from app.js bus_busRouteWebviewHelper
   function loadData() {
-    alert("loadData")
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         // document.getElementById("getPositionData").innerHTML =
         // this.responseText;
-        // alert(getAllResponseHeaders());
         // alert(this.responseText);
         // alert(this.responseText.length)
         sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, this.responseText);
@@ -84,8 +85,8 @@
         }
       }
     };
-    // xhttp.open("POST", `/busRoute/positiondata/user_psid=${user_psid}`, true);
-    xhttp.open("POST", `/busRoute/positiondata/user_psid=${user_psid}`, true);
+    // xhttp.open("GET", "/busRoute/positiondata", true);
+    xhttp.open("GET", `/busRoute/user_psid=${user_psid}`, true);
     xhttp.send();
   }
   var marker1, marker2;
@@ -93,12 +94,12 @@
     sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
     var sumXpos = 0, sumYpos = 0, count = 0;
     for(var i = 0; i < positionData.length; i++) {
-      // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, i);
+      sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, i);
       sumXpos += Number(positionData[i].xpos);
       sumYpos += Number(positionData[i].ypos);
       generateMarkerAndListener(positionData[i].stId, positionData[i].xpos, positionData[i].ypos);
       if(i == positionData.length-1) {
-        // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
+        sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "terminate " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
         var avgXpos = sumXpos / positionData.length;
         var avgYpos = sumYpos / positionData.length;
         map.setCenter(new naver.maps.LatLng(avgYpos, avgXpos));
@@ -109,8 +110,8 @@
     generateMarkerListener(generateMarker(key ,xpos, ypos));
   }
   var generateMarker = function(key ,xpos, ypos){
-    // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
-    // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
+    sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
+    sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
     return new naver.maps.Marker({
       position: new naver.maps.LatLng(ypos, xpos),
       map: map,
@@ -120,7 +121,6 @@
     });
   }
   var generateMarkerListener = function(marker) {
-    // alert("generateMarkerListener")
     naver.maps.Event.addListener(marker, 'click', function() {
         var messageData = {
           "responseType" : "busStationWebview_STID",
