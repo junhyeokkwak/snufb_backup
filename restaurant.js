@@ -36,12 +36,12 @@ var initRestaurantRecommendation = function(event) {
     console.log("USER SELECT : YES in initRestaurantConv");
     var task = [
       function(callback){
-        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_1" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category" WHERE user_id=' + event.sender.id);
         callback(null, 'done');
       },
       function(err, callback){
-        var qrCuisines = qr.generateQuickReplies(["한식", "중식", "일식", "양식", "분식"]);
-        var messageData = {"text": "뭐 먹을래?", "quick_replies": qrCuisines};
+        var qrCuisines = qr.generateQuickReplies(["종합", "중식", "일식", "양식", "분식"]);
+        var messageData = {"text": "어떻게 추천해줄까??", "quick_replies": qrCuisines};
         api.sendResponse(event, messageData);
         callback(null);
       }
@@ -72,27 +72,15 @@ var restaurantRecommendation_1 = function(event) {
   if (event.message.text == "한식" ||  "중식" || "일식" || "양식" || "분식") {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_1");
     // var search = "신촌 맛집 " + event.message.text;
-    if (event.message.text == "한식") { var search = `korean+restaurants+in+Shinchon`; }
-    if (event.message.text == "중식") { var search = `chinese+restaurants+in+Shinchon`; }
-    if (event.message.text == "일식") { var search = `japanese+restaurants+in+Shinchon`; }
-    if (event.message.text == "양식") { var search = `western+restaurants+in+Shinchon`; }
-    if (event.message.text == "분식") { var search = `korean+street+restaurants+in+Shinchon`; }
-    console.log('SEARCH: ' + search);
+    // if (event.message.text == "한식") { var search = `korean+restaurants+in+Shinchon`; }
+    // if (event.message.text == "중식") { var search = `chinese+restaurants+in+Shinchon`; }
+    // if (event.message.text == "일식") { var search = `japanese+restaurants+in+Shinchon`; }
+    // if (event.message.text == "양식") { var search = `western+restaurants+in+Shinchon`; }
+    // if (event.message.text == "분식") { var search = `korean+street+restaurants+in+Shinchon`; }
+    // console.log('SEARCH: ' + search);
   } else {
     console.log('UNVERIFIED SEARCH');
   }
-  // var GOOGLE_API_KEY = 'AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0';
-  // var options = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${search}&key=${GOOGLE_API_KEY}&location=37.559768/126.94230800000003&language=ko`;
-  // console.log("options: " + options);
-  // request(options, function (error, response, body) {
-  //   if (error) throw new Error(error);
-  //   console.log(typeof body + '/' + JSON.parse(body));
-  //   var jsonRestaurantData = JSON.parse(body);
-  //   console.log(jsonRestaurantData.results);
-  //   console.log(jsonRestaurantData.results[0].name);
-  //   var messageData = {"text": `${jsonRestaurantData.results[0].name} 어때?`};
-  //   api.sendResponse(event, messageData);
-  // });
 
   var radius = 5000, location_ShinchonStation = '37.559768,126.94230800000003';
   var options = { method: 'GET',
@@ -120,17 +108,12 @@ var restaurantRecommendation_1 = function(event) {
       console.log(jsonRestaurantData.status);
     }
   });
-
-
-
-
-
 };
 
 module.exports = {
   functionMatch: {
     "배고파": initRestaurantConv,
     "initRestaurantRecommendation" : initRestaurantRecommendation,
-    "restaurantRecommendation_1" : restaurantRecommendation_1,
+    "restaurantRecommendation_category" : restaurantRecommendation_1,
   }
 };
