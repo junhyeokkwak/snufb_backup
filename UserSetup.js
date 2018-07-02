@@ -41,7 +41,7 @@ function registerUser(event) {
             connection.query('SELECT * FROM Users WHERE user_id=' + senderID, function(err, result, fields) {
               if (result.length == 0){
                 //set conv_context as register1
-                connection.query('INSERT INTO Users (user_id, first_name, last_name, sex, conv_context, profile_pic) VALUES ('+ event.sender.id + ', "' + first_name + '","' + last_name + '","' + gender + '",' + '"register1"' + '","' + profile_pic + ')');
+                connection.query('INSERT INTO Users (user_id, first_name, last_name, sex, conv_context, profile_pic) VALUES ('+ event.sender.id + ', "' + first_name + '","' + last_name + '","' + gender + '",' + '"register1"' + ',"' + profile_pic + '")');
               }
             } );
             callback(null, first_name);
