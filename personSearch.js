@@ -150,13 +150,9 @@ function personSearch_alum(event) {
     var task = [
       function(callback) {
         connection.query('SELECT uid FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
-          if (err) {
-            console.log("NO SEARCH RESULT");
-            // throw err;
-          }
-          else {
-            uid = result[0].uid;
-          }
+          if (err) throw err;
+          console.log("result.length: " + result.length);
+          uid = result[0].uid;
           callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
         });
       },
