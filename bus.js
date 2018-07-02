@@ -423,7 +423,7 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
       console.log(`busNum: [${busNum}] stNm: [${stNm}] busRouteId: [${busRouteId}] stId: [${stId}]`);
       getBusArriveInfo(busRouteId, stId, function(resultData) {
         console.log("resultData:" + resultData);
-        if (resultData.indexOf("없" || "실패") > -1) {
+        if (resultData.arrmsg1.indexOf("없" || "실패") > -1) {
           console.log("결과없음/인증실패");
         } else {
           console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
