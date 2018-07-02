@@ -416,7 +416,7 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
       console.log(`busNum: [${busNum}] stNm: [${stNm}] busRouteId: [${busRouteId}] stId: [${stId}]`);
       getBusArriveInfo(busRouteId, stId, function(resultData) {
         console.log("resultData:" + resultData);
-        if (resultData == ("결과없음"&&"인증실패")) {
+        if (resultData == ("결과없음"||"인증실패")) {
           console.log("결과없음/인증실패");
         } else {
           console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
@@ -475,7 +475,7 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
       if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("인증실패") > -1) {
         console.log("인증실패");
         callback("인증실패");
-      } else if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("결과가 없습니다.") > -1) {
+      } else if (jsonData.ServiceResult.msgHeader.headerMsg._text.indexOf("결과가 없습니다") > -1) {
         console.log("결과없음");
         callback("결과없음");
       } else {
