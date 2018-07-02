@@ -200,3 +200,4 @@ module.exports.sendResponse = sendResponse;
 module.exports.handleWebview = handleWebview;
 module.exports.sendMessage = sendMessage;
 module.exports.sendOnlineImage = sendOnlineImage;
+module.exports.callSendAPI = callSendAPI;
