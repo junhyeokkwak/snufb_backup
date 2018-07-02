@@ -74,6 +74,7 @@
       if (this.readyState == 4 && this.status == 200) {
         // document.getElementById("getPositionData").innerHTML =
         // this.responseText;
+        alert(getAllResponseHeaders());
         alert(this.responseText);
         alert(this.responseText.length)
         // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, this.responseText);
