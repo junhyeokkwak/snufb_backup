@@ -193,7 +193,7 @@ function personSearch_nullcase(event) {
       callback(null, util.getSimilarStrings(msg, jsonData.agreementArr, -1, jsonData.agreementArr.length));
     },
     function(agreementArr, callback) {
-      console.log("agreeementArr: " + agreementArr);
+      console.log("agreeementArr: " + agreementArr[0].similarity);
     }
   ]
   async.waterfall(task);
