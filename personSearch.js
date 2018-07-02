@@ -151,8 +151,13 @@ function personSearch_alum(event) {
       function(callback) {
         connection.query('SELECT uid FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
           if (err) throw err;
-          console.log("result.length: " + result.length);
-          uid = result[0].uid;
+          if (result.length) {
+            uid = result[0].uid;
+          }
+          else {
+            api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 학과 사람이라도 찾아줄까?"});
+            connection.query('UPDATE Users SET conv_context="personSearch_nullcase" WHERE user_id=' + event.sender.id);
+          }
           callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
         });
       },
@@ -183,5 +188,6 @@ module.exports = {
    "askProfileURL": askProfileURL,
    "personSearch_mainMenu": personSearch_mainMenu,
    "personSearch_alum": personSearch_alum,
+   // "personSearch_nullcase": personSearch_nullcase,
   }
 };
