@@ -144,7 +144,7 @@ module.exports = {
     "배고파": initRestaurantConv,
     "initRestaurantRecommendation" : initRestaurantRecommendation,
     "restaurantRecommendation_category" : restaurantRecommendation_category,
-    "restaurantRecommendation_freeResponse" : restaurantRecommendation_freeResponsem,
+    "restaurantRecommendation_freeResponse" : restaurantRecommendation_freeResponse,
   }
 };
 
