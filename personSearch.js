@@ -5,6 +5,8 @@ var api = require('./apiCalls');
 var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
+var stringSimilarity = require('string-similarity');
+const fs = require('fs');
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -143,7 +145,7 @@ function personSearch_alum(event) {
   var substring1 = "학과";
   if (inputText.indexOf(substring1) == -1)
   {
-    api.sendResponse(event, {"text": "엥 뭔가 잘못친거 친거 같은데... \"00학과\"라고 입력해야돼! 다시 입력해줄래?"});
+    api.sendResponse(event, {"text": "엥 뭔가 잘못친거 친거 같은데... \"00학과\"라고 입력해야돼! 다시 입력해줄래?", });
   }
   else {
     var uid = 0;
@@ -154,8 +156,8 @@ function personSearch_alum(event) {
           if (result.length) {
             uid = result[0].uid;
           }
-          else {
-            api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 학과 사람이라도 찾아줄까?"});
+          else { // search result = 0
+            api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 학과 사람이라도 찾아줄까?", "quick_replies": qr.reply_arrays["YesOrNo"]});
             connection.query('UPDATE Users SET conv_context="personSearch_nullcase" WHERE user_id=' + event.sender.id);
           }
           callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
@@ -182,12 +184,27 @@ function personSearch_alum(event) {
 
 };
 
+function personSearch_nullcase(event) {
+  var msg = event.message.text;
+  var data = fs.readFileSync('./jsondata/basicConv.json', 'utf8');
+  var jsonData = JSON.parse(data);
+  task = [
+    function(callback) {
+      callback(null, util.getSimilarStrings(msg, jsonData.agreementArr, -1, jsonData.agreementArr.length));
+    },
+    function(agreementArr, callback) {
+      console.log("agreeementArr: " + agreementArr);
+    }
+  ]
+  async.waterfall(task);
+}
+
 module.exports = {
   functionMatch: {
     "사람찾기": startPersonSearch,
    "askProfileURL": askProfileURL,
    "personSearch_mainMenu": personSearch_mainMenu,
    "personSearch_alum": personSearch_alum,
-   // "personSearch_nullcase": personSearch_nullcase,
+   "personSearch_nullcase": personSearch_nullcase,
   }
 };
