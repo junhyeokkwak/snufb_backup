@@ -35,12 +35,13 @@ function registerUser(event) {
             var last_name = bodyObj.last_name;
             var gender = bodyObj.gender;
             var profile_pic = bodyObj.profile_pic;
+            console.log("PROFILE PIC: "+ profile_pic);
             console.log("first_name: " + first_name);
             //console.log("PROFILE_PIC URL: " + profile_pic);
             connection.query('SELECT * FROM Users WHERE user_id=' + senderID, function(err, result, fields) {
               if (result.length == 0){
                 //set conv_context as register1
-                connection.query('INSERT INTO Users (user_id, first_name, last_name, sex, conv_context) VALUES ('+ event.sender.id + ', "' + first_name + '","' + last_name + '","' + gender + '",' + '"register1"' + ')');
+                connection.query('INSERT INTO Users (user_id, first_name, last_name, sex, conv_context, profile_pic) VALUES ('+ event.sender.id + ', "' + first_name + '","' + last_name + '","' + gender + '",' + '"register1"' + '","' + profile_pic + ')');
               }
             } );
             callback(null, first_name);

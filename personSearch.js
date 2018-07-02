@@ -145,7 +145,7 @@ function personSearch_alum(event) {
   var substring1 = "학과";
   if (inputText.indexOf(substring1) == -1)
   {
-    api.sendResponse(event, {"text": "엥 뭔가 잘못친거 친거 같은데... \"00학과\"라고 입력해야돼! 다시 입력해줄래?", });
+    api.sendResponse(event, {"text": "엥 뭔가 잘못친거 같은데... \"00학과\"라고 입력해야돼! 다시 입력해줄래?", });
   }
   else {
     var uid = 0;
