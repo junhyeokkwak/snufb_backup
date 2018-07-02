@@ -418,6 +418,9 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
         console.log("resultData:" + resultData);
         if (resultData == ("결과없음"||"인증실패")) {
           console.log("결과없음/인증실패");
+          var entiremsg_final = `${stNm}으로 오는 ${busNum} 버스에 대한 도착 정보가 없어..우짜냐`;
+          var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
+          api.sendResponse(event, messageData);
         } else {
           console.log("RESULT of getBusArriveInfo: " + JSON.stringify(resultData));
           var arrmsg1_final, arrmsg2_final, extramsg;
