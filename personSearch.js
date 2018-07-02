@@ -140,32 +140,45 @@ function personSearch_mainMenu(event) {
 
 function personSearch_alum(event) {
   var inputText = event.message.text;
-  var uid = 0;
-  var task = [
-    function(callback) {
-      connection.query('SELECT uid FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
-        if (err) throw err;
-        uid = result[0].uid;
-        callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
-      });
-    },
-    function(err, callback) {
-      if(uid) {
-        api.sendResponse(event, {"text": "삐빅- 검색완료!"});
-        setTimeout(function () {
-          callback(null, 'done');
-        }, 1000);
+  var substring1 = "학과";
+  if (inputText.indexOf(substring1) == -1)
+  {
+    api.sendResponse(event, {"text": "엥 뭔가 잘못친거 친거 같은데... \"00학과\"라고 입력해야돼! 다시 입력해줄래?"});
+  }
+  else {
+    var uid = 0;
+    var task = [
+      function(callback) {
+        connection.query('SELECT uid FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
+          if (err) {
+            console.log("NO SEARCH RESULT");
+            // throw err;
+          }
+          else {
+            uid = result[0].uid;
+          }
+          callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
+        });
+      },
+      function(err, callback) {
+        if(uid) {
+          api.sendResponse(event, {"text": "삐빅- 검색완료!"});
+          setTimeout(function () {
+            callback(null, 'done');
+          }, 1000);
+        }
+      },
+      function(err, callback) {
+        if(uid) {
+            api.sendResponse(event, {"text": "페이스북 프로필은 www.facebook.com/" + uid + " 고"});
+            api.sendResponse(event, {"text": "이 링크를 누르면 직접 페메를 보낼 수 있어!\nm.me/" + uid});
+        }
+        callback(null, 'done');
       }
-    },
-    function(err, callback) {
-      if(uid) {
-          api.sendResponse(event, {"text": "페이스북 프로필은 www.facebook.com/" + uid + " 고"});
-          api.sendResponse(event, {"text": "이 링크를 누르면 직접 페메를 보낼 수 있어!\nm.me/" + uid});
-      }
-      callback(null, 'done');
-    }
-  ]
-  async.waterfall(task);
+    ]
+    async.waterfall(task);
+  }
+
 };
 
 module.exports = {
