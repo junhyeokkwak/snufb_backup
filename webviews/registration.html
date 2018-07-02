@@ -24,8 +24,8 @@
   js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
   fjs.parentNode.insertBefore(js, fjs);
  }(document, 'script', 'Messenger'));
-​
  window.extAsyncInit = function () {
+   alert(window.location.href);
    var isSupported = MessengerExtensions.isInExtension();
    //alert(isSupported);
    // the Messenger Extensions JS SDK is done loading
@@ -240,7 +240,6 @@
    }
   });
  });
-​
 </script>
 </body>
 </html>
