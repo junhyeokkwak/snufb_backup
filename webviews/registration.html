@@ -6,7 +6,7 @@
 <title>사용자 정보 등록</title>
  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body onLoad="initInput()">
+<body>
 <script>
  window.fbAsyncInit = function() {
    FB.init({
@@ -176,7 +176,7 @@
    }
   });
  });
-​
+
  $(document).on('click', '#btn-submit-re', function(e) {
   var regiMajor = document.forms[1].reRegiMajor.value;
   var regiClass = document.forms[1].reRegiClass.value;
