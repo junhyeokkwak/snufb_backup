@@ -157,7 +157,7 @@ function personSearch_alum(event) {
             uid = result[0].uid;
           }
           else { // search result = 0
-            api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 학과 사람이라도 찾아줄까?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+            api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 사람이라도 찾아줄까?"/*, "quick_replies": qr.reply_arrays["YesOrNo"]*/});
             connection.query('UPDATE Users SET conv_context="personSearch_nullcase" WHERE user_id=' + event.sender.id);
           }
           callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
@@ -193,7 +193,21 @@ function personSearch_nullcase(event) {
       callback(null, util.getSimilarStrings(msg, jsonData.agreementArr, -1, jsonData.agreementArr.length));
     },
     function(agreementArr, callback) {
-      console.log("agreeementArr: " + agreementArr[0].similarity);
+      // console.log("agreeementArr: " + agreementArr[0].similarity);
+      if (agreementArr[0].similarity == 0) { // response is 'no'
+      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+      api.sendResponse(event, {"text": "오키 그럼 메인메뉴로 돌아간다! 휘리릭!!!"});
+      connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+        if (err) throw err;
+        //console.log(result[0].first_name);
+        api.sendResponse(event, {"text": "무엇을 도와드릴까요 " + result[0].first_name + "님?"});
+      });
+      }
+      else // response is 'yes'
+      {
+        connection.query('UPDATE Users SET conv_context="personSearch_mainMenu" WHERE user_id=' + event.sender.id);
+        api.sendResponse(event, {"text": "누구 찾아줄까?", "quick_replies": qr.reply_arrays["personSearchOptions"]});
+      }
     }
   ]
   async.waterfall(task);
