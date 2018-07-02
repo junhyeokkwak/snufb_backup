@@ -33,6 +33,7 @@
          function success(result){
            user_psid = result.psid;
            current_url = window.location.href;
+           loadData();
            alert(user_psid);
            alert(current_url)
            // loadData();
@@ -53,7 +54,7 @@
     window.open('','_self',''); window.close(); // _parent
    }
   </script>
-  <button type="button" onclick="loadData()">Request data</button>
+  <!-- <button type="button" onclick="loadData()">Request data</button> -->
   <div id="map" style="width:100%;height:400px;"></div>
   <!-- <div id="map" style="width:100%;height:100%;"></div> -->
 <script>
