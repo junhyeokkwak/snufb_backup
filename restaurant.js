@@ -122,13 +122,14 @@ var restaurantRecommendation_freeResponse = function(event) {
       console.log(body);
       var jsonRestaurantData = JSON.parse(body);
       if (jsonRestaurantData.results.length > 0) {
-        console.log(jsonRestaurantData.results[0]);
+        // console.log(jsonRestaurantData.results[0]);
         console.log(jsonRestaurantData.results[0].name);
         console.log(jsonRestaurantData.results[0].place_id);
         console.log(jsonRestaurantData.results[0].rating);
         console.log(jsonRestaurantData.results[0].vicinity);
         var url = `www.example.com`
-        if (jsonRestaurantData.results[0].photos.length > 0) {
+        console.log(jsonRestaurantData.results[0].hasOwnProperty('photos'));
+        if (jsonRestaurantData.results[0].hasOwnProperty('photos')) {
           console.log(jsonRestaurantData.results[0].photos[0].photo_reference);
         }
         var messageData = {
