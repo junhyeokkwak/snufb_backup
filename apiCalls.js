@@ -173,6 +173,8 @@ function handleButton(event, title, url) {
 
 function handlePersonSearchWebview(event, title, url, target_uid) {
   var senderID = event.sender.id;
+  var target_first_name = "길동";
+  var target_last_name = "홍";
     let messageData = {
       recipient: {
         id: senderID
@@ -195,7 +197,7 @@ function handlePersonSearchWebview(event, title, url, target_uid) {
               //"item_url": url,
               //"webview_height_ratio": size,
               //"subtitle":"let's go!",
-              "title":""
+              "title": target_first_name + target_last_name;
             }],
             "template_type":"generic"
           },
