@@ -198,7 +198,7 @@ function handlePersonSearchWebview(event, title, url, target_uid, target_first_n
                   "messenger_extensions" : true,
                 },
               ],
-              "image_url" : target_profile_pic,
+              "image_url" : 'https://platform-lookaside.fbsbx.com/platform/profilepic/?psid=1702233693201997&width=1024&ext=1530780576&hash=AeRfoNjiHzASd4kQ',
               //"image_url": 'http://mblogthumb3.phinf.naver.net/20150828_254/pcrht_14407698481174iaCv_PNG/Screenshot_2015-08-28-18-03-41_edit.png?type=w2',
               //"item_url": url,
               //"webview_height_ratio": size,

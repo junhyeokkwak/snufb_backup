@@ -178,14 +178,14 @@ function personSearch_alum(event) {
       },
       function(err, callback) {
         if(uid) {
-            api.sendResponse(event, {"text": "페이스북 프로필은 www.facebook.com/" + uid + " 고"});
-            api.sendResponse(event, {"text": "이 링크를 누르면 직접 페메를 보낼 수 있어!\nm.me/" + uid});
+            // api.sendResponse(event, {"text": "페이스북 프로필은 www.facebook.com/" + uid + " 고"});
+            // api.sendResponse(event, {"text": "이 링크를 누르면 직접 페메를 보낼 수 있어!\nm.me/" + uid});
             var url = "https://m.me/" + uid;
             var profileURL = "https://www.facebook.com/" + uid;
             // api.handlePersonSearchWebview(event, title, url, uid);
             // api.handleWebview(event, "페이스북 프로필 보기", profileURL, "full");
             api.handlePersonSearchWebview(event, "페이스북 프로필 열기", profileURL, uid, target_first_name, target_last_name, target_profile_pic);
-            api.handleButton(event, "이 친구야!", url);
+            api.handleButton(event, "직접 연락해봐!", url);
         }
         callback(null, 'done');
       }
