@@ -98,6 +98,9 @@ var restaurantRecommendation_category = function(event) {
 };
 
 var restaurantRecommendation_freeResponse = function(event) {
+  app.APP.get(`/restaurant/test`, function(req, res){
+    res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
+  });
   console.log("RUN: restaurantRecommendation_freeResponse");
   if (event.message.text.length > 0 ) {
     // NOTE: need to compare string-similarity of text with those of items in the cusines Arr.
@@ -202,17 +205,14 @@ var restaurantRecommendation_freeResponse = function(event) {
   }
 }
 
-app.APP.get(`/restaurant/test`, function(req, res){
-  res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
-});
 
-var restaurantRecommendation_webviewHelper = function(place_id) {
-  var url =`/restaurant/${place_id}`;
-  app.APP.get(url, function(req, res){
-    res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
-  });
-  return url;
-}
+// var restaurantRecommendation_webviewHelper = function(place_id) {
+//   var url =`/restaurant/${place_id}`;
+//   app.APP.get(url, function(req, res){
+//     res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
+//   });
+//   return url;
+// }
 
 module.exports = {
   functionMatch: {
