@@ -124,38 +124,37 @@ var restaurantRecommendation_freeResponse = function(event) {
         var titleMessage = `${jsonRestaurantData.results[0].name} 어때?`;
         var url = jsonRestaurantData.results[0].photos[0].html_attributions[0];
         // var url = "<a href=\"https://maps.google.com/maps/contrib/108555596243936676377/photos\">조윤태</a>";
-        var i1 = url.lastIndexOf("contrib/");
-        var i2 = url.indexOf("/photos");
+        // var i1 = url.lastIndexOf("contrib/");
+        // var i2 = url.indexOf("/photos");
         // console.log(i1 + "/" + i2);
         url = `https://maps.google.com/maps/${url.substring(i1, i2)}/photos`;
-
         // var url = 'www.example.com'
         console.log("photo url: " + url);
         // var image_url = './webviews/E_WebviewBGShd-01.jpg';
         var buttonMessage = "자세히 보기";
         api.sendResponse(event, titleMessage);
+
         let messageData = {
-          recipient: {
-            id: event.sender.id
+          "recipient":{
+            "id":"<PSID>"
           },
-          message: {
+          "message":{
             "attachment":{
-            "type":"template",
-            "payload":{
-              "template_type":"button",
-              "text": titleMessage,
-              "buttons":[
-                {
-                  "type":"web_url",
-                  "url": url,
-                  "title":"자세히보기",
-                  "webview_height_ratio": "compact",
-                  "messenger_extensions": true,
-                }
-              ]
-            }//payload
-            }//attachment
-          }//message
+              "type":"template",
+              "payload":{
+                "template_type":"button",
+                "text":"Try the URL button!",
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":"https://maps.google.com/maps/contrib/108555596243936676377/photos",
+                    "title":"URL Button",
+                    "webview_height_ratio": "full"
+                  }
+                ]
+              }
+            }
+          }
         };//messageDat
         api.callSendAPI(messageData);
         // api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
