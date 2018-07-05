@@ -197,7 +197,7 @@ function handlePersonSearchWebview(event, title, url, target_uid) {
               //"item_url": url,
               //"webview_height_ratio": size,
               //"subtitle":"let's go!",
-              "title": target_first_name + target_last_name;
+              "title": target_first_name + target_last_name
             }],
             "template_type":"generic"
           },
