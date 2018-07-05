@@ -152,7 +152,7 @@ function handleButton(event, title, url) {
       },
       message: {
         "attachment":{
-          "type":"template"
+          "type":"template",
           "payload":{
             "template_type":"button",
             "text": title,
@@ -163,7 +163,7 @@ function handleButton(event, title, url) {
                 "title": "메세지 보내기"
               }
             ]
-          },
+          }
         }
       }
     };
