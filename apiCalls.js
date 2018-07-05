@@ -173,6 +173,7 @@ function handleButton(event, title, url) {
 
 function handlePersonSearchWebview(event, title, url, target_uid, target_first_name, target_last_name, target_profile_pic) {
   var senderID = event.sender.id;
+  console.log(typeof target_profile_pic);
   var target_full_name;
   if (target_first_name.length > 2) {
     target_full_name = target_first_name + " " + target_last_name;
