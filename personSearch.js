@@ -149,15 +149,16 @@ function personSearch_alum(event) {
   }
   else {
     var uid = 0;
+    var target_first_name, target_last_name, target_profile_pic;
     var task = [
       function(callback) {
         connection.query('SELECT * FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
           if (err) throw err;
           if (result.length) {
             uid = result[0].uid;
-            var target_first_name = result[0].first_name;
-            var target_last_name = result[0].last_name;
-            var target_profile_pic = result[0].profile_pic;
+            target_first_name = result[0].first_name;
+            target_last_name = result[0].last_name;
+            target_profile_pic = result[0].profile_pic;
             // console.log(uid + " " + target_first_name + " " + target_profile_pic);
           }
           else { // search result = 0
@@ -172,7 +173,7 @@ function personSearch_alum(event) {
           api.sendResponse(event, {"text": "삐빅- 검색완료!"});
           setTimeout(function () {
             callback(null, 'done');
-          }, 3000);
+          }, 1000);
         }
       },
       function(err, callback) {
