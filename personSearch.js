@@ -151,7 +151,7 @@ function personSearch_alum(event) {
     var uid = 0;
     var task = [
       function(callback) {
-        connection.query('SELECT uid FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
+        connection.query('SELECT * FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
           if (err) throw err;
           if (result.length) {
             uid = result[0].uid;

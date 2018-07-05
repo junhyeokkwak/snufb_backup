@@ -171,16 +171,15 @@ function handleButton(event, title, url) {
 }
 
 
-function handlePersonSearchWebview(event, title, url, target_uid) {
+function handlePersonSearchWebview(event, title, url, target_uid, target_first_name, target_last_name, target_profile_pic) {
   var senderID = event.sender.id;
-  var target_first_name = "길동";
-  var target_last_name = "홍";
   var target_full_name;
   if (target_first_name.length > 2) {
     target_full_name = target_first_name + " " + target_last_name;
   } else {
     target_full_name = target_last_name + target_first_name;
   }
+
     let messageData = {
       recipient: {
         id: senderID
@@ -198,7 +197,7 @@ function handlePersonSearchWebview(event, title, url, target_uid) {
                   "messenger_extensions" : true,
                 },
               ],
-              "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
+              "image_url" : target_profile_pic,
               //"image_url": 'http://mblogthumb3.phinf.naver.net/20150828_254/pcrht_14407698481174iaCv_PNG/Screenshot_2015-08-28-18-03-41_edit.png?type=w2',
               //"item_url": url,
               //"webview_height_ratio": size,
