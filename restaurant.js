@@ -1,3 +1,5 @@
+var app = require("./app");
+var path = require('path');
 var request = require("request");
 var https = require('https');
 var qr = require('./quick_replies');
@@ -5,8 +7,10 @@ var api = require('./apiCalls');
 var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
+var convert = require('xml-js');
+var bodyparser=require('body-parser');
+var stringSimilarity = require('string-similarity');
 const fs = require('fs');
-const isImageUrl = require('is-image-url');
 
 var basicConvFile=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
 var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
@@ -133,7 +137,7 @@ var restaurantRecommendation_freeResponse = function(event) {
         // }
         var genericTemplatesArr = [];
         for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
-          var image_url, rating, vicinity;
+          var image_url, rating, vicinity, url;
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
           console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
@@ -148,13 +152,17 @@ var restaurantRecommendation_freeResponse = function(event) {
           } else {
             image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
           }
+          url =`/restaurant/${jsonRestaurantData.results[i].place_id}`;
+          app.APP.get(url, function(req, res){
+            res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
+          });
           genericTemplatesArr.push(
             {
               "buttons": [
                 {
                   "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
                   "type":"web_url",
-                  "url": './webviews/restaurantMap.html',
+                  "url": url,
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
                 },
