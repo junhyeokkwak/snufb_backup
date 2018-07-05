@@ -139,8 +139,8 @@ var restaurantRecommendation_freeResponse = function(event) {
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
           console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
           console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
-          rating = ((jsonRestaurantData.results[i].rating = (undefined || "undefined")) ? "평점 정보가 없어ㅠ" : jsonRestaurantData.results[i].rating+"/5점");
-          vicinity = ((jsonRestaurantData.results[i].vicinity = (undefined || "undefined")) ? "위치 정보가 없어ㅠ" : jsonRestaurantData.results[i].vicinity);
+          rating = ((jsonRestaurantData.results[i].rating == (undefined || "undefined")) ? "평점 정보가 없어ㅠ" : jsonRestaurantData.results[i].rating+"/5점");
+          vicinity = ((jsonRestaurantData.results[i].vicinity == (undefined || "undefined")) ? "위치 정보가 없어ㅠ" : jsonRestaurantData.results[i].vicinity);
           if (jsonRestaurantData.results[i].hasOwnProperty('photos')) {
             // console.log(i + "th item's photo_reference: " +jsonRestaurantData.results[i].photos[0].photo_reference);
             image_url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${jsonRestaurantData.results[i].photos[0].photo_reference}&key=${process.env.GOOGLE_API_KEY}`
@@ -154,7 +154,7 @@ var restaurantRecommendation_freeResponse = function(event) {
                 {
                   "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
                   "type":"web_url",
-                  "url": 'www.example.com',
+                  "url": './webviews/restaurantMap.html',
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
                 },
