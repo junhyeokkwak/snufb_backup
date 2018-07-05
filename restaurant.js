@@ -151,6 +151,7 @@ var restaurantRecommendation_freeResponse = function(event) {
           var image_url, rating, vicinity, url;
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
           console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
+          restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id);
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
           console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
           console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
@@ -175,7 +176,7 @@ var restaurantRecommendation_freeResponse = function(event) {
                 {
                   "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
                   "type":"web_url",
-                  "url": process.env.HEROKU_URL + `/restaurant/${jsonRestaurantData.results[i].place_id)}`,
+                  "url": process.env.HEROKU_URL + `/restaurant/${jsonRestaurantData.results[i].place_id}`,
                   // "url" : process.env.HEROKU_URL + `/restaurant/test`,
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
