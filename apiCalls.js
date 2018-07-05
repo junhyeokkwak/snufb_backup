@@ -173,7 +173,6 @@ function handleButton(event, title, url) {
 
 function handlePersonSearchWebview(event, title, url, target_uid, target_first_name, target_last_name, target_profile_pic) {
   var senderID = event.sender.id;
-  console.log(typeof target_profile_pic);
   var target_full_name;
   if (target_first_name.length > 2) {
     target_full_name = target_first_name + " " + target_last_name;
@@ -198,7 +197,7 @@ function handlePersonSearchWebview(event, title, url, target_uid, target_first_n
                   "messenger_extensions" : true,
                 },
               ],
-              "image_url" : 'https://platform-lookaside.fbsbx.com/platform/profilepic/?psid=1702233693201997&width=1024&ext=1530780576&hash=AeRfoNjiHzASd4kQ',
+              "image_url" : 'https://platform-lookaside.fbsbx.com/platform/profilepic/?psid=1838693609521064&width=1024&ext=1531029415&hash=AeQYEj9_0MGozgWz',
               //"image_url": 'http://mblogthumb3.phinf.naver.net/20150828_254/pcrht_14407698481174iaCv_PNG/Screenshot_2015-08-28-18-03-41_edit.png?type=w2',
               //"item_url": url,
               //"webview_height_ratio": size,
