@@ -138,7 +138,6 @@ var restaurantRecommendation_freeResponse = function(event) {
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
           console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
           console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
-          var y = (x == 2 ? "yes" : "no");
           rating = ((jsonRestaurantData.results[i].rating = (undefined || "undefined")) ? "평점 정보가 없어ㅠ" : jsonRestaurantData.results[i].rating);
           vicinity = ((jsonRestaurantData.results[i].vicinity = (undefined || "undefined")) ? "위치 정보가 없어ㅠ" : jsonRestaurantData.results[i].vicinity);
           if (jsonRestaurantData.results[i].hasOwnProperty('photos')) {
