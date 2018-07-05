@@ -133,6 +133,18 @@ var restaurantRecommendation_freeResponse = function(event) {
           console.log(jsonRestaurantData.results[0].photos[0].photo_reference);
         }
 
+        for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
+          console.log(i + "th item's name: " +jsonRestaurantData.results[0].name);
+          console.log(i + "th item's place_id: " +jsonRestaurantData.results[0].place_id);
+          console.log(i + "th item's rating: " +jsonRestaurantData.results[0].rating);
+          console.log(i + "th item's vicinity: " +jsonRestaurantData.results[0].vicinity);
+          var url = `www.example.com`
+          console.log(i + "th item's photo bool: " +jsonRestaurantData.results[0].hasOwnProperty('photos'));
+          if (jsonRestaurantData.results[0].hasOwnProperty('photos')) {
+            console.log(i + "th item's photo_reference: " +jsonRestaurantData.results[0].photos[0].photo_reference);
+          }
+        }
+
         var template1 = {
           "buttons": [
             {
@@ -143,7 +155,7 @@ var restaurantRecommendation_freeResponse = function(event) {
               "messenger_extensions" : false,
             },
           ],
-          "image_url" : './webviews/E_WebviewBGShd-01.jpg',
+          "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
           "title":jsonRestaurantData.results[0].name
         }
 
