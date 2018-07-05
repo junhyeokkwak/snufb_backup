@@ -166,10 +166,10 @@ var restaurantRecommendation_freeResponse = function(event) {
                     ]
                   }
                 ]
-              }
-            }
-          }
-        }
+              }//payload
+            }//attachment
+          }//message
+        }//messageData
         // let messageData = {
         //   "recipient":{
         //     "id":event.sender.id

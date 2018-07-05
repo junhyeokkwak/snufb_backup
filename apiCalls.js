@@ -178,15 +178,14 @@ function callSendAPI(messageData) {
     qs: { access_token: PAGE_ACCESS_TOKEN },
     method: 'POST',
     json: messageData
-
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
     } else {
       console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
+      // console.error("callSendAPI RESPONSE: " + response);
+      console.error("callSendAPI ERR: " + error);
     }
   });
 }
