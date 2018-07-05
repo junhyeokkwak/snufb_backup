@@ -78,6 +78,7 @@ var initRestaurantRecommendation = function(event) {
 
 var restaurantRecommendation_category = function(event) {
   console.log("RUN: restaurantRecommendation_category");
+
   if (event.message.text == ("그냥 말할래" || "종합" || "상황별" || "재료별" || "나라별")) {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category");
     if (event.message.text == "그냥 말할래") {
@@ -102,6 +103,15 @@ var restaurantRecommendation_freeResponse = function(event) {
   //   res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
   // });
   console.log("RUN: restaurantRecommendation_freeResponse");
+
+  var restaurantRecommendation_webviewHelper = function(place_id) {
+    var url =`/restaurant/${place_id}`;
+    app.APP.get(url, function(req, res){
+      res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
+    });
+    return url;
+  }
+
   if (event.message.text.length > 0 ) {
     // NOTE: need to compare string-similarity of text with those of items in the cusines Arr.
     console.log("VALID INPUT");
@@ -148,7 +158,7 @@ var restaurantRecommendation_freeResponse = function(event) {
           console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
           rating = (!(jsonRestaurantData.results[i].hasOwnProperty('rating')) || (jsonRestaurantData.results[i].rating == (null || undefined || "undefined"))
             ? "평점 정보가 없어ㅠ" : jsonRestaurantData.results[i].rating+"/5점");
-          vicinity = (!(jsonRestaurantData.results[i].hasOwnProperty('vicinity')) || (jsonRestaurantData.results[i].vicinity == (null || undefined || "undefined")) 
+          vicinity = (!(jsonRestaurantData.results[i].hasOwnProperty('vicinity')) || (jsonRestaurantData.results[i].vicinity == (null || undefined || "undefined"))
             ? "위치 정보가 없어ㅠ" : jsonRestaurantData.results[i].vicinity);
           if (jsonRestaurantData.results[i].hasOwnProperty('photos')) {
             // console.log(i + "th item's photo_reference: " +jsonRestaurantData.results[i].photos[0].photo_reference);
@@ -208,13 +218,7 @@ var restaurantRecommendation_freeResponse = function(event) {
 }
 
 
-var restaurantRecommendation_webviewHelper = function(place_id) {
-  var url =`/restaurant/${place_id}`;
-  app.APP.get(url, function(req, res){
-    res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
-  });
-  return url;
-}
+
 
 module.exports = {
   functionMatch: {
