@@ -132,6 +132,40 @@ var restaurantRecommendation_freeResponse = function(event) {
         if (jsonRestaurantData.results[0].hasOwnProperty('photos')) {
           console.log(jsonRestaurantData.results[0].photos[0].photo_reference);
         }
+
+        var template1 = {
+          "buttons": [
+            {
+              "title":"TEST",
+              "type":"web_url",
+              "url": 'www.example.com',
+              "webview_height_ratio": "compact",
+              "messenger_extensions" : false,
+            },
+          ],
+          "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
+          "title":"밑의 주소로 들어가서 등록해줘!"
+        }
+
+        var template2 = {
+          "buttons": [
+            {
+              "title":"TEST",
+              "type":"web_url",
+              "url": 'www.example.com',
+              "webview_height_ratio": "compact",
+              "messenger_extensions" : false,
+            },
+          ],
+          "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
+          "title":"밑의 주소로 들어가서 등록해줘!"
+        }
+
+        var genericTemplatesArr = [
+          template1,
+          template2
+        ]
+
         var messageData = {
           "recipient":{
             "id":event.sender.id
@@ -141,52 +175,7 @@ var restaurantRecommendation_freeResponse = function(event) {
               "type":"template",
               "payload":{
                 "template_type":"generic",
-                "elements":[
-
-                  {
-                    "buttons": [
-                      {
-                        "title":"TEST",
-                        "type":"web_url",
-                        "url": 'www.example.com',
-                        "webview_height_ratio": "compact",
-                        "messenger_extensions" : false,
-                      },
-                    ],
-                    "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
-                    "title":"밑의 주소로 들어가서 등록해줘!"
-                  },
-
-                  {
-                    "buttons": [
-                      {
-                        "title":"TEST",
-                        "type":"web_url",
-                        "url": 'www.example.com',
-                        "webview_height_ratio": "compact",
-                        "messenger_extensions" : false,
-                      },
-                    ],
-                    "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
-                    "title":"밑의 주소로 들어가서 등록해줘!"
-                  },
-                  
-                  {
-                    "buttons": [
-                      {
-                        "title":"TEST",
-                        "type":"web_url",
-                        "url": 'www.example.com',
-                        "webview_height_ratio": "compact",
-                        "messenger_extensions" : false,
-                      },
-                    ],
-                    "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
-                    "title":"밑의 주소로 들어가서 등록해줘!"
-                  }
-
-
-                ]//elements
+                "elements": genericTemplatesArr
               }//payload
             }//attachment
           }//message
