@@ -178,7 +178,7 @@ var restaurantRecommendation_freeResponse = function(event) {
                   "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
                   "type":"web_url",
                   "url": restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id),
-                  "url" : process.env.HEROKU_URL + `/restaurant/test`,
+                  // "url" : process.env.HEROKU_URL + `/restaurant/test`,
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
                 },
