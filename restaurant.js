@@ -162,7 +162,8 @@ var restaurantRecommendation_freeResponse = function(event) {
                 {
                   "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
                   "type":"web_url",
-                  "url": restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id),
+                  // "url": restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id),
+                  "url" : process.env.HEROKU_URL + `/restaurant/test`,
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
                 },
@@ -200,6 +201,10 @@ var restaurantRecommendation_freeResponse = function(event) {
     console.log("INVALID INPUT");
   }
 }
+
+app.APP.get(`/restaurant/test`, function(req, res){
+  res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
+});
 
 var restaurantRecommendation_webviewHelper = function(place_id) {
   var url =`/restaurant/${place_id}`;
