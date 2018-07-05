@@ -133,7 +133,7 @@ var restaurantRecommendation_freeResponse = function(event) {
         }
         var messageData = {
           "recipient":{
-            "id": event.sender.id
+            "id":event.sender.id
           },
           "message":{
             "attachment":{
