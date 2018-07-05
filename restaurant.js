@@ -116,23 +116,21 @@ var restaurantRecommendation_freeResponse = function(event) {
          'cache-control': 'no-cache' } }; //options
 
     request(options, function (error, response, body) {
+
+
       if (error) throw new Error(error);
       console.log(body);
       var jsonRestaurantData = JSON.parse(body);
       if (jsonRestaurantData.results.length > 0) {
+        console.log(jsonRestaurantData.results[0]);
         console.log(jsonRestaurantData.results[0].name);
-        // var titleMessage = `${jsonRestaurantData.results[0].name} 어때?`;
-        var url = jsonRestaurantData.results[0].photos[0].html_attributions[0];
-        // var url = "<a href=\"https://maps.google.com/maps/contrib/108555596243936676377/photos\">조윤태</a>";
-        var i1 = url.lastIndexOf("contrib/");
-        var i2 = url.indexOf("/photos");
-        // console.log(i1 + "/" + i2);
-        url = `https://maps.google.com/maps/${url.substring(i1, i2)}/photos`;
-        // var url = 'www.example.com'
-        console.log("photo url: " + url);
-        // var image_url = './webviews/E_WebviewBGShd-01.jpg';
-        var buttonMessage = "자세히 보기";
-        api.sendResponse(event, `${jsonRestaurantData.results[0].name} 어때?`);
+        console.log(jsonRestaurantData.results[0].place_id);
+        console.log(jsonRestaurantData.results[0].rating);
+        console.log(jsonRestaurantData.results[0].vicinity);
+        var url = `www.example.com`
+        if (jsonRestaurantData.results[0].photos.length > 0) {
+          console.log(jsonRestaurantData.results[0].photos[0].photo_reference);
+        }
 
         let messageData = {
           "recipient":{
@@ -149,7 +147,7 @@ var restaurantRecommendation_freeResponse = function(event) {
                     "type":"web_url",
                     "url":"https://maps.google.com/maps/contrib/108555596243936676377/photos",
                     "title":"URL Button",
-                    "webview_height_ratio": "full"
+                    "webview_height_ratio": "compact"
                   }
                 ]
               }
