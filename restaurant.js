@@ -149,7 +149,7 @@ var restaurantRecommendation_freeResponse = function(event) {
                         "title":"TEST",
                         "type":"web_url",
                         "url": 'www.example.com',
-                        "webview_height_ratio": compact,
+                        "webview_height_ratio": "compact",
                         "messenger_extensions" : false,
                       },
                     ],
