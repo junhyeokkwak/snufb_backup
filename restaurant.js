@@ -131,14 +131,15 @@ var restaurantRecommendation_freeResponse = function(event) {
         // if (jsonRestaurantData.results[0].hasOwnProperty('photos')) {
         //   console.log(jsonRestaurantData.results[0].photos[0].photo_reference);
         // }
-        var genericTemplatesArr = [], image_url, rating, vicinity;
+        var genericTemplatesArr = [];
         for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
+          var image_url, rating, vicinity;
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
           console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
           console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
           console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
-          rating = ((jsonRestaurantData.results[i].rating = (undefined || "undefined")) ? "평점 정보가 없어ㅠ" : jsonRestaurantData.results[i].rating);
+          rating = ((jsonRestaurantData.results[i].rating = (undefined || "undefined")) ? "평점 정보가 없어ㅠ" : jsonRestaurantData.results[i].rating+"/5점");
           vicinity = ((jsonRestaurantData.results[i].vicinity = (undefined || "undefined")) ? "위치 정보가 없어ㅠ" : jsonRestaurantData.results[i].vicinity);
           if (jsonRestaurantData.results[i].hasOwnProperty('photos')) {
             // console.log(i + "th item's photo_reference: " +jsonRestaurantData.results[i].photos[0].photo_reference);
@@ -160,7 +161,7 @@ var restaurantRecommendation_freeResponse = function(event) {
               ],
               "image_url" : image_url,
               "title": jsonRestaurantData.results[i].name,
-              "subtitle" : `주소: ${vicinity} \n평점: ${rating}/5점`,
+              "subtitle" : `주소: ${vicinity} \n평점: ${rating}`,
             }//template
           )//push
           if ((i == jsonRestaurantData.results.length-1) || (i == 9)) {
