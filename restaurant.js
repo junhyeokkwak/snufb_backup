@@ -146,11 +146,11 @@ var restaurantRecommendation_freeResponse = function(event) {
                   {
                     "buttons": [
                       {
-                        "title":title,
+                        "title":"TEST",
                         "type":"web_url",
-                        "url":url,
-                        "webview_height_ratio": size,
-                        "messenger_extensions" : true,
+                        "url": 'www.example.com',
+                        "webview_height_ratio": compact,
+                        "messenger_extensions" : false,
                       },
                     ],
                     "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
