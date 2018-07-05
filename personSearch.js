@@ -155,6 +155,9 @@ function personSearch_alum(event) {
           if (err) throw err;
           if (result.length) {
             uid = result[0].uid;
+            var target_first_name = result[0].first_name;
+            var target_last_name = result[0].last_name;
+            var target_profile_pic = result[0].profile_pic;
           }
           else { // search result = 0
             api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 사람이라도 찾아줄까?"/*, "quick_replies": qr.reply_arrays["YesOrNo"]*/});
@@ -179,7 +182,7 @@ function personSearch_alum(event) {
             var profileURL = "https://www.facebook.com/" + uid;
             // api.handlePersonSearchWebview(event, title, url, uid);
             // api.handleWebview(event, "페이스북 프로필 보기", profileURL, "full");
-            api.handlePersonSearchWebview(event, "페이스북 프로필 열기", profileURL, uid);
+            api.handlePersonSearchWebview(event, "페이스북 프로필 열기", profileURL, uid, target_first_name, target_last_name, target_profile_pic);
             api.handleButton(event, "이 친구야!", url);
         }
         callback(null, 'done');
