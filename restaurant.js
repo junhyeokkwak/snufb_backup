@@ -152,17 +152,17 @@ var restaurantRecommendation_freeResponse = function(event) {
           } else {
             image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
           }
-          url =`/restaurant/${jsonRestaurantData.results[i].place_id}`;
-          app.APP.get(url, function(req, res){
-            res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
-          });
+          // url =`/restaurant/${jsonRestaurantData.results[i].place_id}`;
+          // app.APP.get(url, function(req, res){
+          //   res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
+          // });
           genericTemplatesArr.push(
             {
               "buttons": [
                 {
                   "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
                   "type":"web_url",
-                  "url": url,
+                  "url": restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id);
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
                 },
@@ -199,6 +199,14 @@ var restaurantRecommendation_freeResponse = function(event) {
   } else {
     console.log("INVALID INPUT");
   }
+}
+
+var restaurantRecommendation_webviewHelper = function(place_id) {
+  var url =`/restaurant/${place_id}`;
+  app.APP.get(url, function(req, res){
+    res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
+  });
+  return url;
 }
 
 module.exports = {
