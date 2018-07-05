@@ -177,7 +177,8 @@ function personSearch_alum(event) {
             api.sendResponse(event, {"text": "이 링크를 누르면 직접 페메를 보낼 수 있어!\nm.me/" + uid});
             var title = "이대봇의 친구를 소개합니다";
             var url = "m.me/" + uid;
-            api.handlePersonSearchWebview(event, title, url, uid);
+            // api.handlePersonSearchWebview(event, title, url, uid);
+            api.handleWebview(event, title, url, "compact");
         }
         callback(null, 'done');
       }
