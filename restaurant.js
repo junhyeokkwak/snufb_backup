@@ -131,29 +131,66 @@ var restaurantRecommendation_freeResponse = function(event) {
         if (jsonRestaurantData.results[0].photos.length > 0) {
           console.log(jsonRestaurantData.results[0].photos[0].photo_reference);
         }
-
-        let messageData = {
+        var messageData = {
           "recipient":{
-            "id":event.sender.id
+            "id": event.sender.id
           },
           "message":{
             "attachment":{
               "type":"template",
               "payload":{
-                "template_type":"button",
-                "text":"Try the URL button!",
-                "buttons":[
-                  {
-                    "type":"web_url",
-                    "url":"https://maps.google.com/maps/contrib/108555596243936676377/photos",
-                    "title":"URL Button",
-                    "webview_height_ratio": "compact"
+                "template_type":"generic",
+                "elements":[
+                   {
+                    "title":"Welcome!",
+                    "image_url":"https://petersfancybrownhats.com/company_image.png",
+                    "subtitle":"We have the right hat for everyone.",
+                    "default_action": {
+                      "type": "web_url",
+                      "url": "https://petersfancybrownhats.com/view?item=103",
+                      "messenger_extensions": true,
+                      "webview_height_ratio": "tall",
+                      "fallback_url": "https://petersfancybrownhats.com/"
+                    },
+                    "buttons":[
+                      {
+                        "type":"web_url",
+                        "url":"https://petersfancybrownhats.com",
+                        "title":"View Website"
+                      },{
+                        "type":"postback",
+                        "title":"Start Chatting",
+                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                      }
+                    ]
                   }
                 ]
               }
             }
           }
-        };//messageDat
+        }
+        // let messageData = {
+        //   "recipient":{
+        //     "id":event.sender.id
+        //   },
+        //   "message":{
+        //     "attachment":{
+        //       "type":"template",
+        //       "payload":{
+        //         "template_type":"button",
+        //         "text":"Try the URL button!",
+        //         "buttons":[
+        //           {
+        //             "type":"web_url",
+        //             "url":"https://maps.google.com/maps/contrib/108555596243936676377/photos",
+        //             "title":"URL Button",
+        //             "webview_height_ratio": "compact"
+        //           }
+        //         ]
+        //       }
+        //     }
+        //   }
+        // };//messageDat
         api.callSendAPI(messageData);
         // api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
       } else {
