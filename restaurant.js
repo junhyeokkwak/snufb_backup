@@ -136,7 +136,7 @@ var restaurantRecommendation_freeResponse = function(event) {
 
         let messageData = {
           "recipient":{
-            "id":"<PSID>"
+            "id":event.sender.id
           },
           "message":{
             "attachment":{
