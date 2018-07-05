@@ -157,12 +157,9 @@ var restaurantRecommendation_freeResponse = function(event) {
                   "messenger_extensions" : false,
                 },
               ],
-              // "image_url" : `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${jsonRestaurantData.results[i].photos[0].photo_reference}&key=AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0`,
-              // "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
               "image_url" : image_url,
-              // "image_url" : (jsonRestaurantData.results[0].hasOwnProperty('photos')) ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${jsonRestaurantData.results[i].photos[0].photo_reference}&key=${process.env.GOOGLE_API_KEY}` : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
               "title": jsonRestaurantData.results[i].name,
-              // "subtitle" : `주소: ${jsonRestaurantData.results[i].vicinity} / 평점: ${jsonRestaurantData.results[i].rating}`,
+              "subtitle" : `주소: ${jsonRestaurantData.results[i].vicinity} / 평점: ${jsonRestaurantData.results[i].rating}`,
             }//template
           )//push
           if ((i == jsonRestaurantData.results.length-1) || (i == 9)) {
