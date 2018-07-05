@@ -180,6 +180,7 @@ function personSearch_alum(event) {
             // api.handlePersonSearchWebview(event, title, url, uid);
             // api.handleWebview(event, "페이스북 프로필 보기", profileURL, "full");
             api.handlePersonSearchWebview(event, "페이스북 프로필 열기", profileURL, uid);
+            api.handleButton(event, "이 친구야!", url);
         }
         callback(null, 'done');
       }

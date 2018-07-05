@@ -144,6 +144,32 @@ function handleWebview(event, title, url, size) {
     callSendAPI(messageData);
 }
 
+function handleButton(event, title, url) {
+  var senderID = event.sender.id;
+    let messageData = {
+      recipient: {
+        id: senderID
+      },
+      message: {
+        "attachment":{
+          "type":"template"
+          "payload":{
+            "template_type":"button",
+            "text": title,
+            "buttons":[
+              {
+                "type":"web_url",
+                "url": url,
+                "title": "메세지 보내기"
+              }
+            ]
+          },
+        }
+      }
+    };
+    callSendAPI(messageData);
+}
+
 
 function handlePersonSearchWebview(event, title, url, target_uid) {
   var senderID = event.sender.id;
@@ -237,3 +263,4 @@ module.exports.handleWebview = handleWebview;
 module.exports.sendMessage = sendMessage;
 module.exports.sendOnlineImage = sendOnlineImage;
 module.exports.handlePersonSearchWebview = handlePersonSearchWebview;
+module.exports.handleButton = handleButton;
