@@ -27,6 +27,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "is-image-url": "^1.1.8",
+    "jquery": "^3.3.1",
     "mysql": "^2.15.0",
     "path": "^0.12.7",
     "querystring": "^0.2.0",

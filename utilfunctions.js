@@ -5,7 +5,7 @@ var connection = mysql.createConnection(process.env.DATABASE_URL);
 //reset conv_context
 function reset(event) {
   console.log('RUN : reset - RESET CONV');
-  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+  connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
 }
 
 function generateQuickReplies(arr){
@@ -48,9 +48,10 @@ function Josa(txt, josa){
 module.exports.Josa = Josa;
 
 function testWebview(event){
+  var api = require('./apiCalls')
   console.log("RUN testWebview");
   var title = "TEST";
-  var url = process.env.HEROKU_URL + '/register';
+  var url = process.env.HEROKU_URL + '/busRoute';
   var size = "compact";
   api.handleWebview(event, title, url, size)
 }
@@ -78,8 +79,6 @@ function getSimilarStrings(targetString, arr, criterion, number) {
     return(resultArr);
   }
 }
-
-
 
 module.exports = {
     getSimilarStrings : getSimilarStrings,
