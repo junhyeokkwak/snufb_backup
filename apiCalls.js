@@ -175,6 +175,12 @@ function handlePersonSearchWebview(event, title, url, target_uid) {
   var senderID = event.sender.id;
   var target_first_name = "길동";
   var target_last_name = "홍";
+  var target_full_name;
+  if (target_first_name.length > 2) {
+    target_full_name = target_first_name + " " + target_last_name;
+  } else {
+    target_full_name = target_last_name + target_first_name;
+  }
     let messageData = {
       recipient: {
         id: senderID
@@ -197,7 +203,7 @@ function handlePersonSearchWebview(event, title, url, target_uid) {
               //"item_url": url,
               //"webview_height_ratio": size,
               //"subtitle":"let's go!",
-              "title": target_first_name + target_last_name
+              "title": target_full_name
             }],
             "template_type":"generic"
           },
