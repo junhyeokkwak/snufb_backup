@@ -179,6 +179,7 @@ function personSearch_alum(event) {
             var url = "https://m.me/" + uid;
             // api.handlePersonSearchWebview(event, title, url, uid);
             api.handleWebview(event, title, url, "compact");
+            api.handlePersonSearchWebview(event, title, url, uid);
         }
         callback(null, 'done');
       }
