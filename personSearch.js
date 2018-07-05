@@ -175,12 +175,11 @@ function personSearch_alum(event) {
         if(uid) {
             api.sendResponse(event, {"text": "페이스북 프로필은 www.facebook.com/" + uid + " 고"});
             api.sendResponse(event, {"text": "이 링크를 누르면 직접 페메를 보낼 수 있어!\nm.me/" + uid});
-            var title = "이대봇의 친구를 소개합니다";
             var url = "https://m.me/" + uid;
             var profileURL = "https://www.facebook.com/" + uid;
             // api.handlePersonSearchWebview(event, title, url, uid);
-            api.handleWebview(event, title, profileURL, "compact");
-            // api.handlePersonSearchWebview(event, title, url, uid);
+            // api.handleWebview(event, "페이스북 프로필 보기", profileURL, "full");
+            api.handlePersonSearchWebview(event, "페이스북 프로필 열기", profileURL, uid);
         }
         callback(null, 'done');
       }
