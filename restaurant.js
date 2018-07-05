@@ -131,14 +131,16 @@ var restaurantRecommendation_freeResponse = function(event) {
         // if (jsonRestaurantData.results[0].hasOwnProperty('photos')) {
         //   console.log(jsonRestaurantData.results[0].photos[0].photo_reference);
         // }
-        var genericTemplatesArr = [], image_url;
+        var genericTemplatesArr = [], image_url, rating, vicinity;
         for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
           console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
           console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
-          var url = `www.example.com`
-          console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
+          console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));\
+          var y = (x == 2 ? "yes" : "no");
+          rating = (jsonRestaurantData.results[i].rating = (undefined || "undefined")) ? "평점 정보가 없어ㅠ": jsonRestaurantData.results[i].rating);
+          vicinity = (jsonRestaurantData.results[i].vicinity = (undefined || "undefined")) ? "위치 정보가 없어ㅠ": jsonRestaurantData.results[i].vicinity);
           if (jsonRestaurantData.results[i].hasOwnProperty('photos')) {
             // console.log(i + "th item's photo_reference: " +jsonRestaurantData.results[i].photos[0].photo_reference);
             image_url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${jsonRestaurantData.results[i].photos[0].photo_reference}&key=${process.env.GOOGLE_API_KEY}`
@@ -159,7 +161,7 @@ var restaurantRecommendation_freeResponse = function(event) {
               ],
               "image_url" : image_url,
               "title": jsonRestaurantData.results[i].name,
-              "subtitle" : `주소: ${jsonRestaurantData.results[i].vicinity} \n 평점: ${jsonRestaurantData.results[i].rating}`,
+              "subtitle" : `주소: ${vicinity} \n평점: ${rating}/5점`,
             }//template
           )//push
           if ((i == jsonRestaurantData.results.length-1) || (i == 9)) {
@@ -181,56 +183,6 @@ var restaurantRecommendation_freeResponse = function(event) {
             api.callSendAPI(messageData);
           }
         } //   for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
-
-        // var template1 = {
-        //   "buttons": [
-        //     {
-        //       "title":`${jsonRestaurantData.results[0].name} 위치보기!`,
-        //       "type":"web_url",
-        //       "url": 'www.example.com',
-        //       "webview_height_ratio": "compact",
-        //       "messenger_extensions" : false,
-        //     },
-        //   ],
-        //   "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
-        //   "title":jsonRestaurantData.results[0].name
-        // }
-        //
-        // var template2 = {
-        //   "buttons": [
-        //     {
-        //       "title":`${jsonRestaurantData.results[1].name} 위치보기!`,
-        //       "type":"web_url",
-        //       "url": 'www.example.com',
-        //       "webview_height_ratio": "compact",
-        //       "messenger_extensions" : false,
-        //     },
-        //   ],
-        //   "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
-        //   "title":jsonRestaurantData.results[1].name
-        // }
-
-        // var genericTemplatesArr = [
-        //   template1,
-        //   template2
-        // ]
-
-        // var messageData = {
-        //   "recipient":{
-        //     "id":event.sender.id
-        //   },
-        //   "message":{
-        //     "attachment":{
-        //       "type":"template",
-        //       "payload":{
-        //         "template_type":"generic",
-        //         "elements": genericTemplatesArr
-        //       }//payload
-        //     }//attachment
-        //   }//message
-        // }//messageData
-        // api.callSendAPI(messageData);
-        // api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
       } else {
         console.log(jsonRestaurantData.status);
       }
