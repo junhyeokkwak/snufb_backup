@@ -121,7 +121,7 @@ var restaurantRecommendation_freeResponse = function(event) {
       var jsonRestaurantData = JSON.parse(body);
       if (jsonRestaurantData.results.length > 0) {
         console.log(jsonRestaurantData.results[0].name);
-        var titleMessage = `${jsonRestaurantData.results[0].name} 어때?`;
+        // var titleMessage = `${jsonRestaurantData.results[0].name} 어때?`;
         var url = jsonRestaurantData.results[0].photos[0].html_attributions[0];
         // var url = "<a href=\"https://maps.google.com/maps/contrib/108555596243936676377/photos\">조윤태</a>";
         var i1 = url.lastIndexOf("contrib/");
@@ -132,7 +132,7 @@ var restaurantRecommendation_freeResponse = function(event) {
         console.log("photo url: " + url);
         // var image_url = './webviews/E_WebviewBGShd-01.jpg';
         var buttonMessage = "자세히 보기";
-        api.sendResponse(event, titleMessage);
+        api.sendResponse(event, `${jsonRestaurantData.results[0].name} 어때?`);
 
         let messageData = {
           "recipient":{
