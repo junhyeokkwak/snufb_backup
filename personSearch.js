@@ -158,7 +158,7 @@ function personSearch_alum(event) {
             var target_first_name = result[0].first_name;
             var target_last_name = result[0].last_name;
             var target_profile_pic = result[0].profile_pic;
-            console.log(uid + " " + target_first_name + " " + target_profile_pic);
+            // console.log(uid + " " + target_first_name + " " + target_profile_pic);
           }
           else { // search result = 0
             api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 사람이라도 찾아줄까?"/*, "quick_replies": qr.reply_arrays["YesOrNo"]*/});
@@ -172,7 +172,7 @@ function personSearch_alum(event) {
           api.sendResponse(event, {"text": "삐빅- 검색완료!"});
           setTimeout(function () {
             callback(null, 'done');
-          }, 1000);
+          }, 3000);
         }
       },
       function(err, callback) {
