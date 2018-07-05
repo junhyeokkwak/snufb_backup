@@ -132,67 +132,91 @@ var restaurantRecommendation_freeResponse = function(event) {
         if (jsonRestaurantData.results[0].hasOwnProperty('photos')) {
           console.log(jsonRestaurantData.results[0].photos[0].photo_reference);
         }
-
+        var genericTemplatesArr = [];
         for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
-          console.log(i + "th item's name: " +jsonRestaurantData.results[0].name);
-          console.log(i + "th item's place_id: " +jsonRestaurantData.results[0].place_id);
-          console.log(i + "th item's rating: " +jsonRestaurantData.results[0].rating);
-          console.log(i + "th item's vicinity: " +jsonRestaurantData.results[0].vicinity);
+          console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
+          console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
+          console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
+          console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
           var url = `www.example.com`
-          console.log(i + "th item's photo bool: " +jsonRestaurantData.results[0].hasOwnProperty('photos'));
+          console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
           if (jsonRestaurantData.results[0].hasOwnProperty('photos')) {
-            console.log(i + "th item's photo_reference: " +jsonRestaurantData.results[0].photos[0].photo_reference);
+            console.log(i + "th item's photo_reference: " +jsonRestaurantData.results[i].photos[0].photo_reference);
+            var image_url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=&${jsonRestaurantData.results[i].photos[0].photo_reference}&key=${process.env.GOOGLE_API_KEY}`
+            console.log(i + "th item's image_url: " + image_url);
+          } else {
+            var image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
           }
-        }
-
-        var template1 = {
-          "buttons": [
+          genericTemplatesArr.push(
             {
-              "title":`${jsonRestaurantData.results[0].name} 위치보기!`,
-              "type":"web_url",
-              "url": 'www.example.com',
-              "webview_height_ratio": "compact",
-              "messenger_extensions" : false,
-            },
-          ],
-          "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
-          "title":jsonRestaurantData.results[0].name
-        }
+              // "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
+              "image_url" : image_url;
+              "title": jsonRestaurantData.results[i].name,
+              "subtitle" : `주소: ${jsonRestaurantData.results[i].vicinity} / 평점: ${jsonRestaurantData.results[i].rating}`
+              "buttons": [
+                {
+                  "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
+                  "type":"web_url",
+                  "url": 'www.example.com',
+                  "webview_height_ratio": "compact",
+                  "messenger_extensions" : false,
+                },
+              ],
+            }//template
+          )//push
+          if (i == (jsonRestaurantData.results.length || 10)) {
+            var messageData = {
+              "recipient":{
+                "id":event.sender.id
+              },
+              "message":{
+                "attachment":{
+                  "type":"template",
+                  "payload":{
+                    "template_type":"generic",
+                    "elements": genericTemplatesArr
+                  }//payload
+                }//attachment
+              }//message
+            }//messageData
+            api.callSendAPI(messageData);
+          }
+        } //   for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
 
-        var template2 = {
-          "buttons": [
-            {
-              "title":`${jsonRestaurantData.results[1].name} 위치보기!`,
-              "type":"web_url",
-              "url": 'www.example.com',
-              "webview_height_ratio": "compact",
-              "messenger_extensions" : false,
-            },
-          ],
-          "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
-          "title":jsonRestaurantData.results[1].name
-        }
+        // var template1 = {
+        //   "buttons": [
+        //     {
+        //       "title":`${jsonRestaurantData.results[0].name} 위치보기!`,
+        //       "type":"web_url",
+        //       "url": 'www.example.com',
+        //       "webview_height_ratio": "compact",
+        //       "messenger_extensions" : false,
+        //     },
+        //   ],
+        //   "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
+        //   "title":jsonRestaurantData.results[0].name
+        // }
+        //
+        // var template2 = {
+        //   "buttons": [
+        //     {
+        //       "title":`${jsonRestaurantData.results[1].name} 위치보기!`,
+        //       "type":"web_url",
+        //       "url": 'www.example.com',
+        //       "webview_height_ratio": "compact",
+        //       "messenger_extensions" : false,
+        //     },
+        //   ],
+        //   "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
+        //   "title":jsonRestaurantData.results[1].name
+        // }
 
-        var genericTemplatesArr = [
-          template1,
-          template2
-        ]
+        // var genericTemplatesArr = [
+        //   template1,
+        //   template2
+        // ]
 
-        var messageData = {
-          "recipient":{
-            "id":event.sender.id
-          },
-          "message":{
-            "attachment":{
-              "type":"template",
-              "payload":{
-                "template_type":"generic",
-                "elements": genericTemplatesArr
-              }//payload
-            }//attachment
-          }//message
-        }//messageData
-        // let messageData = {
+        // var messageData = {
         //   "recipient":{
         //     "id":event.sender.id
         //   },
@@ -200,21 +224,13 @@ var restaurantRecommendation_freeResponse = function(event) {
         //     "attachment":{
         //       "type":"template",
         //       "payload":{
-        //         "template_type":"button",
-        //         "text":"Try the URL button!",
-        //         "buttons":[
-        //           {
-        //             "type":"web_url",
-        //             "url":"https://maps.google.com/maps/contrib/108555596243936676377/photos",
-        //             "title":"URL Button",
-        //             "webview_height_ratio": "compact"
-        //           }
-        //         ]
-        //       }
-        //     }
-        //   }
-        // };//messageDat
-        api.callSendAPI(messageData);
+        //         "template_type":"generic",
+        //         "elements": genericTemplatesArr
+        //       }//payload
+        //     }//attachment
+        //   }//message
+        // }//messageData
+        // api.callSendAPI(messageData);
         // api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
       } else {
         console.log(jsonRestaurantData.status);
