@@ -26,8 +26,8 @@
     };
     var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
-    var generateMarkerAndListener = function(key ,xpos, ypos) {
-      generateMarkerListener(generateMarker(key ,xpos, ypos));
+    var generateMarkerAndListener = function(key, xpos, ypos) {
+      generateMarkerListener(generateMarker(key, xpos, ypos));
     }
 
     var generateMarker = function(key ,xpos, ypos){
@@ -36,13 +36,13 @@
           map: map,
           clickable: true,
           title: "hi",
-          cursor: "hi",
+          cursor: "hi!",
       });
     }
 
     var generateMarkerListener = function(marker) {
       naver.maps.Event.addListener(marker, 'click', function() {
-        alert("hi")
+        // alert("hi");
       });
     }
 
