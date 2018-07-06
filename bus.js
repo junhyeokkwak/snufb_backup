@@ -331,9 +331,24 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
           } else {
             connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
             var busNumArr = bus_recommendBusNumByStNm(data.selectedSTID)
-            var busNums = qr.generateQuickReplies(busNumArr);
-            var messageData = {"text": `네가 선택한 ${result[0].stNm} 정류장을 지나가는 들이야! 이 중에 몇 번 버스야??`, "quick_replies": busNums};
-            api.sendResponse(event, messageData);
+            if (busNumArr.length > 11) {
+              var busNums = qr.generateQuickReplies(busNumArr[0,11]);
+              var extraBusNums = busNumArr[11,busNums.length];
+              var extraBusNumsString = "";
+              for (var i = 0; i < extraBusNums.length; i++) {
+                if (i != extraBusNums.length-1) {
+                  extraBusNumsString += `${extraBusNums[i]번, }`
+                } else {
+                  extraBusNumsString += `${extraBusNums[i]번}`
+                  var messageData = {"text": `네가 선택한 ${result[0].stNm} 정류장을 지나가는 들이야! 이 외에도 ${extraBusNumsString} 버스가 있어! 이 중에 몇 번 버스야??`, "quick_replies": busNums};
+                  api.sendResponse(event, messageData);
+                }
+              }
+            } else {
+              var busNums = qr.generateQuickReplies(busNumArr);
+              var messageData = {"text": `네가 선택한 ${result[0].stNm} 정류장을 지나가는 들이야! 이 중에 몇 번 버스야??`, "quick_replies": busNums};
+              api.sendResponse(event, messageData);
+            }
           }
         }); //query
       } else {
