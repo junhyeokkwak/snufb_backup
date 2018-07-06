@@ -146,6 +146,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
           console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
           restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id, jsonRestaurantData.results[i].geometry.location.lat, jsonRestaurantData.results[i].geometry.location.lng);
           url = `/restaurant?place_id=${jsonRestaurantData.results[i].place_id}&xpos=${jsonRestaurantData.results[i].geometry.location.lat}&ypos=${jsonRestaurantData.results[i].geometry.location.lng}`
+          console.log(url);
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
           console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
           console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
