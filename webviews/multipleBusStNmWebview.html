@@ -20,6 +20,11 @@
     <script>
     alert(window.location.href)
     alert("<%= positionData %>");
+
+    var positionData = JSON.parse("<%= positionData %>");
+    console.log(positionData);
+    console.log(positionData[0]);
+
     function sendAjax(url, data){
       // 입력값을 변수에 담고 문자열 형태로 변환
       var data = {'data' : data};
