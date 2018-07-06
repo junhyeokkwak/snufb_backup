@@ -26,31 +26,32 @@
     };
     var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
-    var generateMarkerAndListener = function(key ,xpos, ypos) {
-      generateMarkerListener(generateMarker(key ,xpos, ypos));
-    }
+    // var generateMarkerAndListener = function(key ,xpos, ypos) {
+    //   generateMarkerListener(generateMarker(key ,xpos, ypos));
+    // }
 
-    var generateMarker = function(key ,xpos, ypos){
+    var generateMarker = function(name_, xpos_, ypos_, vicinity_){
       var markerTest = new naver.maps.Marker({
-          position: new naver.maps.LatLng(xpos, ypos),
+          position: new naver.maps.LatLng(xpos_, ypos_),
           map: map,
           clickable: true,
-          title: "hi",
-          cursor: "hi",
+          title: name_,
+          cursor: vicinity_,
       });
     }
 
-    var generateMarkerListener = function(marker) {
-      naver.maps.Event.addListener(marker, 'click', function() {
-        alert("hi");
-          // swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
-          // .then((value) => {
-          //   closeWindow();
-          // });
-      });
-    }
+    // var generateMarkerListener = function(marker) {
+    //   naver.maps.Event.addListener(marker, 'click', function() {
+    //       swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+    //       .then((value) => {
+    //         closeWindow();
+    //       });
+    //   });
+    // }
+    //
+    // generateMarkerAndListener(name, xpos, ypos);
 
-    generateMarkerAndListener(name, xpos, ypos);
+    generateMarker(name, xpos, ypos, vicinity);
 
     </script>
   </body>
