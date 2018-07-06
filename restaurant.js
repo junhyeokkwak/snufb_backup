@@ -151,12 +151,12 @@ var restaurantRecommendation_nearbysearch = function(event) {
       if (jsonRestaurantData.results.length > 0) {
         var genericTemplatesArr = [];
         for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
-          var image_url, rating, vicinity, url;
+          var image_url, rating, vicinity, url, ;
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
-          console.log(i + "th item's name: " +jsonRestaurantData.results[i].geometry.location.lat);
-          console.log(i + "th item's name: " +jsonRestaurantData.results[i].geometry.location.lng);
+          console.log(i + "th item's lat: " +jsonRestaurantData.results[i].geometry.location.lat);
+          console.log(i + "th item's lng: " +jsonRestaurantData.results[i].geometry.location.lng);
           console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
-          restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id, 37.5540291075, 126.9348325761);
+          restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id, "37.5540291075", "126.9348325761");
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
           console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
           console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
