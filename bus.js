@@ -315,7 +315,32 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
       res.render(__dirname + '/webviews/multipleBusStNmWebview.html', data);
     });
     app.APP.post(`/busRoute/${encodeURI(targetStNm)}/${event.sender.id}`, function(req, res){
-      console.log(req.body);
+      // console.log(req.body);
+      console.log(req.body.data);
+      var data = JSON.parse(req.body.data)
+      // console.log(data);
+      if (data.responseType == "busStationWebview_STID") {
+        console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
+        connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
+        connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+          if (result[0].busRouteId != ("none" || "" || null)) {
+            var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
+            api.sendResponse(event, messageData);
+            sendArriveMsg(event, result[0].busRouteId, data.selectedSTID);
+            connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
+          } else {
+            connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
+            var busNumArr = bus_recommendBusNumByStNm(data.selectedSTID)
+            var busNums = qr.generateQuickReplies(busNumArr);
+            var messageData = {"text": `네가 선택한 ${result[0].stNm} 정류장을 지나가는 들이야! 이 중에 몇 번 버스야??`, "quick_replies": busNums};
+            api.sendResponse(event, messageData);
+          }
+        }); //query
+      } else {
+        return `/busRoute/${targetStNm}/${event.sender.id}`;
+      }
+      var responseData = {'result' : 'ok', 'data' : req.body.data}
+      res.json(responseData);
     });
   }
 
