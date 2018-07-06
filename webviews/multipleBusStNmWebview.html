@@ -51,6 +51,36 @@
       }
     }
 
+    var generateMarkerAndListener = function(key ,xpos, ypos) {
+      generateMarkerListener(generateMarker(key ,xpos, ypos));
+    }
+    var generateMarker = function(key ,xpos, ypos){
+      // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
+      // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
+      return new naver.maps.Marker({
+        position: new naver.maps.LatLng(ypos, xpos),
+        map: map,
+        clickable: true,
+        title: key,
+        cursor: key,
+      });
+    }
+    var generateMarkerListener = function(marker) {
+      naver.maps.Event.addListener(marker, 'click', function() {
+          var messageData = {
+            "responseType" : "busStationWebview_STID",
+            "user_psid" : user_psid,
+            "selectedSTID" : marker.title,
+          }
+          messageData = JSON.stringify(messageData)
+          sendAjax(`/busRoute/send_result/user_psid=${user_psid}`, messageData);
+          swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+          .then((value) => {
+            // closeWindow();
+          });
+      });
+    }
+
     handleMultipleSt(positionData);
 
     function sendAjax(url, data){
