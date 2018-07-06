@@ -8,8 +8,10 @@
     <h1>TEST MAP</h1>
     <script>
     alert(window.location.href)
-    var name = "<%= name %>";
-    alert(name);
+    var place_id = "<%= name %>";
+    var xpos = "<%= xpos %>";
+    var ypos = "<%= ypos %>";
+    alert(`place_id:${place_id} xpos:${xpos} ypos:${ypos}`);
     </script>
   </body>
 </html>
