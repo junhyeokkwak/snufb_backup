@@ -312,7 +312,7 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
         targetStNm: targetStNm,
         positionData: JSON.stringify(positionData),
       }
-      res.render(__dirname + '/webviews/multipleBusStNmWebview.html', );
+      res.render(__dirname + '/webviews/multipleBusStNmWebview.html', data);
     });
   }
 
