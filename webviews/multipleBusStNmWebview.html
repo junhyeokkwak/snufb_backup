@@ -30,15 +30,11 @@
 
     var positionData_string = "<%= positionData %>".replace(/(\r\n|\n|\r)/gm,"").replace(/&#34;/g, '"');
     var positionData = JSON.parse(positionData_string);
-    console.log(positionData[0] + typeof positionData[0]);
-
-    // console.log(positionData[0].stId);
 
     var handleMultipleSt = function(positionData) {
-      sendAjax(window.location.href, "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
+      // sendAjax(window.location.href, "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
       var sumXpos = 0, sumYpos = 0, count = 0;
       for(var i = 0; i < positionData.length; i++) {
-        // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, i);
         sumXpos += Number(positionData[i].xpos);
         sumYpos += Number(positionData[i].ypos);
         generateMarkerAndListener(positionData[i].stId, positionData[i].xpos, positionData[i].ypos);
@@ -73,7 +69,7 @@
             "selectedSTID" : marker.title,
           }
           messageData = JSON.stringify(messageData)
-          sendAjax(`/busRoute/send_result/user_psid=${user_psid}`, messageData);
+          sendAjax(window.location.href, messageData);
           swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
           .then((value) => {
             // closeWindow();
