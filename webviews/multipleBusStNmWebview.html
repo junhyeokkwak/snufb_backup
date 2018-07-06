@@ -24,7 +24,7 @@
     // var positionData = JSON.stringify("<%= positionData %>");
     // console.log(positionData);
     // console.log(positionData[0]);
-    var positionData = "<%= positionData %>";
+    var positionData = JSON.parse("<%= positionData %>");
     for(var i = 0; i < positionData.length; i++) {
       console.log(positionData[i]);
     }
