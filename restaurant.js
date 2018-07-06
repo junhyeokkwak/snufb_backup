@@ -107,7 +107,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
 
   var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos, vicinity) {
     // app.APP.get(`/restaurant/${place_id}`, function(req, res){
-    app.APP.get(`/restaurant`, function(req, res){
+    app.APP.get(`/restaurant/${place_id}`, function(req, res){
       var restaurantData = {
         name: name,
         place_id: place_id,
@@ -174,16 +174,16 @@ var restaurantRecommendation_nearbysearch = function(event) {
             {
               "buttons": [
                 {
-                  "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
+                  "title":`${name} 위치보기!`,
                   "type":"web_url",
                   // "url": process.env.HEROKU_URL + `/restaurant/${jsonRestaurantData.results[i].place_id}`,
-                  "url" : process.env.HEROKU_URL + `/restaurant`,
+                  "url" : process.env.HEROKU_URL + `/restaurant/${place_id}`,
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
                 },
               ],
               "image_url" : image_url,
-              "title": jsonRestaurantData.results[i].name,
+              "title": name,
               "subtitle" : `주소: ${vicinity} \n평점: ${rating}`,
             }//template
           )//push
