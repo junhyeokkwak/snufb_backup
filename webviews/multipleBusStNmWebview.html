@@ -19,12 +19,12 @@
     <!-- <div id="map" style="width:100%;height:100%;"></div> -->
     <script>
     alert(window.location.href)
-    alert("<%= positionData %>");
+    alert(<% positionData %>);
 
     // var positionData = JSON.stringify("<%= positionData %>");
     // console.log(positionData);
     // console.log(positionData[0]);
-    var positionData = "<%= positionData %>";
+    var positionData = <% positionData %>;
     for(var i = 0; i < positionData.length; i++) {
       console.log(positionData[i]);
     }
