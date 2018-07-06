@@ -105,7 +105,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
   console.log("RUN: restaurantRecommendation_nearbysearch");
 
   var restaurantRecommendation_webviewHelper = function(place_id, xpos, ypos) {
-    var url = `/restaurant?place_id=${place_id}&xpos=${xpos}&ypos=${ypos}`
+    var url = `/webviews/restaurantMap.html?place_id=${place_id}&xpos=${xpos}&ypos=${ypos}`
     console.log(url);
     app.APP.get(url, function(req, res){
       res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
@@ -146,7 +146,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].geometry.location.lng);
           console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
           restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id, jsonRestaurantData.results[i].geometry.location.lat, jsonRestaurantData.results[i].geometry.location.lng);
-          url = `/restaurant?place_id=${jsonRestaurantData.results[i].place_id}&xpos=${jsonRestaurantData.results[i].geometry.location.lat}&ypos=${jsonRestaurantData.results[i].geometry.location.lng}`
+          url = `/webviews/restaurantMap.html?place_id=${jsonRestaurantData.results[i].place_id}&xpos=${jsonRestaurantData.results[i].geometry.location.lat}&ypos=${jsonRestaurantData.results[i].geometry.location.lng}`
           console.log(url);
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
           console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
