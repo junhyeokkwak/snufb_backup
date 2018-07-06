@@ -108,9 +108,12 @@ var restaurantRecommendation_nearbysearch = function(event) {
   var restaurantRecommendation_webviewHelper = function(place_id, xpos, ypos) {
     app.APP.get(`/restaurant/${place_id}`, function(req, res){
       // res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
-      var xpos = req.query.xpos
-      var ypos = req.query.ypos;
-      res.send(`xpos:${xpos}&ypos:${ypos}`)
+      // var place_id = req.query.place_id;
+      // var xpos = req.query.xpos;
+      // var ypos = req.query.ypos;
+      // res.send(`xpos:${xpos}&ypos:${ypos}`)
+      var name = 'hello';
+      res.render(__dirname + "./webviews/restaurantMap.html", {name:name});
     });
   }
 
