@@ -335,9 +335,11 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
             if (busNumArr.length > 11) {
               var busNums = qr.generateQuickReplies(busNumArr.slice(0,11));
               var extraBusNums = busNumArr.slice(11,busNums.length);
+              console.log("busNums: " +busNums);
+              console.log("extraBusNums: " + extraBusNums);
               var extraBusNumsString = "";
               for (var i = 0; i < extraBusNums.length; i++) {
-                if (i != extraBusNums.length-1) {
+                if (i < extraBusNums.length-1) {
                   extraBusNumsString += `${extraBusNums[i]}번, `;
                 } else {
                   extraBusNumsString += `${extraBusNums[i]}번`;
@@ -353,7 +355,7 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
           }
         }); //query
       } else {
-        return `/busRoute/${targetStNm}/${event.sender.id}`;
+        return `/busRoute/${targetStNm}/${event.sender.id} ERR`;
       }
       var responseData = {'result' : 'ok', 'data' : req.body.data}
       res.json(responseData);
