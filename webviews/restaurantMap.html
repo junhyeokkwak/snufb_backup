@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=mSdY16Cdgy3tfbILEmSN&callback=initMap"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title><%= name %></title>
   </head>
   <body>
@@ -32,8 +33,6 @@
     //     cursor: "hi",
     // });
 
-    generateMarkerAndListener(name, xpos, ypos);
-
     var generateMarkerAndListener = function(key ,xpos, ypos) {
       generateMarkerListener(generateMarker(key ,xpos, ypos));
     }
@@ -56,6 +55,8 @@
           });
       });
     }
+
+    generateMarkerAndListener(name, xpos, ypos);
 
     // generateMarkerAndListener(name, place_id, xpos, ypos, vicinity);
     //
