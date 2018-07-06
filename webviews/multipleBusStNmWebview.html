@@ -20,11 +20,11 @@
     <script>
     alert(window.location.href)
     alert("<%= positionData %>");
-    console.log(decodeURI("<%= positionData %>") + typeof decodeURI("<%= positionData %>"));
-    var positionData = JSON.parse(decodeURI("<%= positionData %>"));
-    for(var i = 0; i < positionData.length; i++) {
-      console.log(positionData[i]);
-    }
+    // console.log(decodeURI("<%= positionData %>") + typeof decodeURI("<%= positionData %>"));
+    // var positionData = JSON.parse(decodeURI("<%= positionData %>"));
+    // for(var i = 0; i < positionData.length; i++) {
+    //   console.log(positionData[i]);
+    // }
 
     function sendAjax(url, data){
       // 입력값을 변수에 담고 문자열 형태로 변환
