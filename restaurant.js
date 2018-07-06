@@ -113,7 +113,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
       // var ypos = req.query.ypos;
       // res.send(`xpos:${xpos}&ypos:${ypos}`)
       var name = 'hello';
-      res.render(__dirname + "./webviews/restaurantMap.html", {name:name});
+      res.render(__dirname + "/webviews/restaurantMap.html", {name:name});
     });
   }
 
