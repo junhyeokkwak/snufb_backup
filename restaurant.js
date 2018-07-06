@@ -147,7 +147,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
         var genericTemplatesArr = [];
         for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
           var image_url, rating, vicinity, url, name, place_id, xpos, ypos;
-          name = sonRestaurantData.results[i].name;
+          name = jsonRestaurantData.results[i].name;
           place_id = sonRestaurantData.results[i].place_id;
           xpos = jsonRestaurantData.results[i].geometry.location.lat;
           ypos = jsonRestaurantData.results[i].geometry.location.lng;
