@@ -252,8 +252,7 @@ var bus_confirmStNm = function(event) {
               }
               if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
                 if (possibleStArr.length >= 2) {
-                  // bus_handleMultipleStNm(event, possibleStArr);
-                  bus_handleMultipleStNm(event, possibleStArr);
+                  bus_handleMultipleStNm(event, result[0].stNm, possibleStArr);
                   console.log("ALERT: There are two or more stations with the same stNm.");
                 } else {
                   stId = possibleStArr[0].stId;
@@ -279,7 +278,7 @@ var bus_confirmStNm = function(event) {
                 if (possibleStArr.length >= 2) {
                   console.log("possibleStArr: " + possibleStArr);
                   // bus_handleMultipleStNm(event, possibleStArr);
-                  bus_handleMultipleStNm(event, possibleStArr);
+                  bus_handleMultipleStNm(event, result[0].stNm, possibleStArr);
                   console.log("ALERT: There are two or more stations with the same stNm.");
                 } else {
                   console.log("ONLY ONE STNM");
@@ -303,18 +302,32 @@ var bus_confirmStNm = function(event) {
 }
 
 
-var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
+var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback) {
   console.log("RUN handleMultipleStNm!");
-  // NOTE:
-  app.APP.get(`/busRoute/user_psid=${event.sender.id}`, function(req, res){
-    res.sendFile(path.join(__dirname + '/webviews/busStationWebview.html'));
-  });
-  app.APP.post(`/busRoute/send_log/user_psid=${event.sender.id}`, function(req, res){
-    console.log(req.body.data);
-    var responseData = {'result' : 'ok', 'data' : req.body.data}
-    res.json(responseData);
-  })
-  app.APP.post(`/busRoute/send_result/user_psid=${event.sender.id}`, function(req, res){
+
+  var bus_busRouteWebviewHelper = function(event, responseData) {
+    console.log('RUN bus_busRouteWebviewHelper1');
+    app.APP.get(`/busRoute/targetStNm/${event.sender.id}`, function(req, res){
+      res.render(__dirname + '/webviews/multipleBusStNmWebview.html', responseData);
+    });
+  }
+
+  var bus_recommendBusNumByStNm = function (stId) {
+    var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
+    var busRouteJsonData = JSON.parse(busRouteFile), busNumArr = [];
+    for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
+      if ((busRouteJsonData.busRouteId_stId_staOrd[i].stId == stId) && !(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo in busNumArr)) {
+        console.log(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo);
+        busNumArr.push(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo);
+      }
+      if (i == busRouteJsonData.busRouteId_stId_staOrd.length-1) {
+        console.log("busNumArr: " + busNumArr);
+        return busNumArr;
+      }
+    }
+  }
+
+  app.APP.post(`/busRoute/targetStNm/${event.sender.id}`, function(req, res){
     console.log(req.body.data);
     var data = JSON.parse(req.body.data)
     // console.log(data);
@@ -343,34 +356,9 @@ var bus_handleMultipleStNm = function(event, possibleStArr, callback) {
     res.json(responseData);
   })
 
-  var bus_recommendBusNumByStNm = function (stId) {
-    var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
-    var busRouteJsonData = JSON.parse(busRouteFile), busNumArr = [];
-    for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
-      if ((busRouteJsonData.busRouteId_stId_staOrd[i].stId == stId) && !(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo in busNumArr)) {
-        console.log(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo);
-        busNumArr.push(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo);
-      }
-      if (i == busRouteJsonData.busRouteId_stId_staOrd.length-1) {
-        console.log("busNumArr: " + busNumArr);
-        return busNumArr;
-      }
-    }
-  }
-
-  var bus_busRouteWebviewHelper = function(event, responseData) {
-    console.log('RUN bus_busRouteWebviewHelper1');
-    app.APP.get(`/busRoute/positiondata/user_psid=${event.sender.id}`, function(req, res){
-      console.log('RUN bus_busRouteWebviewHelper2');
-      console.log("responseData: " +JSON.stringify(responseData));
-      res.json(responseData);
-    })
-  }
-
-  // NOTE:
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
-  var url = process.env.HEROKU_URL + `/busRoute/user_psid=${event.sender.id}`;
+  var url = process.env.HEROKU_URL + `/busRoute/targetStNm/${event.sender.id}`;
   bus_busRouteWebviewHelper(event, possibleStArr);
   let messageData = {
     recipient: {
