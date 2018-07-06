@@ -41,11 +41,8 @@
     }
 
     var generateMarkerListener = function(marker) {
-      naver.maps.Event.addListener(marker, 'click', function() {
-          swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
-          .then((value) => {
-            closeWindow();
-          });
+      new naver.maps.Event.addListener(marker, 'click', function() {
+        alert("hi")
       });
     }
 
