@@ -41,8 +41,8 @@
     }
 
     var generateMarkerListener = function(marker) {
-      var name = JSON.parse(title).name;
-      var vicinity = JSON.parse(title).vicinity;
+      var name = JSON.parse(marker.title).name;
+      var vicinity = JSON.parse(marker.title).vicinity;
       naver.maps.Event.addListener(marker, 'click', function() {
         swal(name, vicinity, "success")
         .then((value) => {
