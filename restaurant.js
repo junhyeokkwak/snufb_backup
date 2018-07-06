@@ -104,10 +104,8 @@ var restaurantRecommendation_nearbysearch = function(event) {
   // });
   console.log("RUN: restaurantRecommendation_nearbysearch");
 
-  var restaurantRecommendation_webviewHelper = function(place_id, xpos, ypos) {
-    var url = `/webviews/restaurantMap.html?place_id=${place_id}&xpos=${xpos}&ypos=${ypos}`
-    console.log(url);
-    app.APP.get(url, function(req, res){
+  var restaurantRecommendation_webviewHelper = function(place_id) {
+    app.APP.get(`/restaurant/${place_id}`, function(req, res){
       res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
     });
   }
@@ -145,9 +143,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].geometry.location.lat);
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].geometry.location.lng);
           console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
-          restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id, jsonRestaurantData.results[i].geometry.location.lat, jsonRestaurantData.results[i].geometry.location.lng);
-          url = `/webviews/restaurantMap.html?place_id=${jsonRestaurantData.results[i].place_id}&xpos=${jsonRestaurantData.results[i].geometry.location.lat}&ypos=${jsonRestaurantData.results[i].geometry.location.lng}`
-          console.log(url);
+          restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id);
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
           console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
           console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
@@ -170,7 +166,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
                 {
                   "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
                   "type":"web_url",
-                  "url": process.env.HEROKU_URL + url,
+                  "url": process.env.HEROKU_URL + `/restaurant/${jsonRestaurantData.results[i].place_id}`,
                   // "url" : process.env.HEROKU_URL + `/restaurant/test`,
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
