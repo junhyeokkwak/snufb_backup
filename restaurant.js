@@ -106,6 +106,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
 
   var restaurantRecommendation_webviewHelper = function(place_id, xpos, ypos) {
     var url = `/restaurant?place_id=${place_id}&xpos=${xpos}&ypos=${ypos}`
+    console.log(url);
     app.APP.get(url, function(req, res){
       res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
     });
