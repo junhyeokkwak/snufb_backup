@@ -105,7 +105,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
   // });
   console.log("RUN: restaurantRecommendation_nearbysearch");
 
-  var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos) {
+  var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos, vicinity) {
     // app.APP.get(`/restaurant/${place_id}`, function(req, res){
     app.APP.get(`/restaurant`, function(req, res){
       var restaurantData = {
@@ -113,6 +113,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
         place_id: place_id,
         xpos: xpos,
         ypos: ypos,
+        vicinity: vicinity,
       }
       res.render(__dirname + "/webviews/restaurantMap.html", restaurantData);
     });
@@ -152,7 +153,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
           xpos = jsonRestaurantData.results[i].geometry.location.lat;
           ypos = jsonRestaurantData.results[i].geometry.location.lng;
           console.log(`${i}th item's name:${name} place_id:${place_id} xpos:${xpos} ypos:${ypos}`);
-          restaurantRecommendation_webviewHelper(name, place_id, xpos, ypos);
+          restaurantRecommendation_webviewHelper(name, place_id, xpos, ypos, vicinity);
           // console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
           // console.log(i + "th item's lat: " +jsonRestaurantData.results[i].geometry.location.lat);
           // console.log(i + "th item's lng: " +jsonRestaurantData.results[i].geometry.location.lng);
@@ -169,10 +170,6 @@ var restaurantRecommendation_nearbysearch = function(event) {
           } else {
             image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
           }
-          // url =`/restaurant/${jsonRestaurantData.results[i].place_id}`;
-          // app.APP.get(url, function(req, res){
-          //   res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
-          // });
           genericTemplatesArr.push(
             {
               "buttons": [

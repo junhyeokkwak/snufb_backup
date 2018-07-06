@@ -8,11 +8,14 @@
   <body>
     <div id="map" style="width:100%;height:650px;"></div>
     <script>
-    alert(window.location.href)
+    // alert(window.location.href)
+    var name = "<%= name %>";
     var place_id = "<%= place_id %>";
     var xpos = "<%= xpos %>";
     var ypos = "<%= ypos %>";
-    alert(`place_id:${place_id} xpos:${xpos} ypos:${ypos}`);
+    var ypos = "<%= ypos %>";
+    var vicinity = "<%= vicinity %>";
+    // alert(`place_id:${place_id} xpos:${xpos} ypos:${ypos}`);
 
     var mapOptions = {
         center: new naver.maps.LatLng(37.5540291075, 126.9348325761),
@@ -20,6 +23,31 @@
         zoom: 12
     };
     var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
+
+    generateMarkerAndListener(name, place_id, xpos, ypos, vicinity)
+
+    var generateMarkerAndListener = function(name, place_id, xpos, ypos, vicinity) {
+      generateMarkerListener(generateMarker(name, place_id, xpos, ypos, vicinity));
+    }
+    var generateMarker = function(name, place_id, xpos, ypos, vicinity){
+      // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
+      // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
+      return new naver.maps.Marker({
+        position: new naver.maps.LatLng(ypos, xpos),
+        map: map,
+        clickable: true,
+        title: name,
+        cursor: vicinity,
+      });
+    }
+    var generateMarkerListener = function(marker) {
+      naver.maps.Event.addListener(marker, 'click', function() {
+          swal(marker.name, marker.vicinity, "success")
+          .then((value) => {
+            closeWindow();
+          });
+      });
+    }
 
     </script>
   </body>
