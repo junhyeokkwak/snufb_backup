@@ -42,7 +42,7 @@
 
     var generateMarkerListener = function(marker) {
       naver.maps.Event.addListener(marker, 'click', function() {
-        swal(marker.name, marker.vicinity, "success")
+        swal(marker.title, marker.cursor, "success")
         .then((value) => {
           // closeWindow();
         });
