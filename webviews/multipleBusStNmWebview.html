@@ -26,12 +26,26 @@
     var positionData = JSON.parse(positionData_string);
     console.log(positionData[0] + typeof positionData[0]);
 
-    console.log(positionData[0].stId);
+    // console.log(positionData[0].stId);
 
-    // var positionData = JSON.parse(decodeURI("<%= positionData %>"));
-    // for(var i = 0; i < positionData.length; i++) {
-    //   console.log(positionData[i]);
-    // }
+    var handleMultipleSt = function(positionData) {
+      sendAjax(window.location.href, "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
+      var sumXpos = 0, sumYpos = 0, count = 0;
+      for(var i = 0; i < positionData.length; i++) {
+        // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, i);
+        sumXpos += Number(positionData[i].xpos);
+        sumYpos += Number(positionData[i].ypos);
+        // generateMarkerAndListener(positionData[i].stId, positionData[i].xpos, positionData[i].ypos);
+        if(i == positionData.length-1) {
+          sendAjax(window.location.href, "center: " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
+          var avgXpos = sumXpos / positionData.length;
+          var avgYpos = sumYpos / positionData.length;
+          // map.setCenter(new naver.maps.LatLng(avgYpos, avgXpos));
+        }
+      }
+    }
+
+    handleMultipleSt(positionData);
 
     function sendAjax(url, data){
       // 입력값을 변수에 담고 문자열 형태로 변환
