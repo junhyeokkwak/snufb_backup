@@ -106,7 +106,8 @@ var restaurantRecommendation_nearbysearch = function(event) {
   console.log("RUN: restaurantRecommendation_nearbysearch");
 
   var restaurantRecommendation_webviewHelper = function(place_id, xpos, ypos) {
-    app.APP.get(`/restaurant/${place_id}`, function(req, res){
+    // app.APP.get(`/restaurant/${place_id}`, function(req, res){
+    app.APP.get(`/main`, function(req, res){
       // res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
       // var place_id = req.query.place_id;
       // var xpos = req.query.xpos;
@@ -173,8 +174,8 @@ var restaurantRecommendation_nearbysearch = function(event) {
                 {
                   "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
                   "type":"web_url",
-                  "url": process.env.HEROKU_URL + `/restaurant/${jsonRestaurantData.results[i].place_id}`,
-                  // "url" : process.env.HEROKU_URL + `/restaurant/test`,
+                  // "url": process.env.HEROKU_URL + `/restaurant/${jsonRestaurantData.results[i].place_id}`,
+                  "url" : process.env.HEROKU_URL + `/main`,
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
                 },
