@@ -117,6 +117,12 @@ var restaurantRecommendation_nearbysearch = function(event) {
       }
       res.render(__dirname + "/webviews/restaurantMap.html", restaurantData);
     });
+
+    app.APP.post(`/restaurant/${place_id}`, function(req, res){
+      console.log(req.body.data);
+      var data = JSON.parse(req.body.data)
+    });
+
   }
 
   if (event.message.text.length > 0 ) {
