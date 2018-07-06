@@ -334,7 +334,7 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
             console.log("busNumArr: " + busNumArr);
             if (busNumArr.length > 11) {
               var busNums = qr.generateQuickReplies(busNumArr.slice(0,11));
-              var extraBusNums = busNumArr.slice(11,busNums.length);
+              var extraBusNums = busNumArr.slice(11, busNumArr.length);
               console.log("busNums: " +busNums);
               console.log("extraBusNums: " + extraBusNums);
               var extraBusNumsString = "";
