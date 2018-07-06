@@ -24,14 +24,38 @@
     };
     var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
-    var markerTest = new naver.maps.Marker({
-        position: new naver.maps.LatLng(xpos, ypos),
-        map: map,
-        clickable: true,
-        title: "hi",
-        cursor: "hi",
-    });
+    // var markerTest = new naver.maps.Marker({
+    //     position: new naver.maps.LatLng(xpos, ypos),
+    //     map: map,
+    //     clickable: true,
+    //     title: "hi",
+    //     cursor: "hi",
+    // });
 
+    generateMarkerAndListener(name, xpos, ypos);
+
+    var generateMarkerAndListener = function(key ,xpos, ypos) {
+      generateMarkerListener(generateMarker(key ,xpos, ypos));
+    }
+
+    var generateMarker = function(key ,xpos, ypos){
+      var markerTest = new naver.maps.Marker({
+          position: new naver.maps.LatLng(xpos, ypos),
+          map: map,
+          clickable: true,
+          title: "hi",
+          cursor: "hi",
+      });
+    }
+
+    var generateMarkerListener = function(marker) {
+      naver.maps.Event.addListener(marker, 'click', function() {
+          swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+          .then((value) => {
+            closeWindow();
+          });
+      });
+    }
 
     // generateMarkerAndListener(name, place_id, xpos, ypos, vicinity);
     //
