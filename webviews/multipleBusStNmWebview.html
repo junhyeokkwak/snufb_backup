@@ -20,10 +20,6 @@
     <script>
     alert(window.location.href)
     alert("<%= positionData %>");
-
-    // var positionData = JSON.stringify("<%= positionData %>");
-    // console.log(positionData);
-    // console.log(positionData[0]);
     var positionData = JSON.parse("<%= positionData %>");
     for(var i = 0; i < positionData.length; i++) {
       console.log(positionData[i]);

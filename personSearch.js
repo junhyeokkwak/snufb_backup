@@ -5,6 +5,8 @@ var api = require('./apiCalls');
 var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
+var stringSimilarity = require('string-similarity');
+const fs = require('fs');
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -140,33 +142,87 @@ function personSearch_mainMenu(event) {
 
 function personSearch_alum(event) {
   var inputText = event.message.text;
-  var uid = 0;
-  var task = [
+  var substring1 = "학과";
+  if (inputText.indexOf(substring1) == -1)
+  {
+    api.sendResponse(event, {"text": "엥 뭔가 잘못친거 같은데... \"00학과\"라고 입력해야돼! 다시 입력해줄래?", });
+  }
+  else {
+    var uid = 0;
+    var target_first_name, target_last_name, target_profile_pic;
+    var task = [
+      function(callback) {
+        connection.query('SELECT * FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
+          if (err) throw err;
+          if (result.length) {
+            uid = result[0].uid;
+            target_first_name = result[0].first_name;
+            target_last_name = result[0].last_name;
+            target_profile_pic = result[0].profile_pic;
+            // console.log(uid + " " + target_first_name + " " + target_profile_pic);
+          }
+          else { // search result = 0
+            api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 사람이라도 찾아줄까?"/*, "quick_replies": qr.reply_arrays["YesOrNo"]*/});
+            connection.query('UPDATE Users SET conv_context="personSearch_nullcase" WHERE user_id=' + event.sender.id);
+          }
+          callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
+        });
+      },
+      function(err, callback) {
+        if(uid) {
+          api.sendResponse(event, {"text": "삐빅- 검색완료!"});
+          setTimeout(function () {
+            callback(null, 'done');
+          }, 1000);
+        }
+      },
+      function(err, callback) {
+        if(uid) {
+            // api.sendResponse(event, {"text": "페이스북 프로필은 www.facebook.com/" + uid + " 고"});
+            // api.sendResponse(event, {"text": "이 링크를 누르면 직접 페메를 보낼 수 있어!\nm.me/" + uid});
+            var url = "https://m.me/" + uid;
+            var profileURL = "https://www.facebook.com/" + uid;
+            // api.handlePersonSearchWebview(event, title, url, uid);
+            // api.handleWebview(event, "페이스북 프로필 보기", profileURL, "full");
+            api.handlePersonSearchWebview(event, "페이스북 프로필 열기", profileURL, uid, target_first_name, target_last_name, target_profile_pic);
+            api.handleButton(event, "직접 연락해봐!", url);
+        }
+        callback(null, 'done');
+      }
+    ]
+    async.waterfall(task);
+  }
+
+};
+
+function personSearch_nullcase(event) {
+  var msg = event.message.text;
+  var data = fs.readFileSync('./jsondata/basicConv.json', 'utf8');
+  var jsonData = JSON.parse(data);
+  task = [
     function(callback) {
-      connection.query('SELECT uid FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
+      callback(null, util.getSimilarStrings(msg, jsonData.agreementArr, -1, jsonData.agreementArr.length));
+    },
+    function(agreementArr, callback) {
+      // console.log("agreeementArr: " + agreementArr[0].similarity);
+      if (agreementArr[0].similarity == 0) { // response is 'no'
+      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+      api.sendResponse(event, {"text": "오키 그럼 메인메뉴로 돌아간다! 휘리릭!!!"});
+      connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
         if (err) throw err;
-        uid = result[0].uid;
-        callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
+        //console.log(result[0].first_name);
+        api.sendResponse(event, {"text": "무엇을 도와드릴까요 " + result[0].first_name + "님?"});
       });
-    },
-    function(err, callback) {
-      if(uid) {
-        api.sendResponse(event, {"text": "삐빅- 검색완료!"});
-        setTimeout(function () {
-          callback(null, 'done');
-        }, 1000);
       }
-    },
-    function(err, callback) {
-      if(uid) {
-          api.sendResponse(event, {"text": "페이스북 프로필은 www.facebook.com/" + uid + " 고"});
-          api.sendResponse(event, {"text": "이 링크를 누르면 직접 페메를 보낼 수 있어!\nm.me/" + uid});
+      else // response is 'yes'
+      {
+        connection.query('UPDATE Users SET conv_context="personSearch_mainMenu" WHERE user_id=' + event.sender.id);
+        api.sendResponse(event, {"text": "누구 찾아줄까?", "quick_replies": qr.reply_arrays["personSearchOptions"]});
       }
-      callback(null, 'done');
     }
   ]
   async.waterfall(task);
-};
+}
 
 module.exports = {
   functionMatch: {
@@ -174,5 +230,6 @@ module.exports = {
    "askProfileURL": askProfileURL,
    "personSearch_mainMenu": personSearch_mainMenu,
    "personSearch_alum": personSearch_alum,
+   "personSearch_nullcase": personSearch_nullcase,
   }
 };

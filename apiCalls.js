@@ -146,6 +146,75 @@ function handleWebview(event, title, url, size) {
     callSendAPI(messageData);
 }
 
+function handleButton(event, title, url) {
+  var senderID = event.sender.id;
+    let messageData = {
+      recipient: {
+        id: senderID
+      },
+      message: {
+        "attachment":{
+          "type":"template",
+          "payload":{
+            "template_type":"button",
+            "text": title,
+            "buttons":[
+              {
+                "type":"web_url",
+                "url": url,
+                "title": "메세지 보내기"
+              }
+            ]
+          }
+        }
+      }
+    };
+    callSendAPI(messageData);
+}
+
+
+function handlePersonSearchWebview(event, title, url, target_uid, target_first_name, target_last_name, target_profile_pic) {
+  var senderID = event.sender.id;
+  var target_full_name;
+  if (target_first_name.length > 2) {
+    target_full_name = target_first_name + " " + target_last_name;
+  } else {
+    target_full_name = target_last_name + target_first_name;
+  }
+
+    let messageData = {
+      recipient: {
+        id: senderID
+      },
+      message: {
+        "attachment":{
+          "payload":{
+            "elements":[{
+              "buttons": [
+                {
+                  "title":title,
+                  "type":"web_url",
+                  "url":url,
+                  "webview_height_ratio": "compact",
+                  "messenger_extensions" : true,
+                },
+              ],
+              "image_url" : target_profile_pic,
+              //"image_url": 'http://mblogthumb3.phinf.naver.net/20150828_254/pcrht_14407698481174iaCv_PNG/Screenshot_2015-08-28-18-03-41_edit.png?type=w2',
+              //"item_url": url,
+              //"webview_height_ratio": size,
+              //"subtitle":"let's go!",
+              "title": target_full_name
+            }],
+            "template_type":"generic"
+          },
+          "type":"template"
+        }
+      }
+    };
+    callSendAPI(messageData);
+}
+
 function handleMediaTemplate(event) {
   var senderID = event.sender.id;
     let messageData;
@@ -201,4 +270,9 @@ module.exports.sendResponse = sendResponse;
 module.exports.handleWebview = handleWebview;
 module.exports.sendMessage = sendMessage;
 module.exports.sendOnlineImage = sendOnlineImage;
+<<<<<<< HEAD
 module.exports.callSendAPI = callSendAPI;
+=======
+module.exports.handlePersonSearchWebview = handlePersonSearchWebview;
+module.exports.handleButton = handleButton;
+>>>>>>> 9eb9e516054e03a81d8629d8597829f74c977978

@@ -35,10 +35,17 @@ var startJoke = function(event) {
   async.waterfall(task);
 };
 
+function deleteMe(event) {
+  connection.query('SET SQL_SAFE_UPDATES = 0')
+  connection.query('DELETE FROM cb_users_jun.Users WHERE user_id=' + event.sender.id)
+  connection.query('SET SQL_SAFE_UPDATES = 1');
+}
+
 module.exports = {
   functionMatch: {
     "영어농담": startJoke,
     "또 해줘": startJoke,
+    "Delete me": deleteMe,
 
   }
 };
