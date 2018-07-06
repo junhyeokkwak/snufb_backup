@@ -1,5 +1,6 @@
 var app = require("./app");
 var path = require('path');
+var url = require('url');
 var request = require("request");
 var https = require('https');
 var qr = require('./quick_replies');
@@ -104,9 +105,12 @@ var restaurantRecommendation_nearbysearch = function(event) {
   // });
   console.log("RUN: restaurantRecommendation_nearbysearch");
 
-  var restaurantRecommendation_webviewHelper = function(place_id) {
+  var restaurantRecommendation_webviewHelper = function(place_id, xpos, ypos) {
     app.APP.get(`/restaurant/${place_id}`, function(req, res){
-      res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
+      // res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
+      var xpos = req.query.xpos
+      var ypos = req.query.ypos;
+      res.send(`xpos:${xpos}&ypos:${ypos}`)
     });
   }
 
@@ -143,7 +147,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].geometry.location.lat);
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].geometry.location.lng);
           console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
-          restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id);
+          restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id, "xposTest", "yposTest");
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
           console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
           console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
