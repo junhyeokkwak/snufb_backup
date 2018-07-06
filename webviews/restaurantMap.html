@@ -24,39 +24,39 @@
     };
     var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
-    var markerTest = new naver.maps.Marker({
+    // var markerTest = new naver.maps.Marker({
+    //     position: new naver.maps.LatLng(xpos, ypos),
+    //     map: map,
+    //     clickable: true,
+    //     title: "hi",
+    //     cursor: "hi",
+    // });
+
+
+    generateMarkerAndListener(name, place_id, xpos, ypos, vicinity);
+
+    var generateMarkerAndListener = function(name, place_id, xpos, ypos, vicinity) {
+      generateMarkerListener(generateMarker(name, place_id, xpos, ypos, vicinity));
+    }
+    var generateMarker = function(name, place_id, xpos, ypos, vicinity){
+      // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
+      // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
+      return new naver.maps.Marker({
         position: new naver.maps.LatLng(xpos, ypos),
         map: map,
         clickable: true,
-        title: "hi",
-        cursor: "hi",
-    });
-
-
-    // generateMarkerAndListener(name, place_id, xpos, ypos, vicinity);
-    //
-    // var generateMarkerAndListener = function(name, place_id, xpos, ypos, vicinity) {
-    //   generateMarkerListener(generateMarker(name, place_id, xpos, ypos, vicinity));
-    // }
-    // var generateMarker = function(name, place_id, xpos, ypos, vicinity){
-    //   // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
-    //   // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
-    //   return new naver.maps.Marker({
-    //     position: new naver.maps.LatLng(ypos, xpos),
-    //     map: map,
-    //     clickable: true,
-    //     title: name,
-    //     cursor: vicinity,
-    //   });
-    // }
-    // var generateMarkerListener = function(marker) {
-    //   naver.maps.Event.addListener(marker, 'click', function() {
-    //       swal("hi", "hi", "success")
-    //       .then((value) => {
-    //         closeWindow();
-    //       });
-    //   });
-    // }
+        title: name,
+        cursor: vicinity,
+      });
+    }
+    var generateMarkerListener = function(marker) {
+      naver.maps.Event.addListener(marker, 'click', function() {
+          swal("hi", "hi", "success")
+          .then((value) => {
+            closeWindow();
+          });
+      });
+    }
 
     </script>
   </body>
