@@ -21,6 +21,46 @@
     alert(window.location.href)
     // alert("<%= positionData %>" + typeof "<%= positionData %>");
 
+    window.fbAsyncInit = function() {
+       FB.init({
+         appId      : '2169355909963830',
+         xfbml      : true,
+         version    : 'v2.11'
+       });
+       FB.AppEvents.logPageView();
+     };
+    var user_psid;
+   (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'Messenger'));
+   window.extAsyncInit = function () {
+       var isSupported = MessengerExtensions.isInExtension();
+       MessengerExtensions.getContext('2169355909963830',
+         function success(result){
+           user_psid = result.psid;
+         },
+         function error(result){
+           swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ\n 혹시 컴퓨터로 접속했니?", "error")
+           console.log("FAIL: " + JSON.stringify(result));
+         }
+       );
+     };
+   function closeWindow() {
+     MessengerExtensions.requestCloseBrowser(function success() {
+         console.log("closing success");
+     }, function error(err) {
+         console.log("closing failure");
+         console.log(err);
+     });
+    window.open('','_self',''); window.close(); // _parent
+   }
+
+   // NOTE: map setting
+
     var mapOptions = {
         center: new naver.maps.LatLng(37.5540291075, 126.9348325761),
         // center: new naver.maps.LatLng(xpos, ypos),
@@ -63,6 +103,7 @@
     }
     var generateMarkerListener = function(marker) {
       naver.maps.Event.addListener(marker, 'click', function() {
+          console.log(user_psid);
           var messageData = {
             "responseType" : "busStationWebview_STID",
             "user_psid" : user_psid,
@@ -72,7 +113,7 @@
           sendAjax(window.location.href, messageData);
           swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
           .then((value) => {
-            // closeWindow();
+            closeWindow();
           });
       });
     }
