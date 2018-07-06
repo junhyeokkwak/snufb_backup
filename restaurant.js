@@ -105,16 +105,11 @@ var restaurantRecommendation_nearbysearch = function(event) {
   // });
   console.log("RUN: restaurantRecommendation_nearbysearch");
 
-  var restaurantRecommendation_webviewHelper = function(place_id, xpos, ypos) {
+  var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos) {
     // app.APP.get(`/restaurant/${place_id}`, function(req, res){
-    app.APP.get(`/main`, function(req, res){
-      // res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
-      // var place_id = req.query.place_id;
-      // var xpos = req.query.xpos;
-      // var ypos = req.query.ypos;
-      // res.send(`xpos:${xpos}&ypos:${ypos}`)
-      var name = 'hello';
+    app.APP.get(`/restaurant`, function(req, res){
       var restaurantData = {
+        name: name,
         place_id: place_id,
         xpos: xpos,
         ypos: ypos,
@@ -151,15 +146,20 @@ var restaurantRecommendation_nearbysearch = function(event) {
       if (jsonRestaurantData.results.length > 0) {
         var genericTemplatesArr = [];
         for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
-          var image_url, rating, vicinity, url;
-          console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
-          console.log(i + "th item's lat: " +jsonRestaurantData.results[i].geometry.location.lat);
-          console.log(i + "th item's lng: " +jsonRestaurantData.results[i].geometry.location.lng);
-          console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
-          restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id, "37.5540291075", "126.9348325761");
-          console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
-          console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
-          console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
+          var image_url, rating, vicinity, url, name, place_id, xpos, ypos;
+          name = sonRestaurantData.results[i].name;
+          place_id = sonRestaurantData.results[i].place_id;
+          xpos = jsonRestaurantData.results[i].geometry.location.lat;
+          ypos = jsonRestaurantData.results[i].geometry.location.lng;
+          console.log(`${i}th item's name:${name} place_id:${place_id} xpos:${xpos} ypos:${ypos}`);
+          restaurantRecommendation_webviewHelper(name, place_id, xpos, ypos);
+          // console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
+          // console.log(i + "th item's lat: " +jsonRestaurantData.results[i].geometry.location.lat);
+          // console.log(i + "th item's lng: " +jsonRestaurantData.results[i].geometry.location.lng);
+          // console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
+          // console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
+          // console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
+          // console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
           rating = (!(jsonRestaurantData.results[i].hasOwnProperty('rating')) || (jsonRestaurantData.results[i].rating == (null || undefined || "undefined"))
             ? "평점 정보가 없어ㅠ" : jsonRestaurantData.results[i].rating+"/5점");
           vicinity = (!(jsonRestaurantData.results[i].hasOwnProperty('vicinity')) || (jsonRestaurantData.results[i].vicinity == (null || undefined || "undefined"))
@@ -180,7 +180,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
                   "title":`${jsonRestaurantData.results[i].name} 위치보기!`,
                   "type":"web_url",
                   // "url": process.env.HEROKU_URL + `/restaurant/${jsonRestaurantData.results[i].place_id}`,
-                  "url" : process.env.HEROKU_URL + `/main`,
+                  "url" : process.env.HEROKU_URL + `/restaurant`,
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
                 },
