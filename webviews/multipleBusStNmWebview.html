@@ -20,13 +20,13 @@
     <script>
     alert(window.location.href)
     alert("<%= positionData %>" + typeof "<%= positionData %>");
-    alert(typeof <%= positionData %>);
+    // alert(typeof "<%= positionData %>");
 
     var positionData_string = "<%= positionData %>".replace(/(\r\n|\n|\r)/gm,"").replace(/&#34;/g, '"');
     var positionData = JSON.parse(positionData_string);
     console.log(positionData[0] + typeof positionData[0]);
 
-    console.log(positionData[0].ps);
+    console.log(positionData[0].stId);
 
     // var positionData = JSON.parse(decodeURI("<%= positionData %>"));
     // for(var i = 0; i < positionData.length; i++) {
