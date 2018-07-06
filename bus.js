@@ -314,6 +314,9 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
       }
       res.render(__dirname + '/webviews/multipleBusStNmWebview.html', data);
     });
+    app.APP.post(`/busRoute/${encodeURI(targetStNm)}/${event.sender.id}`, function(req, res){
+      console.log(req.body);
+    });
   }
 
   var bus_recommendBusNumByStNm = function (stId) {
