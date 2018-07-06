@@ -148,7 +148,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
         for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
           var image_url, rating, vicinity, url, name, place_id, xpos, ypos;
           name = jsonRestaurantData.results[i].name;
-          place_id = sonRestaurantData.results[i].place_id;
+          place_id = jsonRestaurantData.results[i].place_id;
           xpos = jsonRestaurantData.results[i].geometry.location.lat;
           ypos = jsonRestaurantData.results[i].geometry.location.lng;
           console.log(`${i}th item's name:${name} place_id:${place_id} xpos:${xpos} ypos:${ypos}`);
