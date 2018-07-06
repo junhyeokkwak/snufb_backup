@@ -331,6 +331,7 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
           } else {
             connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
             var busNumArr = bus_recommendBusNumByStNm(data.selectedSTID)
+            console.log("busNumArr: " + busNumArr);
             if (busNumArr.length > 11) {
               var busNums = qr.generateQuickReplies(busNumArr.slice(0,11));
               var extraBusNums = busNumArr.slice(11,busNums.length);
@@ -364,11 +365,10 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
     var busRouteJsonData = JSON.parse(busRouteFile), busNumArr = [];
     for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
       if ((busRouteJsonData.busRouteId_stId_staOrd[i].stId == stId) && !(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo in busNumArr)) {
-        console.log(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo);
+        // console.log(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo);
         busNumArr.push(busRouteJsonData.busRouteId_stId_staOrd[i].plainNo);
       }
       if (i == busRouteJsonData.busRouteId_stId_staOrd.length-1) {
-        console.log("busNumArr: " + busNumArr);
         return busNumArr;
       }
     }
