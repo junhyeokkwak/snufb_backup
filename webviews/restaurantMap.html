@@ -17,6 +17,7 @@
     var ypos = "<%= ypos %>";
     var ypos = "<%= ypos %>";
     var vicinity = "<%= vicinity %>";
+    var title = JSON.stringify({"name": name, "vicinity": vicinity});
     alert(`name:${name} place_id:${place_id} xpos:${xpos} ypos:${ypos}`);
 
     var mapOptions = {
@@ -26,30 +27,31 @@
     };
     var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
-    var generateMarkerAndListener = function(name, vicinity, xpos, ypos) {
-      generateMarkerListener(generateMarker(name, vicinity, xpos, ypos));
+    var generateMarkerAndListener = function(title, xpos, ypos) {
+      generateMarkerListener(generateMarker(title, xpos, ypos));
     }
 
-    var generateMarker = function(name, vicinity, xpos, ypos){
+    var generateMarker = function(title, xpos, ypos){
       return new naver.maps.Marker({
           position: new naver.maps.LatLng(xpos, ypos),
           map: map,
           clickable: true,
-          title: name,
-          cursor: vicinity,
+          title: title,
       });
     }
 
     var generateMarkerListener = function(marker) {
+      var name = JSON.parse(title).name;
+      var vicinity = JSON.parse(title).vicinity;
       naver.maps.Event.addListener(marker, 'click', function() {
-        swal(marker.title, marker.cursor, "success")
+        swal(name, vicinity, "success")
         .then((value) => {
           // closeWindow();
         });
       });
     }
 
-    generateMarkerAndListener(name, vicinity, xpos, ypos);
+    generateMarkerAndListener(title, xpos, ypos);
 
     </script>
   </body>
