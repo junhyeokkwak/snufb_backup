@@ -98,11 +98,11 @@ var restaurantRecommendation_category = function(event) {
   }
 };
 
-var restaurantRecommendation_freeResponse = function(event) {
+var restaurantRecommendation_nearbysearch = function(event) {
   // app.APP.get(`/restaurant/test`, function(req, res){
   //   res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
   // });
-  console.log("RUN: restaurantRecommendation_freeResponse");
+  console.log("RUN: restaurantRecommendation_nearbysearch");
 
   var restaurantRecommendation_webviewHelper = function(place_id) {
     app.APP.get(`/restaurant/${place_id}`, function(req, res){
@@ -136,20 +136,12 @@ var restaurantRecommendation_freeResponse = function(event) {
       console.log(body);
       var jsonRestaurantData = JSON.parse(body);
       if (jsonRestaurantData.results.length > 0) {
-        // console.log(jsonRestaurantData.results[0]);
-        // console.log(jsonRestaurantData.results[0].name);
-        // console.log(jsonRestaurantData.results[0].place_id);
-        // console.log(jsonRestaurantData.results[0].rating);
-        // console.log(jsonRestaurantData.results[0].vicinity);
-        // var url = `www.example.com`
-        // console.log(jsonRestaurantData.results[0].hasOwnProperty('photos'));
-        // if (jsonRestaurantData.results[0].hasOwnProperty('photos')) {
-        //   console.log(jsonRestaurantData.results[0].photos[0].photo_reference);
-        // }
         var genericTemplatesArr = [];
         for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
           var image_url, rating, vicinity, url;
           console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
+          console.log(i + "th item's name: " +jsonRestaurantData.results[i].geometry.location.lat);
+          console.log(i + "th item's name: " +jsonRestaurantData.results[i].geometry.location.lng);
           console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
           restaurantRecommendation_webviewHelper(jsonRestaurantData.results[i].place_id);
           console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
@@ -160,9 +152,7 @@ var restaurantRecommendation_freeResponse = function(event) {
           vicinity = (!(jsonRestaurantData.results[i].hasOwnProperty('vicinity')) || (jsonRestaurantData.results[i].vicinity == (null || undefined || "undefined"))
             ? "위치 정보가 없어ㅠ" : jsonRestaurantData.results[i].vicinity);
           if (jsonRestaurantData.results[i].hasOwnProperty('photos')) {
-            // console.log(i + "th item's photo_reference: " +jsonRestaurantData.results[i].photos[0].photo_reference);
             image_url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${jsonRestaurantData.results[i].photos[0].photo_reference}&key=${process.env.GOOGLE_API_KEY}`
-            // console.log(i + "th item's image_url: " + image_url);
           } else {
             image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
           }
@@ -224,7 +214,7 @@ module.exports = {
     "배고파": initRestaurantConv,
     "initRestaurantRecommendation" : initRestaurantRecommendation,
     "restaurantRecommendation_category" : restaurantRecommendation_category,
-    "restaurantRecommendation_freeResponse" : restaurantRecommendation_freeResponse,
+    "restaurantRecommendation_freeResponse" : restaurantRecommendation_nearbysearch,
   }
 };
 
