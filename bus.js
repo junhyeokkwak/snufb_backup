@@ -332,8 +332,8 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
             connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
             var busNumArr = bus_recommendBusNumByStNm(data.selectedSTID)
             if (busNumArr.length > 11) {
-              var busNums = qr.generateQuickReplies(busNumArr[0,11]);
-              var extraBusNums = busNumArr[11,busNums.length];
+              var busNums = qr.generateQuickReplies(busNumArr.slice(0,11));
+              var extraBusNums = busNumArr.slice(11,busNums.length);
               var extraBusNumsString = "";
               for (var i = 0; i < extraBusNums.length; i++) {
                 if (i != extraBusNums.length-1) {
