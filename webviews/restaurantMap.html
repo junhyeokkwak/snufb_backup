@@ -7,8 +7,8 @@
     <title><%= name %></title>
   </head>
   <body>
-    <div id="map" style="width:100%;height:400px;"></div>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <div id="map" style="width:100%;height:400px;"></div>
     <script>
     alert(window.location.href)
     var name = "<%= name %>";
@@ -26,31 +26,30 @@
     };
     var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
-    var generateMarkerAndListener = function(key, xpos, ypos) {
-      generateMarkerListener(generateMarker(key, xpos, ypos));
+    var generateMarkerAndListener = function(name, vicinity, xpos, ypos) {
+      generateMarkerListener(generateMarker(name, vicinity, xpos, ypos));
     }
 
-    var generateMarker = function(key ,xpos, ypos){
+    var generateMarker = function(name, vicinity, xpos, ypos){
       return new naver.maps.Marker({
           position: new naver.maps.LatLng(xpos, ypos),
           map: map,
           clickable: true,
-          title: "hi",
-          cursor: "hi!",
+          title: name,
+          cursor: vicinity,
       });
     }
 
     var generateMarkerListener = function(marker) {
       naver.maps.Event.addListener(marker, 'click', function() {
-        console.log(marker.title);
-        swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+        swal(marker.name, marker.vicinity, "success")
         .then((value) => {
-          closeWindow();
+          // closeWindow();
         });
       });
     }
 
-    generateMarkerAndListener(name, xpos, ypos);
+    generateMarkerAndListener(name, vicinity, xpos, ypos);
 
     </script>
   </body>
