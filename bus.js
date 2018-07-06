@@ -305,10 +305,10 @@ var bus_confirmStNm = function(event) {
 var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback) {
   console.log("RUN handleMultipleStNm!");
 
-  var bus_busRouteWebviewHelper = function(event, responseData) {
+  var bus_busRouteWebviewHelper = function(event, targetStNm, positionData) {
     console.log('RUN bus_busRouteWebviewHelper1');
     app.APP.get(`/busRoute/${targetStNm}/${event.sender.id}`, function(req, res){
-      res.render(__dirname + '/webviews/multipleBusStNmWebview.html', {positionData: responseData});
+      res.render(__dirname + '/webviews/multipleBusStNmWebview.html', {positionData: positionData});
     });
   }
 
@@ -327,7 +327,7 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
     }
   }
 
-  app.APP.post(`/busRoute/targetStNm/${event.sender.id}`, function(req, res){
+  app.APP.post(`/busRoute/${targetStNm}/${event.sender.id}`, function(req, res){
     console.log(req.body.data);
     var data = JSON.parse(req.body.data)
     // console.log(data);
@@ -349,8 +349,7 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
         }
       }); //query
     } else {
-      // console.log("ERR in /busRoute/send_result");
-      return "ERR in /busRoute/send_result";
+      return `/busRoute/${targetStNm}/${event.sender.id}`;
     }
     var responseData = {'result' : 'ok', 'data' : req.body.data}
     res.json(responseData);
@@ -358,8 +357,8 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
 
   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
   var title = "같은 이름의 여러 정류장이 검색되었어!";
-  var url = process.env.HEROKU_URL + `/busRoute/targetStNm/${event.sender.id}`;
-  bus_busRouteWebviewHelper(event, possibleStArr);
+  var url = process.env.HEROKU_URL + `/busRoute/${targetStNm}/${event.sender.id}`;
+  bus_busRouteWebviewHelper(event, targetStNm, possibleStArr);
   let messageData = {
     recipient: {
       id: event.sender.id
