@@ -270,9 +270,8 @@ module.exports.sendResponse = sendResponse;
 module.exports.handleWebview = handleWebview;
 module.exports.sendMessage = sendMessage;
 module.exports.sendOnlineImage = sendOnlineImage;
-<<<<<<< HEAD
+
 module.exports.callSendAPI = callSendAPI;
-=======
+
 module.exports.handlePersonSearchWebview = handlePersonSearchWebview;
 module.exports.handleButton = handleButton;
->>>>>>> 9eb9e516054e03a81d8629d8597829f74c977978
