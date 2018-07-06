@@ -5,7 +5,7 @@
 
     <!-- <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=mSdY16Cdgy3tfbILEmSN"></script> -->
 
-    <title>TEST</title>
+    <title><%= targetStNm %></title>
   </head>
 
   <style type="text/css">
@@ -21,8 +21,9 @@
     alert(window.location.href)
     alert("<%= positionData %>");
 
-    var positionData = "<%= positionData %>".replace(/(\r\n|\n|\r)/gm,"").replace(/&#34;/g, '"');
-    console.log(positionData + typeof positionData);
+    var positionData_string = "<%= positionData %>".replace(/(\r\n|\n|\r)/gm,"").replace(/&#34;/g, '"');
+    var positionData = JSON.parse(positionData_string);
+    console.log(positionData[0] + typeof positionData[0]);
 
     // var positionData = JSON.parse(decodeURI("<%= positionData %>"));
     // for(var i = 0; i < positionData.length; i++) {

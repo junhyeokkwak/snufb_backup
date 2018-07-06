@@ -308,7 +308,11 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
   var bus_busRouteWebviewHelper = function(event, targetStNm, positionData) {
     console.log('RUN bus_busRouteWebviewHelper1');
     app.APP.get(`/busRoute/${encodeURI(targetStNm)}/${event.sender.id}`, function(req, res){
-      res.render(__dirname + '/webviews/multipleBusStNmWebview.html', {positionData: JSON.stringify(positionData)});
+      var data = {
+        targetStNm: targetStNm,
+        positionData: JSON.stringify(positionData),
+      }
+      res.render(__dirname + '/webviews/multipleBusStNmWebview.html', );
     });
   }
 
