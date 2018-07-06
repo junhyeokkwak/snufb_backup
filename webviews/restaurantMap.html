@@ -7,7 +7,7 @@
     <title><%= name %></title>
   </head>
   <body>
-    <div id="map" style="width:100%;height:100%;"></div>
+    <div id="map" style="width:100%;height:400px;"></div>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
     alert(window.location.href)
@@ -30,13 +30,13 @@
     //   generateMarkerListener(generateMarker(key ,xpos, ypos));
     // }
 
-    var generateMarker = function(name_, xpos_, ypos_, vicinity_){
+    var generateMarker = function(name, xpos, ypos, vicinity){
       var markerTest = new naver.maps.Marker({
-          position: new naver.maps.LatLng(xpos_, ypos_),
+          position: new naver.maps.LatLng(xpos, ypos),
           map: map,
           clickable: true,
-          title: name_,
-          cursor: vicinity_,
+          title: name,
+          cursor: vicinity,
       });
     }
 
@@ -51,7 +51,7 @@
     //
     // generateMarkerAndListener(name, xpos, ypos);
 
-    generateMarker(name, xpos, ypos, vicinity);
+    generateMarker(name, xpos, ypos, vicinity)
 
     </script>
   </body>
