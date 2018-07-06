@@ -119,8 +119,8 @@ var restaurantRecommendation_nearbysearch = function(event) {
     });
 
     app.APP.post(`/restaurant/${place_id}`, function(req, res){
-      console.log(req.body.data);
-      var data = JSON.parse(req.body.data)
+      console.log(req.body);
+      // var data = JSON.parse(req.body.data)
     });
 
   }
