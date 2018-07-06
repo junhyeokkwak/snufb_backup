@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=mSdY16Cdgy3tfbILEmSN&callback=initMap"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title><%= name %></title>
   </head>
   <body>
     <div id="map" style="width:100%;height:750px;"></div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
     alert(window.location.href)
     var name = "<%= name %>";
@@ -24,14 +24,6 @@
         zoom: 12
     };
     var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
-
-    // var markerTest = new naver.maps.Marker({
-    //     position: new naver.maps.LatLng(xpos, ypos),
-    //     map: map,
-    //     clickable: true,
-    //     title: "hi",
-    //     cursor: "hi",
-    // });
 
     var generateMarkerAndListener = function(key ,xpos, ypos) {
       generateMarkerListener(generateMarker(key ,xpos, ypos));
@@ -57,31 +49,6 @@
     }
 
     generateMarkerAndListener(name, xpos, ypos);
-
-    // generateMarkerAndListener(name, place_id, xpos, ypos, vicinity);
-    //
-    // var generateMarkerAndListener = function(name, place_id, xpos, ypos, vicinity) {
-    //   generateMarkerListener(generateMarker(name, place_id, xpos, ypos, vicinity));
-    // }
-    // var generateMarker = function(name, place_id, xpos, ypos, vicinity){
-    //   // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
-    //   // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
-    //   return new naver.maps.Marker({
-    //     position: new naver.maps.LatLng(ypos, xpos),
-    //     map: map,
-    //     clickable: true,
-    //     title: name,
-    //     cursor: vicinity,
-    //   });
-    // }
-    // var generateMarkerListener = function(marker) {
-    //   naver.maps.Event.addListener(marker, 'click', function() {
-    //       swal("hi", "hi", "success")
-    //       .then((value) => {
-    //         closeWindow();
-    //       });
-    //   });
-    // }
 
     </script>
   </body>
