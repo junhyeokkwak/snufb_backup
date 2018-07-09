@@ -109,8 +109,7 @@ function randomMatching_gender(event) {
   var substring1 = "학과";
   console.log("typeof:::::"  + typeof inputText);
   console.log(inputText == "남자");
-  // if ((inputText !== "남자") || (inputText !== "여자") || (inputText !== "상관없어"))
-  if(0)
+  if ((inputText !== "남자") && (inputText !== "여자") && (inputText !== "상관없어"))
   {
     api.sendResponse(event, {"text": "엥 뭔가 잘못친거 같은데... 다시 입력해줄래?", "quick_replies": qr.reply_arrays["genderOptions"]});
   }
@@ -119,10 +118,10 @@ function randomMatching_gender(event) {
     var target_first_name, target_last_name, target_profile_pic;
     var task = [
       function(callback) {
-        if(inputText == "남자" || inputText == "여자") {
+        if(inputText == "남성" || inputText == "여성") {
           console.log("MEN OR WOMEN");
-          connection.query('SELECT * FROM Users WHERE sex=\'남성\' AND uid!=\'0\'', function(err, result, fields) {
-          // connection.query('SELECT * FROM Users WHERE sex=\'' + inputText + '\' AND uid!=\'0\'', function(err, result, fields) {
+          // connection.query('SELECT * FROM Users WHERE sex=\'남성\' AND uid!=\'0\'', function(err, result, fields) {
+          connection.query('SELECT * FROM Users WHERE sex=\'' + inputText + '\' AND uid!=\'0\'', function(err, result, fields) {
             if (err) throw err;
             if (result.length) {
               var randomNumber;

@@ -68,12 +68,12 @@ var personSearchOptions = [{
 
 var genderOptions = [{
   "content_type": "text",
-  "title": "남자",
-  "payload": "남자"
+  "title": "남성",
+  "payload": "남성"
 },{
   "content_type": "text",
-  "title": "여자",
-  "payload": "여자"
+  "title": "여성",
+  "payload": "여성"
 },{
   "content_type": "text",
   "title": "상관없어",
