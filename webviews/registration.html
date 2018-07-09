@@ -115,7 +115,7 @@
  $(document).on('click', '#btn-submit-new', function(e) {
   var regiMajor = document.forms[0].newRegiMajor.value;
   var regiClass = document.forms[0].newRegiClass.value;
-  e.preventDefault();
+  // e.preventDefault();
   swal({
    title: "정보 확인",
    text: "[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?",
