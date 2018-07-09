@@ -118,23 +118,25 @@ function handleWebview(event, title, url, size) {
       message: {
         "attachment":{
           "payload":{
-            "elements":[{
-              "buttons": [
-                {
-                  "title":title,
-                  "type":"web_url",
-                  "url":url,
-                  "webview_height_ratio": size,
-                  "messenger_extensions" : true,
-                },
-              ],
-              "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
-              //"image_url": 'http://mblogthumb3.phinf.naver.net/20150828_254/pcrht_14407698481174iaCv_PNG/Screenshot_2015-08-28-18-03-41_edit.png?type=w2',
-              //"item_url": url,
-              //"webview_height_ratio": size,
-              //"subtitle":"let's go!",
-              "title":""
-            }],
+            "elements":[
+              {
+                "buttons": [
+                  {
+                    "title":title,
+                    "type":"web_url",
+                    "url":url,
+                    "webview_height_ratio": size,
+                    "messenger_extensions" : true,
+                  },
+                ],
+                "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
+                //"image_url": 'http://mblogthumb3.phinf.naver.net/20150828_254/pcrht_14407698481174iaCv_PNG/Screenshot_2015-08-28-18-03-41_edit.png?type=w2',
+                //"item_url": url,
+                //"webview_height_ratio": size,
+                //"subtitle":"let's go!",
+                "title":"밑의 주소로 들어가서 등록해줘!"
+              }
+            ],
             "template_type":"generic"
           },
           "type":"template"
@@ -247,15 +249,14 @@ function callSendAPI(messageData) {
     qs: { access_token: PAGE_ACCESS_TOKEN },
     method: 'POST',
     json: messageData
-
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
     } else {
       console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
+      console.error("callSendAPI RESPONSE: " + JSON.stringify(response));
+      console.error("callSendAPI ERR: " + error);
     }
   });
 }
@@ -268,7 +269,9 @@ module.exports.handlePostback = handlePostback;
 module.exports.sendResponse = sendResponse;
 module.exports.handleWebview = handleWebview;
 module.exports.sendMessage = sendMessage;
-module.exports.callSendAPI = callSendAPI;
 module.exports.sendOnlineImage = sendOnlineImage;
+
+module.exports.callSendAPI = callSendAPI;
+
 module.exports.handlePersonSearchWebview = handlePersonSearchWebview;
 module.exports.handleButton = handleButton;

@@ -50,11 +50,9 @@
      });
     window.open('','_self',''); window.close(); // _parent
    }
-
   </script>
-  <!-- <button onclick="closeWindow()">close this shit</button> -->
   <div id="map" style="width:100%;height:400px;"></div>
-  <!-- <div id="map" style="width:100%;height:100%;"></div> -->
+
 <script>
   var mapOptions = {
       center: new naver.maps.LatLng(37.5540291075, 126.9348325761),
@@ -78,7 +76,6 @@
         }
       }
     };
-    // xhttp.open("GET", "/busRoute/positiondata", true);
     xhttp.open("GET", `/busRoute/positiondata/user_psid=${user_psid}`, true);
     xhttp.send();
   }

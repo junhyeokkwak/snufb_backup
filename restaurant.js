@@ -1,3 +1,6 @@
+var app = require("./app");
+var path = require('path');
+var url = require('url');
 var request = require("request");
 var https = require('https');
 var qr = require('./quick_replies');
@@ -5,8 +8,15 @@ var api = require('./apiCalls');
 var util = require('./utilfunctions');
 var async = require('async');
 var mysql = require("mysql");
-const isImageUrl = require('is-image-url');
+var convert = require('xml-js');
+var bodyparser=require('body-parser');
+var stringSimilarity = require('string-similarity');
+const fs = require('fs');
 
+var basicConvFile=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
+var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
+var cuisineFile=fs.readFileSync('./jsondata/cuisinesJsonData.json', 'utf8');
+var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile),  cuisinesJsonData = JSON.parse(cuisineFile);
 //XML to json
 // var querystring = require('querystring');
 // var parseString = require('xml2js').parseString;
@@ -36,12 +46,12 @@ var initRestaurantRecommendation = function(event) {
     console.log("USER SELECT : YES in initRestaurantConv");
     var task = [
       function(callback){
-        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_1" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category" WHERE user_id=' + event.sender.id);
         callback(null, 'done');
       },
       function(err, callback){
-        var qrCuisines = qr.generateQuickReplies(["한식", "중식", "일식", "양식", "분식"]);
-        var messageData = {"text": "뭐 먹을래?", "quick_replies": qrCuisines};
+        var qrCuisines = qr.generateQuickReplies(["그냥 말할래", "나라별", "종합", "상황별", "재료별"]);
+        var messageData = {"text": "어떻게 추천해줄까??", "quick_replies": qrCuisines};
         api.sendResponse(event, messageData);
         callback(null);
       }
@@ -57,7 +67,7 @@ var initRestaurantRecommendation = function(event) {
       function(err, callback){
         var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
         var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
-         api.sendResponse(event, messageData);
+        api.sendResponse(event, messageData);
         callback(null);
       },
     ];
@@ -67,119 +77,186 @@ var initRestaurantRecommendation = function(event) {
   }
 };
 
-var restaurantRecommendation_1 = function(event) {
-  console.log("RUN: restaurantRecommendation_1");
-  if (event.message.text == "한식" ||  "중식" || "일식" || "양식" || "분식") {
-    console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_1");
-    // var search = "신촌 맛집 " + event.message.text;
-    if (event.message.text == "한식") { var search = `korean+restaurants+in+Shinchon`; }
-    if (event.message.text == "중식") { var search = `chinese+restaurants+in+Shinchon`; }
-    if (event.message.text == "일식") { var search = `japanese+restaurants+in+Shinchon`; }
-    if (event.message.text == "양식") { var search = `western+restaurants+in+Shinchon`; }
-    if (event.message.text == "분식") { var search = `korean+street+restaurants+in+Shinchon`; }
-    console.log('SEARCH: ' + search);
+var restaurantRecommendation_category = function(event) {
+  console.log("RUN: restaurantRecommendation_category");
+
+  if (event.message.text == ("그냥 말할래" || "종합" || "상황별" || "재료별" || "나라별")) {
+    console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category");
+    if (event.message.text == "그냥 말할래") {
+      var messageData = {"text": "뭐 먹고 싶어? 말해봐! 가게 추천해줄게"};
+      connection.query('UPDATE Users SET conv_context="restaurantRecommendation_freeResponse" WHERE user_id=' + event.sender.id);
+    }
+    if (event.message.text == "나라별") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+    if (event.message.text == "종합") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+    if (event.message.text == "상황별") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+    if (event.message.text == "재료별") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   } else {
     console.log('UNVERIFIED SEARCH');
-  }
-  var GOOGLE_API_KEY = 'AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003';
-  var options = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${search}&key=${GOOGLE_API_KEY}&location=37.559768/126.94230800000003&language=ko`;
-  console.log("options: " + options);
-    // var options_test = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=korean+restaurants+in+shinchon&key=AIzaSyDyy2ybaYJNa4BDlSV39FOb5sLb88HCXj0&location=37.559768/126.94230800000003&language=ko`
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-    console.log(typeof body + '/' + JSON.parse(body));
-    var jsonRestaurantData = JSON.parse(body);
-    console.log(jsonRestaurantData.results);
-    console.log(jsonRestaurantData.results[0].name);
-    var messageData = {"text": `${jsonRestaurantData.results[0].name} 어때?`};
+    var qrCuisines = qr.generateQuickReplies(["그냥 말할래", "나라별", "종합", "상황별", "재료별"]);
+    var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해주라", "quick_replies": qrCuisines};
+    connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
     api.sendResponse(event, messageData);
-  });
-  // var naverClientID = 'mSdY16Cdgy3tfbILEmSN';
-  // var naverClientSecret = 'EjgVHFWgzo';
-  // var options = {
-  //     method: 'GET',
-  //     // url : 'https://openapi.naver.com/v1/search/shop.json',
-  //     url : 'https://openapi.naver.com/v1/search/local.json',
-  //     qs : {
-  //       query : search,
-  //       display : 1,
-  //       start : 1,
-  //       sort : "comment" // 리뷰 개수 순
-  //     },
-  //     headers: {
-  //       'X-Naver-Client-Id':naverClientID,
-  //       'X-Naver-Client-Secret': naverClientSecret,
-  //     },
-  // };
-  // var task = [
-  //   function(callback){
-  //     var err;
-  //     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-  //     callback(null, err);
-  //   },
-  //   function(err, callback){
-  //     var body;
-  //     request(options, function (error, response, body) {
-  //       var body = body;
-  //       if (error) throw new Error(error);
-  //       //console.log(JSON.parse(body));
-  //       console.log(JSON.parse(body).items);
-  //       console.log("RECO RES TITLE: " + JSON.parse(body).items[0].title);
-  //       console.log("RECO RES LINK: " + JSON.parse(body).items[0].link);
-  //       console.log("RECO RES CATEGORY: " + JSON.parse(body).items[0].category);
-  //       var title = JSON.parse(body).items[0].title;
-  //       var url = JSON.parse(body).items[0].link;
-  //       var image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
-  //       var category = JSON.parse(body).items[0].category.split('>')[1];
-  //       // var category = "[임시카테고리]";
-  //       var titleMessage = title;
-  //       var buttonMessage = title + " 사이트 바로가기!";
-  //       var innertask = [
-  //         function(callback) {
-  //           var innerErr;
-  //           api.sendResponse(event, {'text' : "흠...오늘 메뉴는 " + category + " 어때??"});
-  //           callback(null,innerErr);
-  //         },
-  //         function(innerErr, callback) {
-  //           setTimeout(function() {
-  //             callback(null, innerErr);
-  //           },1000);
-  //         },
-  //         function(innerErr, callback) {
-  //           if (url == '') {
-  //             console.log('RESTAURANT URL DNE');
-  //             url = 'http://www.example.com/'
-  //             if (JSON.parse(body).items[0].link != "" && isImageUrl(JSON.parse(body).items[0].link)) {
-  //               var imageURL = JSON.parse(body).items[0].link;
-  //             }
-  //             api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
-  //             callback(null, innerErr);
-  //           } else {
-  //             console.log('RESTAURANT URL EXISTS');
-  //             if (JSON.parse(body).items[0].link != "" && isImageUrl(JSON.parse(body).items[0].link)) {
-  //               var imageURL = JSON.parse(body).items[0].link;
-  //             }
-  //             api.handleRestaurantWebview(event, titleMessage, url, image_url, buttonMessage);
-  //             callback(null, innerErr);
-  //           }
-  //         },
-  //         function(innerErr, callback) {
-  //           api.sendResponse(event, {'text' : "신촌 주변 " + category + " 중 에서는" + Josa(title, "가") +" 괜찮데:)"});
-  //           callback(null);
-  //         },
-  //       ];
-  //       async.waterfall(innertask);
-  //     });
-  //     callback(null);
-  //   },
-  // ];
-  // async.waterfall(task);
+  }
 };
+
+var restaurantRecommendation_nearbysearch = function(event) {
+  // app.APP.get(`/restaurant/test`, function(req, res){
+  //   res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
+  // });
+  console.log("RUN: restaurantRecommendation_nearbysearch");
+
+  var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos, vicinity) {
+    // app.APP.get(`/restaurant/${place_id}`, function(req, res){
+    app.APP.get(`/restaurant/${place_id}`, function(req, res){
+      var restaurantData = {
+        name: name,
+        place_id: place_id,
+        xpos: xpos,
+        ypos: ypos,
+        vicinity: vicinity,
+      }
+      res.render(__dirname + "/webviews/restaurantMap.html", restaurantData);
+    });
+
+    app.APP.post(`/restaurant/${place_id}`, function(req, res){
+      console.log(req.body);
+    });
+
+  }
+
+  if (event.message.text.length > 0 ) {
+    // NOTE: need to compare string-similarity of text with those of items in the cusines Arr.
+    console.log("VALID INPUT");
+    var messageData = {"text": `알았어!! 신촌 근처 ${event.message.text} 식당을 찾아봐줄게:)`};
+    api.sendResponse(event, messageData);
+
+    var radius = 5000, location_ShinchonStation = '37.559768,126.94230800000003';
+    var options = { method: 'GET',
+      url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
+      qs:
+       { location: location_ShinchonStation,
+         radius: radius,
+         type: 'restaurant',
+         key: process.env.GOOGLE_API_KEY,
+         keyword: event.message.text,
+         language: 'ko' },
+      headers:
+       { 'postman-token': 'eebafd36-b12d-e760-e7ca-aaf5a739ce02',
+         'cache-control': 'no-cache' } }; //options
+
+    request(options, function (error, response, body) {
+
+      if (error) throw new Error(error);
+      console.log(body);
+      var jsonRestaurantData = JSON.parse(body);
+      if (jsonRestaurantData.results.length > 0) {
+        var genericTemplatesArr = [];
+        for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
+          var image_url, rating, vicinity, url, name, place_id, xpos, ypos;
+          name = jsonRestaurantData.results[i].name;
+          place_id = jsonRestaurantData.results[i].place_id;
+          xpos = jsonRestaurantData.results[i].geometry.location.lat;
+          ypos = jsonRestaurantData.results[i].geometry.location.lng;
+          console.log(`${i}th item's name:${name} place_id:${place_id} xpos:${xpos} ypos:${ypos}`);
+          // console.log(i + "th item's name: " +jsonRestaurantData.results[i].name);
+          // console.log(i + "th item's lat: " +jsonRestaurantData.results[i].geometry.location.lat);
+          // console.log(i + "th item's lng: " +jsonRestaurantData.results[i].geometry.location.lng);
+          // console.log(i + "th item's place_id: " +jsonRestaurantData.results[i].place_id);
+          // console.log(i + "th item's rating: " +jsonRestaurantData.results[i].rating);
+          // console.log(i + "th item's vicinity: " +jsonRestaurantData.results[i].vicinity);
+          // console.log(i + "th item's photo bool: " +jsonRestaurantData.results[i].hasOwnProperty('photos'));
+          rating = (!(jsonRestaurantData.results[i].hasOwnProperty('rating')) || (jsonRestaurantData.results[i].rating == (null || undefined || "undefined"))
+            ? "평점 정보가 없어ㅠ" : jsonRestaurantData.results[i].rating+"/5점");
+          vicinity = (!(jsonRestaurantData.results[i].hasOwnProperty('vicinity')) || (jsonRestaurantData.results[i].vicinity == (null || undefined || "undefined"))
+            ? "위치 정보가 없어ㅠ" : jsonRestaurantData.results[i].vicinity);
+          if (jsonRestaurantData.results[i].hasOwnProperty('photos')) {
+            image_url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${jsonRestaurantData.results[i].photos[0].photo_reference}&key=${process.env.GOOGLE_API_KEY}`
+          } else {
+            image_url = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE';
+          }
+          // NOTE: create a webpage
+          restaurantRecommendation_webviewHelper(name, place_id, xpos, ypos, vicinity);
+          genericTemplatesArr.push(
+            {
+              "buttons": [
+                {
+                  "title":`${name} 위치보기!`,
+                  "type":"web_url",
+                  // "url": process.env.HEROKU_URL + `/restaurant/${jsonRestaurantData.results[i].place_id}`,
+                  "url" : process.env.HEROKU_URL + `/restaurant/${place_id}`,
+                  "webview_height_ratio": "compact",
+                  "messenger_extensions" : false,
+                },
+              ],
+              "image_url" : image_url,
+              "title": name,
+              "subtitle" : `주소: ${vicinity} \n평점: ${rating}`,
+            }//template
+          )//push
+          if ((i == jsonRestaurantData.results.length-1) || (i == 9)) {
+            console.log("SENDING genericTemplatesArr");
+            var messageData = {
+              "recipient":{
+                "id":event.sender.id
+              },
+              "message":{
+                "attachment":{
+                  "type":"template",
+                  "payload":{
+                    "template_type":"generic",
+                    "elements": genericTemplatesArr
+                  }//payload
+                }//attachment
+              }//message
+            }//messageData
+            api.callSendAPI(messageData);
+          }
+        } //   for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
+      } else {
+        console.log(jsonRestaurantData.status);
+      }
+    }); //request
+
+  } else {
+    console.log("INVALID INPUT");
+  }
+}
+
+
+
 
 module.exports = {
   functionMatch: {
     "배고파": initRestaurantConv,
     "initRestaurantRecommendation" : initRestaurantRecommendation,
-    "restaurantRecommendation_1" : restaurantRecommendation_1,
+    "restaurantRecommendation_category" : restaurantRecommendation_category,
+    "restaurantRecommendation_freeResponse" : restaurantRecommendation_nearbysearch,
   }
 };
+
+// var radius = 5000, location_ShinchonStation = '37.559768,126.94230800000003';
+// var options = { method: 'GET',
+//   url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
+//   qs:
+//    { location: location_ShinchonStation,
+//      radius: radius,
+//      type: 'restaurant',
+//      key: process.env.GOOGLE_API_KEY,
+//      keyword: event.message.text,
+//      language: 'ko' },
+//   headers:
+//    { 'postman-token': 'eebafd36-b12d-e760-e7ca-aaf5a739ce02',
+//      'cache-control': 'no-cache' } };
+//
+// request(options, function (error, response, body) {
+//   if (error) throw new Error(error);
+//   console.log(body);
+//   var jsonRestaurantData = JSON.parse(body);
+//   if (jsonRestaurantData.results.length > 0) {
+//     console.log(jsonRestaurantData.results[0].name);
+//     var messageData = {"text": `${jsonRestaurantData.results[0].name} 어때?`};
+//     api.sendResponse(event, messageData);
+//   } else {
+//     console.log(jsonRestaurantData.status);
+//   }
+// });

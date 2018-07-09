@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=mSdY16Cdgy3tfbILEmSN"></script>
+
+    <title><%= targetStNm %></title>
+  </head>
+
+  <style type="text/css">
+  html, body {
+  	width: 100%; height: 100%;
+  }
+  </style>
+
+  <body>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <div id="map" style="width:100%;height:100%;"></div>
+    <script>
+    alert(window.location.href)
+    // alert("<%= positionData %>" + typeof "<%= positionData %>");
+
+    window.fbAsyncInit = function() {
+       FB.init({
+         appId      : '2169355909963830',
+         xfbml      : true,
+         version    : 'v2.11'
+       });
+       FB.AppEvents.logPageView();
+     };
+    var user_psid;
+   (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'Messenger'));
+   window.extAsyncInit = function () {
+       var isSupported = MessengerExtensions.isInExtension();
+       MessengerExtensions.getContext('2169355909963830',
+         function success(result){
+           user_psid = result.psid;
+         },
+         function error(result){
+           swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ\n 혹시 컴퓨터로 접속했니?", "error")
+           console.log("FAIL: " + JSON.stringify(result));
+         }
+       );
+     };
+   function closeWindow() {
+     MessengerExtensions.requestCloseBrowser(function success() {
+         console.log("closing success");
+     }, function error(err) {
+         console.log("closing failure");
+         console.log(err);
+     });
+    window.open('','_self',''); window.close(); // _parent
+   }
+
+   // NOTE: map setting
+
+    var mapOptions = {
+        center: new naver.maps.LatLng(37.5540291075, 126.9348325761),
+        // center: new naver.maps.LatLng(xpos, ypos),
+        zoom: 12
+    };
+    var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
+
+    var positionData_string = "<%= positionData %>".replace(/(\r\n|\n|\r)/gm,"").replace(/&#34;/g, '"');
+    var positionData = JSON.parse(positionData_string);
+
+    var handleMultipleSt = function(positionData) {
+      // sendAjax(window.location.href, "RUN handleMultipleSt " + JSON.stringify(positionData) + " length: " + positionData.length);
+      var sumXpos = 0, sumYpos = 0, count = 0;
+      for(var i = 0; i < positionData.length; i++) {
+        sumXpos += Number(positionData[i].xpos);
+        sumYpos += Number(positionData[i].ypos);
+        generateMarkerAndListener(positionData[i].stId, positionData[i].xpos, positionData[i].ypos);
+        if(i == positionData.length-1) {
+          sendAjax(window.location.href, "center: " + (sumXpos/positionData.length) + "/" + (sumYpos/positionData.length));
+          var avgXpos = sumXpos / positionData.length;
+          var avgYpos = sumYpos / positionData.length;
+          map.setCenter(new naver.maps.LatLng(avgYpos, avgXpos));
+        }
+      }
+    }
+
+    var generateMarkerAndListener = function(key ,xpos, ypos) {
+      generateMarkerListener(generateMarker(key ,xpos, ypos));
+    }
+    var generateMarker = function(key ,xpos, ypos){
+      // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, "RUN generateMarker");
+      // sendAjax(`/busRoute/send_log/user_psid=${user_psid}`, `xpos: ${xpos} ypos: ${ypos}`);
+      return new naver.maps.Marker({
+        position: new naver.maps.LatLng(ypos, xpos),
+        map: map,
+        clickable: true,
+        title: key,
+        cursor: key,
+      });
+    }
+    var generateMarkerListener = function(marker) {
+      naver.maps.Event.addListener(marker, 'click', function() {
+          console.log(user_psid);
+          var messageData = {
+            "responseType" : "busStationWebview_STID",
+            "user_psid" : user_psid,
+            "selectedSTID" : marker.title,
+          }
+          messageData = JSON.stringify(messageData)
+          sendAjax(window.location.href, messageData);
+          swal("선택 성공!", "정류장이 성공적으로 선택됐어!!", "success")
+          .then((value) => {
+            closeWindow();
+          });
+      });
+    }
+
+    handleMultipleSt(positionData);
+
+    function sendAjax(url, data){
+      // 입력값을 변수에 담고 문자열 형태로 변환
+      var data = {'data' : data};
+      data = JSON.stringify(data);
+      // content-type을 설정하고 데이터 송신
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', url);
+      xhr.setRequestHeader('Content-type', "application/json");
+      xhr.send(data);
+      // 데이터 수신이 완료되면 표시
+      xhr.addEventListener('load', function(){
+        console.log(xhr.responseText);
+      });
+    }
+
+    </script>
+  </body>
+</html>
