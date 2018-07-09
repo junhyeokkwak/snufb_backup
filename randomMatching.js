@@ -107,6 +107,8 @@ function askProfileURL(event) {
 function randomMatching_gender(event) {
   var inputText = event.message.text;
   var substring1 = "학과";
+  console.log("typeof:::::"  + typeof inputText);
+  console.log("equal to NAMJA???? " + inputText == "남자");
   if (inputText !== "남자" || inputText !== "여자" || inputText !== "상관없어")
   {
     api.sendResponse(event, {"text": "엥 뭔가 잘못친거 같은데... 다시 입력해줄래?", "quick_replies": qr.reply_arrays["genderOptions"]});
@@ -129,8 +131,8 @@ function randomMatching_gender(event) {
               // console.log(uid + " " + target_first_name + " " + target_profile_pic);
             }
             else { // search result = 0
-              api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 사람이라도 찾아줄까?"/*, "quick_replies": qr.reply_arrays["YesOrNo"]*/});
-              connection.query('UPDATE Users SET conv_context="personSearch_nullcase" WHERE user_id=' + event.sender.id);
+              api.sendResponse(event, {"text": "미안.. 아직 매칭해줄 사람이 없다ㅠㅠ 메인 메뉴로 돌아갈게..!"/*, "quick_replies": qr.reply_arrays["YesOrNo"]*/});
+              connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
             }
             callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
           });
