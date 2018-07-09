@@ -106,10 +106,8 @@ function askProfileURL(event) {
 
 function randomMatching_gender(event) {
   var inputText = event.message.text;
-  var substring1 = "학과";
-  console.log("typeof:::::"  + typeof inputText);
-  console.log(inputText == "남자");
-  if ((inputText !== "남자") && (inputText !== "여자") && (inputText !== "상관없어"))
+
+  if ((inputText !== "남성") && (inputText !== "여성") && (inputText !== "상관없어"))
   {
     api.sendResponse(event, {"text": "엥 뭔가 잘못친거 같은데... 다시 입력해줄래?", "quick_replies": qr.reply_arrays["genderOptions"]});
   }
