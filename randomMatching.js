@@ -10,8 +10,8 @@ const fs = require('fs');
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
-var startPersonSearch = function(event) {
-  console.log('START PERSON SEARCH!');
+var startRandomMatching = function(event) {
+  console.log('START RANDOM MATCHING!');
   var task = [
     function(callback) {
       connection.query('SELECT uid FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
@@ -27,8 +27,8 @@ var startPersonSearch = function(event) {
         } else //if (result[0].uid != 0)
         {
           console.log('No need to ask for profile URL');
-          connection.query('UPDATE Users SET conv_context="personSearch_mainMenu" WHERE user_id=' + event.sender.id);
-          api.sendResponse(event, {"text": "누구 찾아줄까?", "quick_replies": qr.reply_arrays["personSearchOptions"]});
+          connection.query('UPDATE Users SET conv_context="randomMatching_mainMenu" WHERE user_id=' + event.sender.id);
+          api.sendResponse(event, {"text": "누구 찾아줄까?", "quick_replies": qr.reply_arrays["randomMatchingOptions"]});
         }
       });
       callback(null,'done');
@@ -104,7 +104,7 @@ function askProfileURL(event) {
   async.waterfall(task);
 };
 
-function personSearch_mainMenu(event) {
+function randomMatching_mainMenu(event) {
   var inputText = event.message.text;
     switch (inputText) {
       case "선배나 후배!":
@@ -140,7 +140,7 @@ function personSearch_mainMenu(event) {
 
 };
 
-function personSearch_alum(event) {
+function randomMatching_alum(event) {
   var inputText = event.message.text;
   var substring1 = "학과";
   if (inputText.indexOf(substring1) == -1)
@@ -155,12 +155,10 @@ function personSearch_alum(event) {
         connection.query('SELECT * FROM Users WHERE college_major=\'' + event.message.text + '\' AND uid!=\'0\'', function(err, result, fields) {
           if (err) throw err;
           if (result.length) {
-            var randomNumber;
-            randomNumber = Math.floor(Math.random() * (result.length));
-            uid = result[randomNumber].uid;
-            target_first_name = result[randomNumber].first_name;
-            target_last_name = result[randomNumber].last_name;
-            target_profile_pic = result[randomNumber].profile_pic;
+            uid = result[0].uid;
+            target_first_name = result[0].first_name;
+            target_last_name = result[0].last_name;
+            target_profile_pic = result[0].profile_pic;
             // console.log(uid + " " + target_first_name + " " + target_profile_pic);
           }
           else { // search result = 0
@@ -208,7 +206,7 @@ function personSearch_alum(event) {
 
 };
 
-function personSearch_nullcase(event) {
+function randomMatching_nullcase(event) {
   var msg = event.message.text;
   var data = fs.readFileSync('./jsondata/basicConv.json', 'utf8');
   var jsonData = JSON.parse(data);
@@ -241,8 +239,8 @@ module.exports = {
   functionMatch: {
     "사람찾기": startPersonSearch,
    "askProfileURL": askProfileURL,
-   "personSearch_mainMenu": personSearch_mainMenu,
-   "personSearch_alum": personSearch_alum,
-   "personSearch_nullcase": personSearch_nullcase,
+   "randomMatching_mainMenu": randomMatching_mainMenu,
+   "randomMatching_alum": randomMatching_alum,
+   "randomMatching_nullcase": randomMatching_nullcase,
   }
 };
