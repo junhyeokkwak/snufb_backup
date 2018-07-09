@@ -185,12 +185,18 @@ function personSearch_alum(event) {
             // api.handlePersonSearchWebview(event, title, url, uid);
             // api.handleWebview(event, "페이스북 프로필 보기", profileURL, "full");
             api.handlePersonSearchWebview(event, "페이스북 프로필 열기", profileURL, uid, target_first_name, target_last_name, target_profile_pic);
+            setTimeout(function() {
             api.handleButton(event, "직접 연락해봐!", url);
+          }, 500);
         }
         callback(null, 'done');
       },
       function(err, callback) {
         setTimeout(function () {
+          if(uid) {
+            api.sendResponse(event, {"text": "나 좀 짱이지?ㅎㅎ 그럼 이 친구랑 연락 잘하고 나 또 필요하면 연락해!"});
+            connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+          }
           callback(null, 'done');
         }, 1000);
       }
