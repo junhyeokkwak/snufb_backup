@@ -1,279 +1,238 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta charset="utf-8">
-<title>사용자 정보 등록</title>
- <link rel="stylesheet" type="text/css" href="style.css">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <title>사용자 정보 등록</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body onLoad="initInput()">
-<script>
-window.fbAsyncInit = function() {
-   FB.init({
-     appId      : '2169355909963830',
-     xfbml      : true,
-     version    : 'v2.11'
-   });
-   FB.AppEvents.logPageView();
- };
-var user_psid;
-(function(d, s, id){
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'Messenger'));
-
-
-window.extAsyncInit = function () {
-    var isSupported = MessengerExtensions.isInExtension();
-    //alert(isSupported);
-    // the Messenger Extensions JS SDK is done loading
-    // MessengerExtensions.requestCloseBrowser(function success() {
-    //     console.log("closing success");
-    // }, function error(err) {
-    //     console.log("closing failure");
-    //     console.log(err);
-    // });
-    MessengerExtensions.getContext('2169355909963830',
-      function success(result){
-        user_psid = result.psid;
-        initInput(user_psid);
-        console.log("Success: "+ result.psid);
-      },
-      function error(result){
-        swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ\n 혹시 컴퓨터로 접속했니?", "error")
-        console.log("FAIL: " + JSON.stringify(result));
-      }
-    );
-  };
-
-
-  window.fbAsyncInit = function() {
-     FB.init({
-       appId      : '2169355909963830',
-       xfbml      : true,
-       version    : 'v2.11'
+  <script>
+    window.fbAsyncInit = function() {
+       FB.init({
+         appId      : '2169355909963830',
+         xfbml      : true,
+         version    : 'v2.11'
+       });
+       FB.AppEvents.logPageView();
+     };
+    var user_psid;
+   (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'Messenger'));
+   window.extAsyncInit = function () {
+       var isSupported = MessengerExtensions.isInExtension();
+       //alert(isSupported);
+       // the Messenger Extensions JS SDK is done loading
+       // MessengerExtensions.requestCloseBrowser(function success() {
+       //     console.log("closing success");
+       // }, function error(err) {
+       //     console.log("closing failure");
+       //     console.log(err);
+       // });
+       MessengerExtensions.getContext('2169355909963830',
+         function success(result){
+           user_psid = result.psid;
+           initInput(user_psid);
+           console.log("Success: "+ result.psid);
+         },
+         function error(result){
+           swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ\n 혹시 컴퓨터로 접속했니?", "error")
+           console.log("FAIL: " + JSON.stringify(result));
+         }
+       );
+     };
+   function endNewRegi() {
+     var regiMajor = document.forms[0].newRegiMajor.value;
+     var regiClass = document.forms[0].newRegiClass.value;
+     alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?");
+     closeWindow();
+   }
+   function endReRegi() {
+     var regiMajor = document.forms[1].reRegiMajor.value;
+     var regiClass = document.forms[1].reRegiClass.value;
+     // alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 수정됐어!\n 창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?");
+     closeWindow();
+   }
+   function closeWindow() {
+     MessengerExtensions.requestCloseBrowser(function success() {
+         console.log("closing success");
+     }, function error(err) {
+         console.log("closing failure");
+         console.log(err);
      });
-     FB.AppEvents.logPageView();
-   };
-  var user_psid;
- (function(d, s, id){
-   var js, fjs = d.getElementsByTagName(s)[0];
-   if (d.getElementById(id)) {return;}
-   js = d.createElement(s); js.id = id;
-   js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
-   fjs.parentNode.insertBefore(js, fjs);
- }(document, 'script', 'Messenger'));
- window.extAsyncInit = function () {
-     var isSupported = MessengerExtensions.isInExtension();
-     MessengerExtensions.getContext('2169355909963830',
-       function success(result){
-         user_psid = result.psid;
-         alert(user_psid);
-         initInput(user_psid);
-         console.log("Success: "+ result.psid);
-       },
-       function error(result){
-         swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ\n 혹시 컴퓨터로 접속했니?", "error")
-         console.log("FAIL: " + JSON.stringify(result));
-       }
-     );
-   };
-​
- function endNewRegi() {
-  var regiMajor = document.forms[0].newRegiMajor.value;
-  var regiClass = document.forms[0].newRegiClass.value;
-  alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?");
-  closeWindow();
- }
-​
- function endReRegi() {
-  var regiMajor = document.forms[1].reRegiMajor.value;
-  var regiClass = document.forms[1].reRegiClass.value;
-  // alert("[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 수정됐어!\n 창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?");
-  closeWindow();
- }
-​
- function closeWindow() {
-  MessengerExtensions.requestCloseBrowser(function success() {
-    console.log("closing success");
-  }, function error(err) {
-    console.log("closing failure");
-    console.log(err);
-  });
- window.open('','_self',''); window.close(); // _parent
- }
- module.exports.closeWindow = closeWindow;
-​
- function initInput(user_psid) {
-   document.forms[0].user_psid.value = user_psid;
-   document.forms[1].user_psid.value = user_psid;
- }
-​
-</script>
-​
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<!-- <script src="https://unpkg.com/sweetalert2/dist/sweetalert.min.js"></script> -->
-<div class = "login-page">
- <div class = "form" herf="#" href="#">
-  <form class = "register-form" id = "register-form" method = "post" action="/register/new_user"/>
-  <input name="user_psid" type="hidden" value="" />
-  <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
-  <input name = "newRegiClass" type="text" placeholder="학번"/>
-  <button class = "submit" id="btn-submit-new" value = "submit"> 새로 등록 </button>
-  <p class = "message">이미 등록되어 있어?
-   <a href="#"> 새 정보로 다시 등록 </a>
-  </p>
-  </form>
-​
-  <form class="login-form" id = "login-form" method = "post" action="/register/re_user">
-  <input name="user_psid" type="hidden" value="" />
-  <input name = "reRegiMajor" type="text" placeholder="전공학과"/>
-  <input name = "reRegiClass" type="text" placeholder="학번"/>
-  <button class = "submit" id="btn-submit-re" value = "submit"> 다시 등록 </button>
-  <p class = "message">아직 등록 안 되어있어?
-   <a href="#"> 신규 등록 </a>
-  </p>
-  </form>
-​
- </div>
-</div>
-​
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script>
- $('.message a').click(function(){
- $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
- });
- $(document).on('click', '#btn-submit-new', function(e) {
-  var regiMajor = document.forms[0].newRegiMajor.value;
-  var regiClass = document.forms[0].newRegiClass.value;
-  e.preventDefault();
-  swal({
-   title: "정보 확인",
-   text: "[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?",
-   icon: "success",
-   className: 'sweetalert-lg',
-   buttons: {
-    cancel: {
-     text: "다시 입력",
-     value: false,
-     visible: true,
-     className: "",
-     closeModal: true,
-    },
-    confirm: {
-     text: "확인",
-     value: true,
-     visible: true,
-     className: "",
-     closeModal: true
-    }
-   },
-  }).then((value) => {
-   if (!value) {
-    swal({
-     title: '다시 입력해줘!',
-     text: '',
-     icon: "error",
-     className: 'sweetalert-lg',
-    });
-   } else {
-    document.getElementById("register-form").submit();
-    swal({
-     title: '등록 완료',
-     text: '등록이 완료됐어!',
-     icon: "success",
-     className: 'sweetalert-lg',
-     buttons: {
-      confirm: {
-       text: "확인",
-       value: true,
-       visible: true,
-       className: "",
-       closeModal: true
-      }
-     }
-    }).then((value) => {
-     console.log(value);
-     if (!value) {
-      closeWindow();
-      document.getElementById("register-form").submit();
-      // closeWindow();
-     } else {
-      closeWindow();
-      document.getElementById("register-form").submit();
-      // closeWindow();
-     }
-    });
+    window.open('','_self',''); window.close(); // _parent
    }
-  });
- });
+   module.exports.closeWindow = closeWindow;
+   function initInput(user_psid) {
+    	document.forms[0].user_psid.value = user_psid;
+      document.forms[1].user_psid.value = user_psid;
+   }
+  </script>
 
- $(document).on('click', '#btn-submit-re', function(e) {
-  var regiMajor = document.forms[1].reRegiMajor.value;
-  var regiClass = document.forms[1].reRegiClass.value;
-  e.preventDefault();
-  swal({
-   title: "정보 확인",
-   text: "[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 수정됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?",
-   icon: "success",
-   className: 'sweetalert-lg',
-   buttons: {
-    cancel: {
-     text: "다시 입력",
-     value: false,
-     visible: true,
-     className: "",
-     closeModal: true,
-    },
-    confirm: {
-     text: "확인",
-     value: true,
-     visible: true,
-     className: "",
-     closeModal: true
-    }
-   },
-  }).then((value) => {
-   if (!value) {
-    swal({
-     title: '다시 입력해줘!',
-     text: '',
-     icon: "error",
-     customClass: 'sweetalert-lg',
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- <script src="https://unpkg.com/sweetalert2/dist/sweetalert.min.js"></script> -->
+  <div class = "login-page">
+    <div class = "form" herf="#" href="#">
+      <form class = "register-form" id = "register-form" method = "post" action="/register/new_user"/>
+      <input name="user_psid" type="hidden" value="" />
+      <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
+      <input name = "newRegiClass" type="text" placeholder="학번"/>
+      <button class = "submit" id="btn-submit-new" value = "submit"> 새로 등록 </button>
+      <p class = "message">이미 등록되어 있어?
+        <a href="#"> 새 정보로 다시 등록 </a>
+      </p>
+      </form>
+
+      <form class="login-form" id = "login-form" method = "post" action="/register/re_user">
+      <input name="user_psid" type="hidden" value="" />
+      <input name = "reRegiMajor" type="text" placeholder="전공학과"/>
+      <input name = "reRegiClass" type="text" placeholder="학번"/>
+      <button class = "submit" id="btn-submit-re" value = "submit"> 다시 등록 </button>
+      <p class = "message">아직 등록 안 되어있어?
+        <a href="#"> 신규 등록 </a>
+      </p>
+      </form>
+
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $('.message a').click(function(){
+    $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
     });
-   } else {
-    document.getElementById("login-form").submit();
-    swal({
-     title: '수정 완료',
-     text: '수정이 완료됐어!',
-     icon: "success",
-     customClass: 'sweetalert-lg',
-     buttons: {
-      confirm: {
-       text: "확인",
-       value: true,
-       visible: true,
-       className: "",
-       closeModal: true
-      }
-     }
-    }).then((value) => {
-     if (!value) {
-      closeWindow();
-      document.getElementById("login-form").submit();
-      // closeWindow();
-     } else {
-      closeWindow();
-      document.getElementById("login-form").submit();
-      // closeWindow();
-     }
+    $(document).on('click', '#btn-submit-new', function(e) {
+      var regiMajor = document.forms[0].newRegiMajor.value;
+      var regiClass = document.forms[0].newRegiClass.value;
+      e.preventDefault();
+      swal({
+        title: "정보 확인",
+        text: "[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 등록됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?",
+        icon: "success",
+        className: 'sweetalert-lg',
+        buttons: {
+          cancel: {
+            text: "다시 입력",
+            value: false,
+            visible: true,
+            className: "",
+            closeModal: true,
+          },
+          confirm: {
+            text: "확인",
+            value: true,
+            visible: true,
+            className: "",
+            closeModal: true
+          }
+        },
+      }).then((value) => {
+        if (!value) {
+          swal({
+            title: '다시 입력해줘!',
+            text: '',
+            icon: "error",
+            className: 'sweetalert-lg',
+          });
+        } else {
+          // document.getElementById("register-form").submit();
+          swal({
+            title: '등록 완료',
+            text: '등록이 완료됐어!',
+            icon: "success",
+            className: 'sweetalert-lg',
+            buttons: {
+              confirm: {
+                text: "확인",
+                value: true,
+                visible: true,
+                className: "",
+                closeModal: true
+              }
+            }
+          }).then((value) => {
+            console.log(value);
+            if (!value) {
+              closeWindow();
+              document.getElementById("register-form").submit();
+              // closeWindow();
+            } else {
+              closeWindow();
+              document.getElementById("register-form").submit();
+              // closeWindow();
+            }
+          });
+        }
+      });
     });
-   }
-  });
- });
-</script>
+    $(document).on('click', '#btn-submit-re', function(e) {
+      var regiMajor = document.forms[1].reRegiMajor.value;
+      var regiClass = document.forms[1].reRegiClass.value;
+      e.preventDefault();
+      swal({
+        title: "정보 확인",
+        text: "[전공: " + regiMajor + " / 학번: " + regiClass + "] 사용자 정보가 수정됐어!\n창은 [확인]을 누르면 꺼질거야!\n 혹시 잘못 입력한 정보가 있니?",
+        icon: "success",
+        className: 'sweetalert-lg',
+        buttons: {
+          cancel: {
+            text: "다시 입력",
+            value: false,
+            visible: true,
+            className: "",
+            closeModal: true,
+          },
+          confirm: {
+            text: "확인",
+            value: true,
+            visible: true,
+            className: "",
+            closeModal: true
+          }
+        },
+      }).then((value) => {
+        if (!value) {
+          swal({
+            title: '다시 입력해줘!',
+            text: '',
+            icon: "error",
+            customClass: 'sweetalert-lg',
+          });
+        } else {
+          // document.getElementById("login-form").submit();
+          swal({
+            title: '수정 완료',
+            text: '수정이 완료됐어!',
+            icon: "success",
+            customClass: 'sweetalert-lg',
+            buttons: {
+              confirm: {
+                text: "확인",
+                value: true,
+                visible: true,
+                className: "",
+                closeModal: true
+              }
+            }
+          }).then((value) => {
+            if (!value) {
+              closeWindow();
+              document.getElementById("login-form").submit();
+              // closeWindow();
+            } else {
+              closeWindow();
+              document.getElementById("login-form").submit();
+              // closeWindow();
+            }
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
