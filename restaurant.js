@@ -42,7 +42,8 @@ var initRestaurantConv = function(event) {
 
 var initRestaurantRecommendation = function(event) {
   console.log("RUN: initRestaurantRecommendation");
-  if (event.message.text == "응"){
+  if ((event.message.text == "응") ||
+      (util.getSimilarStrings(event.message.text,  basicConv.agreementArr, -1, basicConv.agreementArr.length)[0].similarity > 0)){
     console.log("USER SELECT : YES in initRestaurantConv");
     var task = [
       function(callback){
@@ -61,7 +62,7 @@ var initRestaurantRecommendation = function(event) {
     console.log("USER SELECT : NO in initRestaurantConv");
     var task = [
       function(callback){
-        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_re" WHERE user_id=' + event.sender.id);
         callback(null, 'done');
       },
       function(err, callback){
@@ -76,6 +77,10 @@ var initRestaurantRecommendation = function(event) {
     console.log("USER SELECT : UNEXPECTED RESPONSE in initRestaurantConv");
   }
 };
+
+var restaurantRecommendation_re = function(event) {
+
+}
 
 var restaurantRecommendation_category = function(event) {
   console.log("RUN: restaurantRecommendation_category");
