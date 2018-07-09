@@ -27,8 +27,8 @@ var startRandomMatching = function(event) {
         } else //if (result[0].uid != 0)
         {
           console.log('No need to ask for profile URL');
-          connection.query('UPDATE Users SET conv_context="randomMatching_mainMenu" WHERE user_id=' + event.sender.id);
-          api.sendResponse(event, {"text": "누구 찾아줄까?", "quick_replies": qr.reply_arrays["randomMatchingOptions"]});
+          connection.query('UPDATE Users SET conv_context="randomMatching_gender" WHERE user_id=' + event.sender.id);
+          api.sendResponse(event, {"text": "누구 찾아줄까?", "quick_replies": qr.reply_arrays["genderOptions"]});
         }
       });
       callback(null,'done');
@@ -87,13 +87,13 @@ function askProfileURL(event) {
     // },
     function(err, callback) {
       if (isProper) {
-        connection.query('UPDATE Users SET conv_context="personSearch_mainMenu" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="personSearch_gender" WHERE user_id=' + event.sender.id);
       }
       callback(null, 'done');
     },
     function(err, callback) {
       if (isProper) {
-        api.sendResponse(event, {"text": "입력해줘서 고마워! 그럼 누구 찾아줄까?", "quick_replies": qr.reply_arrays["personSearchOptions"]});
+        api.sendResponse(event, {"text": "입력해줘서 고마워! 그럼 누구 찾아줄까?", "quick_replies": qr.reply_arrays["genderOptions"]});
       }
       else {
         api.sendResponse(event, {"text": "제대로 입력이 안됐어ㅠㅠ 다시 한번 시도해줄래??"});
@@ -104,69 +104,55 @@ function askProfileURL(event) {
   async.waterfall(task);
 };
 
-function randomMatching_mainMenu(event) {
-  var inputText = event.message.text;
-    switch (inputText) {
-      case "선배나 후배!":
-          var task = [
-            function(callback) {
-              connection.query('UPDATE Users SET conv_context="personSearch_alum" WHERE user_id=' + event.sender.id);
-              callback(null, 'done');
-            },
-            function(err, callback) {
-              api.sendResponse(event, {"text": "무슨 학과?"});
-              callback(null);
-            }
-          ]
-          async.waterfall(task);
-          break;
-      default:
-          var task = [
-            function(callback) {
-              connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-              callback(null, 'done');
-            },
-            function(err, callback) {
-              api.sendResponse(event, {"text": "기타는 무슨 기타야... 우리 저커버그형한테나 메세지 보내ㅋㅋㅋ"});
-              callback(null, 'done');
-            },
-            function(err, callback) {
-              api.sendResponse(event, {"text": "m.me/4"});
-              callback(null);
-            }
-          ]
-          async.waterfall(task);
-    }
-
-};
-
-function randomMatching_alum(event) {
+function randomMatching_gender(event) {
   var inputText = event.message.text;
   var substring1 = "학과";
-  if (inputText.indexOf(substring1) == -1)
+  if (inputText != "남자" || inputText != "여자" || inputText != "상관없어")
   {
-    api.sendResponse(event, {"text": "엥 뭔가 잘못친거 같은데... \"00학과\"라고 입력해야돼! 다시 입력해줄래?", });
+    api.sendResponse(event, {"text": "엥 뭔가 잘못친거 같은데... 다시 입력해줄래?", "quick_replies": qr.reply_arrays["genderOptions"]});
   }
   else {
     var uid = 0;
     var target_first_name, target_last_name, target_profile_pic;
     var task = [
       function(callback) {
-        connection.query('SELECT * FROM Users WHERE college_major=\'' + event.message.text + '\' AND uid!=\'0\'', function(err, result, fields) {
-          if (err) throw err;
-          if (result.length) {
-            uid = result[0].uid;
-            target_first_name = result[0].first_name;
-            target_last_name = result[0].last_name;
-            target_profile_pic = result[0].profile_pic;
-            // console.log(uid + " " + target_first_name + " " + target_profile_pic);
-          }
-          else { // search result = 0
-            api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 사람이라도 찾아줄까?"/*, "quick_replies": qr.reply_arrays["YesOrNo"]*/});
-            connection.query('UPDATE Users SET conv_context="personSearch_nullcase" WHERE user_id=' + event.sender.id);
-          }
-          callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
-        });
+        if(inputText == "남자" || inputText == "여자") {
+          connection.query('SELECT * FROM Users WHERE sex=\'' + event.message.text + '\' AND uid!=\'0\'', function(err, result, fields) {
+            if (err) throw err;
+            if (result.length) {
+              var randomNumber;
+              randomNumber = Math.floor(Math.random() * (result.length));
+              uid = result[randomNumber].uid;
+              target_first_name = result[randomNumber].first_name;
+              target_last_name = result[randomNumber].last_name;
+              target_profile_pic = result[randomNumber].profile_pic;
+              // console.log(uid + " " + target_first_name + " " + target_profile_pic);
+            }
+            else { // search result = 0
+              api.sendResponse(event, {"text": "미안.. 아직 그 학과는 내가 아는 사람이 없네ㅠㅠ 다른 사람이라도 찾아줄까?"/*, "quick_replies": qr.reply_arrays["YesOrNo"]*/});
+              connection.query('UPDATE Users SET conv_context="personSearch_nullcase" WHERE user_id=' + event.sender.id);
+            }
+            callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
+          });
+        } else {
+          connection.query('SELECT * FROM Users', function(err, result, fields) {
+            if (err) throw err;
+            if (result.length) {
+              var randomNumber;
+              randomNumber = Math.floor(Math.random() * (result.length));
+              uid = result[randomNumber].uid;
+              target_first_name = result[randomNumber].first_name;
+              target_last_name = result[randomNumber].last_name;
+              target_profile_pic = result[randomNumber].profile_pic;
+              // console.log(uid + " " + target_first_name + " " + target_profile_pic);
+            }
+            else { // search result = 0
+              api.sendResponse(event, {"text": "미안.. 아직 매칭해줄 사람이 없다ㅠㅠ 메인 메뉴로 돌아갈게..!"/*, "quick_replies": qr.reply_arrays["YesOrNo"]*/});
+              connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+            }
+            callback(null, 'done'); // 이게 여기 있는 이유는 DB 갔다 오는 시간이 꽤 걸리기 때문에 async 제대로 안되는 문제 해결하기 위해!!
+          });
+        }
       },
       function(err, callback) {
         if(uid) {
@@ -227,7 +213,7 @@ function randomMatching_nullcase(event) {
       }
       else // response is 'yes'
       {
-        connection.query('UPDATE Users SET conv_context="personSearch_mainMenu" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="randomSearch_mainMenu" WHERE user_id=' + event.sender.id);
         api.sendResponse(event, {"text": "누구 찾아줄까?", "quick_replies": qr.reply_arrays["personSearchOptions"]});
       }
     }
@@ -237,10 +223,10 @@ function randomMatching_nullcase(event) {
 
 module.exports = {
   functionMatch: {
-    "사람찾기": startPersonSearch,
+    "랜덤매칭": startRandomMatching,
    "askProfileURL": askProfileURL,
-   "randomMatching_mainMenu": randomMatching_mainMenu,
-   "randomMatching_alum": randomMatching_alum,
+   // "randomMatching_mainMenu": randomMatching_mainMenu,
+   "randomMatching_gender": randomMatching_gender,
    "randomMatching_nullcase": randomMatching_nullcase,
   }
 };
