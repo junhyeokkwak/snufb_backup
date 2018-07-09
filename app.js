@@ -92,6 +92,11 @@ app.post('/webhook', function (req, res) {
                   connection.query('UPDATE Users SET conv_context="register1" WHERE user_id=' + event.sender.id);
                   console.log('Conv Context: ' + result[0].conv_context);
                   callback(null, functionSheet[result[0].conv_context]);
+                } else if (event.message.text == 'TEST BUS') {
+                  console.log("TEST BUS WEBVIEW");
+                  connection.query('UPDATE Users SET conv_context="handleMultipleStNm" WHERE user_id=' + event.sender.id);
+                  console.log('Conv Context: ' + result[0].conv_context);
+                  callback(null, functionSheet[result[0].conv_context]);
                 }
                 // else if ((event.message.text.length > 12) && (event.message.text.substr(0,12) == 'SET CONV CON:')) {
                 //   var newConvContext = event.message.text.substr(12,event.message.text.length);
@@ -185,8 +190,6 @@ app.post('/register/re_user', function(req, res){
     res.status(200).end();
     // res.render('register-success', {data = req.body});
 });
-
-
 
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
