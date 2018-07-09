@@ -152,7 +152,7 @@ function personSearch_alum(event) {
     var target_first_name, target_last_name, target_profile_pic;
     var task = [
       function(callback) {
-        connection.query('SELECT * FROM Users WHERE college_major=\'' + event.message.text + '\'', function(err, result, fields) {
+        connection.query('SELECT * FROM Users WHERE college_major=\'' + event.message.text + '\' AND uid!=\'0\'', function(err, result, fields) {
           if (err) throw err;
           if (result.length) {
             uid = result[0].uid;
@@ -188,6 +188,11 @@ function personSearch_alum(event) {
             api.handleButton(event, "직접 연락해봐!", url);
         }
         callback(null, 'done');
+      },
+      function(err, callback) {
+        setTimeout(function () {
+          callback(null, 'done');
+        }, 1000);
       }
     ]
     async.waterfall(task);
