@@ -121,7 +121,8 @@ function randomMatching_gender(event) {
       function(callback) {
         if(inputText == "남자" || inputText == "여자") {
           console.log("MEN OR WOMEN");
-          connection.query('SELECT * FROM Users WHERE sex=\'' + inputText + '\' AND uid!=\'0\'', function(err, result, fields) {
+          connection.query('SELECT * FROM Users WHERE sex=\'남성\'' AND uid!=\'0\'', function(err, result, fields) {
+          // connection.query('SELECT * FROM Users WHERE sex=\'' + inputText + '\' AND uid!=\'0\'', function(err, result, fields) {
             if (err) throw err;
             if (result.length) {
               var randomNumber;
