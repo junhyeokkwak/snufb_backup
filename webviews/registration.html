@@ -6,8 +6,49 @@
 <title>사용자 정보 등록</title>
  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body onLoad="initInput()">
 <script>
+window.fbAsyncInit = function() {
+   FB.init({
+     appId      : '2169355909963830',
+     xfbml      : true,
+     version    : 'v2.11'
+   });
+   FB.AppEvents.logPageView();
+ };
+var user_psid;
+(function(d, s, id){
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'Messenger'));
+
+
+window.extAsyncInit = function () {
+    var isSupported = MessengerExtensions.isInExtension();
+    //alert(isSupported);
+    // the Messenger Extensions JS SDK is done loading
+    // MessengerExtensions.requestCloseBrowser(function success() {
+    //     console.log("closing success");
+    // }, function error(err) {
+    //     console.log("closing failure");
+    //     console.log(err);
+    // });
+    MessengerExtensions.getContext('2169355909963830',
+      function success(result){
+        user_psid = result.psid;
+        initInput(user_psid);
+        console.log("Success: "+ result.psid);
+      },
+      function error(result){
+        swal("ERR CODE: " + JSON.stringify(result), "미안! 등록 사이트에 문제가 생겼나봐 ㅠㅠ\n 혹시 컴퓨터로 접속했니?", "error")
+        console.log("FAIL: " + JSON.stringify(result));
+      }
+    );
+  };
+
 
   window.fbAsyncInit = function() {
      FB.init({
