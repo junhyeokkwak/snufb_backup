@@ -87,7 +87,7 @@ function askProfileURL(event) {
     // },
     function(err, callback) {
       if (isProper) {
-        connection.query('UPDATE Users SET conv_context="personSearch_gender" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="randomMatching_gender" WHERE user_id=' + event.sender.id);
       }
       callback(null, 'done');
     },
