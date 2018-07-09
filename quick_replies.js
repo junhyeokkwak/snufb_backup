@@ -86,6 +86,7 @@ module.exports = {
     "YesOrNo": YesOrNo,
     "Menu" : Menu,
     "Mentor_type": Mentor_type,
-    "personSearchOptions": personSearchOptions
+    "personSearchOptions": personSearchOptions,
+    "genderOptions": genderOptions
   }
 }
