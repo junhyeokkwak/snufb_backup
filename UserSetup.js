@@ -189,9 +189,9 @@ function register2(event) {
 
 function guguTest(event) {
   var inputText = event.message.text;
-  var substring = "구구";
+  var substring1 = "구구";
   setTimeout(function() {
-    if (inputText.indexOf(substring) !== -1) {
+    if (inputText.indexOf(substring1) !== -1) {
       api.sendResponse(event, {"text": "응응! 앞으로도 그렇게 부르면 돼!!ㅎㅎ 그럼 내가 뭘 도와줄까?"});
     }
   }, 1000);
@@ -212,7 +212,7 @@ module.exports = {
     "checkSchool": checkSchool,
     //temporary additions
     "메뉴": register2,
-    "gutuTest": guguTest
+    "guguTest": guguTest
   }
 }
 
