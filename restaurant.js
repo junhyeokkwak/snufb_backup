@@ -233,6 +233,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
 module.exports = {
   functionMatch: {
     "배고파": initRestaurantConv,
+    "맛집 찾아줘!": initRestaurantConv,
     "initRestaurantRecommendation" : initRestaurantRecommendation,
     "restaurantRecommendation_category" : restaurantRecommendation_category,
     "restaurantRecommendation_freeResponse" : restaurantRecommendation_nearbysearch,

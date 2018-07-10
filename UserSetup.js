@@ -192,7 +192,8 @@ function guguTest(event) {
   var substring1 = "구구";
   setTimeout(function() {
     if (inputText.indexOf(substring1) !== -1) {
-      api.sendResponse(event, {"text": "응응! 앞으로도 그렇게 부르면 돼!!ㅎㅎ 그럼 내가 뭘 도와줄까?"});
+      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+      api.sendResponse(event, {"text": "응응! 앞으로도 그렇게 부르면 돼!!ㅎㅎ 그럼 내가 뭘 도와줄까?", "quick_replies": qr.reply_arrays["betaMenu"]});
     }
   }, 1000);
 }

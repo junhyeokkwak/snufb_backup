@@ -573,6 +573,7 @@ var getStaOrd_fromOutside = function(busRouteId, stId, callback) {
 module.exports = {
   functionMatch: {
     "버스": initBusConv,
+    "버스 언제와?": initBusConv,
     // "busTest" : busTest,
     "bus_stNmORbusNum" : bus_stNmORbusNum,
     "bus_askBusNum" : bus_askBusNum,
