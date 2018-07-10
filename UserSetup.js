@@ -48,7 +48,7 @@ function registerUser(event) {
           },
           function (first_name, callback) {
           //  api.sendResponse(event, {"text": "에이 요 와썹"});
-            api.sendResponse(event, {"text":"안녕! 난 연구구라고 해. 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+            api.sendResponse(event, {"text":"안녕! 난 연구구라고 해! 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
             callback(null); // need to edit in the future.
           }
           // function(err, callback){
@@ -174,15 +174,15 @@ function register2(event) {
     },
     function(err, callback){
       setTimeout(function() {
-        api.sendResponse(event, {"text": "학식 메뉴, 학교 주변 맛집, 교통 정보을 알려주는 것부터 학교 내 다른 사람과 연결시켜 주는 것까지 못하는게 없다구!"});
+        api.sendResponse(event, {"text": "맛집이나 교통정보도 내가 빠삭하게 알고, 내가 아는 친구들을 너한테 소개해줄 수도 있어!"});
         callback(null, 'done');
-      }, 1000);
+      }, 2000);
     },
     function(err, callback){
       setTimeout(function() {
-        api.sendResponse(event, {"text": "내가 필요할때면 아무때나 페메하면 돼! 한번 해볼래?"});
+        api.sendResponse(event, {"text": "내가 필요할때면 아무때나 페메하면 돼! 한번 해볼래?", "quick_replies": qr.reply_arrays["gugu"]});
         callback(null, 'done');
-      }, 1000);
+      }, 2000);
     },
   ]
   async.waterfall(task);
