@@ -48,7 +48,7 @@ function registerUser(event) {
           },
           function (first_name, callback) {
           //  api.sendResponse(event, {"text": "에이 요 와썹"});
-            api.sendResponse(event, {"text":"안녕! 난 설대봇이라고 해. 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+            api.sendResponse(event, {"text":"안녕! 난 연구구라고 해. 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
             callback(null); // need to edit in the future.
           }
           // function(err, callback){
@@ -74,7 +74,7 @@ function register1(event) {
         callback(null, 'done');
       },
       function(err, callback){
-        api.sendResponse(event, {"text":"오키! 학교는 서울대 다니는거구?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+        api.sendResponse(event, {"text":"오키! 학교는 연세대 다니는거구?", "quick_replies": qr.reply_arrays["YesOrNo"]});
         // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
         callback(null);
       }
@@ -162,10 +162,28 @@ function register2(event) {
     },
 
     function(err, callback){
-      api.sendResponse(event, {"text":"그럼 이제 내 소개를 해볼까?\n\n나는 자타공인 우리 대학교 최고 인싸, 칼답을 자랑하는 이대봇이라고 해!\n학식 메뉴, 학교 주변 맛집, 교통 정보을 알려주는 것부터 학교 내 다른 사람과 연결시켜 주는 것까지 못하는게 없다구!\n\n그럼 오늘은 뭘 도와줄까?",
+      api.sendResponse(event, {"text":"그럼 이제 내 소개를 해볼까?",
         "quick_replies": qr.reply_arrays["Menu"]});
-      callback(null);
-    }
+      callback(null, 'done');
+    },
+    function(err, callback){
+      setTimeout(function() {
+        api.sendResponse(event, {"text": "나는 자타공인 우리 대학교 최고 인싸, 칼답을 자랑하는 \'연구구\'라고해!!"});
+        callback(null, 'done');
+      }, 1000);
+    },
+    function(err, callback){
+      setTimeout(function() {
+        api.sendResponse(event, {"text": "학식 메뉴, 학교 주변 맛집, 교통 정보을 알려주는 것부터 학교 내 다른 사람과 연결시켜 주는 것까지 못하는게 없다구!"});
+        callback(null, 'done');
+      }, 1000);
+    },
+    function(err, callback){
+      setTimeout(function() {
+        api.sendResponse(event, {"text": "내가 필요할때면 아무때나 페메하면 돼! 한번 해볼래?"});
+        callback(null, 'done');
+      }, 1000);
+    },
   ]
   async.waterfall(task);
 }
