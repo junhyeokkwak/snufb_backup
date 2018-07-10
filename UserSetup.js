@@ -144,7 +144,7 @@ function checkSchool(event) {
 function register2(event) {
   var task = [
     function(callback){
-      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+      connection.query('UPDATE Users SET conv_context="guguTest" WHERE user_id=' + event.sender.id);
 
       // experiment (extracting data from database)
       connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
@@ -162,8 +162,7 @@ function register2(event) {
     },
 
     function(err, callback){
-      api.sendResponse(event, {"text":"그럼 이제 내 소개를 해볼까?",
-        "quick_replies": qr.reply_arrays["Menu"]});
+      api.sendResponse(event, {"text":"그럼 이제 내 소개를 해볼까?"});
       callback(null, 'done');
     },
     function(err, callback){
@@ -188,6 +187,15 @@ function register2(event) {
   async.waterfall(task);
 }
 
+function guguTest(event) {
+  var inputText = event.message.text;
+  var substring = "구구";
+  if (inputText.indexOf(substring) !== -1) {
+    api.sendResponse(event, {"text": "응응! 앞으로도 그렇게 부르면 돼!!ㅎㅎ 그럼 내가 뭘 도와줄까?"});
+  }
+}
+
+
 function notStudent(event) {
   api.sendResponse(event, {"text": "나는 서울대 담당이니까 너희 학교 봇한테 말 걸어줘"});
 }
@@ -201,7 +209,8 @@ module.exports = {
     "changeName1": changeName1,
     "checkSchool": checkSchool,
     //temporary additions
-    "메뉴": register2
+    "메뉴": register2,
+    "gutuTest": guguTest
   }
 }
 
