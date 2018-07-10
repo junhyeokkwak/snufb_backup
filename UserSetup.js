@@ -190,6 +190,7 @@ function register2(event) {
 function guguTest(event) {
   var inputText = event.message.text;
   var substring = "구구";
+  console.log(inputText);
   console.log(inputText.indexOf(substring));
   // if (inputText.indexOf(substring) !== -1) {
   //   api.sendResponse(event, {"text": "응응! 앞으로도 그렇게 부르면 돼!!ㅎㅎ 그럼 내가 뭘 도와줄까?"});
