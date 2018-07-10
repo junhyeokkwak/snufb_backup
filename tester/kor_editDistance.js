@@ -1,26 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var replaceAll = function (strTemp, strValue1, strValue2){
   while(1){
     if( strTemp.indexOf(strValue1) != -1 )
@@ -38,12 +16,6 @@ var korToUni = function(str) {
 var uniToKor = function(str) {
   return unescape(replaceAll(str, "\\", "%"));
 }
-
-// console.log(korToUni("가"));
-
-
-// 유니코드 -> 한글 : unescape(replaceAll(str, "\\", "%"));
-// 한글 -> 유니코드 : escape(replaceAll(str, "\\", "%"));
 
 var rCho =
         [ "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ",
@@ -108,7 +80,10 @@ var getChoJungJong_Text = function(str) {
   }
 }
 
-getChoJungJong_Text("ㄱㅏ가가가");
+getChoJungJong_Text("가가가");
+
+var dice = require('diceCoefficient.js');
+console.log(dice('연세대앞', '연세대학교앞')); //=> 1
 
 //Hangul Jamo Extended a
 //A960~A97F: Jamo
