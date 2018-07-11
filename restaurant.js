@@ -75,7 +75,7 @@ var initRestaurantRecommendation = function(event) {
       },
       function(err, callback){
         var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
-        var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
+        var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
         api.sendResponse(event, messageData);
         callback(null);
       },
@@ -94,7 +94,6 @@ var restaurantRecommendation_category_0 = function(event) {
   console.log("RUN: restaurantRecommendation_category_0");
   console.log("@@@TEST@@@: "+event.message.text);
   if (event.message.text == "그냥 말할래" || event.message.text == "나라별" || event.message.text == "종합" || event.message.text == "상황별" || event.message.text == "재료별") {
-
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category_0");
     if (event.message.text == "그냥 말할래") {
       var messageData = {"text": "뭐 먹고 싶어? 말해봐! 가게 추천해줄게"};
