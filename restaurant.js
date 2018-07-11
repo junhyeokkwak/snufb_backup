@@ -93,8 +93,8 @@ var restaurantRecommendation_re = function(event) {
 var restaurantRecommendation_category_0 = function(event) {
   console.log("RUN: restaurantRecommendation_category_0");
   console.log("@@@TEST@@@: "+event.message.text);
-  if (event.message.text == "종합") console.log("@@@@@@@@@@@@@@@종합"); 
-  if (event.message.text == ("그냥 말할래" || "종합" || "상황별" || "재료별" || "나라별")) {
+  if (event.message.text == "종합") console.log("@@@@@@@@@@@@@@@종합");
+  if (event.message.text == "그냥 말할래" || event.message.text == "종합") {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category_0");
     if (event.message.text == "그냥 말할래") {
       var messageData = {"text": "뭐 먹고 싶어? 말해봐! 가게 추천해줄게"};
