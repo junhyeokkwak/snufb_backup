@@ -92,17 +92,16 @@ var restaurantRecommendation_re = function(event) {
 
 var restaurantRecommendation_category_0 = function(event) {
   console.log("RUN: restaurantRecommendation_category_0");
-
   if (event.message.text == ("그냥 말할래" || "종합" || "상황별" || "재료별" || "나라별")) {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category_0");
     if (event.message.text == "그냥 말할래") {
       var messageData = {"text": "뭐 먹고 싶어? 말해봐! 가게 추천해줄게"};
-      connection.query('UPDATE Users SET conv_context="restaurantRecommendation_freeResponse" WHERE user_id=' + event.sender.id);
+      api.sendResponse(event, messageData);
+      connection.query('UPDATE Users SET conv_context="restaurantRecommendation_nearbysearch" WHERE user_id=' + event.sender.id);
+    } else {
+      RESTAURANT_TEMP_DATA.(event.sender.id).category0 = event.message.text;
+      console.log("R T D: " + RESTAURANT_TEMP_DATA);
     }
-    if (event.message.text == "나라별") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    if (event.message.text == "종합") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    if (event.message.text == "상황별") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    if (event.message.text == "재료별") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   } else {
     console.log('UNVERIFIED SEARCH');
     var qrCuisines = qr.generateQuickReplies(["그냥 말할래", "나라별", "종합", "상황별", "재료별"]);
@@ -113,7 +112,7 @@ var restaurantRecommendation_category_0 = function(event) {
 };
 
 var restaurantRecommendation_category_1 = function(event) {
-  console.log(Run);
+  console.log("RUN restaurantRecommendation_category_1");
 }
 
 var restaurantRecommendation_nearbysearch = function(event) {
@@ -236,6 +235,6 @@ module.exports = {
     "배고파": initRestaurantConv,
     "initRestaurantRecommendation" : initRestaurantRecommendation,
     "restaurantRecommendation_category_0" : restaurantRecommendation_category_0,
-    "restaurantRecommendation_freeResponse" : restaurantRecommendation_nearbysearch,
+    "restaurantRecommendation_nearbysearch" : restaurantRecommendation_nearbysearch,
   }
 };
