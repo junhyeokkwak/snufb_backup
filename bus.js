@@ -218,7 +218,7 @@ var bus_confirmStNm = function(event) {
     },
     function(agreementArr, callback) {
       console.log("agreementArr: "+agreementArr);
-      if (agreementArr[0].similarity == 0) {
+      if (agreementArr[0].similarity < 0.5) {
         if (stringSimilarity.arrangeBySimilarity(msg,  basicConv.agreementArr)[0].similarity == 0) {
           connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
           connection.query(`UPDATE Users SET stNm="none" WHERE user_id=` + event.sender.id);
