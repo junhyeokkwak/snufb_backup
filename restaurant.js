@@ -22,7 +22,8 @@ var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteF
 var RESTAURANT_TEMP_DATA = {
     "user_psid_test" : {
       "category1" : "category1_value",
-      "category2" : "category2_value"
+      "category2" : "category2_value",
+      "category3" : "category2_value",
     }
   };
 
@@ -128,9 +129,12 @@ var restaurantRecommendation_category_1 = function(event) {
     console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
     var qrCuisines = qr.generateQuickReplies(cuisinesJsonData[category1][event.message.text]);
     var messageData = {"text": `${event.message.text} 중에서는 어떤걸로 추천해줄까!`, "quick_replies": qrCuisines};
+  } else {
+    var qrCuisines = qr.generateQuickReplies(category2Arr);
+    var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해줘", "quick_replies": qrCuisines};
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
+    api.sendResponse(event, messageData);
   }
-  //
-  // console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
 }
 
 var restaurantRecommendation_nearbysearch = function(event) {
