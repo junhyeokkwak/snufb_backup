@@ -154,6 +154,10 @@ var restaurantRecommendation_category_2 = function(event) {
   }
 }
 
+var restaurantRecommendation_category_2 = function(event) {
+
+}
+
 var restaurantRecommendation_nearbysearch = function(event) {
   console.log("RUN: restaurantRecommendation_nearbysearch");
   var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos, vicinity) {
