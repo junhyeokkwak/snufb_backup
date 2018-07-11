@@ -20,7 +20,7 @@ var cuisineFile=fs.readFileSync('./jsondata/cuisinesJsonData.json', 'utf8');
 var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile),  cuisinesJsonData = JSON.parse(cuisineFile);
 
 var RESTAURANT_TEMP_DATA = {
-    "user_psid" : {
+    "user_psid_test" : {
       "category1" : "category1_value",
       "category2" : "category2_value"
     }
@@ -55,7 +55,7 @@ var initRestaurantRecommendation = function(event) {
     console.log("USER SELECT : YES in initRestaurantConv");
     var task = [
       function(callback){
-        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.restaurantRecommendation_nearbysearch.id);
+        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
         callback(null, 'done');
       },
       function(err, callback){
@@ -99,8 +99,9 @@ var restaurantRecommendation_category_0 = function(event) {
       api.sendResponse(event, messageData);
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_nearbysearch" WHERE user_id=' + event.sender.id);
     } else {
-      var user_psid = event.sender.id;
-      RESTAURANT_TEMP_DATA[event.sender.id].category0 = event.message.text;
+      connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
+
+      RESTAURANT_TEMP_DATA[event.sender.id].category1 = event.message.text;
       console.log("R T D: " + RESTAURANT_TEMP_DATA);
     }
   } else {
