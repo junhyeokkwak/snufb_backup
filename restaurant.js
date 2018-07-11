@@ -149,7 +149,7 @@ var restaurantRecommendation_category_2 = function(event) {
   if (category3Arr.indexOf(event.message.text) > -1) {
     RESTAURANT_TEMP_DATA[event.sender.id].category3 = event.message.text;
     console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
-    restaurantRecommendation_nearbysearch(event.message.text);
+    restaurantRecommendation_nearbysearch(event);
   } else {
     var qrCuisines = qr.generateQuickReplies(category3Arr);
     var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해줘", "quick_replies": qrCuisines};
