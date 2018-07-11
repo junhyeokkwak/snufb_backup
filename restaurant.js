@@ -153,7 +153,7 @@ var restaurantRecommendation_category_2 = function(event) {
   } else {
     var qrCuisines = qr.generateQuickReplies(category3Arr);
     var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해줘", "quick_replies": qrCuisines};
-    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_2" WHERE user_id=' + event.sender.id);
     api.sendResponse(event, messageData);
   }
 }
