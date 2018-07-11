@@ -66,12 +66,27 @@ var personSearchOptions = [{
   "payload": "기타"
 }]
 
+var genderOptions = [{
+  "content_type": "text",
+  "title": "남성",
+  "payload": "남성"
+},{
+  "content_type": "text",
+  "title": "여성",
+  "payload": "여성"
+},{
+  "content_type": "text",
+  "title": "상관없어",
+  "payload": "상관없어"
+}]
+
 module.exports = {
   generateQuickReplies : generateQuickReplies,
   reply_arrays: {
     "YesOrNo": YesOrNo,
     "Menu" : Menu,
     "Mentor_type": Mentor_type,
-    "personSearchOptions": personSearchOptions
+    "personSearchOptions": personSearchOptions,
+    "genderOptions": genderOptions
   }
 }
