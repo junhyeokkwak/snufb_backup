@@ -36,7 +36,7 @@ var initRestaurantConv = function(event) {
         "category1" : "category1_value",
         "category2" : "category2_value"
       }
-      console.log("R T D: " + RESTAURANT_TEMP_DATA + JSON.stringify(RESTAURANT_TEMP_DATA));
+      console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
       callback(null, err);
     },
     function(err, callback){
@@ -94,7 +94,9 @@ var restaurantRecommendation_category_0 = function(event) {
   console.log("RUN: restaurantRecommendation_category_0");
   console.log("@@@TEST@@@: "+event.message.text);
   if (event.message.text == "종합") console.log("@@@@@@@@@@@@@@@종합");
-  if (event.message.text == "그냥 말할래" || event.message.text == "종합") {
+  // if (event.message.text == "그냥 말할래" || event.message.text == "종합") {
+  if (event.message.text == ("그냥 말할래" || "종합")) {
+
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category_0");
     if (event.message.text == "그냥 말할래") {
       var messageData = {"text": "뭐 먹고 싶어? 말해봐! 가게 추천해줄게"};
@@ -104,7 +106,7 @@ var restaurantRecommendation_category_0 = function(event) {
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
 
       RESTAURANT_TEMP_DATA[event.sender.id].category1 = event.message.text;
-      console.log("R T D: " + RESTAURANT_TEMP_DATA);
+      console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
     }
   } else {
     console.log('UNVERIFIED SEARCH');
