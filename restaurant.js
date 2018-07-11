@@ -92,7 +92,8 @@ var restaurantRecommendation_re = function(event) {
 
 var restaurantRecommendation_category_0 = function(event) {
   console.log("RUN: restaurantRecommendation_category_0");
-  if (event.message.text == "그냥 말할래" || event.message.text == "나라별" || event.message.text == "종합" || event.message.text == "상황별" || event.message.text == "재료별") {
+  if (["그냥 말할래", "나라별", "종합", "상황별", "재료별"].indexOf(event.message.text) > -1) {
+  // if (event.message.text == "그냥 말할래" || event.message.text == "나라별" || event.message.text == "종합" || event.message.text == "상황별" || event.message.text == "재료별") {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category_0");
     if (event.message.text == "그냥 말할래") {
       var messageData = {"text": "뭐 먹고 싶어? 말해봐! 가게 추천해줄게"};
@@ -101,10 +102,14 @@ var restaurantRecommendation_category_0 = function(event) {
     } else {
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
       RESTAURANT_TEMP_DATA[event.sender.id].category1 = event.message.text;
-      console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+      console.log(cuisinesJsonData[event.message.text].keys);
+      var qrCuisines = qr.generateQuickReplies(cuisinesJsonData[event.message.text].keys);
+      var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해주라", "quick_replies": qrCuisines};
+      api.sendResponse(event, messageData);
     }
   } else {
     console.log('UNVERIFIED SEARCH');
+    console.log(cuisinesJsonData[event.message.text].keys);
     var qrCuisines = qr.generateQuickReplies(["그냥 말할래", "나라별", "종합", "상황별", "재료별"]);
     var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해주라", "quick_replies": qrCuisines};
     connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
@@ -116,6 +121,9 @@ var restaurantRecommendation_category_1 = function(event) {
   console.log("RUN restaurantRecommendation_category_1");
   console.log(JSON.stringify(cuisinesJsonData));
   console.log(JSON.stringify(cuisinesJsonData["종합"]));
+
+  RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
+  console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
 }
 
 var restaurantRecommendation_nearbysearch = function(event) {
