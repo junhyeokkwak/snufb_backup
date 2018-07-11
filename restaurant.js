@@ -104,7 +104,7 @@ var restaurantRecommendation_category_0 = function(event) {
       RESTAURANT_TEMP_DATA[event.sender.id].category1 = event.message.text;
       console.log(Object.keys(cuisinesJsonData[event.message.text]));
       var qrCuisines = qr.generateQuickReplies(Object.keys(cuisinesJsonData[event.message.text]));
-      var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해주라", "quick_replies": qrCuisines};
+      var messageData = {"text": `${event.message.text} 중에서는 어떤걸로 추천해줄까!`, "quick_replies": qrCuisines};
       api.sendResponse(event, messageData);
     }
   } else {
@@ -118,11 +118,14 @@ var restaurantRecommendation_category_0 = function(event) {
 
 var restaurantRecommendation_category_1 = function(event) {
   console.log("RUN restaurantRecommendation_category_1");
-  console.log(JSON.stringify(cuisinesJsonData));
-  console.log(JSON.stringify(cuisinesJsonData["종합"]));
-
-  // RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
-  console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+  var category1 = RESTAURANT_TEMP_DATA[event.sender.id].category1;
+  console.log((Object.keys(category1));
+  if ((Object.keys(category1)).indexOf(event.message.text)) {
+    console.log(JSON.stringify(cuisinesJsonData[event.message.text]));
+    RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
+  }
+  //
+  // console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
 }
 
 var restaurantRecommendation_nearbysearch = function(event) {
