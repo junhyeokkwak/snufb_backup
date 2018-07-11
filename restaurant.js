@@ -119,7 +119,7 @@ var restaurantRecommendation_category_0 = function(event) {
 var restaurantRecommendation_category_1 = function(event) {
   console.log("RUN restaurantRecommendation_category_1");
   var category1 = RESTAURANT_TEMP_DATA[event.sender.id].category1;
-  console.log((Object.keys(category1));
+  console.log(Object.keys(category1));
   if ((Object.keys(category1)).indexOf(event.message.text)) {
     console.log(JSON.stringify(cuisinesJsonData[event.message.text]));
     RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
