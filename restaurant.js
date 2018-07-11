@@ -154,7 +154,7 @@ var restaurantRecommendation_category_2 = function(event) {
   }
 }
 
-var restaurantRecommendation_category_2 = function(event) {
+var restaurantRecommendation_category_3 = function(event) {
 
 }
 
