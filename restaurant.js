@@ -102,14 +102,13 @@ var restaurantRecommendation_category_0 = function(event) {
     } else {
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
       RESTAURANT_TEMP_DATA[event.sender.id].category1 = event.message.text;
-      console.log(cuisinesJsonData[event.message.text].keys);
-      var qrCuisines = qr.generateQuickReplies(cuisinesJsonData[event.message.text].keys);
+    console.log(Object.keys(cuisinesJsonData[event.message.text]);
+      var qrCuisines = qr.generateQuickReplies(Object.keys(cuisinesJsonData[event.message.text]));
       var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해주라", "quick_replies": qrCuisines};
       api.sendResponse(event, messageData);
     }
   } else {
     console.log('UNVERIFIED SEARCH');
-    console.log(cuisinesJsonData[event.message.text].keys);
     var qrCuisines = qr.generateQuickReplies(["그냥 말할래", "나라별", "종합", "상황별", "재료별"]);
     var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해주라", "quick_replies": qrCuisines};
     connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
