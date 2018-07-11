@@ -275,6 +275,8 @@ module.exports = {
     "initRestaurantRecommendation" : initRestaurantRecommendation,
     "restaurantRecommendation_category_0" : restaurantRecommendation_category_0,
     "restaurantRecommendation_category_1" : restaurantRecommendation_category_1,
+    "restaurantRecommendation_category_2" : restaurantRecommendation_category_2,
+    "restaurantRecommendation_category_3" : restaurantRecommendation_category_3,
     "restaurantRecommendation_nearbysearch" : restaurantRecommendation_nearbysearch,
   }
 };
