@@ -125,15 +125,31 @@ var restaurantRecommendation_category_1 = function(event) {
   var category2Arr = Object.keys(category1Json);
   console.log(category2Arr);
   if (category2Arr.indexOf(event.message.text) > -1) {
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_2" WHERE user_id=' + event.sender.id);
     RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
     console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
     var qrCuisines = qr.generateQuickReplies(cuisinesJsonData[category1][event.message.text]);
     var messageData = {"text": `${event.message.text} 중에서는 어떤걸로 추천해줄까!`, "quick_replies": qrCuisines};
+    api.sendResponse(event, messageData);
   } else {
     var qrCuisines = qr.generateQuickReplies(category2Arr);
     var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해줘", "quick_replies": qrCuisines};
-    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
     api.sendResponse(event, messageData);
+  }
+}
+
+var restaurantRecommendation_category_2 = function(event) {
+  console.log("RUN restaurantRecommendation_category_1");
+  var category1 = RESTAURANT_TEMP_DATA[event.sender.id].category1;
+  var category2 = RESTAURANT_TEMP_DATA[event.sender.id].category2;
+  var category3Arr = cuisinesJsonData[category1][category2];
+  console.log(event.message.text);
+  if (category3Arr.indexOf(event.message.text) > -1) {
+    RESTAURANT_TEMP_DATA[event.sender.id].category3 = event.message.text;
+    console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+  } else {
+
   }
 }
 
