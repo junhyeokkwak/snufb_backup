@@ -35,7 +35,8 @@ var initRestaurantConv = function(event) {
       connection.query('UPDATE Users SET conv_context="initRestaurantRecommendation" WHERE user_id=' + event.sender.id);
       RESTAURANT_TEMP_DATA[event.sender.id]= {
         "category1" : "category1_value",
-        "category2" : "category2_value"
+        "category2" : "category2_value",
+        "category3" : "category2_value",
       }
       console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
       callback(null, err);
