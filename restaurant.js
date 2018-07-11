@@ -99,7 +99,8 @@ var restaurantRecommendation_category_0 = function(event) {
       api.sendResponse(event, messageData);
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_nearbysearch" WHERE user_id=' + event.sender.id);
     } else {
-      RESTAURANT_TEMP_DATA.(event.sender.id).category0 = event.message.text;
+      var user_psid = event.sender.id;
+      RESTAURANT_TEMP_DATA.user_psid.category0 = event.message.text;
       console.log("R T D: " + RESTAURANT_TEMP_DATA);
     }
   } else {
