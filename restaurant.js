@@ -92,6 +92,7 @@ var restaurantRecommendation_re = function(event) {
 
 var restaurantRecommendation_category_0 = function(event) {
   console.log("RUN: restaurantRecommendation_category_0");
+  console.log("@@@TEST@@@: "+event.message.text);
   if (event.message.text == ("그냥 말할래" || "종합" || "상황별" || "재료별" || "나라별")) {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category_0");
     if (event.message.text == "그냥 말할래") {
@@ -99,7 +100,6 @@ var restaurantRecommendation_category_0 = function(event) {
       api.sendResponse(event, messageData);
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_nearbysearch" WHERE user_id=' + event.sender.id);
     } else {
-      console.log(event.message.text);
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
 
       RESTAURANT_TEMP_DATA[event.sender.id].category1 = event.message.text;
