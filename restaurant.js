@@ -118,12 +118,14 @@ var restaurantRecommendation_category_0 = function(event) {
 
 var restaurantRecommendation_category_1 = function(event) {
   console.log("RUN restaurantRecommendation_category_1");
-  var category1 = cuisinesJsonData[RESTAURANT_TEMP_DATA[event.sender.id].category1];
-  console.log(category1);
-  var category2Arr = Object.keys(category1);
+  var category1 = RESTAURANT_TEMP_DATA[event.sender.id].category1;
+  var category1Json = cuisinesJsonData[category1];
+  console.log(category1Json);
+  var category2Arr = Object.keys(category1Json);
   console.log(category2Arr);
   if (category2Arr.indexOf(event.message.text) > -1) {
     RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
+    console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
     var qrCuisines = qr.generateQuickReplies(cuisinesJsonData[category1][event.message.text]);
     var messageData = {"text": `${event.message.text} 중에서는 어떤걸로 추천해줄까!`, "quick_replies": qrCuisines};
   }
