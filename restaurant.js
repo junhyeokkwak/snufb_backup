@@ -32,7 +32,7 @@ var initRestaurantConv = function(event) {
     function(callback){
       var err;
       connection.query('UPDATE Users SET conv_context="initRestaurantRecommendation" WHERE user_id=' + event.sender.id);
-      RESTAURANT_TEMP_DATA.event.sender.id = {
+      RESTAURANT_TEMP_DATA[event.sender.id]= {
         "category1" : "category1_value",
         "category2" : "category2_value"
       }
@@ -55,7 +55,7 @@ var initRestaurantRecommendation = function(event) {
     console.log("USER SELECT : YES in initRestaurantConv");
     var task = [
       function(callback){
-        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.restaurantRecommendation_nearbysearch.id);
         callback(null, 'done');
       },
       function(err, callback){
@@ -100,7 +100,7 @@ var restaurantRecommendation_category_0 = function(event) {
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_nearbysearch" WHERE user_id=' + event.sender.id);
     } else {
       var user_psid = event.sender.id;
-      RESTAURANT_TEMP_DATA.user_psid.category0 = event.message.text;
+      RESTAURANT_TEMP_DATA[event.sender.id].category0 = event.message.text;
       console.log("R T D: " + RESTAURANT_TEMP_DATA);
     }
   } else {
