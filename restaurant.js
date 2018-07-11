@@ -121,7 +121,7 @@ var restaurantRecommendation_category_1 = function(event) {
   console.log(JSON.stringify(cuisinesJsonData));
   console.log(JSON.stringify(cuisinesJsonData["종합"]));
 
-  RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
+  // RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
   console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
 }
 
