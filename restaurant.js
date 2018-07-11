@@ -177,9 +177,8 @@ var restaurantRecommendation_nearbysearch = function(event) {
     });
     app.APP.post(`/restaurant/${place_id}`, function(req, res){ console.log(req.body); });
   }
-
-  if (event.message.text.length > 0 ) {
-    // NOTE: need to compare string-similarity of text with those of items in the cusines Arr.
+  if (true) {
+    // NOTE:
     console.log("VALID INPUT");
     var messageData = {"text": `알겠어!! 신촌 근처 ${event.message.text} 식당을 찾아봐줄게:)`};
     api.sendResponse(event, messageData);
