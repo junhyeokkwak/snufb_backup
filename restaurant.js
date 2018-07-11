@@ -10,7 +10,7 @@ var async = require('async');
 var mysql = require("mysql");
 var convert = require('xml-js');
 var bodyparser=require('body-parser');
-var stringSimilarity = require('string-similarity');
+var stringSimilarity = require('kor-string-similarity');
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 const fs = require('fs');
 
