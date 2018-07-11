@@ -93,9 +93,7 @@ var restaurantRecommendation_re = function(event) {
 var restaurantRecommendation_category_0 = function(event) {
   console.log("RUN: restaurantRecommendation_category_0");
   console.log("@@@TEST@@@: "+event.message.text);
-  if (event.message.text == "종합") console.log("@@@@@@@@@@@@@@@종합");
-  // if (event.message.text == "그냥 말할래" || event.message.text == "종합") {
-  if (event.message.text == ("그냥 말할래" || "종합")) {
+  if (event.message.text == "그냥 말할래" || event.message.text == "나라별" || event.message.text == "종합" || event.message.text == "상황별" || event.message.text == "재료별")) {
 
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category_0");
     if (event.message.text == "그냥 말할래") {
@@ -104,7 +102,6 @@ var restaurantRecommendation_category_0 = function(event) {
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_nearbysearch" WHERE user_id=' + event.sender.id);
     } else {
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
-
       RESTAURANT_TEMP_DATA[event.sender.id].category1 = event.message.text;
       console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
     }
@@ -119,6 +116,8 @@ var restaurantRecommendation_category_0 = function(event) {
 
 var restaurantRecommendation_category_1 = function(event) {
   console.log("RUN restaurantRecommendation_category_1");
+  console.log(JSON.stringify(cuisinesJsonData));
+  console.log(JSON.stringify(cuisinesJsonData["종합"]));
 }
 
 var restaurantRecommendation_nearbysearch = function(event) {
