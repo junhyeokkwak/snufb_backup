@@ -284,13 +284,14 @@ var bus_confirmStNm = function(event) {
             var stIdArr = [];
             for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
               // if (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == result[0].stNm && !(busRouteJsonData.busRouteId_stId_staOrd[i].stId in stIdArr)) {
-              if (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == stNm && (stIdArr.indexOf(busRouteJsonData.busRouteId_stId_staOrd[i].stId) < 0)) {                console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
+              if (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == stNm && (stIdArr.indexOf(busRouteJsonData.busRouteId_stId_staOrd[i].stId) == -1)) {                console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
                 possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
                 stIdArr.push(busRouteJsonData.busRouteId_stId_staOrd[i].stId)
               }
               if (i === busRouteJsonData.busRouteId_stId_staOrd.length-1) {
                 if (possibleStArr.length >= 2) {
-                  console.log("possibleStArr: " + possibleStArr);
+                  console.log("stIdArr: " + JSON.stringify(stIdArr));
+                  console.log("possibleStArr: " + JSON.stringify(possibleStArr));
                   // bus_handleMultipleStNm(event, possibleStArr);
                   bus_handleMultipleStNm(event, stNm, possibleStArr);
                   console.log("ALERT: There are two or more stations with the same stNm.");
