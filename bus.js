@@ -205,7 +205,7 @@ var bus_askStNm = function(event) {
           console.log("USER DID NOT CONFIRED busNum YET");
           callback(null, stringSimilarity.arrangeBySimilarity(msg, busRouteJsonData.stNameArr));
         }
-      });
+      // });//query
     },
     function(possibleStArr, callback) {
       console.log("possibleBusArr: "+possibleStArr[0]);
@@ -392,7 +392,7 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
               api.sendResponse(event, messageData);
             }
           }
-        }); //query
+        // }); //query
       } else {
         return `/busRoute/${targetStNm}/${event.sender.id} ERR`;
       }
