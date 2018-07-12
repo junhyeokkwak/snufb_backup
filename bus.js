@@ -361,14 +361,15 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
       console.log(req.body.data);
       var data = JSON.parse(req.body.data)
       // console.log(data);
+      busRouteId =  BUS_TEMP_DATA[event.sender.id].busRouteId;
+      busNum = BUS_TEMP_DATA[event.sender.id].busNum;
+      stId = BUS_TEMP_DATA[event.sender.id].stId;
+      stNm = BUS_TEMP_DATA[event.sender.id].stNm;
       if (data.responseType == "busStationWebview_STID") {
         console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
-        connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
+        // connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
+        BUS_TEMP_DATA[event.sender.id].stId = data.selectedSTID;
         // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-        busRouteId =  BUS_TEMP_DATA[event.sender.id].busRouteId;
-        busNum = BUS_TEMP_DATA[event.sender.id].busNum;
-        stId = BUS_TEMP_DATA[event.sender.id].stId;
-        stNm = BUS_TEMP_DATA[event.sender.id].stNm;
         console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
           if (busRouteId != ("busRouteId_value" || null || undefined)) {
             var messageData = {"text": `알겠어!! ${busNum}번 버스, ${stNm} 정류장으로 찾아줄게!`};
