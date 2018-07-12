@@ -116,7 +116,7 @@ var bus_confirmBusNum = function(event) {
   // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
   busNum = BUS_TEMP_DATA[event.sender.id].busNum;
   stId = BUS_TEMP_DATA[event.sender.id].stId;
-    if (err) throw err;
+    // if (err) throw err;
     if (stId != ("stId_value" || null || undefined)) {
       console.log("busRouteId: " + busRouteJsonData.busNum_busRouteId[busNum]);
       // connection.query(`UPDATE Users SET busRouteId="${busRouteJsonData.busNum_busRouteId[result[0].busNum]}" WHERE user_id=` + event.sender.id);
