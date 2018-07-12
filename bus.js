@@ -90,6 +90,7 @@ var bus_stNmORbusNum = function(event) {
 
 var bus_askBusNum = function(event) {
   console.log("RUN bus_askBusNum");
+  var msg = event.message.text;
   var task = [
     function(callback) {
       callback(null, stringSimilarity.arrangeBySimilarity(msg, busRouteJsonData.busNumArr));
@@ -336,7 +337,7 @@ var bus_confirmStNm = function(event) {
 
 var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback) {
   console.log("RUN handleMultipleStNm!");
-
+  var msg = event.message.text;
 
   var bus_busRouteWebviewHelper = function(event, targetStNm, positionData) {
     var busNum, stNm, busRouteId, stId;
