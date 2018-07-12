@@ -16,6 +16,15 @@ const BUS_SERVICE_KEY = process.env.BUS_SERVICE_KEY;
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
+var BUS_TEMP_DATA = {
+    "user_psid_test" : {
+      "busNum" : "busNum_value",
+      "busRouteId" : "busRouteId_value",
+      "stNm" : "stNm_value",
+      "stId" : "stId_value",
+      "staOrd" : "staOrd_value",
+    }
+  };
 
 var initBusConv = function(event) {
   console.log('RUN initBusConv');
@@ -23,6 +32,15 @@ var initBusConv = function(event) {
     function(callback){
       var err;
       connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
+      BUS_TEMP_DATA[event.sender.id]= {
+        "user_psid_test" : {
+          "busNum" : "busNum_value",
+          "busRouteId" : "busRouteId_value",
+          "stNm" : "stNm_value",
+          "stId" : "stId_value",
+          "staOrd" : "staOrd_value",
+        }
+      };
       callback(null, err);
     },
     function(err, callback){
@@ -40,7 +58,7 @@ var bus_stNmORbusNum = function(event) {
   console.log(stringSimilarity.arrangeBySimilarity(msg,  ["번호", "정류장"]));
   var stNmORbusNum = stringSimilarity.arrangeBySimilarity(msg,  ["번호", "정류장"])[0]._text;
   // console.log(stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating + (typeof stringSimilarity.findBestMatch(msg, ["번호", "정류장"]).bestMatch.target.rating));
-  if (stringSimilarity.arrangeBySimilarity(msg, ["번호", "정류장"])[0].similarity == 0){
+  if (stringSimilarity.arrangeBySimilarity(msg, ["번호", "정류장"])[0].similarity < 0.25){
     console.log("MSG UNVARIFIED");
     connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
     var messageData = {"text": "미안ㅠㅠ무슨 말인지 모르겠어..조금 다르게 다시 말해 줄 수 있어?"};
@@ -69,7 +87,7 @@ var bus_askBusNum = function(event) {
     },
     function(possibleBusArr, callback) {
       // console.log("possibleBusArr: "+possibleBusArr);
-      if (possibleBusArr[0].similarity == 0) {
+      if (possibleBusArr[0].similarity < 0.5) {
         connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
         var messageData = {"text": "몇번인지 모르겠어:( 다시 말해 줄 수 있어?"};
         api.sendResponse(event, messageData);
@@ -77,19 +95,13 @@ var bus_askBusNum = function(event) {
       } else {
         busNum = possibleBusArr[0]._text;
         connection.query('UPDATE Users SET conv_context="bus_confirmBusNum" WHERE user_id=' + event.sender.id);
-        connection.query(`UPDATE Users SET busNum="${busNum}" WHERE user_id=` + event.sender.id);
+        //connection.query(`UPDATE Users SET busNum="${busNum}" WHERE user_id=` + event.sender.id);
+        BUS_TEMP_DATA[event.sender.id].busNum = busNum;
+        console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
         console.log("similarity: " + stringSimilarity.arrangeBySimilarity(msg,  busRouteJsonData.busNumArr)[0].similarity);
         var messageData = {"text": `${busNum}번 버스 맞아??`};
         api.sendResponse(event, messageData);
         callback(null);
-
-        // if (stringSimilarity.arrangeBySimilarity(msg, busRouteJsonData.busNumArr)[0].similarity == 1) {
-        //   callback(null);
-        // } else {
-        //   var messageData = {"text": `${busNum}번 버스 맞아??`};
-        //   api.sendResponse(event, messageData);
-        //   callback(null);
-        // }
       }
     },
   ]
