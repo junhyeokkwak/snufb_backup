@@ -125,6 +125,7 @@ var bus_confirmBusNum = function(event) {
   // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
   busNum = BUS_TEMP_DATA[event.sender.id].busNum;
   stId = BUS_TEMP_DATA[event.sender.id].stId;
+  stNm = BUS_TEMP_DATA[event.sender.id].stNm;
     // if (err) throw err;
     if (stId != ("stId_value" || null || undefined)) {
       console.log("busRouteId: " + busRouteJsonData.busNum_busRouteId[busNum]);
@@ -132,9 +133,9 @@ var bus_confirmBusNum = function(event) {
       busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
       BUS_TEMP_DATA[event.sender.id].busRouteId = busRouteId;
       // console.log("bus_confirmBusNum RESULT: " + JSON.stringify(result[0]));
-      var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스, ${result[0].stNm} 정류장으로 찾아줄게!`};
+      var messageData = {"text": `알겠어!! ${busNum}번 버스, ${stNm} 정류장으로 찾아줄게!`};
       api.sendResponse(event, messageData);
-      sendArriveMsg(event, busRouteJsonData.busNum_busRouteId[result[0].busNum], result[0].stId);
+      sendArriveMsg(event, busRouteId, stId);
       // connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
     } else {
       task = [
@@ -252,7 +253,7 @@ var bus_confirmStNm = function(event) {
           if (busNum != ("busNum_value" || null || undefined)) {
             // busNum = (result[0].busNum).toString();
             busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
-            console.log(`busNum: ${result[0].busNum} stNm: ${result[0].stNm}`);
+            console.log(`busNum: ${busNum} stNm: ${stNm}`);
             for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
               if ((busRouteJsonData.busRouteId_stId_staOrd[i].plainNo == busNum) && (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == stNm)) {
                 console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
@@ -450,12 +451,11 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
   var busNum, stNm;
   var task = [
     function(callback){
-      connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-        if (err) throw err;
-        busNum = (result[0].busNum).toString();
-        stNm = (result[0].stNm).toString();
-        callback(null, busNum, stNm);
-      });
+      // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+      // busNum = BUS_TEMP_DATA[event.sender.id].busNum;
+      // stNm = BUS_TEMP_DATA[event.sender.id].stNm;
+      callback(null, BUS_TEMP_DATA[event.sender.id].busNum, BUS_TEMP_DATA[event.sender.id].stNm);
+      // });
     },
     function(busNum, stNm, callback){
       console.log(`busNum: [${busNum}] stNm: [${stNm}] busRouteId: [${busRouteId}] stId: [${stId}]`);
