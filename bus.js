@@ -91,6 +91,11 @@ var bus_stNmORbusNum = function(event) {
 var bus_askBusNum = function(event) {
   console.log("RUN bus_askBusNum");
   var msg = event.message.text;
+  var busNum, stNm, busRouteId, stId;
+  busRouteId = BUS_TEMP_DATA[event.sender.id].busRouteId;
+  busNum = BUS_TEMP_DATA[event.sender.id].busNum;
+  stId = BUS_TEMP_DATA[event.sender.id].stId;
+  stNm = BUS_TEMP_DATA[event.sender.id].stNm;
   var task = [
     function(callback) {
       callback(null, stringSimilarity.arrangeBySimilarity(msg, busRouteJsonData.busNumArr));
@@ -294,6 +299,7 @@ var bus_confirmStNm = function(event) {
                   var messageData = {"text": `알겠어!! ${stNm} 정류장으로 찾아줄게! 버스는 몇번이야?`};
                   api.sendResponse(event, messageData);
                   stId = possibleStArr[0].stId;
+                  console.log(stId);
                   BUS_TEMP_DATA[event.sender.id].stId = stId;
                   console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
                   connection.query('UPDATE Users SET conv_context="ask_busNum" WHERE user_id=' + event.sender.id);
@@ -389,6 +395,7 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
                 }
               }
             } else {
+              connection.query(`UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=` + event.sender.id);
               var busNums = qr.generateQuickReplies(busNumArr);
               var messageData = {"text": `네가 선택한 ${stNm} 정류장을 지나가는 버스들이야! 이 중에 몇 번 버스야??`, "quick_replies": busNums};
               api.sendResponse(event, messageData);
