@@ -45,7 +45,7 @@ var initBusConv = function(event) {
   var task = [
     function(callback){
       var err;
-      connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
+      connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
       BUS_TEMP_DATA[event.sender.id]= {
         "busNum" : "busNum_value",
         "busRouteId" : "busRouteId_value",
@@ -110,7 +110,6 @@ var bus_askBusNum = function(event) {
       } else {
         busNum = possibleBusArr[0]._text;
         connection.query('UPDATE Users SET conv_context="bus_confirmBusNum" WHERE user_id=' + event.sender.id);
-        //connection.query(`UPDATE Users SET busNum="${busNum}" WHERE user_id=` + event.sender.id);
         BUS_TEMP_DATA[event.sender.id].busNum = busNum;
         console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
         console.log("similarity: " + stringSimilarity.arrangeBySimilarity(msg,  busRouteJsonData.busNumArr)[0].similarity);
@@ -127,21 +126,18 @@ var bus_confirmBusNum = function(event) {
   console.log("RUN bus_confirmBusNum");
   var msg = event.message.text;
   var busNum, stNm, busRouteId, stId;
-  // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
   busNum = BUS_TEMP_DATA[event.sender.id].busNum;
   stId = BUS_TEMP_DATA[event.sender.id].stId;
   stNm = BUS_TEMP_DATA[event.sender.id].stNm;
-    // if (err) throw err;
     if (stId != ("stId_value" || null || undefined)) {
       console.log("busRouteId: " + busRouteJsonData.busNum_busRouteId[busNum]);
-      // connection.query(`UPDATE Users SET busRouteId="${busRouteJsonData.busNum_busRouteId[result[0].busNum]}" WHERE user_id=` + event.sender.id);
       busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
       BUS_TEMP_DATA[event.sender.id].busRouteId = busRouteId;
       // console.log("bus_confirmBusNum RESULT: " + JSON.stringify(result[0]));
       var messageData = {"text": `알겠어!! ${busNum}번 버스, ${stNm} 정류장으로 찾아줄게!`};
       api.sendResponse(event, messageData);
       sendArriveMsg(event, busRouteId, stId);
-      // connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
+      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
     } else {
       task = [
         function(callback) {
@@ -151,18 +147,15 @@ var bus_confirmBusNum = function(event) {
           if (agreementArr[0].similarity > 0.5) {
             // NOTE: if there is no info in stNm in User
             connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
-            // connection.query(`UPDATE Users SET busRouteId="${busRouteJsonData.busNum_busRouteId[result[0].busNum]}" WHERE user_id=` + event.sender.id);
             busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
             BUS_TEMP_DATA[event.sender.id].busRouteId = busRouteId;
             console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
-            // var messageData = {"text": `알겠어!! ${result[0].busNum}번 버스로 찾아줄게! 정류장은 어디야?`};
             var messageData = {"text": `알겠어!! ${busNum}번 버스로 찾아줄게! 정류장은 어디야?`};
             api.sendResponse(event, messageData);
             callback(null);
           } else {
             if (stringSimilarity.arrangeBySimilarity(msg,  basicConv.disagreementArr)[0].similarity > 0.5) {
               connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
-              // connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
               BUS_TEMP_DATA[event.sender.id].busNum = "busNum_value";
               console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
               var messageData = {"text": "미안ㅋㅋ큐ㅠ 그럼 몇번이야?아마 내가 모르는 걸 수도 있어"};
@@ -170,7 +163,6 @@ var bus_confirmBusNum = function(event) {
               callback(null);
             } else {
               connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-              // connection.query(`UPDATE Users SET busNum="none" WHERE user_id=` + event.sender.id);
               BUS_TEMP_DATA[event.sender.id].busNum = "busMum_value";
               console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
               var messageData = {"text": "ㅋㅋㅋㅋ어쩌라는거지;"};
@@ -192,8 +184,6 @@ var bus_askStNm = function(event) {
   task = [
     function(callback) {
       // NOTE: check if User already confirmed busNm
-      // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-      //   if (err) throw err;
         busNum = BUS_TEMP_DATA[event.sender.id].busNum;
         stId = BUS_TEMP_DATA[event.sender.id].stId;
         console.log("BUSNUM that user chose:" + busNum);
@@ -219,8 +209,6 @@ var bus_askStNm = function(event) {
       if (possibleStArr[0].similarity > 0.25) {
         stNm = possibleStArr[0]._text;
         connection.query('UPDATE Users SET conv_context="bus_confirmStNm" WHERE user_id=' + event.sender.id);
-        // connection.query(`UPDATE Users SET stNm="${stNm}" WHERE user_id=` + event.sender.id);
-        // var messageData = {"text": `${stNm} 정류장 맞아??`};
         BUS_TEMP_DATA[event.sender.id].stNm = stNm;
         console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
         var messageData = {"text": `${stNm} 정류장 맞아??`};
@@ -252,8 +240,6 @@ var bus_confirmStNm = function(event) {
       if (agreementArr[0].similarity > 0.5) {
         // NOTE: if there is no info in stNm in User
         connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-        // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-        //   if (err) throw err;
           busNum = BUS_TEMP_DATA[event.sender.id].busNum;
           if (busNum != ("busNum_value" || null || undefined)) {
             // busNum = (result[0].busNum).toString();
@@ -274,7 +260,7 @@ var bus_confirmStNm = function(event) {
                   api.sendResponse(event, messageData);
                   console.log("busRouteId: " + busRouteId + " stId: " + stId);
                   sendArriveMsg(event, busRouteId, stId);
-                  // connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
+                  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
                 }//else
               }//if
             }//for loop
@@ -283,7 +269,6 @@ var bus_confirmStNm = function(event) {
             // console.log(`busNum: ${result[0].busNum} stNm: ${result[0].stNm}`);
             var stIdArr = [];
             for (var i = 0; i < busRouteJsonData.busRouteId_stId_staOrd.length; i++) {
-              // if (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == result[0].stNm && !(busRouteJsonData.busRouteId_stId_staOrd[i].stId in stIdArr)) {
               if (busRouteJsonData.busRouteId_stId_staOrd[i].stNm == stNm && (stIdArr.indexOf(busRouteJsonData.busRouteId_stId_staOrd[i].stId) == -1)) {                console.log("possibleSt: " + JSON.stringify(busRouteJsonData.busRouteId_stId_staOrd[i]));
                 possibleStArr.push(busRouteJsonData.busRouteId_stId_staOrd[i]);
                 stIdArr.push(busRouteJsonData.busRouteId_stId_staOrd[i].stId)
@@ -292,7 +277,6 @@ var bus_confirmStNm = function(event) {
                 if (possibleStArr.length >= 2) {
                   console.log("stIdArr: " + JSON.stringify(stIdArr));
                   console.log("possibleStArr: " + JSON.stringify(possibleStArr));
-                  // bus_handleMultipleStNm(event, possibleStArr);
                   bus_handleMultipleStNm(event, stNm, possibleStArr);
                   console.log("ALERT: There are two or more stations with the same stNm.");
                 } else {
@@ -304,14 +288,6 @@ var bus_confirmStNm = function(event) {
                   BUS_TEMP_DATA[event.sender.id].stId = stId;
                   console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
                   connection.query('UPDATE Users SET conv_context="ask_busNum" WHERE user_id=' + event.sender.id);
-
-                  // var messageData = {"text": `알겠어!! ${busNum}번 버스, ${.stNm} 정류장으로 찾아줄게!`};
-                  // api.sendResponse(event, messageData);
-                  // stId = possibleStArr[0].stId;
-                  // // console.log("busRouteId: " + busRouteId + " stId: " + stId);
-                  // // // NOTE: SEND API REQUEST
-                  // sendArriveMsg(event, busRouteId, stId);
-                  // connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
                 }//else
               }//if
             }//for loop
@@ -320,7 +296,6 @@ var bus_confirmStNm = function(event) {
       } else {
         if (stringSimilarity.arrangeBySimilarity(msg,  basicConv.agreementArr)[0].similarity == 0) {
           connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
-          // connection.query(`UPDATE Users SET stNm="none" WHERE user_id=` + event.sender.id);
           BUS_TEMP_DATA[event.sender.id].stNm = "stNm_value";
           console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
           var messageData = {"text": "미안ㅋㅋ큐ㅠ 그럼 무슨 정류장이야?아마 내가 모르는 걸 수도 있어"};
@@ -328,7 +303,6 @@ var bus_confirmStNm = function(event) {
           callback(null);
         } else {
           connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-          // connection.query(`UPDATE Users SET stNm="none" WHERE user_id=` + event.sender.id);
           BUS_TEMP_DATA[event.sender.id].stNm = "stNm_value";
           console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
           var messageData = {"text": "미안ㅋㅋ큐ㅠ 그럼 무슨 정류장이야?아마 내가 모르는 걸 수도 있어"};
@@ -341,7 +315,6 @@ var bus_confirmStNm = function(event) {
   ]
   async.waterfall(task);
 }
-
 
 var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback) {
   console.log("RUN handleMultipleStNm!");
@@ -368,9 +341,7 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
       stNm = BUS_TEMP_DATA[event.sender.id].stNm;
       if (data.responseType == "busStationWebview_STID") {
         console.log("selectedSTID: " + JSON.stringify(data.selectedSTID));
-        // connection.query(`UPDATE Users SET stId="${data.selectedSTID}" WHERE user_id=` + event.sender.id);
         BUS_TEMP_DATA[event.sender.id].stId = data.selectedSTID;
-        // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
         console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
           if (busRouteId != ("busRouteId_value" || null || undefined)) {
             var messageData = {"text": `알겠어!! ${busNum}번 버스, ${stNm} 정류장으로 찾아줄게!`};
@@ -460,11 +431,7 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
   var busNum, stNm;
   var task = [
     function(callback){
-      // connection.query('SELECT * FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-      // busNum = BUS_TEMP_DATA[event.sender.id].busNum;
-      // stNm = BUS_TEMP_DATA[event.sender.id].stNm;
       callback(null, BUS_TEMP_DATA[event.sender.id].busNum, BUS_TEMP_DATA[event.sender.id].stNm);
-      // });
     },
     function(busNum, stNm, callback){
       console.log(`busNum: [${busNum}] stNm: [${stNm}] busRouteId: [${busRouteId}] stId: [${stId}]`);
@@ -520,7 +487,6 @@ var getBusArriveInfo = function(busRouteId, stId, callback) {
     var options_ord = `&ord=${staOrd}`;
     options = options_url + options_ServiceKey + options_busRouteId + options_stId + options_ord;
     console.log("OPTIONS URL: " + options);
-    // options = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute?ServiceKey=oEeIDLG02CY9JZd%2B5nya9BiYG5zTPp7eQK6HmeuMzSCPrAqc%2BDUt7C11sk%2Fk7RQyLBGhXk7eJ8MV7OM369flUw%3D%3D&busRouteId=100100032&stId=112000012&ord=47`;
     request(options, function (error, response, body) {
       var err;
       if (error) throw new Error(error);
