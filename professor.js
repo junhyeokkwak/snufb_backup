@@ -67,6 +67,7 @@ function profName(event) {
 module.exports = {
   functionMatch: {
     "교수님 검색": profSearch,
+    "교수님 이메일 좀!": profSearch,
     "profName": profName,
 
   }
