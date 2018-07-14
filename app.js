@@ -115,10 +115,11 @@ app.post('/webhook', function (req, res) {
                 apiaiSession.on('response', function(response) {
                   //console.log(functionSheet[event.message.text])
                   var sampleArray = [];
-                  var closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet);
+                  var closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet.beta);
                   // console.log(functionSheet);
                   console.log(functionSheet.beta);
                   console.log(typeof functionSheet.beta);
+                  console.log(closestFunction);
                   callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {
