@@ -116,10 +116,9 @@ app.post('/webhook', function (req, res) {
                   //console.log(functionSheet[event.message.text])
                   var sampleArray = [];
                   var closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet);
-                  console.log(functionSheet);
-                  console.log(closestFunction);
-                  console.log(typeof closestFunction);
-                  console.log(typeof sampleArray);
+                  // console.log(functionSheet);
+                  console.log(functionSheet.beta);
+                  console.log(typeof functionSheet.beta);
                   callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {
