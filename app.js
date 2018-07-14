@@ -179,11 +179,11 @@ app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
 });
 
-/*
-Developer Command:
-RESET(reset the user's conv_context)
-Delete me(reset the user's data(including psid))
-
-User Command:
-  RESET(reset the user's conv_context) - "대화 다시 할래"
-  Delete me(reset the user's data(including psid)) - "나를 잊어줘"
+// /*
+// Developer Command:
+// RESET(reset the user's conv_context)
+// Delete me(reset the user's data(including psid))
+// 
+// User Command:
+//   RESET(reset the user's conv_context) - "대화 다시 할래"
+//   Delete me(reset the user's data(including psid)) - "나를 잊어줘"
