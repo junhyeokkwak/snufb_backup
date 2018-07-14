@@ -32,9 +32,10 @@ function registerUser(event) {
         var task = [
           function(callback) {
             setTimeout(function () {
+              api.sendResponse(event, {"text": "안녕!"});
               guguImages.helloImage(event);
               callback(null, 'done');
-            }, 2000);
+            }, 3000);
           },
           function (err, callback) {
             var bodyObj = JSON.parse(body);
@@ -55,7 +56,7 @@ function registerUser(event) {
           },
           function (first_name, callback) {
           //  api.sendResponse(event, {"text": "에이 요 와썹"});
-            api.sendResponse(event, {"text":"안녕! 난 연구구라고 해! 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+            api.sendResponse(event, {"text":"난 연구구라고 해! 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
             callback(null); // need to edit in the future.
           }
           // function(err, callback){
