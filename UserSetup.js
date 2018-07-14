@@ -30,8 +30,13 @@ function registerUser(event) {
         console.log("Error getting user's name: " +  error);
       } else {
         var task = [
-          function (callback) {
-            guguImages.helloImage(event);
+          function(callback) {
+            setTimeout(function () {
+              guguImages.blingblingImage(event);
+              callback(null, 'done');
+            }, 1000);
+          },
+          function (err, callback) {
             var bodyObj = JSON.parse(body);
             var first_name = bodyObj.first_name;
             var last_name = bodyObj.last_name;
