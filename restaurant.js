@@ -17,7 +17,7 @@ const fs = require('fs');
 var basicConvFile=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
 var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
 var cuisineFile=fs.readFileSync('./jsondata/cuisinesJsonData.json', 'utf8');
-var basicConv=JSON.parse(basicConvFile);
+var basicConv = JSON.parse(basicConvFile);
 var busRouteJsonData = JSON.parse(busRouteFile);
 var cuisinesJsonData = JSON.parse(cuisineFile);
 
