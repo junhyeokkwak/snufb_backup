@@ -141,8 +141,8 @@ function checkSchool(event) {
         callback(null, 'done');
       },
       function(err, callback) {
+        guguImages.confusedImage(event);
         setTimeout(function() {
-          guguImages.confusedImage(event);
           callback(null, 'done');
         }, 1000);
       },
@@ -170,8 +170,8 @@ function register2(event) {
     },
 
     function(err, callback) {
+      guguImages.blingblingImage(event);
       setTimeout(function () {
-        guguImages.blingblingImage(event);
         callback(null, 'done');
       }, 1500);
     },
@@ -215,11 +215,14 @@ function guguTest(event) {
 
 function gugu(event) {
   guguImages.helloImage(event);
-  connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-    if (err) throw err;
-    //console.log(result[0].first_name);
-    api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
-  });
+  setTimeout(function() {
+    connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+      if (err) throw err;
+      //console.log(result[0].first_name);
+      api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
+    });
+  }, 1000);
+
 }
 
 
