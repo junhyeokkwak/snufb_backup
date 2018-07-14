@@ -10,18 +10,22 @@ var async = require('async');
 var mysql = require("mysql");
 var convert = require('xml-js');
 var bodyparser=require('body-parser');
-var stringSimilarity = require('string-similarity');
+var stringSimilarity = require('kor-string-similarity');
+var connection = mysql.createConnection(process.env.DATABASE_URL);
 const fs = require('fs');
 
 var basicConvFile=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
 var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
 var cuisineFile=fs.readFileSync('./jsondata/cuisinesJsonData.json', 'utf8');
 var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile),  cuisinesJsonData = JSON.parse(cuisineFile);
-//XML to json
-// var querystring = require('querystring');
-// var parseString = require('xml2js').parseString;
 
-var connection = mysql.createConnection(process.env.DATABASE_URL);
+var RESTAURANT_TEMP_DATA = {
+    "user_psid_test" : {
+      "category1" : "category1_value",
+      "category2" : "category2_value",
+      "category3" : "category2_value",
+    }
+  };
 
 var initRestaurantConv = function(event) {
   console.log('RUN initRestaurantConv');
@@ -29,6 +33,12 @@ var initRestaurantConv = function(event) {
     function(callback){
       var err;
       connection.query('UPDATE Users SET conv_context="initRestaurantRecommendation" WHERE user_id=' + event.sender.id);
+      RESTAURANT_TEMP_DATA[event.sender.id]= {
+        "category1" : "category1_value",
+        "category2" : "category2_value",
+        "category3" : "category2_value",
+      }
+      console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
       callback(null, err);
     },
     function(err, callback){
@@ -43,11 +53,11 @@ var initRestaurantConv = function(event) {
 var initRestaurantRecommendation = function(event) {
   console.log("RUN: initRestaurantRecommendation");
   if ((event.message.text == "응") ||
-      (util.getSimilarStrings(event.message.text,  basicConv.agreementArr, -1, basicConv.agreementArr.length)[0].similarity > 0)){
+      (stringSimilarity.arrangeBySimilarity(event.message.text,  basicConv.agreementArr)[0].similarity > 0.5)){
     console.log("USER SELECT : YES in initRestaurantConv");
     var task = [
       function(callback){
-        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
         callback(null, 'done');
       },
       function(err, callback){
@@ -67,7 +77,7 @@ var initRestaurantRecommendation = function(event) {
       },
       function(err, callback){
         var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
-        var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
+        var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
         api.sendResponse(event, messageData);
         callback(null);
       },
@@ -82,36 +92,79 @@ var restaurantRecommendation_re = function(event) {
 
 }
 
-var restaurantRecommendation_category = function(event) {
-  console.log("RUN: restaurantRecommendation_category");
-
-  if (event.message.text == ("그냥 말할래" || "종합" || "상황별" || "재료별" || "나라별")) {
-    console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category");
+var restaurantRecommendation_category_0 = function(event) {
+  console.log("RUN: restaurantRecommendation_category_0");
+  if (["그냥 말할래", "나라별", "종합", "상황별", "재료별"].indexOf(event.message.text) > -1) {
+  // if (event.message.text == "그냥 말할래" || event.message.text == "나라별" || event.message.text == "종합" || event.message.text == "상황별" || event.message.text == "재료별") {
+    console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category_0");
     if (event.message.text == "그냥 말할래") {
       var messageData = {"text": "뭐 먹고 싶어? 말해봐! 가게 추천해줄게"};
-      connection.query('UPDATE Users SET conv_context="restaurantRecommendation_freeResponse" WHERE user_id=' + event.sender.id);
+      api.sendResponse(event, messageData);
+      connection.query('UPDATE Users SET conv_context="restaurantRecommendation_nearbysearch" WHERE user_id=' + event.sender.id);
+    } else {
+      connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
+      RESTAURANT_TEMP_DATA[event.sender.id].category1 = event.message.text;
+      console.log(Object.keys(cuisinesJsonData[event.message.text]));
+      var qrCuisines = qr.generateQuickReplies(Object.keys(cuisinesJsonData[event.message.text]));
+      var messageData = {"text": `${event.message.text} 중에서는 어떤걸로 추천해줄까!`, "quick_replies": qrCuisines};
+      api.sendResponse(event, messageData);
     }
-    if (event.message.text == "나라별") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    if (event.message.text == "종합") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    if (event.message.text == "상황별") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    if (event.message.text == "재료별") connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   } else {
     console.log('UNVERIFIED SEARCH');
     var qrCuisines = qr.generateQuickReplies(["그냥 말할래", "나라별", "종합", "상황별", "재료별"]);
-    var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해주라", "quick_replies": qrCuisines};
-    connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+    var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해줘", "quick_replies": qrCuisines};
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
     api.sendResponse(event, messageData);
   }
 };
 
-var restaurantRecommendation_nearbysearch = function(event) {
-  // app.APP.get(`/restaurant/test`, function(req, res){
-  //   res.sendFile(path.join(__dirname + '/webviews/restaurantMap.html'));
-  // });
-  console.log("RUN: restaurantRecommendation_nearbysearch");
+var restaurantRecommendation_category_1 = function(event) {
+  console.log("RUN restaurantRecommendation_category_1");
+  var category1 = RESTAURANT_TEMP_DATA[event.sender.id].category1;
+  var category1Json = cuisinesJsonData[category1];
+  console.log(category1Json);
+  var category2Arr = Object.keys(category1Json);
+  console.log(category2Arr);
+  if (category2Arr.indexOf(event.message.text) > -1) {
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_2" WHERE user_id=' + event.sender.id);
+    RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
+    console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+    var qrCuisines = qr.generateQuickReplies(cuisinesJsonData[category1][event.message.text]);
+    var messageData = {"text": `${event.message.text} 중에서는 어떤걸로 추천해줄까!`, "quick_replies": qrCuisines};
+    api.sendResponse(event, messageData);
+  } else {
+    var qrCuisines = qr.generateQuickReplies(category2Arr);
+    var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해줘", "quick_replies": qrCuisines};
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
+    api.sendResponse(event, messageData);
+  }
+}
 
+var restaurantRecommendation_category_2 = function(event) {
+  console.log("RUN restaurantRecommendation_category_1");
+  var category1 = RESTAURANT_TEMP_DATA[event.sender.id].category1;
+  var category2 = RESTAURANT_TEMP_DATA[event.sender.id].category2;
+  var category3Arr = cuisinesJsonData[category1][category2];
+  console.log(event.message.text);
+  if (category3Arr.indexOf(event.message.text) > -1) {
+    RESTAURANT_TEMP_DATA[event.sender.id].category3 = event.message.text;
+    console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+    restaurantRecommendation_nearbysearch(event);
+  } else {
+    var qrCuisines = qr.generateQuickReplies(category3Arr);
+    var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해줘", "quick_replies": qrCuisines};
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_2" WHERE user_id=' + event.sender.id);
+    api.sendResponse(event, messageData);
+  }
+}
+
+var restaurantRecommendation_category_3 = function(event) {
+
+}
+
+var restaurantRecommendation_nearbysearch = function(event) {
+  console.log("RUN: restaurantRecommendation_nearbysearch");
   var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos, vicinity) {
-    // app.APP.get(`/restaurant/${place_id}`, function(req, res){
     app.APP.get(`/restaurant/${place_id}`, function(req, res){
       var restaurantData = {
         name: name,
@@ -122,19 +175,13 @@ var restaurantRecommendation_nearbysearch = function(event) {
       }
       res.render(__dirname + "/webviews/restaurantMap.html", restaurantData);
     });
-
-    app.APP.post(`/restaurant/${place_id}`, function(req, res){
-      console.log(req.body);
-    });
-
+    app.APP.post(`/restaurant/${place_id}`, function(req, res){ console.log(req.body); });
   }
-
-  if (event.message.text.length > 0 ) {
-    // NOTE: need to compare string-similarity of text with those of items in the cusines Arr.
+  if (true) {
+    // NOTE:
     console.log("VALID INPUT");
-    var messageData = {"text": `알았어!! 신촌 근처 ${event.message.text} 식당을 찾아봐줄게:)`};
+    var messageData = {"text": `알겠어!! 신촌 근처 ${event.message.text} 식당을 찾아봐줄게:)`};
     api.sendResponse(event, messageData);
-
     var radius = 5000, location_ShinchonStation = '37.559768,126.94230800000003';
     var options = { method: 'GET',
       url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
@@ -150,7 +197,6 @@ var restaurantRecommendation_nearbysearch = function(event) {
          'cache-control': 'no-cache' } }; //options
 
     request(options, function (error, response, body) {
-
       if (error) throw new Error(error);
       console.log(body);
       var jsonRestaurantData = JSON.parse(body);
@@ -187,7 +233,6 @@ var restaurantRecommendation_nearbysearch = function(event) {
                 {
                   "title":`${name} 위치보기!`,
                   "type":"web_url",
-                  // "url": process.env.HEROKU_URL + `/restaurant/${jsonRestaurantData.results[i].place_id}`,
                   "url" : process.env.HEROKU_URL + `/restaurant/${place_id}`,
                   "webview_height_ratio": "compact",
                   "messenger_extensions" : false,
@@ -215,15 +260,16 @@ var restaurantRecommendation_nearbysearch = function(event) {
               }//message
             }//messageData
             api.callSendAPI(messageData);
+            connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id)
           }
         } //   for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
       } else {
         console.log(jsonRestaurantData.status);
       }
     }); //request
-
   } else {
     console.log("INVALID INPUT");
+    connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id)
   }
 }
 
@@ -235,34 +281,10 @@ module.exports = {
     "배고파": initRestaurantConv,
     "맛집 찾아줘!": initRestaurantConv,
     "initRestaurantRecommendation" : initRestaurantRecommendation,
-    "restaurantRecommendation_category" : restaurantRecommendation_category,
-    "restaurantRecommendation_freeResponse" : restaurantRecommendation_nearbysearch,
+    "restaurantRecommendation_category_0" : restaurantRecommendation_category_0,
+    "restaurantRecommendation_category_1" : restaurantRecommendation_category_1,
+    "restaurantRecommendation_category_2" : restaurantRecommendation_category_2,
+    "restaurantRecommendation_category_3" : restaurantRecommendation_category_3,
+    "restaurantRecommendation_nearbysearch" : restaurantRecommendation_nearbysearch,
   }
 };
-
-// var radius = 5000, location_ShinchonStation = '37.559768,126.94230800000003';
-// var options = { method: 'GET',
-//   url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
-//   qs:
-//    { location: location_ShinchonStation,
-//      radius: radius,
-//      type: 'restaurant',
-//      key: process.env.GOOGLE_API_KEY,
-//      keyword: event.message.text,
-//      language: 'ko' },
-//   headers:
-//    { 'postman-token': 'eebafd36-b12d-e760-e7ca-aaf5a739ce02',
-//      'cache-control': 'no-cache' } };
-//
-// request(options, function (error, response, body) {
-//   if (error) throw new Error(error);
-//   console.log(body);
-//   var jsonRestaurantData = JSON.parse(body);
-//   if (jsonRestaurantData.results.length > 0) {
-//     console.log(jsonRestaurantData.results[0].name);
-//     var messageData = {"text": `${jsonRestaurantData.results[0].name} 어때?`};
-//     api.sendResponse(event, messageData);
-//   } else {
-//     console.log(jsonRestaurantData.status);
-//   }
-// });

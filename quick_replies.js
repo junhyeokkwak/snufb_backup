@@ -1,5 +1,10 @@
 //quick_replies generator
 var generateQuickReplies = function(arr){
+  var arr = arr;
+  if (arr.length > 11) {
+    arr = arr.slice(0, 11);
+    console.log("QR - Quick replies cannot be more than 11");
+  }
   var quick_replies = []
   for (var i = 0; i < arr.length; i++) {
     var new_quick_replies = {
