@@ -32,8 +32,8 @@ function registerUser(event) {
         var task = [
           function(callback) {
             guguImages.helloImage(event);
+            api.sendResponse(event, {"text": "안녕!"});
             setTimeout(function () {
-              api.sendResponse(event, {"text": "안녕!"});
               callback(null, 'done');
             }, 5000);
           },
