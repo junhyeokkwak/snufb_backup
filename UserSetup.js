@@ -198,9 +198,17 @@ function guguTest(event) {
   }, 1000);
 }
 
+function gugu(event) {
+  connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+    if (err) throw err;
+    //console.log(result[0].first_name);
+    api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
+  });
+}
+
 
 function notStudent(event) {
-  api.sendResponse(event, {"text": "나는 서울대 담당이니까 너희 학교 봇한테 말 걸어줘"});
+  api.sendResponse(event, {"text": "나는 연세대 담당이니까 너희 학교 봇한테 말 걸어줘"});
 }
 
 module.exports = {
@@ -213,7 +221,9 @@ module.exports = {
     "checkSchool": checkSchool,
     //temporary additions
     "메뉴": register2,
-    "guguTest": guguTest
+    "guguTest": guguTest,
+    "구구야!": gugu,
+    "구구!": gugu
   }
 }
 
