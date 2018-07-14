@@ -20,7 +20,6 @@ function profSearch(event) {
       },
       function(err, callback) {
         api.sendResponse(event, {"text": "어떤 교수님 검색해줄까?"});
-        connection.query('UPDATE ewhaProf SET info="bestPlayer" WHERE name="손흥민"');
         callback(null);
       }
     ]
@@ -36,14 +35,48 @@ function profName(event) {
       connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
       connection.query('SELECT email FROM ewhaProf WHERE name=\'' + event.message.text + '\'', function(err, result, fields) {
         if (err) throw err;
+        if (result.length) {
+          api.sendResponse(event, {"text": result[0].email + " 이야!"});
+        } else {
+          api.sendResponse(event, {"text": "미안, 아직 업데이트가 덜 돼서 그 교수님은 못 찾겠다ㅠㅠ 다른 분이라도 찾아줄까?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+          connection.query('UPDATE Users SET conv_context="profError" WHERE user_id=' + event.sender.id);
+        }
 
-        api.sendResponse(event, {"text": result[0].email + " 이야!"});
       });
       callback(null);
     }
   ]
   async.waterfall(task);
 }
+
+function profError(event) {
+  if (event.message.text == "응"){
+    var task = [
+      function(callback) {
+        connection.query('UPDATE Users SET conv_context="profName" WHERE user_id=' + event.sender.id);
+        callback(null, 'done');
+      },
+      function(err, callback) {
+        api.sendResponse(event, {"text": "어떤 교수님 검색해줄까?"});
+        callback(null);
+      }
+    ]
+    async.waterfall(task);
+  } else {
+    var task = [
+      function(callback) {
+        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+        callback(null, 'done');
+      },
+      function(err, callback) {
+        api.sendResponse(event, {"text": "알겠어ㅠㅠ 다른 도움 필요하면 얘기해!"});
+        callback(null);
+      }
+    ]
+    async.waterfall(task);
+  }
+}
+
 //
 //   connection.query('SELECT email FROM ewhaProf WHERE name=' + event.message.text, function(err, result, fields) {
 //     var profEmail = result[0].email;
@@ -69,6 +102,7 @@ module.exports = {
     "교수님 검색": profSearch,
     "교수님 이메일 좀!": profSearch,
     "profName": profName,
+    "profError": profError,
 
   }
 };
