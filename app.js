@@ -113,7 +113,7 @@ app.post('/webhook', function (req, res) {
                 });
                 apiaiSession.on('response', function(response) {
                   //console.log(functionSheet[event.message.text])
-                  callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["gugu"] || functionSheet["fallback"]));
+                  callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["gugu"]));
                 });
                 apiaiSession.on('error', function(error) {
                   //handle errors
