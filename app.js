@@ -120,6 +120,7 @@ app.post('/webhook', function (req, res) {
                   console.log(functionSheet.beta);
                   console.log(typeof functionSheet.beta);
                   console.log(closestFunction);
+                  console.log(closestFunction._text);
                   callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {
