@@ -117,6 +117,7 @@ app.post('/webhook', function (req, res) {
                   var sampleArray = [];
                   var closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet);
                   console.log(functionSheet);
+                  console.log(closestFunction);
                   console.log(typeof closestFunction);
                   console.log(typeof sampleArray);
                   callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
