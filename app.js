@@ -82,7 +82,7 @@ app.post('/webhook', function (req, res) {
           },
           function(err, result, callback){
             if (err) throw err;
-            if (result.length > 0){
+            if (result.length > 0){ // user data exists
               console.log('Conv Context: ' + result[0].conv_context);
               if (result[0].conv_context != "none") {
                 if (event.message.text == 'RESET') {
@@ -90,12 +90,13 @@ app.post('/webhook', function (req, res) {
                 } else {
                   callback(null, functionSheet[result[0].conv_context]);
                 }
-              } else {
+              } else { // user data exists && conv_context==none
                 var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
                   sessionId: event.sender.id
                 });
                 apiaiSession.on('response', function(response) {
                   //console.log(functionSheet[event.message.text])
+                  console.log(response.result.metadata.intentName);
                   callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {
