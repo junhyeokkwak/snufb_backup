@@ -96,7 +96,7 @@ app.post('/webhook', function (req, res) {
                 });
                 apiaiSession.on('response', function(response) {
                   //console.log(functionSheet[event.message.text])
-                  console.log(response.result.metadata.intentName);
+                  console.log("DialoguFlow - intentName: " + response.result.metadata.intentName);
                   callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {
@@ -183,7 +183,7 @@ app.listen(app.get('port'), function () {
 // Developer Command:
 // RESET(reset the user's conv_context)
 // Delete me(reset the user's data(including psid))
-// 
+//
 // User Command:
 //   RESET(reset the user's conv_context) - "대화 다시 할래"
 //   Delete me(reset the user's data(including psid)) - "나를 잊어줘"
