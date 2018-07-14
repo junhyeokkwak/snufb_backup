@@ -39,6 +39,7 @@ function deleteMe(event) {
   connection.query('SET SQL_SAFE_UPDATES = 0')
   connection.query('DELETE FROM cb_users_jun.Users WHERE user_id=' + event.sender.id)
   connection.query('SET SQL_SAFE_UPDATES = 1');
+  api.sendResponse(event, {"text": "===연구구 기억 지우는 중==="});
 }
 
 module.exports = {
