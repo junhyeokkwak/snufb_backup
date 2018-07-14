@@ -114,9 +114,11 @@ app.post('/webhook', function (req, res) {
                 });
                 apiaiSession.on('response', function(response) {
                   //console.log(functionSheet[event.message.text])
+                  var sampleArray = [];
                   var closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet);
                   console.log(typeof functionsheet);
                   console.log(typeof closestFunction);
+                  console.log(typeof sampleArray);
                   callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {
