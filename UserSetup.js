@@ -31,6 +31,7 @@ function registerUser(event) {
       } else {
         var task = [
           function (callback) {
+            guguImages.helloImage(event);
             var bodyObj = JSON.parse(body);
             var first_name = bodyObj.first_name;
             var last_name = bodyObj.last_name;
@@ -133,6 +134,12 @@ function checkSchool(event) {
         connection.query('UPDATE Users SET conv_context="notStudent" WHERE user_id=' + event.sender.id);
         callback(null, 'done');
       },
+      function(err, callback) {
+        setTimeout(function() {
+          guguImages.confusedImage(event);
+          callback(null, 'done');
+        }, 1000);
+      },
       function(err, callback){
         api.sendResponse(event, {"text":"앗 그렇구나! 내가 너네 학교 봇이 있는지 알아보고 소개해줄게!"});
         callback(null);
@@ -158,6 +165,7 @@ function register2(event) {
 
     function(err, callback) {
       setTimeout(function () {
+        guguImages.blingblingImage(event);
         callback(null, 'done');
       }, 1000);
     },
@@ -200,10 +208,10 @@ function guguTest(event) {
 }
 
 function gugu(event) {
+  guguImages.helloImage(event);
   connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     //console.log(result[0].first_name);
-    guguImages.helloImage(event);
     api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
   });
 }
