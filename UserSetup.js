@@ -31,11 +31,11 @@ function registerUser(event) {
       } else {
         var task = [
           function(callback) {
+            guguImages.helloImage(event);
             setTimeout(function () {
               api.sendResponse(event, {"text": "안녕!"});
-              guguImages.helloImage(event);
               callback(null, 'done');
-            }, 3000);
+            }, 5000);
           },
           function (err, callback) {
             var bodyObj = JSON.parse(body);
