@@ -192,4 +192,4 @@ Delete me(reset the user's data(including psid))
 
 User Command:
   RESET(reset the user's conv_context) - "대화 다시 할래"
-  Delete me(reset the user's data(including psid)) - "나를 잊어줘"
+  Delete me(reset the user's data(including psid)) - "나를 잊어줘" */
