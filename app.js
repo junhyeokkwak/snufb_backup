@@ -87,8 +87,11 @@ app.post('/webhook', function (req, res) {
               if (result[0].conv_context != "none") {
                 if (event.message.text == 'RESET') {
                   callback(null, functionSheet["RESET"]);
+                } else if (event.message.text == 'TEST') {
+                  callback(null, api.sendOnlineImage());
                 } else {
-                  callback(null, functionSheet[result[0].conv_context]);
+                  var image_url = HEROKU_URL + '/images';
+                  callback(null, sendOnlineImage(event, image_url));
                 }
               } else { // user data exists && conv_context==none
                 var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
@@ -123,6 +126,11 @@ app.post('/webhook', function (req, res) {
   } else {
     res.sendStatus(404);
   }
+});
+
+app.post('/images', function(req, res) {
+  console.log("imagesE");
+  res.sendFile(path.join(__dirname + '/webviews/E_WebviewBG-01.jpg'));
 });
 
 //mentor admin page
@@ -178,12 +186,3 @@ app.post('/register/re_user', function(req, res){
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
 });
-
-// /*
-// Developer Command:
-// RESET(reset the user's conv_context)
-// Delete me(reset the user's data(including psid))
-//
-// User Command:
-//   RESET(reset the user's conv_context) - "대화 다시 할래"
-//   Delete me(reset the user's data(including psid)) - "나를 잊어줘"
