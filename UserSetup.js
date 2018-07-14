@@ -32,9 +32,9 @@ function registerUser(event) {
         var task = [
           function(callback) {
             setTimeout(function () {
-              guguImages.blingblingImage(event);
+              guguImages.helloImage(event);
               callback(null, 'done');
-            }, 1000);
+            }, 2000);
           },
           function (err, callback) {
             var bodyObj = JSON.parse(body);
@@ -172,7 +172,7 @@ function register2(event) {
       setTimeout(function () {
         guguImages.blingblingImage(event);
         callback(null, 'done');
-      }, 1000);
+      }, 1500);
     },
 
     function(err, callback){
