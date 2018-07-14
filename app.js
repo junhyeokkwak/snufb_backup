@@ -114,16 +114,12 @@ app.post('/webhook', function (req, res) {
                 });
                 apiaiSession.on('response', function(response) {
                   //console.log(functionSheet[event.message.text])
-                  var sampleArray = [];
                   var closestFunction = 0;
                   if (stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity > 0.1) {
                     closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet.beta)._text;
                   }
                   // console.log(functionSheet);
-                  console.log(functionSheet.beta);
-                  console.log(typeof functionSheet.beta);
-                  console.log(closestFunction);
-                  console.log(closestFunction._text);
+                  console.log("Closest function is: " + closestFunction._text);
                   callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {

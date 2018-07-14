@@ -3,6 +3,7 @@ var qr = require('./quick_replies');
 var api = require('./apiCalls')
 var async = require('async');
 var mysql = require("mysql");
+var guguImages = require('./guguImages');
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -202,6 +203,7 @@ function gugu(event) {
   connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     //console.log(result[0].first_name);
+    guguImages.helloImage(event);
     api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
   });
 }
