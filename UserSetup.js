@@ -214,6 +214,7 @@ function guguTest(event) {
 }
 
 function gugu(event) {
+  api.typingBubble(event);
   guguImages.helloImage(event);
   setTimeout(function() {
     connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
