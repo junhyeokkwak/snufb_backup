@@ -17,12 +17,11 @@ function sendResponse(event, messageToSend) {
 
 function typingBubble(event) {
   var senderID = event.sender.id;
-  var message = event.message;
   var messageData = {
     recipient: {
       id: senderID
     },
-    sender_action: typing_on
+    sender_action: "typing_on"
   };
   callSendAPI(messageData);
 }
