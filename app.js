@@ -87,11 +87,8 @@ app.post('/webhook', function (req, res) {
               if (result[0].conv_context != "none") {
                 if (event.message.text == 'RESET') {
                   callback(null, functionSheet["RESET"]);
-                } else if (event.message.text == 'TEST') {
-                  callback(null, api.sendOnlineImage());
                 } else {
-                  var image_url = HEROKU_URL + '/images';
-                  callback(null, sendOnlineImage(event, image_url));
+                  callback(null, functionSheet[result[0].conv_context]);
                 }
               } else { // user data exists && conv_context==none
                 var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
@@ -128,10 +125,6 @@ app.post('/webhook', function (req, res) {
   }
 });
 
-app.post('/images', function(req, res) {
-  console.log("imagesE");
-  res.sendFile(path.join(__dirname + '/webviews/E_WebviewBG-01.jpg'));
-});
 
 //mentor admin page
 app.get('/mentor-admin', function(req, res) {
