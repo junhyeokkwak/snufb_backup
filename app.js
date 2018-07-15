@@ -6,7 +6,7 @@ var api = require('./apiCalls')
 var async = require('async');
 var mysql = require('mysql');
 var path = require('path');
-var bus = require('./apiCalls')
+var bus = require('./apiCalls');
 var stringSimilarity = require('kor-string-similarity');
 
 const https = require('https');
@@ -83,7 +83,7 @@ app.post('/webhook', function (req, res) {
           },
           function(err, result, callback){
             if (err) throw err;
-            if (result.length > 0){
+            if (result.length > 0){ // user data exists
               console.log('Conv Context: ' + result[0].conv_context);
               if (result[0].conv_context != "none") {
                 if (event.message.text == 'RESET') {
@@ -91,7 +91,7 @@ app.post('/webhook', function (req, res) {
                 } else {
                   callback(null, functionSheet[result[0].conv_context]);
                 }
-              } else {
+              } else { // user data exists && conv_context==none
                 var apiaiSession = nlpapp.textRequest("'" + event.message.text + "'", {
                   sessionId: event.sender.id
                 });
@@ -103,6 +103,7 @@ app.post('/webhook', function (req, res) {
                   }
                   // console.log(functionSheet);
                   console.log("Closest function is: " + closestFunction._text);
+                  console.log("IntentName is: " + response.result.metadata.intentName);
                   callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {
@@ -130,6 +131,7 @@ app.post('/webhook', function (req, res) {
     res.sendStatus(404);
   }
 });
+
 
 //mentor admin page
 app.get('/mentor-admin', function(req, res) {
@@ -184,12 +186,3 @@ app.post('/register/re_user', function(req, res){
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
 });
-
-/*
-Developer Command:
-RESET(reset the user's conv_context)
-Delete me(reset the user's data(including psid))
-
-User Command:
-  RESET(reset the user's conv_context) - "대화 다시 할래"
-  Delete me(reset the user's data(including psid)) - "나를 잊어줘" */

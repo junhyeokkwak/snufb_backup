@@ -104,7 +104,7 @@ var bus_askBusNum = function(event) {
       // console.log("possibleBusArr: "+possibleBusArr);
       if (possibleBusArr[0].similarity < 0.5) {
         connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
-        var messageData = {"text": "몇번인지 모르겠어:( 다시 말해 줄 수 있어?"};
+        var messageData = {"text": "몇번인지 모르겠어:( 다시 말해 줄 수 있어??"};
         api.sendResponse(event, messageData);
         callback(null);
       } else {
@@ -584,8 +584,7 @@ var getStaOrd_fromOutside = function(busRouteId, stId, callback) {
 
 module.exports = {
   functionMatch: {
-    "버스": initBusConv,
-    "버스 언제와?": initBusConv,
+    "initBusConv": initBusConv,
     // "busTest" : busTest,
     "bus_stNmORbusNum" : bus_stNmORbusNum,
     "bus_askBusNum" : bus_askBusNum,

@@ -17,7 +17,9 @@ const fs = require('fs');
 var basicConvFile=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
 var busRouteFile=fs.readFileSync('./jsondata/busRouteJsonData.json', 'utf8');
 var cuisineFile=fs.readFileSync('./jsondata/cuisinesJsonData.json', 'utf8');
-var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile),  cuisinesJsonData = JSON.parse(cuisineFile);
+var basicConv = JSON.parse(basicConvFile);
+var busRouteJsonData = JSON.parse(busRouteFile);
+var cuisinesJsonData = JSON.parse(cuisineFile);
 
 var RESTAURANT_TEMP_DATA = {
     "user_psid_test" : {
@@ -77,6 +79,7 @@ var initRestaurantRecommendation = function(event) {
       },
       function(err, callback){
         var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
+        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
         var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
         api.sendResponse(event, messageData);
         callback(null);
