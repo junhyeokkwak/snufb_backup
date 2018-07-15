@@ -100,6 +100,7 @@ app.post('/webhook', function (req, res) {
                   var closestFunction = 0;
                   if (stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity > 0.1) {
                     closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet.beta)._text;
+                    console.log("Closest Function is found!!!!!!! Similarity is: " + stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity);
                   }
                   // console.log(functionSheet);
                   console.log("Closest function is: " + closestFunction._text);
