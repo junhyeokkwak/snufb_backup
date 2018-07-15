@@ -28,14 +28,6 @@ var busNumEntityGenerator = function(busNumArr) {
     if (i == busNumArr.length-1) {
       // return busNumEntity;
       console.log(busNumEntity);
-      var fso = CreateObject("Scripting.FileSystemObject");
-      var s = fso.CreateTextFile("test.txt", True);
-      s.writeline("HI");
-      s.writeline("Bye");
-      s.writeline("-----------------------------");
-      s.Close();
-
-
     }
   }
 }
