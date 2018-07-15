@@ -3,13 +3,11 @@ var async = require('async');
 var mysql = require("mysql");
 var convert = require('xml-js');
 var bodyparser=require('body-parser');
-var stringSimilarity = require('kor-string-similarity');
 const fs = require('fs');
 
 
-var basicConvFile=fs.readFileSync('../jsondata/basicConv.json', 'utf8');
 var busRouteFile=fs.readFileSync('../jsondata/busRouteJsonData.json', 'utf8');
-var basicConv=JSON.parse(basicConvFile), busRouteJsonData = JSON.parse(busRouteFile);
+var busRouteJsonData = JSON.parse(busRouteFile);
 
 var busNumArr = Object.keys(busRouteJsonData.busNum_busRouteId);
 // console.log(busNumArr);
