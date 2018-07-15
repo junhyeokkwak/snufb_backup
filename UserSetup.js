@@ -181,18 +181,21 @@ function register2(event) {
       callback(null, 'done');
     },
     function(err, callback){
+      api.typingBubble(event);
       setTimeout(function() {
         api.sendResponse(event, {"text": "나는 자타공인 우리 대학교 최고 인싸, 칼답을 자랑하는 \'연구구\'라고해!!"});
         callback(null, 'done');
       }, 1000);
     },
     function(err, callback){
+      api.typingBubble(event);
       setTimeout(function() {
         api.sendResponse(event, {"text": "맛집이나 교통정보도 내가 빠삭하게 알고, 내가 아는 친구들을 너한테 소개해줄 수도 있어!"});
         callback(null, 'done');
       }, 2000);
     },
     function(err, callback){
+      api.typingBubble(event);
       setTimeout(function() {
         api.sendResponse(event, {"text": "내가 필요할때면 아무때나 페메하면 돼! 한번 해볼래?", "quick_replies": qr.reply_arrays["gugu"]});
         callback(null, 'done');
