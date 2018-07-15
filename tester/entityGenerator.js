@@ -26,14 +26,11 @@ var busNumEntityGenerator = function(busNumArr) {
     if (i == busNumArr.length-1) {
       // return busNumEntity;
       console.log(JSON.stringify(busNumEntity));
-      fs.writeFile('myjsonfile.json', json, 'utf8', callback);
-      fs.readFile('myjsonfile.json', 'utf8', function readFileCallback(err, data){
-        if (err){
-            console.log(err);
-        } else {
-          fs.writeFile('myjsonfile.json', JSON.stringify(busNumEntity), 'utf8', callback); // write it back
-        }
-      });
+      fs.writeFile ("busNumEntity.json", JSON.stringify(busNumEntity), function(err) {
+          if (err) throw err;
+          console.log('complete');
+          }
+      );
 
     }
   }
