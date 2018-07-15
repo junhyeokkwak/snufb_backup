@@ -36,4 +36,29 @@ var busNumEntityGenerator = function(busNumArr) {
   }
 }
 
-busNumEntityGenerator(Object.keys(busRouteJsonData.busNum_busRouteId));
+
+var stNmEntityGenerator = function(stNmArr) {
+  console.log("RUN stNmEntityGenerator");
+  stNmEntity = [];
+  for (var i = 0; i < stNmArr.length; i++) {
+    var tempJson = {};
+    var temp = stNmArr[i].replace(/["'()]/g," ");
+    var stNm = temp + "";
+    tempJson.value = stNm;
+    tempJson.synonyms = [stNm, stNm + " 정류장", stNm + " 정거장", stNm + " 역"];
+    stNmEntity.push(tempJson);
+    // console.log(tempJson);
+    if (i == stNmArr.length-1) {
+      // return busNumEntity;
+      console.log(JSON.stringify(stNmEntity));
+      fs.writeFile ("stNmEntity.json", JSON.stringify(stNmEntity), function(err) {
+          if (err) throw err;
+          console.log('complete');
+          }
+      );
+
+    }
+  }
+}
+// stNmEntityGenerator(busRouteJsonData.stNameArr);
+// busNumEntityGenerator(Object.keys(busRouteJsonData.busNum_busRouteId));

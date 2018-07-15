@@ -74,7 +74,7 @@ var initRestaurantRecommendation = function(event) {
     console.log("USER SELECT : NO in initRestaurantConv");
     var task = [
       function(callback){
-        connection.query('UPDATE Users SET conv_context="restaurantRecommendation_re" WHERE user_id=' + event.sender.id);
+        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
         callback(null, 'done');
       },
       function(err, callback){
