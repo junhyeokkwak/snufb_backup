@@ -79,6 +79,7 @@ var initRestaurantRecommendation = function(event) {
       },
       function(err, callback){
         var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
+        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
         var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
         api.sendResponse(event, messageData);
         callback(null);
