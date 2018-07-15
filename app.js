@@ -104,7 +104,7 @@ app.post('/webhook', function (req, res) {
                   console.log("Closest function is: " + closestFunction._text);
                   console.log("IntentName is: " + response.result.metadata.intentName);
                   if (response.result.metadata.intentName == "initBusConv") {
-                    console.log(JSON.stringify(response.result.metadata.parameters));
+                    console.log("BUS parameters: " + JSON.stringify(response.result.metadata));
                   }
                   callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
                 });
