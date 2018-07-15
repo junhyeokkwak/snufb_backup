@@ -46,6 +46,36 @@ var Menu = [{
   "payload": "기타"
 }]
 
+var betaMenu = [{
+  "content_type": "text",
+  "title": "맛집 찾아줘!",
+  "payload": "맛집"
+},{
+  "content_type": "text",
+  "title": "버스 언제와?",
+  "payload": "버스"
+},{
+  "content_type": "text",
+  "title": "친구 소개해주라",
+  "payload": "랜덤매칭"
+},{
+  "content_type": "text",
+  "title": "교수님 이메일 좀!",
+  "payload": "교수"
+},{
+  "content_type": "text",
+  "title": "구구야 나랑 놀아줘",
+  "payload": "심심이"
+}
+]
+
+var gugu = [{
+  "content_type": "text",
+  "title": "구구야!!",
+  "payload": "구구야"
+}
+]
+
 var Mentor_type = [{
   "content_type": "text",
   "title": "과 고학번 선배",
@@ -92,6 +122,8 @@ module.exports = {
     "Menu" : Menu,
     "Mentor_type": Mentor_type,
     "personSearchOptions": personSearchOptions,
-    "genderOptions": genderOptions
+    "genderOptions": genderOptions,
+    "betaMenu": betaMenu,
+    "gugu": gugu
   }
 }

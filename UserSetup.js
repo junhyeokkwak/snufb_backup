@@ -3,6 +3,7 @@ var qr = require('./quick_replies');
 var api = require('./apiCalls')
 var async = require('async');
 var mysql = require("mysql");
+var guguImages = require('./guguImages');
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -29,7 +30,14 @@ function registerUser(event) {
         console.log("Error getting user's name: " +  error);
       } else {
         var task = [
-          function (callback) {
+          function(callback) {
+            guguImages.helloImage(event);
+            api.sendResponse(event, {"text": "안녕!"});
+            setTimeout(function () {
+              callback(null, 'done');
+            }, 5000);
+          },
+          function (err, callback) {
             var bodyObj = JSON.parse(body);
             var first_name = bodyObj.first_name;
             var last_name = bodyObj.last_name;
@@ -48,7 +56,7 @@ function registerUser(event) {
           },
           function (first_name, callback) {
           //  api.sendResponse(event, {"text": "에이 요 와썹"});
-            api.sendResponse(event, {"text":"안녕! 난 설대봇이라고 해. 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+            api.sendResponse(event, {"text":"난 연구구라고 해! 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
             callback(null); // need to edit in the future.
           }
           // function(err, callback){
@@ -74,7 +82,7 @@ function register1(event) {
         callback(null, 'done');
       },
       function(err, callback){
-        api.sendResponse(event, {"text":"오키! 학교는 서울대 다니는거구?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+        api.sendResponse(event, {"text":"오키! 학교는 연세대 다니는거구?", "quick_replies": qr.reply_arrays["YesOrNo"]});
         // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
         callback(null);
       }
@@ -132,6 +140,12 @@ function checkSchool(event) {
         connection.query('UPDATE Users SET conv_context="notStudent" WHERE user_id=' + event.sender.id);
         callback(null, 'done');
       },
+      function(err, callback) {
+        guguImages.confusedImage(event);
+        setTimeout(function() {
+          callback(null, 'done');
+        }, 1000);
+      },
       function(err, callback){
         api.sendResponse(event, {"text":"앗 그렇구나! 내가 너네 학교 봇이 있는지 알아보고 소개해줄게!"});
         callback(null);
@@ -144,7 +158,7 @@ function checkSchool(event) {
 function register2(event) {
   var task = [
     function(callback){
-      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+      connection.query('UPDATE Users SET conv_context="guguTest" WHERE user_id=' + event.sender.id);
 
       // experiment (extracting data from database)
       connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
@@ -156,22 +170,64 @@ function register2(event) {
     },
 
     function(err, callback) {
+      guguImages.blingblingImage(event);
       setTimeout(function () {
         callback(null, 'done');
-      }, 1000);
+      }, 1500);
     },
 
     function(err, callback){
-      api.sendResponse(event, {"text":"그럼 이제 내 소개를 해볼까?\n\n나는 자타공인 우리 대학교 최고 인싸, 칼답을 자랑하는 이대봇이라고 해!\n학식 메뉴, 학교 주변 맛집, 교통 정보을 알려주는 것부터 학교 내 다른 사람과 연결시켜 주는 것까지 못하는게 없다구!\n\n그럼 오늘은 뭘 도와줄까?",
-        "quick_replies": qr.reply_arrays["Menu"]});
-      callback(null);
-    }
+      api.sendResponse(event, {"text":"그럼 이제 내 소개를 해볼까?"});
+      callback(null, 'done');
+    },
+    function(err, callback){
+      setTimeout(function() {
+        api.sendResponse(event, {"text": "나는 자타공인 우리 대학교 최고 인싸, 칼답을 자랑하는 \'연구구\'라고해!!"});
+        callback(null, 'done');
+      }, 1000);
+    },
+    function(err, callback){
+      setTimeout(function() {
+        api.sendResponse(event, {"text": "맛집이나 교통정보도 내가 빠삭하게 알고, 내가 아는 친구들을 너한테 소개해줄 수도 있어!"});
+        callback(null, 'done');
+      }, 2000);
+    },
+    function(err, callback){
+      setTimeout(function() {
+        api.sendResponse(event, {"text": "내가 필요할때면 아무때나 페메하면 돼! 한번 해볼래?", "quick_replies": qr.reply_arrays["gugu"]});
+        callback(null, 'done');
+      }, 2000);
+    },
   ]
   async.waterfall(task);
 }
 
+function guguTest(event) {
+  var inputText = event.message.text;
+  var substring1 = "구구";
+  setTimeout(function() {
+    if (inputText.indexOf(substring1) !== -1) {
+      connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+      api.sendResponse(event, {"text": "응응! 앞으로도 그렇게 부르면 돼!!ㅎㅎ 그럼 내가 뭘 도와줄까?", "quick_replies": qr.reply_arrays["betaMenu"]});
+    }
+  }, 1000);
+}
+
+function gugu(event) {
+  guguImages.helloImage(event);
+  setTimeout(function() {
+    connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+      if (err) throw err;
+      //console.log(result[0].first_name);
+      api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
+    });
+  }, 1000);
+
+}
+
+
 function notStudent(event) {
-  api.sendResponse(event, {"text": "나는 서울대 담당이니까 너희 학교 봇한테 말 걸어줘"});
+  api.sendResponse(event, {"text": "나는 연세대 담당이니까 너희 학교 봇한테 말 걸어줘"});
 }
 
 module.exports = {
@@ -183,7 +239,10 @@ module.exports = {
     "changeName1": changeName1,
     "checkSchool": checkSchool,
     //temporary additions
-    "메뉴": register2
+    "메뉴": register2,
+    "guguTest": guguTest,
+    "구구야!": gugu,
+    "구구!": gugu
   }
 }
 

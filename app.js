@@ -7,6 +7,7 @@ var async = require('async');
 var mysql = require('mysql');
 var path = require('path');
 var bus = require('./apiCalls')
+var stringSimilarity = require('kor-string-similarity');
 
 const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -96,8 +97,14 @@ app.post('/webhook', function (req, res) {
                 });
                 apiaiSession.on('response', function(response) {
                   //console.log(functionSheet[event.message.text])
-                  console.log("DialoguFlow - intentName: " + response.result.metadata.intentName);
-                  callback(null, (functionSheet[event.message.text] || functionSheet[response.result.metadata.intentName] || functionSheet["fallback"]));
+                  var closestFunction = 0;
+                  if (stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity > 0.1) {
+                    closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet.beta)._text;
+                  }
+                  // console.log(functionSheet);
+                  console.log("Closest function is: " + closestFunction._text);
+                  console.log("IntentName is: " + response.result.metadata.intentName);
+                  callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {
                   //handle errors

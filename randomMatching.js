@@ -226,6 +226,7 @@ function randomMatching_nullcase(event) {
 module.exports = {
   functionMatch: {
     "랜덤매칭": startRandomMatching,
+    "친구 소개해주라": startRandomMatching,
    "askProfileURL": askProfileURL,
    // "randomMatching_mainMenu": randomMatching_mainMenu,
    "randomMatching_gender": randomMatching_gender,
