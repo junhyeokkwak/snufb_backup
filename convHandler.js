@@ -3,6 +3,7 @@ var request = require('request');
 var functionSheet = require('./functionSheet');
 var util = require('./utilfunctions');
 var api = require('./apiCalls')
+var guguImages = require('./guguImages');
 var mysql = require('mysql');
 var path = require('path');
 var stringSimilarity = require('kor-string-similarity');
