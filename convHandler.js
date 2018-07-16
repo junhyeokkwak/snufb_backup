@@ -68,7 +68,7 @@ function callChatbot(event) {
       var name = JOSA(result[0].first_name, "dk");
       var textArr = [`${name} 무슨 일이야?`, `${name} 무슨 일있어?`, `${name} 필요한 일 있어?`, `${name} 무슨 일이얌`, `${name} 왜??무슨 일 있니?`]
       var text = choose(textArr);
-      api.sendResponse(event, {"text": test, "quick_replies": qr.reply_arrays["betaMenu"]});
+      api.sendResponse(event, {"text": text, "quick_replies": qr.reply_arrays["betaMenu"]});
     });
   }, 2500);
 }
