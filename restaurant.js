@@ -41,6 +41,7 @@ var init_RESTAURANT_TEMP_DATA = function() {
     };
 }
 init_RESTAURANT_TEMP_DATA();
+module.exports.init_RESTAURANT_TEMP_DATA = init_RESTAURANT_TEMP_DATA;
 module.exports.RESTAURANT_TEMP_DATA = RESTAURANT_TEMP_DATA;
 
 var initHungryConv = function(event) {
