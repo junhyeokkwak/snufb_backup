@@ -29,6 +29,17 @@ app.use(express.static('public'))
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 app.set('port', (process.env.PORT || 5000));
 
+var RESTAURANT_TEMP_DATA = {
+    "user_psid_test" : {
+      "category1" : "category1_value",
+      "category2" : "category2_value",
+      "category3" : "category2_value",
+      "final_menu" : "final_menu_value"
+    }
+  };
+module.exports.RESTAURANT_TEMP_DATA = RESTAURANT_TEMP_DATA;
+
+
 //"시작하기" 버튼으로 디폴트
 request({
   uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
@@ -122,8 +133,7 @@ app.post('/webhook', function (req, res) {
                   console.log("IntentName is: " + response.result.metadata.intentName);
                   console.log("Parameters: " + JSON.stringify(response.result.parameters));
                   if (response.result.metadata.intentName == "initRestaurantConv" && response.result.parameters.res_menu != (null || undefined || "")) {
-                    restaurant.init_RESTAURANT_TEMP_DATA();
-                    restaurant.RESTAURANT_TEMP_DATA[event.sender.id] = {
+                    RESTAURANT_TEMP_DATA[event.sender.id] = {
                               "category1" : "category1_value",
                               "category2" : "category2_value",
                               "category3" : "category2_value",

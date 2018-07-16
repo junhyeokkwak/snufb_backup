@@ -21,28 +21,15 @@ var basicConv = JSON.parse(basicConvFile);
 var busRouteJsonData = JSON.parse(busRouteFile);
 var cuisinesJsonData = JSON.parse(cuisineFile);
 
-var RESTAURANT_TEMP_DATA = {
-    "user_psid_test" : {
-      "category1" : "category1_value",
-      "category2" : "category2_value",
-      "category3" : "category2_value",
-      "final_menu" : "final_menu_value"
-    }
-  };
-
-var init_RESTAURANT_TEMP_DATA = function() {
-  RESTAURANT_TEMP_DATA = {
-      "user_psid_test" : {
-        "category1" : "category1_value",
-        "category2" : "category2_value",
-        "category3" : "category2_value",
-        "final_menu" : "final_menu_value"
-      }
-    };
-}
-init_RESTAURANT_TEMP_DATA();
-module.exports.init_RESTAURANT_TEMP_DATA = init_RESTAURANT_TEMP_DATA;
-module.exports.RESTAURANT_TEMP_DATA = RESTAURANT_TEMP_DATA;
+// var app.RESTAURANT_TEMP_DATA = {
+//     "user_psid_test" : {
+//       "category1" : "category1_value",
+//       "category2" : "category2_value",
+//       "category3" : "category2_value",
+//       "final_menu" : "final_menu_value"
+//     }
+//   };
+// module.exports.app.RESTAURANT_TEMP_DATA = app.RESTAURANT_TEMP_DATA;
 
 var initHungryConv = function(event) {
   console.log("RUN initHungryConv");
@@ -59,13 +46,13 @@ var initRestaurantConv = function(event) {
     function(callback){
       var err;
       connection.query('UPDATE Users SET conv_context="initRestaurantRecommendation" WHERE user_id=' + event.sender.id);
-      // RESTAURANT_TEMP_DATA[event.sender.id]= {
+      // app.RESTAURANT_TEMP_DATA[event.sender.id]= {
       //   "category1" : "category1_value",
       //   "category2" : "category2_value",
       //   "category3" : "category2_value",
             // "final_menu" : "final_menu_value"
       // }
-      // console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+      // console.log("R T D: " + JSON.stringify(app.RESTAURANT_TEMP_DATA));
       callback(null, err);
     },
     function(err, callback){
@@ -85,7 +72,7 @@ var initRestaurantRecommendation = function(event) {
     var task = [
       function(callback){
         connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
-        RESTAURANT_TEMP_DATA[event.sender.id]= {
+        app.RESTAURANT_TEMP_DATA[event.sender.id]= {
           "category1" : "category1_value",
           "category2" : "category2_value",
           "category3" : "category2_value",
@@ -131,7 +118,7 @@ var restaurantRecommendation_category_0 = function(event) {
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_nearbysearch" WHERE user_id=' + event.sender.id);
     } else {
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
-      RESTAURANT_TEMP_DATA[event.sender.id].category1 = event.message.text;
+      app.RESTAURANT_TEMP_DATA[event.sender.id].category1 = event.message.text;
       console.log(Object.keys(cuisinesJsonData[event.message.text]));
       var qrCuisines = qr.generateQuickReplies(Object.keys(cuisinesJsonData[event.message.text]));
       var messageData = {"text": `${event.message.text} 중에서는 어떤걸로 추천해줄까!`, "quick_replies": qrCuisines};
@@ -148,15 +135,15 @@ var restaurantRecommendation_category_0 = function(event) {
 
 var restaurantRecommendation_category_1 = function(event) {
   console.log("RUN restaurantRecommendation_category_1");
-  var category1 = RESTAURANT_TEMP_DATA[event.sender.id].category1;
+  var category1 = app.RESTAURANT_TEMP_DATA[event.sender.id].category1;
   var category1Json = cuisinesJsonData[category1];
   console.log(category1Json);
   var category2Arr = Object.keys(category1Json);
   console.log(category2Arr);
   if (category2Arr.indexOf(event.message.text) > -1) {
     connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_2" WHERE user_id=' + event.sender.id);
-    RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
-    console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+    app.RESTAURANT_TEMP_DATA[event.sender.id].category2 = event.message.text;
+    console.log("R T D: " + JSON.stringify(app.RESTAURANT_TEMP_DATA));
     var qrCuisines = qr.generateQuickReplies(cuisinesJsonData[category1][event.message.text]);
     var messageData = {"text": `${event.message.text} 중에서는 어떤걸로 추천해줄까!`, "quick_replies": qrCuisines};
     api.sendResponse(event, messageData);
@@ -170,13 +157,13 @@ var restaurantRecommendation_category_1 = function(event) {
 
 var restaurantRecommendation_category_2 = function(event) {
   console.log("RUN restaurantRecommendation_category_1");
-  var category1 = RESTAURANT_TEMP_DATA[event.sender.id].category1;
-  var category2 = RESTAURANT_TEMP_DATA[event.sender.id].category2;
+  var category1 = app.RESTAURANT_TEMP_DATA[event.sender.id].category1;
+  var category2 = app.RESTAURANT_TEMP_DATA[event.sender.id].category2;
   var category3Arr = cuisinesJsonData[category1][category2];
   console.log(event.message.text);
   if (category3Arr.indexOf(event.message.text) > -1) {
-    RESTAURANT_TEMP_DATA[event.sender.id].category3 = event.message.text;
-    console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+    app.RESTAURANT_TEMP_DATA[event.sender.id].category3 = event.message.text;
+    console.log("R T D: " + JSON.stringify(app.RESTAURANT_TEMP_DATA));
     restaurantRecommendation_nearbysearch(event);
   } else {
     var qrCuisines = qr.generateQuickReplies(category3Arr);
@@ -209,13 +196,13 @@ var restaurantRecommendation_nearbysearch = function(event) {
     // NOTE:
     console.log("VALID INPUT");
     var menu;
-    if (RESTAURANT_TEMP_DATA[event.sender.id].final_menu == (null || undefined || "" || "final_menu_value")) {
-      RESTAURANT_TEMP_DATA[event.sender.id].final_menu = event.message.text;
+    if (app.RESTAURANT_TEMP_DATA[event.sender.id].final_menu == (null || undefined || "" || "final_menu_value")) {
+      app.RESTAURANT_TEMP_DATA[event.sender.id].final_menu = event.message.text;
       menu = event.message.text;
     } else {
-      menu = RESTAURANT_TEMP_DATA[event.sender.id].final_menu;
+      menu = app.RESTAURANT_TEMP_DATA[event.sender.id].final_menu;
     }
-    console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+    console.log("R T D: " + JSON.stringify(app.RESTAURANT_TEMP_DATA));
     var messageData = {"text": `알겠어!! 신촌 근처 ${menu} 식당을 찾아봐줄게:)`};
     api.sendResponse(event, messageData);
     var radius = 5000, location_ShinchonStation = '37.559768,126.94230800000003';
