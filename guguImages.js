@@ -55,3 +55,12 @@ module.exports.loveImage = loveImage;
 module.exports.shyImage = shyImage;
 module.exports.searchImage = searchImage;
 module.exports.confusedImage = confusedImage;
+
+module.exports.hello_URL = hello_URL;
+module.exports.blingbling_URL = blingbling_URL;
+module.exports.plain_URL = plain_URL;
+module.exports.eating_URL = eating_URL;
+module.exports.love_URL = love_URL;
+module.exports.shy_URL = shy_URL;
+module.exports.search_URL = search_URL;
+module.exports.confused_URL = confused_URL;
