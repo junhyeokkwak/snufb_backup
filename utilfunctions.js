@@ -52,8 +52,8 @@ var choose = function(choices) {
 }
 
 module.exports.Josa = Josa;
-module.exports.choose = choose;
 module.exports = {
+    "choose" : choose,
     functionMatch: {
         "RESET" : reset,
         "generateQuickReplies" : generateQuickReplies,
