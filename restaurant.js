@@ -29,6 +29,15 @@ var RESTAURANT_TEMP_DATA = {
     }
   };
 
+var initHungryConv = function(event) {
+  console.log("RUN initHungryConv");
+  var textArr = ["ㅋㅋㅋ바보 미리미리 먹지ㅠ 학식먹을래? 아니면 밖에서 먹을래?", "아이고 어떡해..학식 먹고싶어? 아니면 밖에서 먹고싶어?", "얼른 뭐 먹을지 추천해줄게! 학식? 아니면 맛집?"]
+  var text = util.choose(textArr);
+  var messageData = {"text": text};
+  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+  api.sendResponse(event, messageData);
+}
+
 var initRestaurantConv = function(event) {
   console.log('RUN initRestaurantConv');
   var task = [
@@ -44,7 +53,7 @@ var initRestaurantConv = function(event) {
       callback(null, err);
     },
     function(err, callback){
-      var messageData = {"text": "왜 굶고다녀ㅠㅠ심심한데 메뉴 추천해줄까?", "quick_replies": qr.reply_arrays['YesOrNo']};
+      var messageData = {"text": "왜 굶고다녀ㅠㅠ심심한데 맛집 추천해줄까?", "quick_replies": qr.reply_arrays['YesOrNo']};
       api.sendResponse(event, messageData);
       callback(null);
     }
@@ -75,7 +84,7 @@ var initRestaurantRecommendation = function(event) {
     console.log("USER SELECT : NO in initRestaurantConv");
     var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
+    var messageData = {"text": "너무하네ㅋㅋㅋㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
     api.sendResponse(event, messageData);
   } else {
     console.log("USER SELECT : UNEXPECTED RESPONSE in initRestaurantConv");

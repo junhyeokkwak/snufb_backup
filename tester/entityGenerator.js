@@ -62,3 +62,10 @@ var stNmEntityGenerator = function(stNmArr) {
 }
 // stNmEntityGenerator(busRouteJsonData.stNameArr);
 // busNumEntityGenerator(Object.keys(busRouteJsonData.busNum_busRouteId));
+
+// function choose(choices) {
+//   var index = Math.floor(Math.random() * choices.length);
+//   return choices[index];
+// }
+//
+// console.log(choose(["a", "b", "c", "d", "e", "f"]));

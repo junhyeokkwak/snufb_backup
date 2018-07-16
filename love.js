@@ -30,8 +30,8 @@ function fallback(event){
 
 module.exports = {
   functionMatch: {
-    "미팅 잡아줘": n_to_n,
-    "좋은 사람 소개시켜줘": one_to_one,
-    "fallback": fallback
+    // "미팅 잡아줘": n_to_n,
+    // "좋은 사람 소개시켜줘": one_to_one,
+    // "fallback": fallback
   }
 }

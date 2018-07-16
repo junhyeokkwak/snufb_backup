@@ -37,7 +37,7 @@ var whichSikdang = function(event){
             "payload": JSON.parse(body).stores[i].name
           });
         }
-        var messageData = {"text": "어디서 먹을건데?", "quick_replies": sikdang};
+        var messageData = {"text": "학식 어디서 먹을건데?", "quick_replies": sikdang};
         api.sendResponse(event, messageData);
       });
       callback(null);
@@ -96,8 +96,7 @@ var sendBabMenu = function(event){
 
 module.exports = {
     functionMatch: {
-        "오늘 밥 뭐야?": whichSikdang,
-        "bab": whichSikdang,
+        "initHaksikConv": whichSikdang,
         "sendBabMenu": sendBabMenu
     }
 };

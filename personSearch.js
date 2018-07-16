@@ -239,10 +239,11 @@ function personSearch_nullcase(event) {
 
 module.exports = {
   functionMatch: {
+    "initPersonSearchConv": startPersonSearch,
     "사람찾기": startPersonSearch,
-   "askProfileURL": askProfileURL,
-   "personSearch_mainMenu": personSearch_mainMenu,
-   "personSearch_alum": personSearch_alum,
-   "personSearch_nullcase": personSearch_nullcase,
+    "askProfileURL": askProfileURL,
+    "personSearch_mainMenu": personSearch_mainMenu,
+    "personSearch_alum": personSearch_alum,
+    "personSearch_nullcase": personSearch_nullcase,
   }
 };
