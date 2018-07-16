@@ -9,6 +9,7 @@ var path = require('path');
 var bus = require('./apiCalls');
 var stringSimilarity = require('kor-string-similarity');
 var qr = require('./quick_replies');
+var restaurant = require('./restaurant');
 
 
 const https = require('https');
@@ -119,7 +120,12 @@ app.post('/webhook', function (req, res) {
                   }
                   console.log("Closest function is: " + closestFunction._text);
                   console.log("IntentName is: " + response.result.metadata.intentName);
-                  console.log("BUS parameters: " + JSON.stringify(response.result.parameters));
+                  console.log("Parameters: " + JSON.stringify(response.result.parameters));
+                  if (response.result.metadata.intentName == "initRestaurantConv" && response.result.parameters.res_menu != (null || undefined || "")) {
+                    restaurant.RESTAURANT_TEMP_DATA[event.sender.id].final_menu = response.result.parameters.res_menu;
+                    console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+                    // callback(functionSheet[response.result.metadata.intentName]);
+                  }
                   // callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["callChatbot"] || functionSheet["fallback"]));
                   callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] ||  functionSheet["fallback"]));
                 });

@@ -26,8 +26,10 @@ var RESTAURANT_TEMP_DATA = {
       "category1" : "category1_value",
       "category2" : "category2_value",
       "category3" : "category2_value",
+      "final_menu" : "final_menu_value"
     }
   };
+module.exports.RESTAURANT_TEMP_DATA = RESTAURANT_TEMP_DATA;
 
 var initHungryConv = function(event) {
   console.log("RUN initHungryConv");
@@ -48,6 +50,7 @@ var initRestaurantConv = function(event) {
       //   "category1" : "category1_value",
       //   "category2" : "category2_value",
       //   "category3" : "category2_value",
+            // "final_menu" : "final_menu_value"
       // }
       // console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
       callback(null, err);
@@ -73,6 +76,7 @@ var initRestaurantRecommendation = function(event) {
           "category1" : "category1_value",
           "category2" : "category2_value",
           "category3" : "category2_value",
+          "final_menu" : "final_menu_value"
         }
         callback(null, 'done');
       },
@@ -191,7 +195,15 @@ var restaurantRecommendation_nearbysearch = function(event) {
   if (true) {
     // NOTE:
     console.log("VALID INPUT");
-    var messageData = {"text": `알겠어!! 신촌 근처 ${event.message.text} 식당을 찾아봐줄게:)`};
+    var menu;
+    if (RESTAURANT_TEMP_DATA[event.sender.id].final_menu == (null || undefined || "" || "final_menu_value") {
+      RESTAURANT_TEMP_DATA[event.sender.id].final_menu = event.message.text;
+      menu = event.message.text;
+    } else {
+      menu = RESTAURANT_TEMP_DATA[event.sender.id].final_menu;
+    }
+    console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+    var messageData = {"text": `알겠어!! 신촌 근처 ${menu} 식당을 찾아봐줄게:)`};
     api.sendResponse(event, messageData);
     var radius = 5000, location_ShinchonStation = '37.559768,126.94230800000003';
     var options = { method: 'GET',
@@ -201,7 +213,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
          radius: radius,
          type: 'restaurant',
          key: process.env.GOOGLE_API_KEY,
-         keyword: event.message.text,
+         keyword: menu,
          language: 'ko' },
       headers:
        { 'postman-token': 'eebafd36-b12d-e760-e7ca-aaf5a739ce02',
@@ -283,6 +295,8 @@ var restaurantRecommendation_nearbysearch = function(event) {
     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id)
   }
 }
+
+
 
 
 
