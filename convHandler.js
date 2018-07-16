@@ -9,6 +9,7 @@ var stringSimilarity = require('kor-string-similarity');
 
 const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+var connection = mysql.createConnection(process.env.DATABASE_URL);
 
 var apiai = require('apiai');
 var nlpapp = apiai("542cfeef5714428193dc4478760de396");
