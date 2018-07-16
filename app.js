@@ -6,7 +6,7 @@ var api = require('./apiCalls')
 var async = require('async');
 var mysql = require('mysql');
 var path = require('path');
-var bus = require('./apiCalls')
+var bus = require('./apiCalls');
 var stringSimilarity = require('kor-string-similarity');
 
 const https = require('https');

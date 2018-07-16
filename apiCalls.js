@@ -15,6 +15,17 @@ function sendResponse(event, messageToSend) {
   callSendAPI(messageData);
 }
 
+function typingBubble(event) {
+  var senderID = event.sender.id;
+  var messageData = {
+    recipient: {
+      id: senderID
+    },
+    sender_action: "typing_on"
+  };
+  callSendAPI(messageData);
+}
+
 function sendMessage(recipientID, messageToSend) {
   var messageData = {
     messaging_type : "UPDATE",
@@ -271,3 +282,4 @@ module.exports.callSendAPI = callSendAPI;
 
 module.exports.handlePersonSearchWebview = handlePersonSearchWebview;
 module.exports.handleButton = handleButton;
+module.exports.typingBubble = typingBubble;
