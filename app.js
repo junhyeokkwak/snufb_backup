@@ -96,7 +96,6 @@ app.post('/webhook', function (req, res) {
                   sessionId: event.sender.id
                 });
                 apiaiSession.on('response', function(response) {
-                  //console.log(functionSheet[event.message.text])
                   var closestFunction = 0;
                   if (stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity > 0.1) {
                     closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet.beta)._text;
@@ -107,6 +106,11 @@ app.post('/webhook', function (req, res) {
                     console.log("BUS parameters: " + JSON.stringify(response.result.parameters));
                     console.log("BUS busNum: " + JSON.stringify(response.result.parameters.bus_busNum));
                     console.log("BUS stNm: " + JSON.stringify(response.result.parameters.bus_stNm));
+                  }
+                  if (response.result.metadata.intentName == "initRestaurantConv") {
+                    console.log("BUS parameters: " + JSON.stringify(response.result.parameters));
+                    console.log("BUS busNum: " + JSON.stringify(response.result.parameters.res_menu));
+                    console.log("BUS stNm: " + JSON.stringify(response.result.parameters.res_location));
                   }
                   callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
                 });
