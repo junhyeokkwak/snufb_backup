@@ -1,14 +1,16 @@
 var bodyParser = require('body-parser');
 var request = require('request');
+var mysql = require('mysql');
+var path = require('path');
+var stringSimilarity = require('kor-string-similarity');
+const https = require('https');
+
 var functionSheet = require('./functionSheet');
 var util = require('./utilfunctions');
 var api = require('./apiCalls')
 var guguImages = require('./guguImages');
-var mysql = require('mysql');
-var path = require('path');
-var stringSimilarity = require('kor-string-similarity');
+var qr = require('./quick_replies');
 
-const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
