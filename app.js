@@ -97,8 +97,9 @@ app.post('/webhook', function (req, res) {
                 });
                 apiaiSession.on('response', function(response) {
                   var closestFunction = 0;
-                  if (stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity > 0.1) {
+                  if (stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity > 0.5) {
                     closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet.beta)._text;
+                    console.log("Closest Function is found!!!!!!! Similarity is: " + stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity);
                   }
                   console.log("Closest function is: " + closestFunction._text);
                   console.log("IntentName is: " + response.result.metadata.intentName);
