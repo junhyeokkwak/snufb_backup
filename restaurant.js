@@ -21,8 +21,17 @@ var basicConv = JSON.parse(basicConvFile);
 var busRouteJsonData = JSON.parse(busRouteFile);
 var cuisinesJsonData = JSON.parse(cuisineFile);
 
+var RESTAURANT_TEMP_DATA = {
+    "user_psid_test" : {
+      "category1" : "category1_value",
+      "category2" : "category2_value",
+      "category3" : "category2_value",
+      "final_menu" : "final_menu_value"
+    }
+  };
+
 var init_RESTAURANT_TEMP_DATA = function() {
-  var RESTAURANT_TEMP_DATA = {
+  RESTAURANT_TEMP_DATA = {
       "user_psid_test" : {
         "category1" : "category1_value",
         "category2" : "category2_value",
