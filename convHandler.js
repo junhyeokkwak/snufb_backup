@@ -51,16 +51,15 @@ var JOSA = function(txt, josa){
   }
 }
 
-
 var initBadLangConv = function(event) {
-  var textArr = ["어허", "어허 그러면 안돼", "ㅠㅠㅠㅠㅠㅠㅠㅠ말이 너무 심하네", "입에 뭔가 물은 것 같아!", "씁", "떽", "못된것만 배웠어"]
+  var textArr = ["어허", "어허 그러면 안돼", "ㅠㅠㅠㅠㅠㅠㅠㅠ말이 너무 심하네", "입에 뭔가 물은 것 같아!", "씁", "떽", "그걸 욕이라고 한거야?ㅋ"]
   var text = choose(textArr);
   var messageData = {"text": text};
   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   api.sendResponse(event, messageData);
 }
 
-function callChatbot(event) {
+var callChatbot = function(event) {
   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   api.typingBubble(event);
   guguImages.helloImage(event);
@@ -68,17 +67,43 @@ function callChatbot(event) {
     connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
       if (err) throw err;
       var name = JOSA(result[0].first_name, "dk");
-      var textArr = [`${name} 무슨 일이야?`, `${name} 무슨 일있어?`, `${name} 필요한 일 있어?`, `${name} 무슨 일이얌`, `${name} 왜??무슨 일 있니?`]
+      var textArr = [`${name} 무슨 일이야?`, `${name} 무슨 일있어?`, `${name} 도움이 필요하니?`, `${name} 무슨 일이얌`, `${name} 왜??무슨 일 있니?`]
       var text = choose(textArr);
       api.sendResponse(event, {"text": text, "quick_replies": qr.reply_arrays["betaMenu"]});
     });
   }, 2500);
 }
 
+var conv_sendRandom = function(event, arr) {
+  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+  api.typingBubble(event);
+  guguImages.helloImage(event);
+  setTimeout(function() {
+    connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+      if (err) throw err;
+      var text = choose(arr);
+      api.sendResponse(event, {"text": text});
+    });
+  }, 2500);
+}
+
+var conv_doNotUnderstand = function(event){
+  connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+    if (err) throw err;
+    var name = JOSA(result[0].first_name, "dk");
+    var textArr = [`${name} 무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
+      "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
+    conv_sendRandom(event, textArr);
+  });
+}
+
+
+
 module.exports = {
     functionMatch: {
         "initBadLangConv": initBadLangConv,
         "callChatbot" : callChatbot,
         "callChatbot_yonsei" : callChatbot,
+        "fallback" : conv_doNotUnderstand
     }
 };
