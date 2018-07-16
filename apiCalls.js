@@ -50,14 +50,7 @@ function sendOnlineImage(event, image_url) {
         "attachment": {
           "type": "image",
           "payload": {
-             // "template_type": "media",
              "url":image_url
-             // "elements": [
-             //    {
-             //       "media_type": "video",
-             //       "url": "https://www.facebook.com/afreecaTV.korea/videos/1742057972505275/"
-             //    }
-             // ]
           }
         }
       }

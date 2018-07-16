@@ -158,8 +158,7 @@ function checkSchool(event) {
 function register2(event) {
   var task = [
     function(callback){
-      connection.query('UPDATE Users SET conv_context="guguTest" WHERE user_id=' + event.sender.id);
-
+      connection.query('UPDATE Users SET conv_context="callChatbotTest" WHERE user_id=' + event.sender.id);
       // experiment (extracting data from database)
       connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
         if (err) throw err;
@@ -205,7 +204,7 @@ function register2(event) {
   async.waterfall(task);
 }
 
-function guguTest(event) {
+function callChatbotTest(event) {
   var inputText = event.message.text;
   var substring1 = "구구";
   setTimeout(function() {
@@ -216,19 +215,18 @@ function guguTest(event) {
   }, 1000);
 }
 
-function gugu(event) {
-  api.typingBubble(event);
-  // guguImages.helloImage(event);
-  setTimeout(function() {
-    connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-      if (err) throw err;
-      //console.log(result[0].first_name);
-      api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
-    });
-  }, 2500);
-
-}
-
+// function callChatbot(event) {
+//   api.typingBubble(event);
+//   // guguImages.helloImage(event);
+//   setTimeout(function() {
+//     connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+//       if (err) throw err;
+//       connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+//       api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
+//     });
+//   }, 2500);
+//
+// }
 
 function notStudent(event) {
   api.sendResponse(event, {"text": "나는 연세대 담당이니까 너희 학교 봇한테 말 걸어줘"});
@@ -244,9 +242,7 @@ module.exports = {
     "checkSchool": checkSchool,
     //temporary additions
     "메뉴": register2,
-    "guguTest": guguTest,
-    "구구야!": gugu,
-    "구구!": gugu
+    "callChatbotTest": callChatbotTest,
   }
 }
 

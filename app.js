@@ -115,12 +115,12 @@ app.post('/webhook', function (req, res) {
                   var closestFunction = 0;
                   if (stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity > 0.5) {
                     closestFunction = stringSimilarity.findBestMatch(event.message.text, functionSheet.beta)._text;
-                    console.log("Closest Function is found!!!!!!! Similarity is: " + stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity);
+                    console.log("Closest Function is found - similarity: " + stringSimilarity.findBestMatch(event.message.text, functionSheet.beta).similarity);
                   }
                   console.log("Closest function is: " + closestFunction._text);
                   console.log("IntentName is: " + response.result.metadata.intentName);
                   console.log("BUS parameters: " + JSON.stringify(response.result.parameters));
-                  callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["구구야!"] || functionSheet["fallback"]));
+                  callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["callChatbot"] || functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {
                   //handle errors
