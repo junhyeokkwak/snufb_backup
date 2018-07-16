@@ -88,6 +88,7 @@ var conv_sendRandom = function(event, arr) {
 }
 
 var conv_doNotUnderstand = function(event){
+  console.log("conv_doNotUnderstand");
   connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     var name = JOSA(result[0].first_name, "dk");

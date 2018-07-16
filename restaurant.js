@@ -44,12 +44,12 @@ var initRestaurantConv = function(event) {
     function(callback){
       var err;
       connection.query('UPDATE Users SET conv_context="initRestaurantRecommendation" WHERE user_id=' + event.sender.id);
-      RESTAURANT_TEMP_DATA[event.sender.id]= {
-        "category1" : "category1_value",
-        "category2" : "category2_value",
-        "category3" : "category2_value",
-      }
-      console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+      // RESTAURANT_TEMP_DATA[event.sender.id]= {
+      //   "category1" : "category1_value",
+      //   "category2" : "category2_value",
+      //   "category3" : "category2_value",
+      // }
+      // console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
       callback(null, err);
     },
     function(err, callback){
@@ -69,11 +69,16 @@ var initRestaurantRecommendation = function(event) {
     var task = [
       function(callback){
         connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
+        RESTAURANT_TEMP_DATA[event.sender.id]= {
+          "category1" : "category1_value",
+          "category2" : "category2_value",
+          "category3" : "category2_value",
+        }
         callback(null, 'done');
       },
       function(err, callback){
         var qrCuisines = qr.generateQuickReplies(["그냥 말할래", "나라별", "종합", "상황별", "재료별"]);
-        var messageData = {"text": "어떻게 추천해줄까??", "quick_replies": qrCuisines};
+        var messageData = {"text": "어떻게 찾아줄까??", "quick_replies": qrCuisines};
         api.sendResponse(event, messageData);
         callback(null);
       }
