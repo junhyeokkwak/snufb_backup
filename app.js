@@ -124,10 +124,11 @@ app.post('/webhook', function (req, res) {
                   if (response.result.metadata.intentName == "initRestaurantConv" && response.result.parameters.res_menu != (null || undefined || "")) {
                     restaurant.RESTAURANT_TEMP_DATA[event.sender.id].final_menu = response.result.parameters.res_menu;
                     console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
-                    // callback(functionSheet[response.result.metadata.intentName]);
+                    callback(functionSheet["restaurantRecommendation_nearbysearch"]);
+                  } else {
+                    // callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["callChatbot"] || functionSheet["fallback"]));
+                    callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] ||  functionSheet["fallback"]));
                   }
-                  // callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["callChatbot"] || functionSheet["fallback"]));
-                  callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] ||  functionSheet["fallback"]));
                 });
                 apiaiSession.on('error', function(error) {
                   //handle errors
