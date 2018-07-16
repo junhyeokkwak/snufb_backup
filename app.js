@@ -122,7 +122,8 @@ app.post('/webhook', function (req, res) {
                   console.log("IntentName is: " + response.result.metadata.intentName);
                   console.log("Parameters: " + JSON.stringify(response.result.parameters));
                   if (response.result.metadata.intentName == "initRestaurantConv" && response.result.parameters.res_menu != (null || undefined || "")) {
-                    restaurant.RESTAURANT_TEMP_DATA[event.sender.id]= {
+                    restaurant.init_RESTAURANT_TEMP_DATA();
+                    restaurant.RESTAURANT_TEMP_DATA[event.sender.id] = {
                               "category1" : "category1_value",
                               "category2" : "category2_value",
                               "category3" : "category2_value",
