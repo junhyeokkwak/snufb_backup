@@ -66,6 +66,11 @@ var betaMenu = [{
   "content_type": "text",
   "title": "구구야 나랑 놀아줘",
   "payload": "심심이"
+},
+{
+  "content_type": "text",
+  "title": "버그 제보",
+  "payload": "버그 제보"
 }
 ]
 

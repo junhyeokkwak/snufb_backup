@@ -8,6 +8,8 @@ var mysql = require('mysql');
 var path = require('path');
 var bus = require('./apiCalls');
 var stringSimilarity = require('kor-string-similarity');
+var qr = require('./quick_replies');
+
 
 const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -86,7 +88,21 @@ app.post('/webhook', function (req, res) {
             if (result.length > 0){ // user data exists
               console.log('Conv Context: ' + result[0].conv_context);
               if (result[0].conv_context != "none") {
-                if (event.message.text == 'RESET') {
+                if (event.message.text == 'RESET' || event.message.text == '에러') {
+                  var resetTask = [
+                    function(callback) {
+                      api.typingBubble(event);
+                      api.sendResponse(event, {"text": "===연구구 한대맞고 정신차리는중==="});
+                      setTimeout(function() {
+                        callback(null, 'done');
+                      }, 1000);
+                    },
+                    function(err, callback) {
+                      api.sendResponse(event, {"text": "더위먹어서 맛이 갔었나봐ㅠㅠ 어떤걸 도와줄까?", "quick_replies": qr.reply_arrays["betaMenu"]});
+                      callback(null);
+                    }
+                  ]
+                  async.waterfall(resetTask);
                   callback(null, functionSheet["RESET"]);
                 } else {
                   callback(null, functionSheet[result[0].conv_context]);

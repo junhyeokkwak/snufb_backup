@@ -218,14 +218,14 @@ function guguTest(event) {
 
 function gugu(event) {
   api.typingBubble(event);
-  guguImages.helloImage(event);
+  // guguImages.helloImage(event);
   setTimeout(function() {
     connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
       if (err) throw err;
       //console.log(result[0].first_name);
       api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
     });
-  }, 1000);
+  }, 2500);
 
 }
 

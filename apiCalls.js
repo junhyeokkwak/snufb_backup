@@ -179,6 +179,31 @@ function handleButton(event, title, url) {
     callSendAPI(messageData);
 }
 
+function handleBugButton(event, title, url) {
+  var senderID = event.sender.id;
+    let messageData = {
+      recipient: {
+        id: senderID
+      },
+      message: {
+        "attachment":{
+          "type":"template",
+          "payload":{
+            "template_type":"button",
+            "text": title,
+            "buttons":[
+              {
+                "type":"web_url",
+                "url": url,
+                "title": "버그 제보하러 가기"
+              }
+            ]
+          }
+        }
+      }
+    };
+    callSendAPI(messageData);
+}
 
 function handlePersonSearchWebview(event, title, url, target_uid, target_first_name, target_last_name, target_profile_pic) {
   var senderID = event.sender.id;
@@ -283,3 +308,4 @@ module.exports.callSendAPI = callSendAPI;
 module.exports.handlePersonSearchWebview = handlePersonSearchWebview;
 module.exports.handleButton = handleButton;
 module.exports.typingBubble = typingBubble;
+module.exports.handleBugButton = handleBugButton;
