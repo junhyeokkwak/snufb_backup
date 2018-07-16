@@ -225,7 +225,7 @@ function gugu(event) {
       //console.log(result[0].first_name);
       api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
     });
-  }, 1000);
+  }, 2500);
 
 }
 
