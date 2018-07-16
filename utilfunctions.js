@@ -59,6 +59,5 @@ module.exports = {
     functionMatch: {
         "RESET" : reset,
         "generateQuickReplies" : generateQuickReplies,
-        "TEST WEBVIEW" : testWebview,
     }
 };
