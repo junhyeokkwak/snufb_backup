@@ -46,8 +46,9 @@ var Josa = function(txt, josa){
 }
 
 var choose = function(choices) {
-  var index = Math.floor(Math.random() * choices.length);
-  return choices[index];
+  // var index = Math.floor(Math.random() * choices.length);
+  // return choices[index];
+  console.log("hi");
 }
 
 module.exports.Josa = Josa;
