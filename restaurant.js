@@ -196,7 +196,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
     // NOTE:
     console.log("VALID INPUT");
     var menu;
-    if (RESTAURANT_TEMP_DATA[event.sender.id].final_menu == (null || undefined || "" || "final_menu_value") {
+    if (RESTAURANT_TEMP_DATA[event.sender.id].final_menu == (null || undefined || "" || "final_menu_value")) {
       RESTAURANT_TEMP_DATA[event.sender.id].final_menu = event.message.text;
       menu = event.message.text;
     } else {
