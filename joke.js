@@ -42,11 +42,35 @@ function deleteMe(event) {
   api.sendResponse(event, {"text": "===연구구 기억 지우는 중==="});
 }
 
+function directToCB(event) {
+  var task = [
+    function(callback) {
+      api.sendResponse(event, {"text": "뭔가 불편한게 있었구나ㅠㅠ 내가 똑똑해지고는 있지만 아직 조금 댕청하긴해ㅠㅠㅠ"});
+      callback(null, 'done');
+    },
+    function(err, callback) {
+      var url = "m.me/campusbuddies17"
+      api.handleBugButton(event, "이분들한테 불편한 사항을 얘기해줘!", url);
+      setTimeout(function() {
+        callback(null, 'done');
+      }, 1000);
+    },
+    function(err, callback) {
+      api.sendResponse(event, {"text": "내가 다시 필요하면 언제든지 연락해!", "quick_replies": qr.reply_arrays["gugu"]})
+    }
+  ]
+  async.waterfall(task);
+
+}
+
 module.exports = {
   functionMatch: {
     "영어농담": startJoke,
     "또 해줘": startJoke,
     "Delete me": deleteMe,
+    "directToCB": directToCB,
+    "버그 제보": directToCB,
+    "개발자와 연락하기": directToCB
 
   }
 };

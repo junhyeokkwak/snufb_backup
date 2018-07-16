@@ -91,8 +91,8 @@ app.post('/webhook', function (req, res) {
                 if (event.message.text == 'RESET' || event.message.text == '에러') {
                   var resetTask = [
                     function(callback) {
-                      api.sendResponse(event, {"text": "===연구구 한대맞고 정신차리는중==="});
                       api.typingBubble(event);
+                      api.sendResponse(event, {"text": "===연구구 한대맞고 정신차리는중==="});
                       callback(null, 'done');
                     },
                     function(err, callback) {
