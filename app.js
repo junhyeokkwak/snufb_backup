@@ -86,7 +86,7 @@ app.post('/webhook', function (req, res) {
             if (result.length > 0){ // user data exists
               console.log('Conv Context: ' + result[0].conv_context);
               if (result[0].conv_context != "none") {
-                if (event.message.text == 'RESET') {
+                if (event.message.text == 'RESET' || event.message.text == '에러') {
                   callback(null, functionSheet["RESET"]);
                 } else {
                   callback(null, functionSheet[result[0].conv_context]);
