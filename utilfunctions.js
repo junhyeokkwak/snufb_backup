@@ -20,7 +20,7 @@ function generateQuickReplies(arr){
   }
 };
 
-function Josa(txt, josa){
+var Josa = function(txt, josa){
 	var code = txt.charCodeAt(txt.length-1) - 44032;
 	var cho = 19, jung = 21, jong=28;
 	var i1, i2, code1, code2;
@@ -46,7 +46,7 @@ function Josa(txt, josa){
   }
 }
 
-function choose(choices) {
+var choose = function(choices) {
   var index = Math.floor(Math.random() * choices.length);
   return choices[index];
 }
