@@ -93,7 +93,9 @@ app.post('/webhook', function (req, res) {
                     function(callback) {
                       api.typingBubble(event);
                       api.sendResponse(event, {"text": "===연구구 한대맞고 정신차리는중==="});
-                      callback(null, 'done');
+                      setTimeout(function() {
+                        callback(null, 'done');
+                      }, 1000);
                     },
                     function(err, callback) {
                       api.sendResponse(event, {"text": "더위먹어서 맛이 갔었나봐ㅠㅠ 어떤걸 도와줄까?", "quick_replies": qr.reply_arrays["betaMenu"]});
