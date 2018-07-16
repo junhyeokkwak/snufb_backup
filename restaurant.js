@@ -70,24 +70,18 @@ var initRestaurantRecommendation = function(event) {
       }
     ];
     async.waterfall(task);
-  } else if (event.message.text == "아니") {
+  } else if ((event.message.text == "아니") ||
+      (stringSimilarity.arrangeBySimilarity(event.message.text,  basicConv.disagreementArr)[0].similarity > 0.5)) {
     console.log("USER SELECT : NO in initRestaurantConv");
-    var task = [
-      function(callback){
-        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-        callback(null, 'done');
-      },
-      function(err, callback){
-        var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
-        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-        var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
-        api.sendResponse(event, messageData);
-        callback(null);
-      },
-    ];
-    async.waterfall(task);
+    var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
+    connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+    var messageData = {"text": "칵-퉤;;안해 때려쳐ㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
+    api.sendResponse(event, messageData);
   } else {
     console.log("USER SELECT : UNEXPECTED RESPONSE in initRestaurantConv");
+    connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+    var messageData = {"text": "무슨 말인지 잘 모르겠어ㅋㅋ...다시 말해줘!"};
+    api.sendResponse(event, messageData);
   }
 };
 

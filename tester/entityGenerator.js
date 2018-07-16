@@ -45,7 +45,7 @@ var stNmEntityGenerator = function(stNmArr) {
     var temp = stNmArr[i].replace(/["'()]/g," ");
     var stNm = temp + "";
     tempJson.value = stNm;
-    tempJson.synonyms = [stNm, stNm + " 정류장", stNm + " 정거장", stNm + " 역"];
+    tempJson.synonyms = [stNm, stNm + "에", stNm + " 정류장에", stNm + " 정류장", stNm + " 정거장", stNm + " 정거장에", stNm + " 역", stNm + "역에"];
     stNmEntity.push(tempJson);
     // console.log(tempJson);
     if (i == stNmArr.length-1) {
