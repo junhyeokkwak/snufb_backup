@@ -51,8 +51,6 @@ var choose = function(choices) {
   return choices[index];
 }
 
-
-
 module.exports.Josa = Josa;
 module.exports.choose = choose;
 module.exports = {
