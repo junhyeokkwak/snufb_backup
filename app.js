@@ -139,7 +139,7 @@ app.post('/webhook', function (req, res) {
                               "category3" : "category2_value",
                               "final_menu" : response.result.parameters.res_menu
                             }
-                    console.log("R T D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
+                    console.log("R T_D: " + JSON.stringify(RESTAURANT_TEMP_DATA));
                     callback(null, functionSheet["restaurantRecommendation_nearbysearch"]);
                   } else {
                     // callback(null, (functionSheet[event.message.text] || functionSheet[closestFunction] || functionSheet[response.result.metadata.intentName] || functionSheet["callChatbot"] || functionSheet["fallback"]));
