@@ -1,13 +1,10 @@
-var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
 var functionSheet = require('./functionSheet');
 var util = require('./utilfunctions');
 var api = require('./apiCalls')
-var async = require('async');
 var mysql = require('mysql');
 var path = require('path');
-var bus = require('./apiCalls');
 var stringSimilarity = require('kor-string-similarity');
 
 const https = require('https');
