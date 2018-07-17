@@ -59,6 +59,22 @@ var initBadLangConv = function(event) {
   api.sendResponse(event, messageData);
 }
 
+var initHelloConv = function(event) {
+  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+  api.typingBubble(event);
+  guguImages.helloImage(event);
+  connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+    if (err) throw err;
+    var name = JOSA(result[0].first_name, "아");
+    var textArr = [`${name} 안녕~~~`, `${name} 안녕안녕`, `${name} 잘 지냈어??`, `${name} 반가워:)`, `${name} 안녕안녕ㅇ:)`]
+    var text = choose(textArr);
+    var messageData = {"text": text};
+    connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+    api.sendResponse(event, messageData);
+  });
+
+}
+
 var callChatbot = function(event) {
   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   api.typingBubble(event);
@@ -66,7 +82,7 @@ var callChatbot = function(event) {
   setTimeout(function() {
     connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
       if (err) throw err;
-      var name = JOSA(result[0].first_name, "dk");
+      var name = JOSA(result[0].first_name, "아");
       var textArr = [`${name} 무슨 일이야?`, `${name} 무슨 일있어?`, `${name} 도움이 필요하니?`, `${name} 무슨 일이얌`, `${name} 왜??무슨 일 있니?`]
       var text = choose(textArr);
       api.sendResponse(event, {"text": text, "quick_replies": qr.reply_arrays["betaMenu"]});
