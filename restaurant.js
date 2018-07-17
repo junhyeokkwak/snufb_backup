@@ -91,9 +91,10 @@ var initRestaurantRecommendation = function(event) {
   } else if ((event.message.text == "아니") ||
       (stringSimilarity.arrangeBySimilarity(event.message.text,  basicConv.disagreementArr)[0].similarity > 0.5)) {
     console.log("USER SELECT : NO in initRestaurantConv");
-    var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
+    // var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    var messageData = {"text": "너무하네ㅋㅋㅋㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
+    var messageData = {"text": "너무하네ㅋㅋㅋㅋㅋㅋㅋ인생 진짜"};
+    // var messageData = {"text": "너무하네ㅋㅋㅋㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
     api.sendResponse(event, messageData);
   } else {
     console.log("USER SELECT : UNEXPECTED RESPONSE in initRestaurantConv");

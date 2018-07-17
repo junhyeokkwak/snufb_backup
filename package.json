@@ -1,7 +1,6 @@
 {
-  "name": "ewha_bot",
+  "name": "yonsei-bot",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -38,5 +37,7 @@
     "sweetalert": "^2.1.0",
     "sweetalert2": "^7.22.2",
     "xml-js": "^1.6.4"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }
