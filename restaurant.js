@@ -283,6 +283,12 @@ var restaurantRecommendation_nearbysearch = function(event) {
               }//message
             }//messageData
             api.callSendAPI(messageData);
+            app.RESTAURANT_TEMP_DATA[event.sender.id]= {
+              "category1" : "category1_value",
+              "category2" : "category2_value",
+              "category3" : "category2_value",
+              "final_menu" : "final_menu_value"
+            }
             connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id)
           }
         } //   for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
@@ -297,15 +303,9 @@ var restaurantRecommendation_nearbysearch = function(event) {
 }
 
 
-
-
-
-
 module.exports = {
   functionMatch: {
     "initRestaurantConv" : initRestaurantConv,
-    "배고파": initRestaurantConv,
-    "맛집 찾아줘!": initRestaurantConv,
     "initRestaurantRecommendation" : initRestaurantRecommendation,
     "restaurantRecommendation_category_0" : restaurantRecommendation_category_0,
     "restaurantRecommendation_category_1" : restaurantRecommendation_category_1,
