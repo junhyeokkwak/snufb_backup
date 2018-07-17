@@ -186,7 +186,7 @@ var bus_askStNm = function(event) {
       // NOTE: check if User already confirmed busNm
         busNum = BUS_TEMP_DATA[event.sender.id].busNum;
         stId = BUS_TEMP_DATA[event.sender.id].stId;
-        console.log("BUSNUM that user chose:" + busNum);
+        console.log("BUSNUM that user chose:" + BUS_TEMP_DATA[event.sender.id].busNum);
         if (busNum != ("busNum_value" || null || undefined)) {
           // NOTE: if there is confirmed busNum, search only the stations which the bus go through
           console.log("USER ALREADY CONFIRED busNum");
