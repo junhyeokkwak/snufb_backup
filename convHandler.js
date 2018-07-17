@@ -119,6 +119,7 @@ var conv_doNotUnderstand = function(event){
 module.exports = {
     functionMatch: {
         "initBadLangConv": initBadLangConv,
+        "initHelloConv" : initHelloConv,
         "callChatbot" : callChatbot,
         "callChatbot_yonsei" : callChatbot,
         "fallback" : conv_doNotUnderstand
