@@ -32,7 +32,7 @@ function registerUser(event) {
       } else {
         var task = [
           function(callback) {
-            guguImages.helloImage(event);
+            images.helloImage(event);
             api.sendResponse(event, {"text": "안녕!"});
             setTimeout(function () {
               callback(null, 'done');
@@ -144,7 +144,7 @@ function checkSchool(event) {
         callback(null, 'done');
       },
       function(err, callback) {
-        guguImages.confusedImage(event);
+        images.confusedImage(event);
         setTimeout(function() {
           callback(null, 'done');
         }, 1000);
@@ -172,7 +172,7 @@ function register2(event) {
     },
 
     function(err, callback) {
-      guguImages.blingblingImage(event);
+      images.blingblingImage(event);
       setTimeout(function () {
         callback(null, 'done');
       }, 1500);
