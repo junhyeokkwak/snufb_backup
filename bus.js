@@ -73,7 +73,7 @@ var bus_stNmORbusNum = function(event) {
   if (stringSimilarity.arrangeBySimilarity(msg, ["번호", "정류장"])[0].similarity < 0.25){
     console.log("MSG UNVARIFIED");
     connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
-    var messageData = {"text": "미안ㅠㅠ무슨 말인지 모르겠어..조금 다르게 다시 말해 줄 수 있어?"};
+    var messageData = {"text": "미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?"};
     api.sendResponse(event, messageData);
   } else if (stNmORbusNum == "번호") {
     console.log("START BUS ARR SEARCH with BUS_NUM");
