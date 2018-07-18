@@ -248,7 +248,7 @@ var handleRegiPage = function(event) {
     });
   }
   handleRegiPageHelper(event);
-  api.handleWebview(event, title, url, "compact");
+  api.handleWebview(event, "title", url, "compact");
 }
 
 module.exports = {
