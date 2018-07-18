@@ -4,7 +4,7 @@ var connection = mysql.createConnection(process.env.DATABASE_URL);
 //reset conv_context
 function reset(event) {
   console.log('RUN : reset - RESET CONV');
-  connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
+  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
 }
 
 function generateQuickReplies(arr){
