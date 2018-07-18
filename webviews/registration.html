@@ -29,7 +29,7 @@
          function success(result){
            user_psid = result.psid;
            initInput(user_psid);
-           countryChange()
+           countryChange();
            console.log("Success: "+ result.psid);
          },
          function error(result){
@@ -67,19 +67,14 @@
 
    //<![CDATA[
     // array of possible countries in the same order as they appear in the country selection list
-    var countryLists = new Array(4)
-    countryLists["empty"] = ["Select a Country"];
-    countryLists["North America"] = ["Canada", "United States", "Mexico"];
-    countryLists["South America"] = ["Brazil", "Argentina", "Chile", "Ecuador"];
-    countryLists["Asia"] = ["Russia", "China", "Japan"];
-    countryLists["Europe"] = ["Britain", "France", "Spain", "Germany"];
-    countryLists["yonsei"] = ["y1", "y2", "y3", "y4"];
-    countryLists["ewha"] = ["e1", "e2", "e3", "e4"]
+
+    var yonseiLists = ["y1", "y2", "y3", "y4"];
+    var ewhaLists = ["e1", "e2", "e3", "e4"];
     /* CountryChange() is called from the onchange event of a select element.
     * param selectObj - the select object which fired the on change event.
     */
     function countryChange() {
-      cList = countryLists["yonsei"];
+      var cList = yonseiLists;
       var cSelect = document.getElementById("country");
       var len=cSelect.options.length;
       while (cSelect.options.length > 0) {
@@ -90,7 +85,7 @@
       for (var i=0; i<cList.length; i++) {
         newOption = document.createElement("option");
         newOption.value = cList[i];  // assumes option string and value are the same
-        newOption.text=cList[i];
+        newOption.text = cList[i];
         // add the new option
         try {
           cSelect.add(newOption);  // this will fail in DOM browsers but is needed for IE
