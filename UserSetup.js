@@ -224,11 +224,10 @@ function notStudent(event) {
 
 var handleRegiPage = function(event) {
   console.log("RUN handleRegiPage!");
-  var url;
+  var url = process.env.HEROKU_URL + `/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`;
   var handleRegiPageHelper = function(event) {
     console.log('RUN handleRegiPageHelper');
     app.APP.get(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
-      url = process.env.HEROKU_URL + `/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`
       var data = {
         targetStNm: targetStNm,
         positionData: JSON.stringify(positionData),
