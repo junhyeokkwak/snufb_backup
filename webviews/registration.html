@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="utf-8">
   <title>사용자 등록</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 <body onLoad="initInput()">
   <script>
@@ -25,16 +25,7 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'Messenger'));
    window.extAsyncInit = function () {
-      // alert(window.location);
        var isSupported = MessengerExtensions.isInExtension();
-       //alert(isSupported);
-       // the Messenger Extensions JS SDK is done loading
-       // MessengerExtensions.requestCloseBrowser(function success() {
-       //     console.log("closing success");
-       // }, function error(err) {
-       //     console.log("closing failure");
-       //     console.log(err);
-       // });
        MessengerExtensions.getContext('2169355909963830',
          function success(result){
            user_psid = result.psid;
@@ -86,7 +77,6 @@
   </script>
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <!-- <script src="https://unpkg.com/sweetalert2/dist/sweetalert.min.js"></script> -->
   <div class = "login-page">
     <div class = "form" herf="#" href="#">
       <form class = "register-form" id = "register-form" method="post"/>

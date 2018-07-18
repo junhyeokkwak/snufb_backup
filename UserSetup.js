@@ -244,12 +244,10 @@ var handleRegiPage = function(event) {
       // connection.query('UPDATE Users SET college_major="' + data.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
       // connection.query('UPDATE Users SET student_number="' + data.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
       res.status(200).end();
-      var responseData = {'result' : 'ok', 'data' : req.body.data}
-      res.json(responseData);
     });
   }
   handleRegiPageHelper(event);
-  api.handleWebview(event, "등록하시", url, "compact");
+  api.handleWebview(event, "등록하기", url, "compact");
 }
 
 module.exports = {
