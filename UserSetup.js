@@ -234,7 +234,7 @@ var handleRegiPage = function(event) {
       //   univ: app.UNIV_NAME_ENG,
       // }
       // res.render(__dirname + '/webviews/registration.html', data);
-      res.sendFile(__dirname + '/webviews/registration.html', data);
+      res.sendFile(__dirname + '/webviews/registration.html');
     });
     app.APP.post(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
       console.log("REGISTRATION NEW: ");
