@@ -226,9 +226,9 @@ var handleRegiPage = function(event) {
   console.log("RUN handleRegiPage!");
   var url;
   var handleRegiPageHelper = function(event) {
-    console.log('RUN bus_busRouteWebviewHelper1');
+    console.log('RUN handleRegiPageHelper');
     app.APP.get(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
-      url = `/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`
+      url = process.env.HEROKU_URL + `/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`
       var data = {
         targetStNm: targetStNm,
         positionData: JSON.stringify(positionData),
