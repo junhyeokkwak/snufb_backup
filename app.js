@@ -51,7 +51,6 @@ var setUnivInfo = function() {
     module.exports.IMAGE_SOURCE = './images-yonsei.js';
   }
 }
-module.exports.getEnvVar = getEnvVar;
 
 setUnivInfo();
 
