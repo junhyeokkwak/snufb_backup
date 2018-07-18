@@ -8,7 +8,7 @@ const https = require('https');
 var functionSheet = require('./functionSheet');
 var util = require('./utilfunctions');
 var api = require('./apiCalls')
-var guguImages = require('./guguImages');
+var images = require('./images-yonsei');
 var qr = require('./quick_replies');
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -62,7 +62,7 @@ var initBadLangConv = function(event) {
 var initHelloConv = function(event) {
   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   api.typingBubble(event);
-  guguImages.helloImage(event);
+  images.helloImage(event);
   connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     var name = JOSA(result[0].first_name, "아");
@@ -78,7 +78,7 @@ var initHelloConv = function(event) {
 var callChatbot = function(event) {
   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   api.typingBubble(event);
-  guguImages.helloImage(event);
+  images.helloImage(event);
   setTimeout(function() {
     connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
       if (err) throw err;
@@ -93,7 +93,7 @@ var callChatbot = function(event) {
 var conv_sendRandom = function(event, arr) {
   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   api.typingBubble(event);
-  guguImages.helloImage(event);
+  images.helloImage(event);
   setTimeout(function() {
     connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
       if (err) throw err;

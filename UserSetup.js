@@ -264,33 +264,3 @@ module.exports = {
     "callChatbotTest": callChatbotTest,
   }
 }
-
-
-// 기존 register1 (학교 서울대 맞아? 에 대한 대답.)
-// function register1(event) {
-//   if (event.message.text == "응"){
-//     var task = [
-//       function(callback){
-//         connection.query('UPDATE Users SET conv_context="register2" WHERE user_id=' + event.sender.id);
-//         callback(null, 'done');
-//       },
-//       function(err, callback){
-//         api.sendResponse(event, {"text":"무슨 과?"});
-//         // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
-//         callback(null);
-//       }
-//     ]
-//   } else {
-//     var task = [
-//       function(callback){
-//         connection.query('UPDATE Users SET conv_context="notStudent" WHERE user_id=' + event.sender.id);
-//         callback(null, 'done');
-//       },
-//       function(err, callback){
-//         api.sendResponse(event, {"text":"그럼 너희 학교 담당 봇한테 가!"});
-//         callback(null);
-//       }
-//     ]
-//   }
-//   async.waterfall(task);
-// }
