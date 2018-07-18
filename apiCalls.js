@@ -1,5 +1,8 @@
 var request = require("request");
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
+var app = require("./app");
+var imagesURL = app.IMAGE_SOURCE;
+var images = require(imagesURL);
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 //보내기 (res.send와 동일)
 function sendResponse(event, messageToSend) {
@@ -133,8 +136,8 @@ function handleWebview(event, title, url, size) {
                     "messenger_extensions" : true,
                   },
                 ],
-                "image_url" : 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/34644235_2070034323285218_6642764812776374272_n.jpg?_nc_cat=0&oh=e28acdba08325a59a83582152e071b54&oe=5BC084EE',
-                "title":"밑의 주소로 들어가서 등록해줘!"
+                "image_url" : images.hello_URL,
+                "title":title
               }
             ],
             "template_type":"generic"

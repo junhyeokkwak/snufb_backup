@@ -4,7 +4,8 @@ var api = require('./apiCalls')
 var async = require('async');
 var mysql = require("mysql");
 var app = require('./app');
-var images = require('./images-yonsei');
+var imagesURL = app.IMAGE_SOURCE;
+var images = require(imagesURL);
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -235,22 +236,20 @@ var handleRegiPage = function(event) {
       res.render(__dirname + '/webviews/registration.html', data);
     });
     app.APP.post(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
-
       console.log("REGISTRATION NEW: ");
-      // console.log(req.body);
-      var data = JSON.parse(req.body.data)
-      // connection.query('UPDATE Users SET college_major="' + req.body.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
-      // connection.query('UPDATE Users SET student_number="' + req.body.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
-      connection.query('UPDATE Users SET college_major="' + data.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
-      connection.query('UPDATE Users SET student_number="' + data.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
+      console.log(req.body);
+      // var data = JSON.parse(req.body.data)
+      connection.query('UPDATE Users SET college_major="' + req.body.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
+      connection.query('UPDATE Users SET student_number="' + req.body.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
+      // connection.query('UPDATE Users SET college_major="' + data.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
+      // connection.query('UPDATE Users SET student_number="' + data.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
       res.status(200).end();
-
       var responseData = {'result' : 'ok', 'data' : req.body.data}
       res.json(responseData);
     });
   }
   handleRegiPageHelper(event);
-  api.handleWebview(event, "title", url, "compact");
+  api.handleWebview(event, "등록하시", url, "compact");
 }
 
 module.exports = {
