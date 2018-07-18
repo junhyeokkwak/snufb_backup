@@ -5,7 +5,7 @@ var async = require('async');
 var mysql = require("mysql");
 var app = require('./app');
 var imagesURL = app.IMAGE_SOURCE;
-var images = require(imagesURL);
+var images = require(path.join(__dirname, imagesURL));
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
