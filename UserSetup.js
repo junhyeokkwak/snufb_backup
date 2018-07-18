@@ -237,9 +237,12 @@ var handleRegiPage = function(event) {
     app.APP.post(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
 
       console.log("REGISTRATION NEW: ");
-      console.log(req.body);
-      connection.query('UPDATE Users SET college_major="' + req.body.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
-      connection.query('UPDATE Users SET student_number="' + req.body.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
+      // console.log(req.body);
+      var data = JSON.parse(req.body.data)
+      // connection.query('UPDATE Users SET college_major="' + req.body.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
+      // connection.query('UPDATE Users SET student_number="' + req.body.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
+      connection.query('UPDATE Users SET college_major="' + data.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
+      connection.query('UPDATE Users SET student_number="' + data.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
       res.status(200).end();
 
       var responseData = {'result' : 'ok', 'data' : req.body.data}
