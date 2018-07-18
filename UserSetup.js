@@ -129,7 +129,7 @@ function checkSchool(event) {
       },
       function(err, callback){
         // api.sendResponse(event, {"text":"그럼 학과/학번 좀 입력해줄래?\n입력하고 \"입력완료\"라고 말해줘!"});
-        api.sendResponse(event, {"text":"그럼 학과/학번 좀 입력해줄래?\n입력하고 다시 말 걸어줘!!"});
+        api.sendResponse(event, {"text":"그럼 학과/학번 좀 입력해줄래?\n입력하고 다시 말 걸어줘!!ㅋㅋ"});
         var title = "등록하기!";
         var url = process.env.HEROKU_URL + "/register";
         // api.handleWebview(event, title, url, "compact");
