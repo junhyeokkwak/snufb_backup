@@ -28,6 +28,7 @@ app.use(express.static('public'))
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 app.set('port', (process.env.PORT || 5000));
 
+var UNIV_NAME, UNIV_NAME_ENG, MASCOT_NAME, IMAGE_SOURCE;
 var setUnivInfo = function() {
   console.log(process.env.HEROKU_URL);
   if (process.env.HEROKU_URL.indexOf("yonsei") > -1) {
@@ -50,6 +51,11 @@ var setUnivInfo = function() {
     module.exports.IMAGE_SOURCE = './images-yonsei.js';
   }
 }
+
+var getEnvVar = function(str) {
+  if (str == "IMAGE_SOURCE") return IMAGE_SOURCE;
+}
+module.exports.getEnvVar = getEnvVar;
 
 setUnivInfo();
 
