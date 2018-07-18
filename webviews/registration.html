@@ -68,13 +68,29 @@
     	document.forms[0].user_psid.value = user_psid;
       document.forms[1].user_psid.value = user_psid;
    }
+
+   function sendAjax(url, data){
+     // 입력값을 변수에 담고 문자열 형태로 변환
+     var data = {'data' : data};
+     data = JSON.stringify(data);
+     // content-type을 설정하고 데이터 송신
+     var xhr = new XMLHttpRequest();
+     xhr.open('POST', url);
+     xhr.setRequestHeader('Content-type', "application/json");
+     xhr.send(data);
+     // 데이터 수신이 완료되면 표시
+     xhr.addEventListener('load', function(){
+       console.log(xhr.responseText);
+     });
+   }
+
   </script>
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- <script src="https://unpkg.com/sweetalert2/dist/sweetalert.min.js"></script> -->
   <div class = "login-page">
     <div class = "form" herf="#" href="#">
-      <form class = "register-form" id = "register-form" method = "post" action="window.location"/>
+      <form class = "register-form" id = "register-form" method = "post" action="window.location.href"/>
       <input name="user_psid" type="hidden" value="" />
       <input name = "newRegiMajor" type="text" placeholder="전공학과"/>
       <input name = "newRegiClass" type="text" placeholder="학번"/>
@@ -90,6 +106,7 @@
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow")
     });
     $(document).on('click', '#btn-submit-new', function(e) {
+      data
       var regiMajor = document.forms[0].newRegiMajor.value;
       var regiClass = document.forms[0].newRegiClass.value;
       e.preventDefault();
@@ -141,10 +158,18 @@
           }).then((value) => {
             console.log(value);
             if (!value) {
+              alert("!value");
+              var messageData = {
+                "regiMajor" : document.forms[0].newRegiMajor.value,
+                "regiClass" : document.forms[0].newRegiClass.value,
+              }
+              messageData = JSON.stringify(messageData)
+              sendAjax(window.location.href, messageData);
               closeWindow();
               document.getElementById("register-form").submit();
               // closeWindow();
             } else {
+              alert("value")
               closeWindow();
               document.getElementById("register-form").submit();
               // closeWindow();
