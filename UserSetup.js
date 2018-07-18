@@ -3,7 +3,8 @@ var qr = require('./quick_replies');
 var api = require('./apiCalls')
 var async = require('async');
 var mysql = require("mysql");
-var guguImages = require('./guguImages');
+var app = require('./app');
+var images = require(app.IMAGE_SOURCE);
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -56,7 +57,7 @@ function registerUser(event) {
           },
           function (first_name, callback) {
           //  api.sendResponse(event, {"text": "에이 요 와썹"});
-            api.sendResponse(event, {"text":"난 연구구라고 해! 넌 " + first_name + " 맞지?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+            api.sendResponse(event, {"text": `난 ${app.MASCOT_NAME}라고 해! 넌 ${first_name} 맞지?`, "quick_replies": qr.reply_arrays["YesOrNo"]});
             callback(null); // need to edit in the future.
           }
           // function(err, callback){
@@ -82,7 +83,7 @@ function register1(event) {
         callback(null, 'done');
       },
       function(err, callback){
-        api.sendResponse(event, {"text":"오키! 학교는 연세대 다니는거구?", "quick_replies": qr.reply_arrays["YesOrNo"]});
+        api.sendResponse(event, {"text": `오키! 학교는 ${app.UNIV_NAME} 다니는거구?`, "quick_replies": qr.reply_arrays["YesOrNo"]});
         // api.handleWebview(event, "등록","https://campus-buddies-snu.herokuapp.com/register")
         callback(null);
       }
@@ -131,7 +132,8 @@ function checkSchool(event) {
         api.sendResponse(event, {"text":"그럼 학과/학번 좀 입력해줄래?\n입력하고 다시 말 걸어줘!!"});
         var title = "등록하기!";
         var url = process.env.HEROKU_URL + "/register";
-        api.handleWebview(event, title, url, "compact");
+        // api.handleWebview(event, title, url, "compact");
+        handleRegiPage(event);
         callback(null);
       }
     ]
@@ -183,7 +185,7 @@ function register2(event) {
     function(err, callback){
       api.typingBubble(event);
       setTimeout(function() {
-        api.sendResponse(event, {"text": "나는 자타공인 우리 대학교 최고 인싸, 칼답을 자랑하는 \'연구구\'라고해!!"});
+        api.sendResponse(event, {"text": `나는 자타공인 우리 대학교 최고 인싸, 칼답을 자랑하는 \'${app.MASCOT_NAME}\'라고해!!`});
         callback(null, 'done');
       }, 1000);
     },
@@ -216,22 +218,34 @@ function callChatbotTest(event) {
   }, 1000);
 }
 
-// function callChatbot(event) {
-//   api.typingBubble(event);
-//   // guguImages.helloImage(event);
-//   setTimeout(function() {
-//     connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
-//       if (err) throw err;
-//       connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-//       api.sendResponse(event, {"text": result[0].first_name + " 무슨 일이야??", "quick_replies": qr.reply_arrays["betaMenu"]});
-//     });
-//   }, 2500);
-//
-// }
-
 function notStudent(event) {
-  api.sendResponse(event, {"text": "나는 연세대 담당이니까 너희 학교 봇한테 말 걸어줘"});
+  api.sendResponse(event, {"text": `나는 ${app.UNIV_NAME} 담당이니까 너희 학교 봇한테 말 걸어줘`});
 }
+
+var handleRegiPage = function(event) {
+  console.log("RUN handleRegiPage!");
+
+  var handleRegiPageHelper = function(event, targetStNm, positionData) {
+    console.log('RUN bus_busRouteWebviewHelper1');
+    app.APP.get(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
+      var data = {
+        targetStNm: targetStNm,
+        positionData: JSON.stringify(positionData),
+      }
+      res.render(__dirname + '/webviews/registration.html', data);
+    });
+    app.APP.post(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
+
+      console.log("REGISTRATION NEW: ");
+      console.log(req.body);
+      connection.query('UPDATE Users SET college_major="' + req.body.newRegiMajor + '" WHERE user_id=' + req.body.user_psid);
+      connection.query('UPDATE Users SET student_number="' + req.body.newRegiClass + '" WHERE user_id=' + req.body.user_psid);
+      res.status(200).end();
+
+      var responseData = {'result' : 'ok', 'data' : req.body.data}
+      res.json(responseData);
+    });
+  }
 
 module.exports = {
   functionMatch: {

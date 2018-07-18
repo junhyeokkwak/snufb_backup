@@ -11,7 +11,6 @@ var stringSimilarity = require('kor-string-similarity');
 var qr = require('./quick_replies');
 var restaurant = require('./restaurant');
 
-
 const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
@@ -28,6 +27,26 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.static('public'))
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 app.set('port', (process.env.PORT || 5000));
+
+if (process.env.HEROKU_URL.indexOf("yonsei") > -1) {
+  var UNIV_NAME = '연세대', UNIV_NAME_ENG = 'yonsei', MASCOT_NAME = '연구구', IMAGE_SOURCE = './images-yonsei';
+  module.exports.UNIV_NAME = "연세대";
+  module.exports.UNIV_NAME_ENG = "yonsei";
+  module.exports.MASCOT_NAME = "연구구";
+  module.exports.IMAGE_SOURCE = './images-yonsei';
+} else if (process.env.HEROKU_URL.indexOf("ewha") > -1) {
+  var UNIV_NAME = '이화여대', UNIV_NAME_ENG = 'ewha', MASCOT_NAME = '배시시', IMAGE_SOURCE = './images-ewha';
+  module.exports.UNIV_NAME = "이화여대";
+  module.exports.UNIV_NAME_ENG = "ewha";
+  module.exports.MASCOT_NAME = "배시시";
+  module.exports.IMAGE_SOURCE = './images-ewha';
+} else {
+  var UNIV_NAME = '캠퍼스버디', UNIV_NAME_ENG = 'yonsei', MASCOT_NAME = '훔바훔바', IMAGE_SOURCE = './images-yonsei';
+  module.exports.UNIV_NAME = "캠퍼스버디";
+  module.exports.UNIV_NAME_ENG = "yonsei";
+  module.exports.MASCOT_NAME = "훔바훔바";
+  module.exports.IMAGE_SOURCE = './images-yonsei';
+}
 
 var RESTAURANT_TEMP_DATA = {
     "user_psid_test" : {
