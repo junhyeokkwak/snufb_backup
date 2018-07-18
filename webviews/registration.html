@@ -63,10 +63,9 @@
      });
     window.open('','_self',''); window.close(); // _parent
    }
-   module.exports.closeWindow = closeWindow;
+
    function initInput(user_psid) {
     	document.forms[0].user_psid.value = user_psid;
-      document.forms[1].user_psid.value = user_psid;
    }
 
    function sendAjax(url, data){
@@ -159,26 +158,26 @@
             console.log(value);
             if (!value) {
               alert("!value");
-              var messageData = {
-                "regiMajor" : document.forms[0].newRegiMajor.value,
-                "regiClass" : document.forms[0].newRegiClass.value,
-              }
-              messageData = JSON.stringify(messageData)
-              sendAjax(window.location.href, messageData);
+              // var messageData = {
+              //   "regiMajor" : document.forms[0].newRegiMajor.value,
+              //   "regiClass" : document.forms[0].newRegiClass.value,
+              // }
+              // messageData = JSON.stringify(messageData)
+              // sendAjax(window.location.href, messageData);
               closeWindow();
-              // document.getElementById("register-form").submit();
-              // closeWindow();
+              document.getElementById("register-form").submit();
+              closeWindow();
             } else {
               alert("value")
-              var messageData = {
-                "regiMajor" : document.forms[0].newRegiMajor.value,
-                "regiClass" : document.forms[0].newRegiClass.value,
-              }
-              messageData = JSON.stringify(messageData)
-              sendAjax(window.location.href, messageData);
-              closeWindow();
-              // document.getElementById("register-form").submit();
+              // var messageData = {
+              //   "regiMajor" : document.forms[0].newRegiMajor.value,
+              //   "regiClass" : document.forms[0].newRegiClass.value,
+              // }
+              // messageData = JSON.stringify(messageData)
+              // sendAjax(window.location.href, messageData);
               // closeWindow();
+              document.getElementById("register-form").submit();
+              closeWindow();
             }
           });
         }
