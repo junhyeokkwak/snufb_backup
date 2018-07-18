@@ -1,6 +1,6 @@
 var request = require("request");
 var app = require("./app");
-var imagesURL = app.IMAGE_SOURCE;
+var imagesURL = "./images-yonsei";
 var images = require(imagesURL);
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
