@@ -229,8 +229,8 @@ var handleRegiPage = function(event) {
     console.log('RUN handleRegiPageHelper');
     app.APP.get(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
       var data = {
-        targetStNm: targetStNm,
-        positionData: JSON.stringify(positionData),
+        psid: event.sender.id,
+        univ: app.UNIV_NAME_ENG,
       }
       res.render(__dirname + '/webviews/registration.html', data);
     });
