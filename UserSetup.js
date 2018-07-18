@@ -4,8 +4,7 @@ var api = require('./apiCalls')
 var async = require('async');
 var mysql = require("mysql");
 var app = require('./app');
-console.log('' +app.IMAGE_SOURCE);
-var images = require('' + app.IMAGE_SOURCE);
+var images = require('./images-yonsei');
 
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 
