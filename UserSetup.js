@@ -224,10 +224,11 @@ function notStudent(event) {
 
 var handleRegiPage = function(event) {
   console.log("RUN handleRegiPage!");
-
-  var handleRegiPageHelper = function(event, targetStNm, positionData) {
+  var url;
+  var handleRegiPageHelper = function(event) {
     console.log('RUN bus_busRouteWebviewHelper1');
     app.APP.get(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
+      url = `/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`
       var data = {
         targetStNm: targetStNm,
         positionData: JSON.stringify(positionData),
@@ -246,6 +247,9 @@ var handleRegiPage = function(event) {
       res.json(responseData);
     });
   }
+  handleRegiPageHelper(event);
+  api.handleWebview(event, title, url, "compact");
+}
 
 module.exports = {
   functionMatch: {
