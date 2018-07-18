@@ -229,11 +229,12 @@ var handleRegiPage = function(event) {
   var handleRegiPageHelper = function(event) {
     console.log('RUN handleRegiPageHelper');
     app.APP.get(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
-      var data = {
-        psid: event.sender.id,
-        univ: app.UNIV_NAME_ENG,
-      }
-      res.render(__dirname + '/webviews/registration.html', data);
+      // var data = {
+      //   psid: event.sender.id,
+      //   univ: app.UNIV_NAME_ENG,
+      // }
+      // res.render(__dirname + '/webviews/registration.html', data);
+      res.sendFile(__dirname + '/webviews/registration.html', data);
     });
     app.APP.post(`/registration/${app.UNIV_NAME_ENG}/${event.sender.id}`, function(req, res){
       console.log("REGISTRATION NEW: ");
