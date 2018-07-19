@@ -333,7 +333,7 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
     });
     app.APP.post(`/busRoute/${encodeURI(targetStNm)}/${event.sender.id}`, function(req, res){
       // console.log(req.body);
-      console.log(req.body.data);
+      console.log("BUS DATA: " + req.body.data);
       var data = JSON.parse(req.body.data)
       // console.log(data);
       busRouteId =  BUS_TEMP_DATA[event.sender.id].busRouteId;
