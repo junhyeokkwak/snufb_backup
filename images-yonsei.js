@@ -14,6 +14,7 @@ var love_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37095130_176221741
 var shy_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37103930_1762217173859548_3695041376421937152_o.jpg?_nc_cat=0&oh=21b4d04266d3876fa4da91626ba788a8&oe=5BA0BDA7';
 var search_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37158402_1762217397192859_6324696950926999552_o.jpg?_nc_cat=0&oh=5e932fbe73060e81e75222b05adfc1eb&oe=5BE3AE16';
 var confused_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37020704_1762217407192858_2282348133650268160_o.jpg?_nc_cat=0&oh=423c461ba1495bb4226304b97e85dda3&oe=5BEBFEB4';
+var info_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37343220_248605749074933_4520886651693563904_n.png?_nc_cat=0&oh=7f18ac1976b73d46e127e06d5164b164&oe=5BCF9F64';
 
 function helloImage(event) {
   api.sendOnlineImage(event, hello_URL);
@@ -47,6 +48,10 @@ function confusedImage(event) {
   api.sendOnlineImage(event, confused_URL);
 }
 
+function infoImage(event) {
+  api.sendOnlineImage(event, info_URL);
+}
+
 module.exports.helloImage = helloImage;
 module.exports.blingblingImage = blingblingImage;
 module.exports.plainImage = plainImage;
@@ -55,6 +60,7 @@ module.exports.loveImage = loveImage;
 module.exports.shyImage = shyImage;
 module.exports.searchImage = searchImage;
 module.exports.confusedImage = confusedImage;
+module.exports.infoImage = infoImage;
 
 module.exports.hello_URL = hello_URL;
 module.exports.blingbling_URL = blingbling_URL;
@@ -64,3 +70,4 @@ module.exports.love_URL = love_URL;
 module.exports.shy_URL = shy_URL;
 module.exports.search_URL = search_URL;
 module.exports.confused_URL = confused_URL;
+module.exports.info_URL = info_URL;
