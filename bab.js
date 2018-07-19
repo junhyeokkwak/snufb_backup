@@ -3,20 +3,10 @@ var api = require("./apiCalls");
 var async = require("async");
 var mysql = require("mysql");
 var connection = mysql.createConnection(process.env.DATABASE_URL);
-var app = require('./app')
 var qr = require('./quick_replies');
-
-var HAKSIK_TEMP_DATA = {
-    "user_psid_test" : {
-      "sikdang_arr" : [],
-    }
-  };
 
 //give out list of sikdangs
 var whichSikdang = function(event){
-  BUS_TEMP_DATA[event.sender.id]= {
-    "sikdang_arr" : [],
-  };
   var utc = new Date().setUTCHours(28);
   var todayDate = new Date(utc).toISOString().slice(0,10);
   var ewha_key = "I5mnxs3t4W";
@@ -73,7 +63,7 @@ var whichSikdang = function(event){
             var messageData = {"text": `학식 어디서 먹을건데??`, "quick_replies": qr_sikdang};
             api.sendResponse(event, messageData);
           }
-          
+
         } else {
           var messageData = {"text": "지금은 학식 정보가 없어ㅠㅠ 미안해"};
           api.sendResponse(event, messageData);
