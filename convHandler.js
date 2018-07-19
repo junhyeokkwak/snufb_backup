@@ -144,7 +144,8 @@ module.exports = {
         "initHelloConv" : initHelloConv,
         "callChatbot" : callChatbot,
         "callChatbot_yonsei" : callChatbot,
-        "fallback" : conv_doNotUnderstand
+        "fallback" : conv_doNotUnderstand,
+        "initAskFunctionConv" : initAskFunctionConv,
 
     }
 };
