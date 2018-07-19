@@ -38,6 +38,7 @@ var whichSikdang = function(event){
         // eventually when we implement webviews.
         // Length of the JSON sikdang array >> JSON.parse(body).stores.length
         console.log(typeof body);
+        var body = JSON.parse(body);
         if (body.result.status == "ok" || body.result.status_code == 200) {
           var sikdangArr = [];
           for (i = 0; i < body.result.stores; i++) {
