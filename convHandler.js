@@ -27,7 +27,7 @@ var choose = function(choices) {
 var JOSA = function(txt, josa){
 	var code = txt.charCodeAt(txt.length-1) - 44032;
 	var cho = 19, jung = 21, jong=28;
-	var i1, i2, code1, code2;
+	var i1, i2, code1, code2, josaResult = '';
 	// 원본 문구가 없을때는 빈 문자열 반환
 	if (txt.length == 0) return '';
 	// 한글이 아닐때
