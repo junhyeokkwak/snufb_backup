@@ -49,7 +49,7 @@ function confusedImage(event) {
 }
 
 function infoImage(event) {
-  api.sendOnlineImage(event, info_URL);
+  api.handleMediaTemplate(event, "image", info_URL);
 }
 
 module.exports.helloImage = helloImage;

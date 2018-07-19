@@ -119,7 +119,7 @@ var conv_doNotUnderstand = function(event){
     var textArr1 = [`${name} 무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
       "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
     var textArr2 = [`혹시 내가 뭘 할 수 있는지 아직 모르겠으면 알려달라고 해!`, `내가 뭘 해줄 수 있는지 아직 모른다면 알려달라고 해줘!`, `내가 할 수 있는게 궁금하다면 말해!`];
-    api.sendResponse(event, {"text": `${choose(textArr1)} ${choose(textArr2)}`, "quick_replies" : qr.reply_arrays["뭘 해줄 수 있니??"]});
+    api.sendResponse(event, {"text": `${choose(textArr1)} ${choose(textArr2)}`, "quick_replies" : qr.generateQuickReplies["뭘 해줄 수 있니??"]});
   });
 }
 
