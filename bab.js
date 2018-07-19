@@ -41,11 +41,10 @@ var whichSikdang = function(event){
         var body = JSON.parse(body);
         if (body.result.status == "ok" || body.result.status_code == 200) {
           var sikdangArr = [];
-          for (i = 0; i < body.result.stores; i++) {
-            sikdangArr.push(body.result.stores[i].name)
+          for (i = 0; i < body.stores; i++) {
+            sikdangArr.push(body.stores[i].name)
           }
-
-          if (body.result.stores.length > 11) {
+          if (body.stores.length > 11) {
             var qr_sikdang = qr.generateQuickReplies(sikdangArr.slice(0,11));
             var extraSikdangArr = sikdangArr.slice(11, sikdangArr.length);
             console.log("qr_sikdang: " +qr_sikdang);
@@ -55,7 +54,7 @@ var whichSikdang = function(event){
               if (i < extraSikdangArr.length-1) {
                 extraSikdangArrString += `${extraSikdangArr[i]}, `;
               } else {
-                extraSikdangArrString += `$extraSikdangArr[i]}`;
+                extraSikdangArrString += `${extraSikdangArr[i]}`;
                 var messageData = {"text": `extraSikdangArr ${extraSikdangArrString} `, "quick_replies": qr_sikdang};
                 api.sendResponse(event, messageData);
               }
