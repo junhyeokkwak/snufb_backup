@@ -31,6 +31,12 @@ var cuisinesJsonData = JSON.parse(cuisineFile);
 //   };
 // module.exports.app.RESTAURANT_TEMP_DATA = app.RESTAURANT_TEMP_DATA;
 
+var choose = function(choices) {
+  var index = Math.floor(Math.random() * choices.length);
+  return choices[index];
+}
+
+
 var initRestaurantConv = function(event) {
   console.log('RUN initRestaurantConv');
   var task = [
