@@ -90,7 +90,7 @@ var bus_stNmORbusNum = function(event) {
     connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
     var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
       "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
-    var messageData = {"text": choose(textArr) + " 혹시 버스 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies" : qr.generateQuickReplies["대화 다시하기"]};
+    var messageData = {"text": choose(textArr) + " 혹시 버스 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies" : qr.reply_arrays["restartConv"]};
     api.sendResponse(event, messageData);
   } else if (stNmORbusNum == "번호") {
     console.log("START BUS ARR SEARCH with BUS_NUM");
@@ -127,7 +127,7 @@ var bus_askBusNum = function(event) {
         connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
         var textArr = ["미안ㅠㅠ몇 번인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `몇 번인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "몇 번인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ몇 번인지 잘 모르겠어ㅠ 다시 말 해줘!",
           "귀가 미쳤나봐 몇 번인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 몇 번인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 몇 번인지 모르겄다ㅋㅋㅋ"];
-        var messageData = {"text": choose(textArr) + " 혹시 버스 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies": qr.generateQuickReplies["대화 다시하기"]};
+        var messageData = {"text": `${choose(textArr)} 혹시 버스 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘!`, "quick_replies": qr.reply_arrays["restartConv"]};
         api.sendResponse(event, messageData);
         callback(null);
       } else {
@@ -194,7 +194,7 @@ var bus_confirmBusNum = function(event) {
               console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
               var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
                 "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
-              var messageData = {"text": choose(textArr) + " 혹시 버스 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies" : qr.generateQuickReplies["대화 다시하기"]};
+              var messageData = {"text": choose(textArr) + " 혹시 버스 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies" : qr.reply_arrays["restartConv"]};
               api.sendResponse(event, messageData);
               callback(null);
             }
