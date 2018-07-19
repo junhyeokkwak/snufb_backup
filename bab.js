@@ -41,8 +41,11 @@ var whichSikdang = function(event){
         var body = JSON.parse(body);
         if (body.result.status == "ok" || body.result.status_code == 200) {
           var sikdangArr = [];
-          for (i = 0; i < body.stores; i++) {
+          for (i = 0; i < body.stores.length; i++) {
             sikdangArr.push(body.stores[i].name)
+            if (i == body.stores.length-1) {
+              console.log(skidangArr);
+            }
           }
           if (body.stores.length > 11) {
             var qr_sikdang = qr.generateQuickReplies(sikdangArr.slice(0,11));
