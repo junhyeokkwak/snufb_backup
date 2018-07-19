@@ -32,22 +32,25 @@ var UNIV_NAME, UNIV_NAME_ENG, MASCOT_NAME, IMAGE_SOURCE;
 var setUnivInfo = function() {
   console.log(process.env.HEROKU_URL);
   if (process.env.HEROKU_URL.indexOf("yonsei") > -1) {
-    var UNIV_NAME = '연세대', UNIV_NAME_ENG = 'yonsei', MASCOT_NAME = '연구구', IMAGE_SOURCE = './images-yonsei';
+    var UNIV_NAME = '연세대', UNIV_NAME_ENG = 'yonsei', MASCOT_NAME = '연구구', IMAGE_SOURCE = './images-yonsei', MASCOT_FIRST_NAME = '구구';
     module.exports.UNIV_NAME = "연세대";
     module.exports.UNIV_NAME_ENG = "yonsei";
     module.exports.MASCOT_NAME = "연구구";
+    module.exports.MASCOT_FIRST_NAME = "구구";
     module.exports.IMAGE_SOURCE = './images-yonsei.js';
   } else if (process.env.HEROKU_URL.indexOf("ewha") > -1) {
-    var UNIV_NAME = '이화여대', UNIV_NAME_ENG = 'ewha', MASCOT_NAME = '배시시', IMAGE_SOURCE = './images-ewha';
+    var UNIV_NAME = '이화여대', UNIV_NAME_ENG = 'ewha', MASCOT_NAME = '배시시', IMAGE_SOURCE = './images-ewha', MASCOT_FIRST_NAME = '시시';
     module.exports.UNIV_NAME = "이화여대";
     module.exports.UNIV_NAME_ENG = "ewha";
     module.exports.MASCOT_NAME = "배시시";
+    module.exports.MASCOT_FIRST_NAME = "시시";
     module.exports.IMAGE_SOURCE = './images-ewha.js';
   } else {
-    var UNIV_NAME = '캠퍼스버디', UNIV_NAME_ENG = 'yonsei', MASCOT_NAME = '훔바훔바', IMAGE_SOURCE = './images-yonsei';
+    var UNIV_NAME = '캠퍼스버디', UNIV_NAME_ENG = 'yonsei', MASCOT_NAME = '캠버봇', IMAGE_SOURCE = './images-yonsei', MASCOT_FIRST_NAME = '구구';
     module.exports.UNIV_NAME = "캠퍼스버디";
     module.exports.UNIV_NAME_ENG = "yonsei";
-    module.exports.MASCOT_NAME = "훔바훔바";
+    module.exports.MASCOT_NAME = "캠버봇";
+    module.exports.MASCOT_FIRST_NAME = "구구";
     module.exports.IMAGE_SOURCE = './images-yonsei.js';
   }
 }
