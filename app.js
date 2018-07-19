@@ -136,7 +136,7 @@ app.post('/webhook', function (req, res) {
             if (result.length > 0){ // user data exists
               console.log('Conv Context: ' + result[0].conv_context);
               if (result[0].conv_context != "none") {
-                if (stringSimilarity.findBestMatch(event.message.text, basicConv.resetArr).similarity > 0.75) {
+                if (stringSimilarity.findBestMatch(event.message.text, basicConv.resetArr).similarity > 0.75 || event.message.text == "RESET") {
                   var resetTask = [
                     function(callback) {
                       api.typingBubble(event);

@@ -136,6 +136,7 @@ var initTutorialConv =function(event) {
 
 module.exports = {
     functionMatch: {
+        "initTutorialConv" : initTutorialConv,
         "initHungryConv" : initHungryConv,
         "initBadLangConv": initBadLangConv,
         "initHelloConv" : initHelloConv,
