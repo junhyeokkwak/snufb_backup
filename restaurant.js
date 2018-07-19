@@ -31,15 +31,6 @@ var cuisinesJsonData = JSON.parse(cuisineFile);
 //   };
 // module.exports.app.RESTAURANT_TEMP_DATA = app.RESTAURANT_TEMP_DATA;
 
-var initHungryConv = function(event) {
-  console.log("RUN initHungryConv");
-  var textArr = ["ㅋㅋㅋ바보 미리미리 먹지ㅠ 학식먹을래? 아니면 밖에서 먹을래?", "아이고 어떡해..학식 먹고싶어? 아니면 밖에서 먹고싶어?", "얼른 뭐 먹을지 추천해줄게! 학식? 아니면 맛집?"]
-  var text = util.choose(textArr);
-  var messageData = {"text": text};
-  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-  api.sendResponse(event, messageData);
-}
-
 var initRestaurantConv = function(event) {
   console.log('RUN initRestaurantConv');
   var task = [

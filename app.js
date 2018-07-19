@@ -67,7 +67,6 @@ var RESTAURANT_TEMP_DATA = {
   };
 module.exports.RESTAURANT_TEMP_DATA = RESTAURANT_TEMP_DATA;
 
-
 //"시작하기" 버튼으로 디폴트
 request({
   uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
