@@ -135,7 +135,7 @@ module.exports = {
     "personSearchOptions": personSearchOptions,
     "genderOptions": genderOptions,
     "betaMenu": betaMenu,
-    "gugu": gugu
+    "gugu": gugu,
     "restartConv" : restartConv,
   }
 }
