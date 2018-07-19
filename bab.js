@@ -3,6 +3,7 @@ var api = require("./apiCalls");
 var async = require("async");
 var mysql = require("mysql");
 var connection = mysql.createConnection(process.env.DATABASE_URL);
+var app = require('./app');
 var qr = require('./quick_replies');
 
 //give out list of sikdangs
