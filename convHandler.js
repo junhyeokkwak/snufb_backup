@@ -52,6 +52,15 @@ var JOSA = function(txt, josa){
   }
 }
 
+var initHungryConv = function(event) {
+  console.log("RUN initHungryConv");
+  var textArr = ["ㅋㅋㅋ바보 미리미리 먹지ㅠ 학식먹을래? 아니면 밖에서 먹을래?", "아이고 어떡해..학식 먹고싶어? 아니면 밖에서 먹고싶어?", "얼른 뭐 먹을지 추천해줄게! 학식? 아니면 맛집?"]
+  var text = choose(textArr);
+  var messageData = {"text": text};
+  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+  api.sendResponse(event, messageData);
+}
+
 var initBadLangConv = function(event) {
   var textArr = ["어허", "어허 그러면 안돼", "ㅠㅠㅠㅠㅠㅠㅠㅠ말이 너무 심하네", "입에 뭔가 물은 것 같아!", "씁", "떽", "그걸 욕이라고 한거야?ㅋ", "나는 욕 못할 것 같지?"]
   var text = choose(textArr);
@@ -119,6 +128,7 @@ var conv_doNotUnderstand = function(event){
 
 module.exports = {
     functionMatch: {
+        "initHungryConv" : initHungryConv,
         "initBadLangConv": initBadLangConv,
         "initHelloConv" : initHelloConv,
         "callChatbot" : callChatbot,
