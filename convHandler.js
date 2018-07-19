@@ -131,7 +131,7 @@ function initAskFunctionConv(event) {
   conv_sendRandom(event, textArr);
   api.typingBubble(event);
   setTimeout(function() {
-    api.sendResponse(event, {"quick_replies": qr.reply_arrays["betaMenu"]});
+    api.sendResponse(event, {"text": "자 이중에서 뭐든지 말만 해!", "quick_replies": qr.reply_arrays["betaMenu"]});
   }, 4000);
 }
 
