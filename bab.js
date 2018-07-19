@@ -68,6 +68,7 @@ var sendBabMenu = function(event){
     function (err, callback){
       request(options, function (error, response, body) {
         if (error) throw new Error(error);
+        console.log(body);
         for (i = 0; i < JSON.parse(body).stores.length; i++){
           if (JSON.parse(body).stores[i].name == event.message.text){
             console.log(JSON.parse(body).stores[i].menus);
@@ -86,12 +87,7 @@ var sendBabMenu = function(event){
           }
         }
         console.log(babMenu);
-        try {
-          api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
-        } catch(err) {
-          console.log("ERR in Haksik: " + err);
-          api.sendResponse(event, {"text": "미안 메뉴 정보가 없어...흐어" });
-        }
+        api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
       });
       callback(null);
     }
