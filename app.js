@@ -64,6 +64,13 @@ var RESTAURANT_TEMP_DATA = {
   };
 module.exports.RESTAURANT_TEMP_DATA = RESTAURANT_TEMP_DATA;
 
+var CONV_TEMP_DATA = {
+    "user_psid_test" : {
+      "badLangArr" : [],
+    }
+  };
+module.exports.CONV_TEMP_DATA = CONV_TEMP_DATA;
+
 
 //"시작하기" 버튼으로 디폴트
 request({
