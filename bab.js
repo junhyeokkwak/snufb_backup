@@ -87,7 +87,7 @@ var sendBabMenu = function(event){
         }
         console.log(babMenu);
         if (babMenu[0].title == (null || undefined)) {
-          api.sendResponse(event, {"text": "미안 메뉴 정보가 없어...흐어" });  
+          api.sendResponse(event, {"text": "미안 메뉴 정보가 없어...흐어" });
         } else {
           api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
         }

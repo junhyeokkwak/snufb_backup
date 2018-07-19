@@ -124,13 +124,16 @@ var conv_doNotUnderstand = function(event){
 }
 
 var initTutorialConv =function(event) {
+  api.typingBubble(event);
   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   images.infoImage(event);
+  setTimeout(function() {
+    var textArr1 = [`나는 이런 것 들을 할 수 있어!!`, `내가 할 수 있는 것들이야:)`, `지금 내가 해줄 수 있는 것들이야!ㅎㅎ`];
+    var textArr2 = [`뭘 해줄까?`, `어떻게 도와줄까?`, `뭐 필요한 거 있니`, `말만 해!!`]
+    connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+    api.sendResponse(event, {"text": `${choose(textArr1)} ${choose(textArr2)}`, "quick_replies": qr.reply_arrays["betaMenu"]});
+  }, 2500);
   api.typingBubble(event);
-  var textArr1 = [`나는 이런 것 들을 할 수 있어!!`, `내가 할 수 있는 것들이야:)`, `지금 내가 해줄 수 있는 것들이야!ㅎㅎ`];
-  var textArr2 = [`뭘 해줄까?`, `어떻게 도와줄까?`, `뭐 필요한 거 있니`, `말만 해!!`]
-  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-  api.sendResponse(event, {"text": `${choose(textArr1)} ${choose(textArr2)}`, "quick_replies": qr.reply_arrays["betaMenu"]});
 }
 
 
