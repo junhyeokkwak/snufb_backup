@@ -91,6 +91,10 @@ var bus_stNmORbusNum = function(event) {
 var bus_askBusNum = function(event) {
   console.log("RUN bus_askBusNum");
   var msg = event.message.text;
+  var substring = "번"
+  if (msg.indexOf(substring) !== -1) {
+    msg = msg.substring(0, msg.indexOf(substring) - 1);
+  }
   var busNum, stNm, busRouteId, stId;
   busRouteId = BUS_TEMP_DATA[event.sender.id].busRouteId;
   busNum = BUS_TEMP_DATA[event.sender.id].busNum;
