@@ -44,7 +44,7 @@ var whichSikdang = function(event){
           for (i = 0; i < body.stores.length; i++) {
             sikdangArr.push(body.stores[i].name)
             if (i == body.stores.length-1) {
-              console.log(skidangArr);
+              console.log(sikdangArr);
             }
           }
           if (body.stores.length > 11) {
