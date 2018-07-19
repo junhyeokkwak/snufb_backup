@@ -34,6 +34,7 @@ function registerUser(event) {
       } else {
         var task = [
           function(callback) {
+            app.initCONV_TEMP_DATA(event.sender.id);
             images.helloImage(event);
             api.sendResponse(event, {"text": "안녕!"});
             setTimeout(function () {

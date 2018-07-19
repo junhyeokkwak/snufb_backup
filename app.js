@@ -70,6 +70,12 @@ var CONV_TEMP_DATA = {
     }
   };
 module.exports.CONV_TEMP_DATA = CONV_TEMP_DATA;
+var initCONV_TEMP_DATA = function(psid) {
+  CONV_TEMP_DATA[psid] = {
+    "badLangArr" : [],
+  }
+}
+module.exports.initCONV_TEMP_DATA = initCONV_TEMP_DATA;
 
 
 //"시작하기" 버튼으로 디폴트
