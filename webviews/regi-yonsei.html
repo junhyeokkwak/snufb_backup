@@ -23,7 +23,6 @@
      js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'Messenger'));
-   countryChange();
    window.extAsyncInit = function () {
        var isSupported = MessengerExtensions.isInExtension();
        MessengerExtensions.getContext('2169355909963830',
@@ -65,42 +64,6 @@
       document.forms[1].user_psid.value = user_psid;
    }
 
-   //<![CDATA[
-    // array of possible countries in the same order as they appear in the country selection list
-    var countryLists = new Array(4)
-    countryLists["empty"] = ["Select a Country"];
-    countryLists["North America"] = ["Canada", "United States", "Mexico"];
-    countryLists["South America"] = ["Brazil", "Argentina", "Chile", "Ecuador"];
-    countryLists["Asia"] = ["Russia", "China", "Japan"];
-    countryLists["Europe"]= ["Britain", "France", "Spain", "Germany"];
-    /* CountryChange() is called from the onchange event of a select element.
-    * param selectObj - the select object which fired the on change event.
-    */
-
-    var yonseiList = ["y1", "y2", "y3", "y4"];
-    function countryChange() {
-      var cList = yonseiList;
-      var cSelect = document.getElementById("country");
-      // var len = cSelect.options.length;
-      // while (cSelect.options.length > 0) {
-      //   cSelect.remove(0);
-      // }
-      var newOption;
-      // create new options
-      for (var i=0; i<cList.length; i++) {
-        newOption = document.createElement("option");
-        newOption.value = cList[i];  // assumes option string and value are the same
-        newOption.text = cList[i];
-        // add the new option
-        try {
-          cSelect.add(newOption);  // this will fail in DOM browsers but is needed for IE
-        }
-        catch (e) {
-          cSelect.appendChild(newOption);
-        }
-      }
-    }
-
   </script>
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -112,24 +75,24 @@
       <!-- <input name = "newRegiMajor" type="text" placeholder="전공학과"/> -->
       <select name="newRegiMajor">
         <option value="문과대학">문과대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
-        <option value="대학">대학</option>
+        <option value="상경대학">상경대학</option>
+        <option value="경영대학">경영대학</option>
+        <option value="이과대학">이과대학</option>
+        <option value="공과대학">공과대학</option>
+        <option value="생명시스템대학">생명시스템대학</option>
+        <option value="신과대학">신과대학</option>
+        <option value="사회과학대학">사회과학대학</option>
+        <option value="법과대학">법과대학</option>
+        <option value="음악대학">음악대학</option>
+        <option value="생활과학대학">생활과학대학</option>
+        <option value="교육과학대학">교육과학대학</option>
+        <option value="학부대학">학부대학</option>
+        <option value="언더우드국제대학">언더우드국제대학</option>
+        <option value="글로벌인재학부">글로벌인재학부</option>
+        <option value="의과대학">의과대학</option>
+        <option value="치과대학">치과대학</option>
+        <option value="간호대학">간호대학</option>
+        <option value="약학대학">약학대학</option>
       </select>
       <input name = "newRegiClass" type="text" placeholder="학번"/>
       <button class = "submit" id="btn-submit-new" value = "submit"> 새로 등록 </button>
@@ -368,6 +331,21 @@ body {
 
 .form .login-form{
 	display: none;
+}
+
+select {
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+	outline: 0;
+	background: #F2F2F2;
+	width: 100%;
+	border: 0;
+	margin: 0 0 50px;
+	padding: 45px;
+	box-sizing: border-box;
+	color: black;
+	text-align: center;
+	font-size: 40px;
 }
 
 </style>
