@@ -56,7 +56,7 @@ var whichSikdang = function(event){
                 extraSikdangArrString += `${extraSikdangArr[i]}, `;
               } else {
                 extraSikdangArrString += `$extraSikdangArr[i]}`;
-                var messageData = {"text": `extraSikdangArr ${extraSikdangArrString} 버스가 있어! 이 중에 몇 번 버스야??`, "quick_replies": qr_sikdang};
+                var messageData = {"text": `extraSikdangArr ${extraSikdangArrString} `, "quick_replies": qr_sikdang};
                 api.sendResponse(event, messageData);
               }
             }
