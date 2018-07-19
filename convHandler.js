@@ -53,9 +53,8 @@ var JOSA = function(txt, josa){
 }
 
 var initBadLangConv = function(event) {
-  app.RESTAURANT_TEMP_DATA[event.sender.id].badLangArr.push(event.message.text);
   var textArr = ["어허", "어허 그러면 안돼", "ㅠㅠㅠㅠㅠㅠㅠㅠ말이 너무 심하네", "입에 뭔가 물은 것 같아!", "씁", "떽", "그걸 욕이라고 한거야?ㅋ", "나는 욕 못할 것 같지?"]
-  var text = choose(textArr) + ` (총 ${app.RESTAURANT_TEMP_DATA[event.sender.id].badLangArr.length}번의 욕을 했어!)`;
+  var text = choose(textArr);
   var messageData = {"text": text};
   connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   api.sendResponse(event, messageData);

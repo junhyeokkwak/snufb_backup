@@ -64,20 +64,6 @@ var RESTAURANT_TEMP_DATA = {
   };
 module.exports.RESTAURANT_TEMP_DATA = RESTAURANT_TEMP_DATA;
 
-var CONV_TEMP_DATA = {
-    "user_psid_test" : {
-      "badLangArr" : [],
-    }
-  };
-module.exports.CONV_TEMP_DATA = CONV_TEMP_DATA;
-var initCONV_TEMP_DATA = function(psid) {
-  CONV_TEMP_DATA[psid] = {
-    "badLangArr" : [],
-  }
-}
-module.exports.initCONV_TEMP_DATA = initCONV_TEMP_DATA;
-
-
 //"시작하기" 버튼으로 디폴트
 request({
   uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
