@@ -167,7 +167,7 @@ var bus_confirmBusNum = function(event) {
       task = [
         function(callback) {
           callback(null, stringSimilarity.arrangeBySimilarity(msg,  basicConv.agreementArr));
-        },
+        },      
         function(agreementArr, callback) {
           if (agreementArr[0].similarity > 0.5) {
             // NOTE: if there is no info in stNm in User
