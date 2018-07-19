@@ -3,12 +3,28 @@ var api = require("./apiCalls");
 var async = require("async");
 var mysql = require("mysql");
 var connection = mysql.createConnection(process.env.DATABASE_URL);
+var app = require('./app')
+var qr = require('./quick_replies');
+
+var HAKSIK_TEMP_DATA = {
+    "user_psid_test" : {
+      "sikdang_arr" : [],
+    }
+  };
 
 //give out list of sikdangs
 var whichSikdang = function(event){
+  BUS_TEMP_DATA[event.sender.id]= {
+    "sikdang_arr" : [],
+  };
   var utc = new Date().setUTCHours(28);
   var todayDate = new Date(utc).toISOString().slice(0,10);
-  var key = "I5mnxs3t4W";
+  var ewha_key = "I5mnxs3t4W";
+  var yonsei_key = "IDrA5MHp97";
+  var key = yonsei_key;
+  if (app.UNIV_NAME_ENG == "ewha") {
+    key = ewha_key;
+  }
   var sikdang = [];
   var options = { method: 'GET',
       url: 'https://bds.bablabs.com/openapi/v1/campuses/' + key + '/stores',
@@ -30,15 +46,38 @@ var whichSikdang = function(event){
         // Limited to only 4 dining halls as of now, will need to traverse the entire array
         // eventually when we implement webviews.
         // Length of the JSON sikdang array >> JSON.parse(body).stores.length
-        for (i = 0; i < 3; i++){
-          sikdang.push({
-            "content_type": "text",
-            "title": JSON.parse(body).stores[i].name,
-            "payload": JSON.parse(body).stores[i].name
-          });
+        console.log(typeof body);
+        if (body.result.status == "ok" || body.result.status_code == 200) {
+          var sikdangArr = [];
+          for (i = 0; i < body.result.stores; i++) {
+            sikdangArr.push(body.result.stores[i].name)
+          }
+
+          if (body.result.stores.length > 11) {
+            var qr_sikdang = qr.generateQuickReplies(sikdangArr.slice(0,11));
+            var extraSikdangArr = sikdangArr.slice(11, sikdangArr.length);
+            console.log("qr_sikdang: " +qr_sikdang);
+            console.log("extraSikdangArr: " + extraSikdangArr);
+            var extraSikdangArrString = "";
+            for (var i = 0; i < extraSikdangArr.length; i++) {
+              if (i < extraSikdangArr.length-1) {
+                extraSikdangArrString += `${extraSikdangArr[i]}, `;
+              } else {
+                extraSikdangArrString += `$extraSikdangArr[i]}`;
+                var messageData = {"text": `extraSikdangArr ${extraSikdangArrString} 버스가 있어! 이 중에 몇 번 버스야??`, "quick_replies": qr_sikdang};
+                api.sendResponse(event, messageData);
+              }
+            }
+          } else {
+            var qr_sikdang = qr.generateQuickReplies(sikdangArr);
+            var messageData = {"text": `학식 어디서 먹을건데??`, "quick_replies": qr_sikdang};
+            api.sendResponse(event, messageData);
+          }
+          
+        } else {
+          var messageData = {"text": "지금은 학식 정보가 없어ㅠㅠ 미안해"};
+          api.sendResponse(event, messageData);
         }
-        var messageData = {"text": "학식 어디서 먹을건데?", "quick_replies": sikdang};
-        api.sendResponse(event, messageData);
       });
       callback(null);
     }
@@ -49,7 +88,13 @@ var whichSikdang = function(event){
 var sendBabMenu = function(event){
   var utc = new Date().setUTCHours(28);
   var todayDate = new Date(utc).toISOString().slice(0,10);
-  var key = "I5mnxs3t4W";
+  console.log(new Date(new Date().setUTCHours(28)).toISOString().slice(0,10));
+  var ewha_key = "I5mnxs3t4W";
+  var yonsei_key = "IDrA5MHp97";
+  var key = yonsei_key;
+  if (app.UNIV_NAME_ENG == "ewha") {
+    key = ewha_key;
+  }
   var babMenu = [];
   var options = { method: 'GET',
       url: 'https://bds.bablabs.com/openapi/v1/campuses/' + key + '/stores',
