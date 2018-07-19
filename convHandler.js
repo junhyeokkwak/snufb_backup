@@ -101,16 +101,15 @@ var callChatbot = function(event) {
 }
 
 var conv_sendRandom = function(event, arr) {
-  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+  // connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   api.typingBubble(event);
   // images.helloImage(event);
-  setTimeout(function() {
     connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
       if (err) throw err;
       var text = choose(arr);
+      api.typingBubble(event);
       api.sendResponse(event, {"text": text});
     });
-  }, 2500);
 }
 
 var conv_doNotUnderstand = function(event){
@@ -122,6 +121,18 @@ var conv_doNotUnderstand = function(event){
       "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
     conv_sendRandom(event, textArr);
   });
+}
+
+function initAskFunctionConv(event) {
+  console.log("initAskFunctionConv");
+  api.typingBubble(event);
+  images.menuImage(event);
+  var textArr = ["짜잔~~", "짠!!", "두둥", "내 능력을 보여줄 시간이군"];
+  conv_sendRandom(event, textArr);
+  api.typingBubble(event);
+  setTimeout(function() {
+    api.sendResponse(event, {"quick_replies": qr.reply_arrays["betaMenu"]});
+  }, 4000);
 }
 
 
