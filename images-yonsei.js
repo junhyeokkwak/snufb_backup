@@ -14,7 +14,7 @@ var love_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37095130_176221741
 var shy_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37103930_1762217173859548_3695041376421937152_o.jpg?_nc_cat=0&oh=21b4d04266d3876fa4da91626ba788a8&oe=5BA0BDA7';
 var search_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37158402_1762217397192859_6324696950926999552_o.jpg?_nc_cat=0&oh=5e932fbe73060e81e75222b05adfc1eb&oe=5BE3AE16';
 var confused_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37020704_1762217407192858_2282348133650268160_o.jpg?_nc_cat=0&oh=423c461ba1495bb4226304b97e85dda3&oe=5BEBFEB4';
-var info_URL = "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fyongugu%2Fposts%2F248605739074934%3A0&width=500";
+var info_URL = "https://www.facebook.com/yongugu/posts/248605739074934";
 
 
 function helloImage(event) {
