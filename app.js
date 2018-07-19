@@ -10,6 +10,7 @@ var bus = require('./apiCalls');
 var stringSimilarity = require('kor-string-similarity');
 var qr = require('./quick_replies');
 var restaurant = require('./restaurant');
+var fs = require('fs')
 
 const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
