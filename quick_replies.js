@@ -58,7 +58,7 @@ var betaMenu = [{
   "content_type": "text",
   "title": "친구 소개해주라",
   "payload": "랜덤매칭"
-},{
+},/*{
   "content_type": "text",
   "title": "교수님 이메일 좀!",
   "payload": "교수"
@@ -66,7 +66,7 @@ var betaMenu = [{
   "content_type": "text",
   "title": "구구야 나랑 놀아줘",
   "payload": "심심이"
-},
+},*/
 {
   "content_type": "text",
   "title": "버그 제보",
