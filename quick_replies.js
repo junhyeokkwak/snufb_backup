@@ -120,6 +120,12 @@ var genderOptions = [{
   "payload": "상관없어"
 }]
 
+var restartConv = [{
+  "content_type": "text",
+  "title": "대화 다시하기",
+  "payload": "대화 다시하기"
+}]
+
 module.exports = {
   generateQuickReplies : generateQuickReplies,
   reply_arrays: {
@@ -129,6 +135,7 @@ module.exports = {
     "personSearchOptions": personSearchOptions,
     "genderOptions": genderOptions,
     "betaMenu": betaMenu,
-    "gugu": gugu
+    "gugu": gugu,
+    "restartConv" : restartConv,
   }
 }

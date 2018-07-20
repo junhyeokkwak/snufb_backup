@@ -4,7 +4,6 @@ var mysql = require('mysql');
 var path = require('path');
 var stringSimilarity = require('kor-string-similarity');
 const https = require('https');
-
 var app = require('./app')
 var functionSheet = require('./functionSheet');
 var util = require('./utilfunctions');
@@ -82,7 +81,6 @@ var initHelloConv = function(event) {
     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
     api.sendResponse(event, messageData);
   });
-
 }
 
 var callChatbot = function(event) {
@@ -117,35 +115,36 @@ var conv_doNotUnderstand = function(event){
   connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     var name = JOSA(result[0].first_name, "dk");
-    var textArr = [`${name} 무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
+    var textArr1 = [`${name} 무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
       "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
-    conv_sendRandom(event, textArr);
+    var textArr2 = [`혹시 내가 뭘 할 수 있는지 아직 모르겠으면 알려달라고 해!`, `내가 뭘 해줄 수 있는지 아직 모른다면 알려달라고 해줘!`, `내가 할 수 있는게 궁금하다면 말해!`];
+    api.sendResponse(event, {"text": `${choose(textArr1)} ${choose(textArr2)}`, "quick_replies" : qr.generateQuickReplies["뭘 해줄 수 있니??"]});
   });
 }
 
-function initAskFunctionConv(event) {
-  console.log("initAskFunctionConv");
-  api.typingBubble(event);
-  images.menuImage(event);
-  var textArr = ["짜잔~~", "짠!!", "두둥", "내 능력을 보여줄 시간이군"];
-  conv_sendRandom(event, textArr);
+var initTutorialConv =function(event) {
+  images.infoImage(event);
+  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   api.typingBubble(event);
   setTimeout(function() {
-    api.sendResponse(event, {"text": "자 이중에서 뭐든지 말만 해!", "quick_replies": qr.reply_arrays["betaMenu"]});
-  }, 4000);
+    var textArr1 = [`나는 이런 것 들을 할 수 있어!!`, `내가 할 수 있는 것들이야:)`, `지금 내가 해줄 수 있는 것들이야!ㅎㅎ`];
+    var textArr2 = [`뭘 해줄까?`, `어떻게 도와줄까?`, `뭐 필요한 거 있니`, `말만 해!!`]
+    connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+    api.sendResponse(event, {"text": `${choose(textArr1)} ${choose(textArr2)}`, "quick_replies": qr.reply_arrays["betaMenu"]});
+  }, 3000);
 }
-
 
 
 module.exports = {
     functionMatch: {
+        "initTutorialConv" : initTutorialConv,
         "initHungryConv" : initHungryConv,
         "initBadLangConv": initBadLangConv,
         "initHelloConv" : initHelloConv,
         "callChatbot" : callChatbot,
         "callChatbot_yonsei" : callChatbot,
         "fallback" : conv_doNotUnderstand,
-        "initAskFunctionConv" : initAskFunctionConv,
+        // "initAskFunctionConv" : initAskFunctionConv,
 
     }
 };

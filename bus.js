@@ -30,6 +30,11 @@ var BUS_TEMP_DATA = {
     }
   };
 
+var choose = function(choices) {
+  var index = Math.floor(Math.random() * choices.length);
+  return choices[index];
+}
+
 var resetUserBusData = function(event) {
   BUS_TEMP_DATA[event.sender.id]= {
     "busNum" : "busNum_value",
@@ -64,6 +69,16 @@ var initBusConv = function(event) {
   async.waterfall(task);
 };
 
+var conv_sendRandom = function(event, arr) {
+  connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
+  api.typingBubble(event);
+  connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
+    if (err) throw err;
+    var text = choose(arr);
+    api.sendResponse(event, {"text": text});
+  });
+}
+
 var bus_stNmORbusNum = function(event) {
   console.log("RUN bus_stNmORbusNum");
   var msg = event.message.text;
@@ -73,16 +88,22 @@ var bus_stNmORbusNum = function(event) {
   if (stringSimilarity.arrangeBySimilarity(msg, ["번호", "정류장"])[0].similarity < 0.25){
     console.log("MSG UNVARIFIED");
     connection.query('UPDATE Users SET conv_context="bus_stNmORbusNum" WHERE user_id=' + event.sender.id);
-    var messageData = {"text": "미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?"};
+    var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
+      "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
+    var messageData = {"text": choose(textArr) + " 혹시 버스 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies" : qr.reply_arrays["restartConv"]};
     api.sendResponse(event, messageData);
   } else if (stNmORbusNum == "번호") {
     console.log("START BUS ARR SEARCH with BUS_NUM");
-    var messageData = {"text": "ㅋㅋ알겠어! 몇번 버스야??"};
+    var textArr1 = ["ㅋㅋ알겠어!", "알았어!!", "오키오키!!", "알겠어:)!!", "응응!!ㅎㅎ"];
+    var textArr2 = [" 몇 번 버스야?", "몇 번 버스니??", " 몇 번 버스??", " 몇 번??", " 몇 번으로 찾아줄까??"];
+    var messageData = {"text": choose(textArr1) + choose(textArr2)};
     api.sendResponse(event, messageData);
     connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
   } else if (stNmORbusNum == "정류장") {
     console.log("START BUS ARR SEARCH with ST_NM");
-    var messageData = {"text": "ㅋㅋ알겠어! 어느정류장이야??"};
+    var textArr1 = ["ㅋㅋ알겠어!", "알았어!!", "오키오키!!", "알겠어:)!!", "응응!!ㅎㅎ"];
+    var textArr2 = [" 어느 정류장?", " 어떤 정류장??", " 어떤 정류장으로 찾아줄까?", " 무슨 정류장??", " 어느 정류장인지 알려줘!"];
+    var messageData = {"text": choose(textArr1) + choose(textArr2)};
     api.sendResponse(event, messageData);
     connection.query('UPDATE Users SET conv_context="bus_askStNm" WHERE user_id=' + event.sender.id);
   }
@@ -109,7 +130,9 @@ var bus_askBusNum = function(event) {
       // console.log("possibleBusArr: "+possibleBusArr);
       if (possibleBusArr[0].similarity < 0.5) {
         connection.query('UPDATE Users SET conv_context="bus_askBusNum" WHERE user_id=' + event.sender.id);
-        var messageData = {"text": "몇번인지 모르겠어:( 다시 말해 줄 수 있어??"};
+        var textArr = ["미안ㅠㅠ몇 번인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `몇 번인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "몇 번인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ몇 번인지 잘 모르겠어ㅠ 다시 말 해줘!",
+          "귀가 미쳤나봐 몇 번인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 몇 번인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 몇 번인지 모르겄다ㅋㅋㅋ"];
+        var messageData = {"text": `${choose(textArr)} 혹시 버스 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘!`, "quick_replies": qr.reply_arrays["restartConv"]};
         api.sendResponse(event, messageData);
         callback(null);
       } else {
@@ -118,7 +141,9 @@ var bus_askBusNum = function(event) {
         BUS_TEMP_DATA[event.sender.id].busNum = busNum;
         console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
         console.log("similarity: " + stringSimilarity.arrangeBySimilarity(msg,  busRouteJsonData.busNumArr)[0].similarity);
-        var messageData = {"text": `${busNum}번 버스 맞아??`};
+        var textArr1 = ["버스 맞아?", "버스 맞니??", "버스 맞는거지??", "버스 말하는거 맞지??", "버스로 찾아달라는 거지?"];
+        var textArr2 = ["맞으면 맞다고 해줘!", "맞으면 알겠다고 해줘:)", "맞으면 응이라고 해줘!"]
+        var messageData = {"text": `${busNum}번 ${choose(textArr1)} ${choose(textArr2)}`};
         api.sendResponse(event, messageData);
         callback(null);
       }
@@ -139,7 +164,9 @@ var bus_confirmBusNum = function(event) {
       busRouteId = busRouteJsonData.busNum_busRouteId[busNum];
       BUS_TEMP_DATA[event.sender.id].busRouteId = busRouteId;
       // console.log("bus_confirmBusNum RESULT: " + JSON.stringify(result[0]));
-      var messageData = {"text": `알겠어!! ${busNum}번 버스, ${stNm} 정류장으로 찾아줄게!`};
+      var textArr1 = ["ㅋㅋ알겠어!", "알았어!!", "오키오키!!", "알겠어:)!!", "응응!!ㅎㅎ"];
+      var textArr2 = ["으로 찾아줄게!", "의 정보를 조회해줄게!:)", "에 오는 버스로 찾아줄게!!", "의 도착 정보를 조회해줄게!!"]
+      var messageData = {"text": `${choose(textArr1)} ${busNum}번 버스, ${stNm} 정류장${choose(textArr2)}`};
       api.sendResponse(event, messageData);
       sendArriveMsg(event, busRouteId, stId);
       connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
@@ -170,7 +197,9 @@ var bus_confirmBusNum = function(event) {
               connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
               BUS_TEMP_DATA[event.sender.id].busNum = "busMum_value";
               console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
-              var messageData = {"text": "ㅋㅋㅋㅋ어쩌라는거지;"};
+              var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
+                "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
+              var messageData = {"text": choose(textArr) + " 혹시 버스 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies" : qr.reply_arrays["restartConv"]};
               api.sendResponse(event, messageData);
               callback(null);
             }
@@ -261,7 +290,9 @@ var bus_confirmStNm = function(event) {
                   console.log("ALERT: There are two or more stations with the same stNm.");
                 } else {
                   stId = possibleStArr[0].stId;
-                  var messageData = {"text": `알겠어!! ${busNum}번 버스, ${stNm} 정류장으로 찾아줄게!`};
+                  var textArr1 = ["ㅋㅋ알겠어!", "알았어!!", "오키오키!!", "알겠어:)!!", "응응!!ㅎㅎ"];
+                  var textArr2 = ["으로 찾아줄게!", "의 정보를 조회해줄게!:)", "에 오는 버스로 찾아줄게!!", "의 도착 정보를 조회해줄게!!"]
+                  var messageData = {"text": `${choose(textArr1)} ${busNum}번 버스, ${stNm} 정류장${choose(textArr2)}`};
                   api.sendResponse(event, messageData);
                   console.log("busRouteId: " + busRouteId + " stId: " + stId);
                   sendArriveMsg(event, busRouteId, stId);
@@ -350,7 +381,9 @@ var bus_handleMultipleStNm = function(event, targetStNm, possibleStArr, callback
         BUS_TEMP_DATA[event.sender.id].stId = data.selectedSTID;
         console.log("BUS_TEMP_DATA: " + JSON.stringify(BUS_TEMP_DATA));
           if (busRouteId != ("busRouteId_value" || null || undefined)) {
-            var messageData = {"text": `알겠어!! ${busNum}번 버스, ${stNm} 정류장으로 찾아줄게!`};
+            var textArr1 = ["ㅋㅋ알겠어!", "알았어!!", "오키오키!!", "알겠어:)!!", "응응!!ㅎㅎ"];
+            var textArr2 = ["으로 찾아줄게!", "의 정보를 조회해줄게!:)", "에 오는 버스로 찾아줄게!!", "의 도착 정보를 조회해줄게!!"]
+            var messageData = {"text": `${choose(textArr1)} ${busNum}번 버스, ${stNm} 정류장${choose(textArr2)}`};
             api.sendResponse(event, messageData);
             sendArriveMsg(event, busRouteId, data.selectedSTID);
             connection.query('UPDATE Users SET conv_context="none",busNum="none",busRouteId="none",stNm="none",stId="none" WHERE user_id=' + event.sender.id);
@@ -471,6 +504,7 @@ var sendArriveMsg = function(event, busRouteId, stId, callback) {
           var entiremsg_final = `${stNm}으로 오는 첫번째 ${busNum} 버스는 ${arrmsg1_final}, 두번째 버스는 ${arrmsg2_final} ${extramsg}`;
           var messageData = {"text": entiremsg_final.replace(/['"]+/g, '')};
           api.sendResponse(event, messageData);
+          resetUserBusData(event);
         }
       });
     }

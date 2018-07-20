@@ -10,12 +10,16 @@ var bus = require('./apiCalls');
 var stringSimilarity = require('kor-string-similarity');
 var qr = require('./quick_replies');
 var restaurant = require('./restaurant');
+var fs = require('fs')
 
 const https = require('https');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 var apiai = require('apiai');
 var nlpapp = apiai("542cfeef5714428193dc4478760de396");
+
+var basicConvFile=fs.readFileSync('./jsondata/basicConv.json', 'utf8');
+var basicConv=JSON.parse(basicConvFile);
 
 var app = express();
 module.exports.APP = app;
@@ -54,7 +58,6 @@ var setUnivInfo = function() {
     module.exports.IMAGE_SOURCE = './images-yonsei.js';
   }
 }
-
 setUnivInfo();
 
 var RESTAURANT_TEMP_DATA = {
@@ -66,6 +69,12 @@ var RESTAURANT_TEMP_DATA = {
     }
   };
 module.exports.RESTAURANT_TEMP_DATA = RESTAURANT_TEMP_DATA;
+
+
+var choose = function(choices) {
+  var index = Math.floor(Math.random() * choices.length);
+  return choices[index];
+}
 
 //"시작하기" 버튼으로 디폴트
 request({
@@ -127,17 +136,20 @@ app.post('/webhook', function (req, res) {
             if (result.length > 0){ // user data exists
               console.log('Conv Context: ' + result[0].conv_context);
               if (result[0].conv_context != "none") {
-                if (event.message.text == 'RESET' || event.message.text == '에러') {
+                if (stringSimilarity.findBestMatch(event.message.text, basicConv.resetArr).similarity > 0.75 || event.message.text == "RESET") {
                   var resetTask = [
                     function(callback) {
                       api.typingBubble(event);
-                      api.sendResponse(event, {"text": "===연구구 한대맞고 정신차리는중==="});
+                      var textArr1 = ["==정신 차리는 중==", `==${MASCOT_NAME} 정신 차리는 중==`, `==${MASCOT_NAME} 기억 삭제 중==`, `==${MASCOT_NAME} 대화 초기화 중==`];
+                      api.sendResponse(event, {"text": choose(textArr1)});
                       setTimeout(function() {
                         callback(null, 'done');
                       }, 1000);
                     },
                     function(err, callback) {
-                      api.sendResponse(event, {"text": "더위먹어서 맛이 갔었나봐ㅠㅠ 어떤걸 도와줄까?", "quick_replies": qr.reply_arrays["betaMenu"]});
+                      var textArr1 = ["더위먹어서 맛이 갔었나봐ㅠㅠ", "잠시 정신이 나갔었나봐:(", "미안미안ㅋㅋ큐ㅠ", "흐어..정신이 없었다 미안ㅠ"]
+                      var textArr2 = ["어떤걸 도와줄까?", "필요한 거 있니?", "어떤걸 도와줄까?", "어떻게 도와줄까???"]
+                      api.sendResponse(event, {"text": `${choose(textArr1)} ${choose(textArr2)}`, "quick_replies": qr.reply_arrays["betaMenu"]});
                       callback(null);
                     }
                   ]

@@ -243,7 +243,7 @@ function handlePersonSearchWebview(event, title, url, target_uid, target_first_n
     callSendAPI(messageData);
 }
 
-function handleMediaTemplate(event) {
+function handleMediaTemplate(event, type, url) {
   var senderID = event.sender.id;
     let messageData;
     messageData = {
@@ -257,8 +257,8 @@ function handleMediaTemplate(event) {
              "template_type": "media",
              "elements": [
                 {
-                   "media_type": "video",
-                   "url": "https://www.facebook.com/afreecaTV.korea/videos/1742057972505275/"
+                   "media_type": type,
+                   "url": url,
                 }
              ]
           }
@@ -305,3 +305,4 @@ module.exports.handlePersonSearchWebview = handlePersonSearchWebview;
 module.exports.handleButton = handleButton;
 module.exports.typingBubble = typingBubble;
 module.exports.handleBugButton = handleBugButton;
+module.exports.handleMediaTemplate = handleMediaTemplate;
