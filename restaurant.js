@@ -100,7 +100,7 @@ var initRestaurantRecommendation = function(event) {
     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
     var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
       "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
-    var messageData = {"text": choose(textArr)};
+    var messageData = {"text": choose(textArr) + " 혹시 맛집 정보 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies": qrCuisines};
     api.sendResponse(event, messageData);
   }
 };
@@ -114,8 +114,8 @@ var restaurantRecommendation_category_0 = function(event) {
   if (["그냥 말할래", "나라별", "종합", "상황별", "재료별"].indexOf(event.message.text) > -1) {
   // if (event.message.text == "그냥 말할래" || event.message.text == "나라별" || event.message.text == "종합" || event.message.text == "상황별" || event.message.text == "재료별") {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category_0");
-    if (event.message.text == "그냥 말할래") {
-      var messageData = {"text": "뭐 먹고 싶어? 말해봐! 가게 추천해줄게"};
+    if (event.message.text == "그냥 말할래" || stringSimilarity.compareTwoStrings(event.message.text, "그냥 말할래") > 0.5) {
+      var messageData = {"text": "뭐 먹고 싶어? 말해봐!! 가게 추천해줄게"};
       api.sendResponse(event, messageData);
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_nearbysearch" WHERE user_id=' + event.sender.id);
     } else {
