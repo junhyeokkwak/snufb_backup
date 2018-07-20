@@ -53,7 +53,8 @@ var initRestaurantConv = function(event) {
       callback(null, err);
     },
     function(err, callback){
-      var messageData = {"text": "왜 굶고다녀ㅠㅠ심심한데 맛집 추천해줄까?", "quick_replies": qr.reply_arrays['YesOrNo']};
+      var textArr = ["왜 굶고다녀ㅠㅠ심심한데 맛집 추천해줄까?", `맛집/메뉴 추천해줄게!! 괜찮지?`, `내가 아는 맛집 추천해줄게!! 좋지??`, `아는 맛집 알려줄게ㅎㅎ괜찮지?:)`, `신촌 근처에 아는 맛집 소개시켜줄게! 좋지?`];
+      var messageData = {"text": choose(textArr), "quick_replies": qr.reply_arrays['YesOrNo']};
       api.sendResponse(event, messageData);
       callback(null);
     }
@@ -90,13 +91,16 @@ var initRestaurantRecommendation = function(event) {
     console.log("USER SELECT : NO in initRestaurantConv");
     // var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    var messageData = {"text": "너무하네ㅋㅋㅋㅋㅋㅋㅋ인생 진짜"};
-    // var messageData = {"text": "너무하네ㅋㅋㅋㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
+    var textArr1 = [`너무하네ㅋㅋㅋ큐ㅠ`, `너무한거 아니야ㅋㅋ큐ㅠㅠ`, `너무해...`, `너무한걸..:(`];
+    var textArr2 = [`나름 생각해서 한 말인데..`, `인성 진짜...`, `상처 받았어..`, `실망이야..`, '됐어 안해ㅡㅡ']
+    var messageData = {"text": `${choose(textArr1)} ${choose(textArr2)}`};
     api.sendResponse(event, messageData);
   } else {
     console.log("USER SELECT : UNEXPECTED RESPONSE in initRestaurantConv");
     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    var messageData = {"text": "무슨 말인지 잘 모르겠어ㅋㅋ...다시 말해줘!"};
+    var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
+      "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
+    var messageData = {"text": choose(textArr) + " 혹시 맛집 정보 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies": qrCuisines};
     api.sendResponse(event, messageData);
   }
 };
@@ -110,8 +114,8 @@ var restaurantRecommendation_category_0 = function(event) {
   if (["그냥 말할래", "나라별", "종합", "상황별", "재료별"].indexOf(event.message.text) > -1) {
   // if (event.message.text == "그냥 말할래" || event.message.text == "나라별" || event.message.text == "종합" || event.message.text == "상황별" || event.message.text == "재료별") {
     console.log("USER SELECT : " + event.message.text + " in restaurantRecommendation_category_0");
-    if (event.message.text == "그냥 말할래") {
-      var messageData = {"text": "뭐 먹고 싶어? 말해봐! 가게 추천해줄게"};
+    if (event.message.text == "그냥 말할래" || stringSimilarity.compareTwoStrings(event.message.text, "그냥 말할래") > 0.5) {
+      var messageData = {"text": "뭐 먹고 싶어? 말해봐!! 가게 추천해줄게"};
       api.sendResponse(event, messageData);
       connection.query('UPDATE Users SET conv_context="restaurantRecommendation_nearbysearch" WHERE user_id=' + event.sender.id);
     } else {
@@ -124,10 +128,12 @@ var restaurantRecommendation_category_0 = function(event) {
     }
   } else {
     console.log('UNVERIFIED SEARCH');
-    var qrCuisines = qr.generateQuickReplies(["그냥 말할래", "나라별", "종합", "상황별", "재료별"]);
-    var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해줘", "quick_replies": qrCuisines};
-    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_0" WHERE user_id=' + event.sender.id);
+    var qrCuisines = qr.generateQuickReplies(["대화 다시하기", "그냥 말할래", "나라별", "종합", "상황별", "재료별"]);
+    var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
+      "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
+    var messageData = {"text": choose(textArr) + " 혹시 맛집 정보 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies": qrCuisines};
     api.sendResponse(event, messageData);
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_2" WHERE user_id=' + event.sender.id);
   }
 };
 
@@ -146,15 +152,17 @@ var restaurantRecommendation_category_1 = function(event) {
     var messageData = {"text": `${event.message.text} 중에서는 어떤걸로 추천해줄까!`, "quick_replies": qrCuisines};
     api.sendResponse(event, messageData);
   } else {
-    var qrCuisines = qr.generateQuickReplies(category2Arr);
-    var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해줘", "quick_replies": qrCuisines};
-    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
+    var qrCuisines = qr.generateQuickReplies(["대화 다시하기"].concat(category2Arr));
+    var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
+      "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
+    var messageData = {"text": choose(textArr) + " 혹시 맛집 정보 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies": qrCuisines};
     api.sendResponse(event, messageData);
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_1" WHERE user_id=' + event.sender.id);
   }
 }
 
 var restaurantRecommendation_category_2 = function(event) {
-  console.log("RUN restaurantRecommendation_category_1");
+  console.log("RUN restaurantRecommendation_category_2");
   var category1 = app.RESTAURANT_TEMP_DATA[event.sender.id].category1;
   var category2 = app.RESTAURANT_TEMP_DATA[event.sender.id].category2;
   var category3Arr = cuisinesJsonData[category1][category2];
@@ -164,10 +172,12 @@ var restaurantRecommendation_category_2 = function(event) {
     console.log("R T D: " + JSON.stringify(app.RESTAURANT_TEMP_DATA));
     restaurantRecommendation_nearbysearch(event);
   } else {
-    var qrCuisines = qr.generateQuickReplies(category3Arr);
-    var messageData = {"text": "무슨말인지 모르겠어:( 다시 말해줘", "quick_replies": qrCuisines};
-    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_2" WHERE user_id=' + event.sender.id);
+    var qrCuisines = qr.generateQuickReplies(["대화 다시하기"].concat(category3Arr));
+    var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
+      "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
+    var messageData = {"text": choose(textArr) + " 혹시 맛집 정보 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies": qrCuisines};
     api.sendResponse(event, messageData);
+    connection.query('UPDATE Users SET conv_context="restaurantRecommendation_category_2" WHERE user_id=' + event.sender.id);
   }
 }
 
@@ -175,21 +185,23 @@ var restaurantRecommendation_category_3 = function(event) {
 
 }
 
+var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos, vicinity) {
+  app.APP.get(`/restaurant/${place_id}`, function(req, res){
+    var restaurantData = {
+      name: name,
+      place_id: place_id,
+      xpos: xpos,
+      ypos: ypos,
+      vicinity: vicinity,
+    }
+    res.render(__dirname + "/webviews/restaurantMap.html", restaurantData);
+  });
+  app.APP.post(`/restaurant/${place_id}`, function(req, res){ console.log(req.body); });
+}
+
 var restaurantRecommendation_nearbysearch = function(event) {
   console.log("RUN: restaurantRecommendation_nearbysearch");
-  var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos, vicinity) {
-    app.APP.get(`/restaurant/${place_id}`, function(req, res){
-      var restaurantData = {
-        name: name,
-        place_id: place_id,
-        xpos: xpos,
-        ypos: ypos,
-        vicinity: vicinity,
-      }
-      res.render(__dirname + "/webviews/restaurantMap.html", restaurantData);
-    });
-    app.APP.post(`/restaurant/${place_id}`, function(req, res){ console.log(req.body); });
-  }
+
   if (true) {
     // NOTE:
     console.log("VALID INPUT");
@@ -201,7 +213,10 @@ var restaurantRecommendation_nearbysearch = function(event) {
       menu = app.RESTAURANT_TEMP_DATA[event.sender.id].final_menu;
     }
     console.log("R T D: " + JSON.stringify(app.RESTAURANT_TEMP_DATA));
-    var messageData = {"text": `알겠어!! 신촌 근처 ${menu} 식당을 찾아봐줄게:)`};
+    connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id)
+    var textArr1 = [`알겠어!!:)`, `오키오키!`, "알았어!ㅎㅎ", `응응!`];
+    var textArr2 = [`식당을 찾아줄게!`, `맛집을 찾아볼게!`, `맛있는 집을 검색할게!!`, `유명한 식당을 찾아볼게:)`];
+    var messageData = {"text": `${choose(textArr1)} 신촌 근처 ${menu} ${textArr2}`};
     api.sendResponse(event, messageData);
     var radius = 5000, location_ShinchonStation = '37.559768,126.94230800000003';
     var options = { method: 'GET',
@@ -223,7 +238,8 @@ var restaurantRecommendation_nearbysearch = function(event) {
       var jsonRestaurantData = JSON.parse(body);
       if (jsonRestaurantData.results.length > 0) {
         var genericTemplatesArr = [];
-        for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
+        var maxSlideNum = ((jsonRestaurantData.results.length > 10) ? 10 : jsonRestaurantData.results.length);
+        for (var i = 0; i < maxSlideNum; i++) {
           var image_url, rating, vicinity, url, name, place_id, xpos, ypos;
           name = jsonRestaurantData.results[i].name;
           place_id = jsonRestaurantData.results[i].place_id;
@@ -292,6 +308,10 @@ var restaurantRecommendation_nearbysearch = function(event) {
         } //   for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
       } else {
         console.log(jsonRestaurantData.status);
+        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id)
+        var textArr1 = [`미안해ㅠㅠ`, `어떡하냐ㅠ`, `흐어...`, "미안해서 어떡해...", `진짜 미안해ㅠ`];
+        var textArr2 = [`${menu}에 대한 맛집 정보가 없어:(`, `알고있는 ${menu} 맛집이 없어`, `${menu} 맛집 정보가 없어..:(`, ` 내가 아는 ${menu} 맛집이 없다..:( `];
+        api.sendResponse(event, {"text": `${choose(textArr1)} ${choose(textArr2)}` });
       }
     }); //request
   } else {
