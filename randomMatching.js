@@ -26,7 +26,9 @@ var startRandomMatching = function(event) {
           api.sendResponse(event, {"text": "이 기능을 처음 사용하는구나! 먼저 너 프로필을 등록해야 하는데 이건 너의 도움이 조금 필요해!\n페이스북 앱에 들어가서 너 프로필 링크를 복사해줄 수 있어?\n사진을 참고해서 링크를 복사하고 여기에 붙여넣기 해줘!"});
           //NEED TO SEND 안내 PICTURE!!!
           api.handleMediaTemplate(event, "image", profileExtractTutorialPhoto_1);
-          api.handleMediaTemplate(event, "image", profileExtractTutorialPhoto_2);
+          setTimeout(function() {
+            api.handleMediaTemplate(event, "image", profileExtractTutorialPhoto_2);
+          }, 1000);
         } else //if (result[0].uid != 0)
         {
           console.log('No need to ask for profile URL');
