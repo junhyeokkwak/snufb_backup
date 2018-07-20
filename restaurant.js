@@ -297,7 +297,7 @@ var restaurantRecommendation_nearbysearch = function(event) {
         console.log(jsonRestaurantData.status);
         connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id)
         var textArr2 = [`미안해ㅠㅠ`, `어떡하냐ㅠ`, `흐어...`, "미안해서 어떡해...", `진짜 미안해ㅠ`]
-        var textArr2 = [`${menu}에 대한 맛집 정보가 없어:(`, `알고있는 ${menu} 맛집이 없어`, `${menu} 맛집 정보가 없어..:(`, `${menu}은 오늘 식단 정보가 없어...미안`]
+        var textArr2 = [`${menu}에 대한 맛집 정보가 없어:(`, `알고있는 ${menu} 맛집이 없어`, `${menu} 맛집 정보가 없어..:(`, ` 내가 아는 ${menu} 맛집이 없다..:( `]
         api.sendResponse(event, {"text": `${choose(textArr1)} ${choose(textArr2)}` });
       }
     }); //request
