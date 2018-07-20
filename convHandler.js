@@ -134,6 +134,14 @@ var initTutorialConv =function(event) {
   }, 3000);
 }
 
+function whatAreYouDoing(event) {
+  var textArr = ['너랑 페메하고 있지~', '너 놀아주고 있자나!', '너랑 연락중!', '하고싶은건 데이트지만... 너랑 페메하고 있지ㅠㅠ', '셀카 찍고있어', '너 생각', '아휴 뭐가 그리 궁금해 안그래도 더워서 불쾌지수 높은디!'];
+  api.typingBubble(event);
+  setTimeout(function () {
+    api.sendResponse(event, {"text": `${choose(textArr)}`});
+  }, 1000);
+}
+
 
 module.exports = {
     functionMatch: {
@@ -144,6 +152,7 @@ module.exports = {
         "callChatbot" : callChatbot,
         "callChatbot_yonsei" : callChatbot,
         "fallback" : conv_doNotUnderstand,
+        "whatAreYouDoing" : whatAreYouDoing
         // "initAskFunctionConv" : initAskFunctionConv,
 
     }
