@@ -75,7 +75,7 @@ var initHelloConv = function(event) {
   connection.query('SELECT first_name FROM Users WHERE user_id=' + event.sender.id, function(err, result, fields) {
     if (err) throw err;
     var name = JOSA(result[0].first_name, "아");
-    var textArr = [`${name} 안녕~~~`, `${name} 안녕안녕`, `${name} 잘 지냈어??`, `${name} 반가워:)`, `${name} 안녕안녕ㅇ:)`]
+    var textArr = [`${name} 안녕~~~`, `${name} 안녕안녕`, `${name} 하이하이!`, `${name} 반가워:)`, `${name} 안녕안녕ㅇ:)`, `요 왓썹 맨~`]
     var text = choose(textArr);
     var messageData = {"text": text};
     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
