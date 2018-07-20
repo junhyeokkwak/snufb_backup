@@ -53,6 +53,12 @@ function infoImage(event) {
   api.handleMediaTemplate(event, "image", info_URL);
 }
 
+function randomImage(event) {
+  var imageArr = [hello_URL, blingbling_URL, plain_URL, shy_URL];
+  var imageToSend = choose(imageArr);
+  api.sendOnlineImage(event, imageToSend);
+}
+
 module.exports.helloImage = helloImage;
 module.exports.blingblingImage = blingblingImage;
 module.exports.plainImage = plainImage;
@@ -62,6 +68,7 @@ module.exports.shyImage = shyImage;
 module.exports.searchImage = searchImage;
 module.exports.confusedImage = confusedImage;
 module.exports.infoImage = infoImage;
+module.exports.randomImage = randomImage;
 
 module.exports.hello_URL = hello_URL;
 module.exports.blingbling_URL = blingbling_URL;
