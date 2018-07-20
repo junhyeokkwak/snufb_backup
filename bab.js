@@ -146,30 +146,32 @@ var sendBabMenu = function(event){
         for (i = 0; i < body.stores.length; i++){
           if (selected_sikdang == body.stores[i].name) {
             if ((body.stores[i].menus.length == 0) || (stringSimilarity.compareTwoStrings(body.stores[i].menu_description,"식당에서 식단을 업로드하지 않았습니다.") > 0.75)) {
-              var textArr1 = [`밥 안나온다 마`]
+              var textArr1 = [`오늘 ${selected_sikdang}에서는 밥이 안나온데ㅠㅠ`, `오늘 ${selected_sikdang}에서 식단을 업로드 하지 않았어ㅠㅠ미안`, `${selected_sikdang}에 오늘 메뉴 정보가 없어ㅠ:(`, `${selected_sikdang}은 오늘 식단 정보가 없어...미안`]
               api.sendResponse(event, {"text": `${choose(textArr1)}` });
             } else {
               for (j=0; j < body.stores[i].menus.length; j++) {
                 console.log(menuStr);
                 if( body.stores[i].menus[j].hasOwnProperty('description')) {
-                  menuStr += ` - ${body.stores[i].menus[j].description}\n`
+                  menuStr += ` - ${body.stores[i].menus[j].description}\n\n`
                 } else if (body.stores[i].menus[j].hasOwnProperty('menu_description')) {
-                  menuStr += ` - ${body.stores[i].menus[j].menu_description}\n`
+                  menuStr += ` - ${body.stores[i].menus[j].menu_description}\n\n`
                 }
                 if (j == body.stores[i].menus.length-1) {
                   console.log("menuStr: " + menuStr);
-                  var textArr1 = [`이래.존맛이겠다 ㅎㅎ`]
-                  api.sendResponse(event, {"text": `오늘의 메뉴는 \n\n ${menuStr}\n\n${choose(textArr1)}` });
+                  var textArr1 = [`오늘 메뉴는` `오늘 ${selected_sikdang} 메뉴는`, `${selected_sikdang}의 오늘 메뉴는`]
+                  var textArr2 = [`이래. 맛있겠다:)`, `위와 같아!! 얼른 가서 먹어`, `나도 먹고 싶다ㅠ`, `나도 얼른 ${selected_sikdang} 가야지!`, `나도 가고싶어 흐어...`]
+                  api.sendResponse(event, {"text": `${choose(textArr1)} \n\n ${menuStr}\n${choose(textArr2)}` });
                 }//if
               }//for - looping menus
             } //else
           } // if
         } //for - looping stores
-
       } else {
         // no matching sikdang
-
-
+        var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
+          "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
+        var messageData = {"text": choose(textArr) + " 혹시 학식 정보 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies" : qr.reply_arrays["restartConv"]};
+        api.sendResponse(event, messageData);
       } // else
       callback(null);
     }//function
