@@ -53,7 +53,8 @@ var initRestaurantConv = function(event) {
       callback(null, err);
     },
     function(err, callback){
-      var messageData = {"text": "왜 굶고다녀ㅠㅠ심심한데 맛집 추천해줄까?", "quick_replies": qr.reply_arrays['YesOrNo']};
+      var textArr = ["왜 굶고다녀ㅠㅠ심심한데 맛집 추천해줄까?", `맛집/메뉴 추천해줄게!! 괜찮지?`, `내가 아는 맛집 추천해줄게!! 좋지??`, `아는 맛집 알려줄게ㅎㅎ괜찮지?:)`, `신촌 근처에 아는 맛집 소개시켜줄게! 좋지?`];
+      var messageData = {"text": choose(textArr), "quick_replies": qr.reply_arrays['YesOrNo']};
       api.sendResponse(event, messageData);
       callback(null);
     }
@@ -90,8 +91,9 @@ var initRestaurantRecommendation = function(event) {
     console.log("USER SELECT : NO in initRestaurantConv");
     // var qrCuisines = qr.generateQuickReplies(["미안해", "어쩌라고"]);
     connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
-    var messageData = {"text": "너무하네ㅋㅋㅋㅋㅋㅋㅋ인생 진짜"};
-    // var messageData = {"text": "너무하네ㅋㅋㅋㅋㅋㅋㅋ인생 진짜", "quick_replies": qrCuisines};
+    var textArr1 = [`너무하네ㅋㅋㅋ큐ㅠ`, `너무한거 아니야ㅋㅋ큐ㅠㅠ`, `너무해...`, `너무한걸..:(`];
+    var textArr2 = [`나름 생각해서 한 말인데..`, `인성 진짜...`, `상처 받았어..`, `실망이야..`, '됐어 안해ㅡㅡ']
+    var messageData = {"text": `${choose(textArr1)} ${choose(textArr2)}`};
     api.sendResponse(event, messageData);
   } else {
     console.log("USER SELECT : UNEXPECTED RESPONSE in initRestaurantConv");
