@@ -16,7 +16,7 @@ var search_URL = 'https://www.facebook.com/2056586864557088/photos/a.20989753336
 var confused_URL = 'https://www.facebook.com/2056586864557088/photos/a.2098975333651574.1073741828.2056586864557088/2098975243651583/?type=3';
 var info_URL = "https://www.facebook.com/yongugu/posts/248605739074934";
 
-// // var hello_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37048455_1762217433859522_3896376794579730432_o.jpg?_nc_cat=0&oh=7fa82b03a7f370b7104cd4e05823c1f0&oe=5BE39509';
+var helloPhoto_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37048455_1762217433859522_3896376794579730432_o.jpg?_nc_cat=0&oh=7fa82b03a7f370b7104cd4e05823c1f0&oe=5BE39509';
 // var blingbling_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37045787_1762217183859547_1545457248896024576_o.jpg?_nc_cat=0&oh=69d4d0b2c035ef1ee4dfa540cb99f3be&oe=5BDC55DC';
 // var plain_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37062873_1762217207192878_4321283561349971968_o.jpg?_nc_cat=0&oh=d785e8105aee845d6c9a481dc7a17c97&oe=5BECA07D';
 // var eating_URL = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37044843_1762217223859543_4313257959690862592_o.jpg?_nc_cat=0&oh=4ca75650266c250ac555827516e7d45c&oe=5BE7B6AC';
@@ -84,6 +84,8 @@ module.exports.searchImage = searchImage;
 module.exports.confusedImage = confusedImage;
 module.exports.infoImage = infoImage;
 module.exports.randomImage = randomImage;
+
+module.exports.helloPhoto_URL = helloPhoto_URL;
 
 module.exports.hello_URL = hello_URL;
 module.exports.blingbling_URL = blingbling_URL;

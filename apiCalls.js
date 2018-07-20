@@ -136,7 +136,7 @@ function handleWebview(event, title, url, size) {
                     "messenger_extensions" : true,
                   },
                 ],
-                "image_url" : images.hello_URL,
+                "image_url" : images.helloPhoto_URL,
                 "title":title
               }
             ],
