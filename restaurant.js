@@ -150,7 +150,7 @@ var restaurantRecommendation_category_1 = function(event) {
     var messageData = {"text": `${event.message.text} 중에서는 어떤걸로 추천해줄까!`, "quick_replies": qrCuisines};
     api.sendResponse(event, messageData);
   } else {
-    var qrCuisines = qr.generateQuickReplies(category2Arr.concat(["대화 다시하기"]));
+    var qrCuisines = qr.generateQuickReplies(["대화 다시하기"].concat(category2Arr));
     var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
       "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
     var messageData = {"text": choose(textArr) + " 혹시 맛집 정보 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies": qrCuisines};
@@ -170,7 +170,7 @@ var restaurantRecommendation_category_2 = function(event) {
     console.log("R T D: " + JSON.stringify(app.RESTAURANT_TEMP_DATA));
     restaurantRecommendation_nearbysearch(event);
   } else {
-    var qrCuisines = qr.generateQuickReplies(category3Arr.concat(["대화 다시하기"]));
+    var qrCuisines = qr.generateQuickReplies(["대화 다시하기"].concat(category3Arr));
     var textArr = ["미안ㅠㅠ무슨 말인지 모르겠어...조금 다르게 다시 말해 줄 수 있어?", `무슨말인지 잘 모르겠어ㅋㅋ큐ㅠ 다시 말해줘!`, "무슨 말인지 잘 모르겠어ㅠ 다시 말 해줘", "미안ㅋㅋㅠㅠ무슨말인지 잘 모르겠어ㅠ 다시 말 해줘!",
       "귀가 미쳤나봐 무슨 말인지 모르겠다ㅋㅋㅋ:( 조금 다르게 다시 말해줘!", "흐어...왜 무슨말인지 모르겠냐ㅋㅋㅋ다시 말해줘!", "조금 다르게 다시 말해 줄 수 있어? 무슨 말인지 모르겄다ㅋㅋㅋ"];
     var messageData = {"text": choose(textArr) + " 혹시 맛집 정보 찾기를 취소하고싶으면 \"대화 다시하기\"라고 말해줘! ", "quick_replies": qrCuisines};
