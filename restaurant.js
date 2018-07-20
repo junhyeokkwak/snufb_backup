@@ -175,21 +175,23 @@ var restaurantRecommendation_category_3 = function(event) {
 
 }
 
+var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos, vicinity) {
+  app.APP.get(`/restaurant/${place_id}`, function(req, res){
+    var restaurantData = {
+      name: name,
+      place_id: place_id,
+      xpos: xpos,
+      ypos: ypos,
+      vicinity: vicinity,
+    }
+    res.render(__dirname + "/webviews/restaurantMap.html", restaurantData);
+  });
+  app.APP.post(`/restaurant/${place_id}`, function(req, res){ console.log(req.body); });
+}
+
 var restaurantRecommendation_nearbysearch = function(event) {
   console.log("RUN: restaurantRecommendation_nearbysearch");
-  var restaurantRecommendation_webviewHelper = function(name, place_id, xpos, ypos, vicinity) {
-    app.APP.get(`/restaurant/${place_id}`, function(req, res){
-      var restaurantData = {
-        name: name,
-        place_id: place_id,
-        xpos: xpos,
-        ypos: ypos,
-        vicinity: vicinity,
-      }
-      res.render(__dirname + "/webviews/restaurantMap.html", restaurantData);
-    });
-    app.APP.post(`/restaurant/${place_id}`, function(req, res){ console.log(req.body); });
-  }
+
   if (true) {
     // NOTE:
     console.log("VALID INPUT");
@@ -293,6 +295,10 @@ var restaurantRecommendation_nearbysearch = function(event) {
         } //   for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
       } else {
         console.log(jsonRestaurantData.status);
+        connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id)
+        var textArr2 = [`미안해ㅠㅠ`, `어떡하냐ㅠ`, `흐어...`, "미안해서 어떡해...", `진짜 미안해ㅠ`]
+        var textArr2 = [`${menu}에 대한 맛집 정보가 없어:(`, `알고있는 ${menu} 맛집이 없어`, `${menu} 맛집 정보가 없어..:(`, `${menu}은 오늘 식단 정보가 없어...미안`]
+        api.sendResponse(event, {"text": `${choose(textArr1)} ${choose(textArr2)}` });
       }
     }); //request
   } else {
