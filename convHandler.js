@@ -151,7 +151,7 @@ function funnyReaction(event) {
 }
 
 function sendSelfie(event) {
-  image.randomImage(event);
+  images.randomImage(event);
   var textArr = ['짠', '어때?', '짜잔', '아이 부끄러워라'];
   setTimeout(function () {
     api.typingBubble(event);
