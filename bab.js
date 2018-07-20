@@ -138,7 +138,7 @@ var sendBabMenu = function(event){
 
       console.log(JSON.stringify(body));
       console.log(sikdangArr);
-      var menuStr;
+      var menuStr = '';
 
       if (stringSimilarity.findBestMatch(event.message.text, sikdangArr).similarity > 0.5) {
         var selected_sikdang = stringSimilarity.findBestMatch(event.message.text, sikdangArr)._text;
@@ -159,7 +159,7 @@ var sendBabMenu = function(event){
                 if (j == body.stores[i].menus.length-1) {
                   console.log("menuStr: " + menuStr);
                   var textArr1 = [`이래.존맛이겠다 ㅎㅎ`]
-                  api.sendResponse(event, {"text": `오늘의 메뉴는 \n${menuStr}\n${choose(textArr1)}` });
+                  api.sendResponse(event, {"text": `오늘의 메뉴는 \n\n ${menuStr}\n\n${choose(textArr1)}` });
                 }//if
               }//for - looping menus
             } //else
