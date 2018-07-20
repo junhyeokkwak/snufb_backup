@@ -138,7 +138,7 @@ var sendBabMenu = function(event){
 
       console.log(JSON.stringify(body));
       console.log(sikdangArr);
-      var menuStr
+      var menuStr;
 
       if (stringSimilarity.findBestMatch(event.message.text, sikdangArr).similarity > 0.5) {
         var selected_sikdang = stringSimilarity.findBestMatch(event.message.text, sikdangArr)._text;
@@ -150,15 +150,16 @@ var sendBabMenu = function(event){
               api.sendResponse(event, {"text": `${choose(textArr1)}` });
             } else {
               for (j=0; j < body.stores[i].menus.length; j++) {
+                console.log(menuStr);
                 if( body.stores[i].menus[j].hasOwnProperty('description')) {
-                  menuStr += `${body.stores[i].menus[j].description}`
+                  menuStr += ` - ${body.stores[i].menus[j].description}\n`
                 } else if (body.stores[i].menus[j].hasOwnProperty('menu_description')) {
-                  menuStr += `${body.stores[i].menus[j].menu_description}`
+                  menuStr += ` - ${body.stores[i].menus[j].menu_description}\n`
                 }
                 if (j == body.stores[i].menus.length-1) {
                   console.log("menuStr: " + menuStr);
-                  var textArr1 = [`이래.\n존맛이겠다 ㅎㅎ`]
-                  api.sendResponse(event, {"text": `오늘의 메뉴는\n${menuStr}\n${choose(textArr1)}` });
+                  var textArr1 = [`이래.존맛이겠다 ㅎㅎ`]
+                  api.sendResponse(event, {"text": `오늘의 메뉴는 \n${menuStr}\n${choose(textArr1)}` });
                 }//if
               }//for - looping menus
             } //else
