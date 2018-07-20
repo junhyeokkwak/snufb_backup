@@ -5,6 +5,18 @@ var mysql = require("mysql");
 var connection = mysql.createConnection(process.env.DATABASE_URL);
 var app = require('./app');
 var qr = require('./quick_replies');
+var stringSimilarity = require('kor-string-similarity');
+
+var choose = function(choices) {
+  var index = Math.floor(Math.random() * choices.length);
+  return choices[index];
+}
+
+var HAKSIK_TEMP_DATA = {
+    "user_psid_test" : {
+      "sikdangArr" : "sikdangArr_value",
+    }
+  };
 
 //give out list of sikdangs
 var whichSikdang = function(event){
@@ -45,6 +57,10 @@ var whichSikdang = function(event){
             sikdangArr.push(body.stores[i].name)
             if (i == body.stores.length-1) {
               console.log(sikdangArr);
+              HAKSIK_TEMP_DATA[event.sender.id]= {
+                "sikdangArr" : sikdangArr,
+              };
+              console.log(JSON.stringify(HAKSIK_TEMP_DATA[event.sender.id]));
             }
           }
           if (body.stores.length > 11) {
@@ -89,7 +105,6 @@ var sendBabMenu = function(event){
   if (app.UNIV_NAME_ENG == "ewha") {
     key = ewha_key;
   }
-  var babMenu = [];
   var options = { method: 'GET',
       url: 'https://bds.bablabs.com/openapi/v1/campuses/' + key + '/stores',
       qs: { date: todayDate },
@@ -108,29 +123,56 @@ var sendBabMenu = function(event){
       request(options, function (error, response, body) {
         if (error) throw new Error(error);
         console.log(body);
-        for (i = 0; i < JSON.parse(body).stores.length; i++){
-          if (JSON.parse(body).stores[i].name == event.message.text){
-            console.log(JSON.parse(body).stores[i].menus);
-            if(JSON.parse(body).stores[i].menus.length == 0){
-              api.sendResponse(event, {"text": "오늘 여기는 밥이 안나와 다른데 가서 머거"});
-            }
-            else{
-              for (j = 0; j < 2; j++){
-                babMenu.push({
-                  "content_type": "text",
-                  "title": JSON.parse(body).stores[i].menus[j].description,
-                  "payload": JSON.parse(body).stores[i].menus[j].name
-                });
-              }
-            }
-          }
-        }
-        console.log(babMenu);
-        api.sendResponse(event, {"text": "오늘의 메뉴는 " + babMenu[0].title + "이래.\n존맛이겠다 ㅎㅎ" });
-      });
+        var body = JSON.parse(body);
+        var sikdangArr = [];
+        for (i = 0; i < body.stores.length; i++) {
+          sikdangArr.push(body.stores[i].name)
+          if (i == body.stores.length-1) {
+            console.log(sikdangArr);
+            callback(null, body, sikdangArr)
+          } // if
+        } //for
+      }); //request
+    }, //function
+    function (body, sikdangArr, callback) {
+
+      console.log(JSON.stringify(body));
+      console.log(sikdangArr);
+      var menuStr
+
+      if (stringSimilarity.findBestMatch(event.message.text, sikdangArr).similarity > 0.5) {
+        var selected_sikdang = stringSimilarity.findBestMatch(event.message.text, sikdangArr)._text;
+        //looping stores
+        for (i = 0; i < body.stores.length; i++){
+          if (selected_sikdang == body.stores[i].name) {
+            if ((body.stores[i].menus.length == 0) || (stringSimilarity.compareTwoStrings(body.stores[i].menu_description,"식당에서 식단을 업로드하지 않았습니다.") > 0.75)) {
+              var textArr1 = [`밥 안나온다 마`]
+              api.sendResponse(event, {"text": `${choose(textArr1)}` });
+            } else {
+              for (j=0; j < body.stores[i].menus.length; j++) {
+                if( body.stores[i].menus[j].hasOwnProperty('description')) {
+                  menuStr += `${body.stores[i].menus[j].description}`
+                } else if (body.stores[i].menus[j].hasOwnProperty('menu_description')) {
+                  menuStr += `${body.stores[i].menus[j].menu_description}`
+                }
+                if (j == body.stores[i].menus.length-1) {
+                  console.log("menuStr: " + menuStr);
+                  var textArr1 = [`이래.\n존맛이겠다 ㅎㅎ`]
+                  api.sendResponse(event, {"text": `오늘의 메뉴는\n${menuStr}\n${choose(textArr1)}` });
+                }//if
+              }//for - looping menus
+            } //else
+          } // if
+        } //for - looping stores
+
+      } else {
+        // no matching sikdang
+
+
+      } // else
       callback(null);
-    }
-  ];
+    }//function
+  ]; //task
   async.waterfall(task);
 }
 
