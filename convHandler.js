@@ -150,6 +150,15 @@ function funnyReaction(event) {
   }, 1000);
 }
 
+function sendSelfie(event) {
+  image.randomImage(event);
+  var textArr = ['짠', '어때?', '짜잔', '아이 부끄러워라'];
+  setTimeout(function () {
+    api.typingBubble(event);
+    api.sendResponse(event, {"text": `${choose(textArr)}`});
+  }, 2500);
+}
+
 module.exports = {
     functionMatch: {
         "initTutorialConv" : initTutorialConv,
@@ -161,6 +170,7 @@ module.exports = {
         "fallback" : conv_doNotUnderstand,
         "whatAreYouDoing" : whatAreYouDoing,
         "funnyReaction": funnyReaction,
+        "sendSelfie": sendSelfie,
         // "initAskFunctionConv" : initAskFunctionConv,
 
     }
