@@ -36,9 +36,10 @@ function registerUser(event) {
           function(callback) {
             images.helloImage(event);
             api.sendResponse(event, {"text": "안녕!"});
+            api.typingBubble(event);
             setTimeout(function () {
               callback(null, 'done');
-            }, 5000);
+            }, 2000);
           },
           function (err, callback) {
             var bodyObj = JSON.parse(body);
