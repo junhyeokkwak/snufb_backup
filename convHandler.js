@@ -161,7 +161,7 @@ function sendSelfie(event) {
 }
 
 function lovelyReaction(event) {
-  var textArr = ['고마워ㅎㅎ', '부끄러워~~', '고마워!ㅎㅎ', '아구 너밖에 없다ㅠㅠ 사랑해!', 'ㅎㅎㅎ 사랑해요 :)'];
+  var textArr = ['고마워ㅎㅎ', '부끄러워~~', '고마워!ㅎㅎ', '아구 너밖에 없다ㅠㅠ 사랑해!', 'ㅎㅎㅎ 사랑해요 :)', 'ㅎㅎㅎ 사랑해요 <3'];
   api.sendResponse(event, {"text": `${choose(textArr)}`});
 }
 
