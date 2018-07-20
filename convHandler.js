@@ -98,6 +98,7 @@ var callChatbot = function(event) {
   }, 2500);
 }
 
+
 var conv_sendRandom = function(event, arr) {
   // connection.query('UPDATE Users SET conv_context="none" WHERE user_id=' + event.sender.id);
   api.typingBubble(event);
@@ -159,6 +160,18 @@ function sendSelfie(event) {
   }, 2500);
 }
 
+function lovelyReaction(event) {
+  var textArr = ['고마워ㅎㅎ', '부끄러워~~', '고마워!ㅎㅎ', '아구 너밖에 없다ㅠㅠ 사랑해!', 'ㅎㅎㅎ 사랑해요 :)'];
+  api.sendResponse(event, {"text": `${choose(textArr)}`});
+}
+
+function thanksReaction(event) {
+  var textArr = ['에이 이정도야 뭐~ 언제든지 연락해!', '이정돈 기본이지~', '응응! 앞으로도 자주 연락하구구~', '노프라블럼!'];
+  api.sendResponse(event, {"text": `${choose(textArr)}`});
+}
+
+
+
 module.exports = {
     functionMatch: {
         "initTutorialConv" : initTutorialConv,
@@ -171,6 +184,8 @@ module.exports = {
         "whatAreYouDoing" : whatAreYouDoing,
         "funnyReaction": funnyReaction,
         "sendSelfie": sendSelfie,
+        "lovelyReaction": lovelyReaction,
+        "thanksReaction": thanksReaction
         // "initAskFunctionConv" : initAskFunctionConv,
 
     }
