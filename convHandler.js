@@ -142,6 +142,13 @@ function whatAreYouDoing(event) {
   }, 1000);
 }
 
+function funnyReaction(event) {
+  var textArr = ['웃으면 복이오니깐 많이 웃으렴!', '너가 웃으면 나도 좋아~ (으 개오글거려)', '나도 웃을래! 하하하하하하하하하하', '내가 말하는게 좀 웃긴가? 이참에 개그맨 될까봐', 'ㅎㅎ', '웃으면 복이와요~', '나랑 대화하는거 재밌지? 그니깐 나랑 많이 놀아줘!!', '그래 삶이 힘든데 나랑 연락할때라도 웃어야지ㅋㅋㅋ'];
+  api.typingBubble(event);
+  setTimeout(function () {
+    api.sendResponse(event, {"text": `${choose(textArr)}`});
+  }, 1000);
+}
 
 module.exports = {
     functionMatch: {
@@ -152,7 +159,8 @@ module.exports = {
         "callChatbot" : callChatbot,
         "callChatbot_yonsei" : callChatbot,
         "fallback" : conv_doNotUnderstand,
-        "whatAreYouDoing" : whatAreYouDoing
+        "whatAreYouDoing" : whatAreYouDoing,
+        "funnyReaction": funnyReaction,
         // "initAskFunctionConv" : initAskFunctionConv,
 
     }
