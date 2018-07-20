@@ -70,7 +70,8 @@ function infoImage(event) {
 function randomImage(event) {
   var imageArr = [hello_URL, blingbling_URL, plain_URL, shy_URL];
   var imageToSend = choose(imageArr);
-  api.sendOnlineImage(event, imageToSend);
+  // api.sendOnlineImage(event, imageToSend);
+  helloImage(event);
 }
 
 module.exports.helloImage = helloImage;
