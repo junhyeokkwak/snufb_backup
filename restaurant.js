@@ -223,7 +223,8 @@ var restaurantRecommendation_nearbysearch = function(event) {
       var jsonRestaurantData = JSON.parse(body);
       if (jsonRestaurantData.results.length > 0) {
         var genericTemplatesArr = [];
-        for (var i = 0; i < (jsonRestaurantData.results.length && 10); i++) {
+        var maxSlideNum = ((jsonRestaurantData.results.length > 10) ? 10 : jsonRestaurantData.results.length);
+        for (var i = 0; i < maxSlideNum; i++) {
           var image_url, rating, vicinity, url, name, place_id, xpos, ypos;
           name = jsonRestaurantData.results[i].name;
           place_id = jsonRestaurantData.results[i].place_id;
